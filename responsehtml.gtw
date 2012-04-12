@@ -1,4 +1,7 @@
-To fetch a jResponseHtml object, you should pass the string 'html' as argument to //getResponse()//.
+~~LANG:FR@//fr/manuel-1.1/responsehtml~~
+
+To create a jResponseHtml object, pass 'html' as argument to @@M@getResponse()@@ method in your controller's action. 
+
 
 <code php>
    $resp = $this->getResponse('html')
@@ -18,6 +21,7 @@ $rep->setXhtmlOutput( false ); // HTML output
 $outputXhtml = $this->isXhtml();
 </code>
 
+Going further, you can specify your own DOCTYPE by overloading @@M@outputDocType()@@. This method should echo a valid DOCTYPE.
 
 ===== Generating contents =====
 
@@ -29,14 +33,14 @@ The source of an HTML page is split into two parts: the <head> part, and the <bo
 
 jResponseHTML generates itself the content of the <head> element, from data you give to the jResponseHTML via its dedicated methods.
 
-However, you are responsible for the generation of the content of the <body> element.
+However, you are responsible of the generation of the content of the <body> element.
 
-Let's have a look at all these things.
+Let's see all these things.
 
 
 ===== Generating (X)HTML headers =====
 
-jResponseHtml provides features to change document's title, favicon, links to style sheets or js scripts, metas ...
+jResponseHtml provides features to change document's title, favicon, links to style sheets or JS scripts, meta tags ...
 
 Feature tour :
 <code php>
@@ -50,10 +54,10 @@ $resp->addJSLink( 'lib.js' );
 $resp->addJSCode( 'alert( "Hello world" ) )' );
 
 // generate a <link>
-$rep->addCSSLink('maFeuille.css');
+$resp->addCSSLink('style.css');
 
 // generate a <style>
-$rep->addStyle('span', 'font-weight:bold;');
+$resp->addStyle('span', 'font-weight:bold;');
 
 // Add a description meta tag :
 $resp->addMetaDescription( 'description' );
@@ -77,7 +81,7 @@ $resp->addCSSLink(
 If you want to add custom content in the <head> element, use //addHeadContent()//:
 
 <code php>
-$rep->addHeadContent('<link rel="alternate" type="application/rss+xml" title="Recent Changes" href="/feed.php" />')
+$resp->addHeadContent('<link rel="alternate" type="application/rss+xml" title="Recent Changes" href="/feed.php" />')
 </code>
 
 
@@ -98,17 +102,18 @@ Acceptable array values are strings :
 
 ===== Generate (X)HTML body =====
 
-jResponseHtml generates the (X)HTML //<body>// tag, but you can control its contents and attributes.
+jResponseHtml generates the (X)HTML @@E@<body>@@ tag, but you can control its contents and attributes.
 
 To control its attributes :
 
 <code php>
-$resp->bodyTagAttributes = array( 'onload'=>'bodyonload( )', 'class'=>'maincontent');
+$resp->bodyTagAttributes = array( 'onload'=>'bodyonload( )',
+                                   'class'=>'maincontent');
 </code>
 
 Control its contents with either :
   * a template
-  * method //addContent( )//
+  * method @@M@addContent( )@@
 
 ==== Using a template ====
 
@@ -150,7 +155,7 @@ $resp->addContent( jZone::get( 'aModule~aZone'));
 
 ==== Using a main template and some "sub-templates" ====
 
-We often have a common template for all pages, and only few things change inside this common template, depending on the page. So you will have a first template for the common things, and all pages will define another "sub-template" to generate specific things for the page. The result of this sub-template will be inserted into the main template.
+We often have a common template for all pages, and only few things change inside this common template, depending of the page. So you will have a first template for the common things, and all pages will define an other "sub-template" to generate specific things for the page. The result of this sub-template will be inserted into the main template.
 
 You can do this work directly into all your controllers, with zones. 
 
@@ -161,8 +166,11 @@ Read the section: [[common-processes#customizing-common-response|how to create a
 
 ==== Not using templates ====
 
-Let //bodyTpl// empty if you don't want to use a template for the (X)HTML body of the response, and use //addContents()// as described in the previous paragraph of the documentation.
+Let @@P@bodyTpl@@ empty if you don't want to use a template for the (X)HTML body of the response, and use @@M@addContents()@@ as described in the previous paragraph of the documentation.
 
+<code php>
+$rep->addContent('contenu pour mon body');
+</code>
 
 ===== Other response parameters =====
 

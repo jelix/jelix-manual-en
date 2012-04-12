@@ -1,50 +1,73 @@
-===== Declaring modules path =====
+~~LANG:FR@//fr/manuel-1.1/creer-un-module~~
+
+===== Declaring modules =====
 
 A module is a directory with a precise file-system hierarchy.
-They are groupped in one or several directories called : "modules group".
-
+They are groupped in one or several directories called: //modules group//.
 
 ==== General configuration ====
 
-Module groups are declared in the configuration property **modulesPath**. It's possible to set a value of one or several relative or absolute paths separated by commas.
+Module groups are declared in the configuration property @@V@modulesPath@@. It's possible to set a value of one or several relative or absolute paths separated by commas.
 It's possble to use directory codes with a particular notation :
 
    directorycode:relative/path/
 
 The following directory codes are avalaible :
-| lib | répertoire lib/ de jelix |
-| app | répertoire de l'application |
 
-This prevents from having really relative paths and is easier to maintain.
-For example :
+| **lib** | @@F@lib/@@ directory |
+| **app** | application directory |
+
+This prevents from having really relative paths and is easier to maintain. For example:
+
 <code ini>
    modulesPath = lib:jelix-modules/,app:modules/
 </code>
 
 It declares two module groups :
 
-  * //jelix-modules//, subdirectory of jelix's //lib//;
+  * //jelix-modules//, subdirectory of jelix's @@F@lib/@@;
   * //modules//, subdirectory of your application path.
 
 Modules from both directories are usable and actions they declare will be executable from the client's browser.
 
-==== Restrictions ====
+==== Deactivate a module ====
 
-Sometimes you would like to deactivate some modules. It can appear if you have a repository of module shared by several applications, but applications doesn't use all modules at the same time. Or for an application which have several entry points, you would like do disable some modules at some entry point.
+In a //modules group//, perhaps there are some modules you don't use, which are not "installed", not configured.
 
-Two configuration options allow to set restrictions.
+So it is necessary to indicate this modules in order to prevent to access to them through the web, and to prevent other modules to use its ressources.
+
+To indicates this uninstalled modules, you should use the option @@V@unusedModules@@ in the configuration. Modules name should be separated by a coma.
+
+<code ini>
+unusedModules = "foo,bar"
+</code>
+
+Here, modules foo and bar are not usable by the application.
+
+==== Restrictions to some entry points ====
+
+Sometimes you use and have configured some modules, but you would like to forbid access to this modules from the web, or to restrict the access from specific entry points.
+
+Two configuration options allow to set this restrictions.
+
 <code ini>
    checkTrustedModules = on
    trustedModules = foo,bar,baz
 </code>
-Enabling **checkTrustedModules** activates the module restriction system.
-List of permitted modules should be a comma-separated list set to **trustedModules**.
-Other modules won't be accessible to the client; however it's still possible for other modules to access restricted modules ressources, such as classes, zones, persistent objects...
+
+Enabling @@V@checkTrustedModules@@ activates the module restriction system.
+List of permitted modules should be a comma-separated list set to @@V@trustedModules@@.
+
+Other modules won't be accessible to the client; however it's still possible for other modules to access restricted modules resources, such as classes, zones, persistent objects...
+
+If you want to restrict from all entry points, indicate the options in @@F@defaultconfig.ini.php@@, else indicate them in each @@F@config.ini.php@@ file of entry points.
+
+Don't forget to [[urls|configure correctly the url engine]], so Jelix could generate modules URLS correctly with their respective entrypoints.
 
 
 ===== Create a module =====
 
-It's as simple as creating a subdirectory of a modules group, and filling it with controllers, persistent objects ...
+It's as simple as creating a sub-directory of a modules group, and filling it with controllers, persistent objects ...
 
 It's simple with jelix's script's **createmodule** command :
 <code bash>
@@ -52,6 +75,5 @@ It's simple with jelix's script's **createmodule** command :
 </code>
 This command creates the module "mymodule" in your application's sub-directory //modules//, some sub-directories as well as a default controller.
 
-
-
 **Important** : The name of modules are used in the name of some classes generated automatically by Jelix. So you mustn't use other characters than a-z, A-Z, 0-9 and '_'.
+

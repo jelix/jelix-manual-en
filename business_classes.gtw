@@ -1,4 +1,6 @@
-To be able to respect the layer model, it is recommanded to do all the business processing and the services in classes dedicated to it.
+~~LANG:FR@//fr/manuel-1.1/classes-metiers~~
+
+To be able to respect the layer model, it is recommended to do all the business processing and the services in classes dedicated to it.
 
 In this kind of classes, you will manipulate, for example, daos, data from daos or others, do all the processing other than display. The methods of your controllers will thus be lighter and the business processing will be reusable in other actions.
 
@@ -28,6 +30,43 @@ The difference between a service class and the other classes is that a service c
 
 For example, a "factory" type class, which retrieves sets of data, is a service class. On the other hand, a class representing a product, which thus has identifying fields, is a non service class.
 
+
+===== Including classes or interfaces =====
+
+@@C@jClasses@@ provides static methods @@M@inc()@@ and @@M@incIFace@@ to include classes and interfaces stored in a @@F@classes@@ directory of a module.
+
+A class should be defined in a PHP file which have the name of the class and the suffix @@F@.class.php@@. To declare the class @@C@stockUtils@@, you have to create a file @@F@classes/stockUtils.class.php@@ which contains at least
+
+<code php><?php
+class stockUtils {
+    […]
+}
+?></code>
+
+An interface should be store in a @@F@*.iface.php@@ file. To declare a @@C@IStockUtils@@ interface, store this content into the file @@F@classes/IStockUtils.iface.php@@:
+
+<code php><?php
+interface IStockUtils {
+    […]
+}
+?></code>
+
+Then to include this interface, stored in the module @@commons@@, into the @@F@stockUtils.class.php@@ file:
+
+<code php><?php
+jClasses::inIface('commons~interfaces/IStockUtils');
+
+class stockUtils implements IStockUtils {
+    […]
+}
+?></code>
+
+And to include the @@C@stockUtils@@ class anywhere:
+<code php><?php
+jClasses::inc('commons~stockUtils');
+
+[…]
+?></code>
 
 
 ===== Instantiation =====
@@ -101,3 +140,16 @@ If the name of the class and the name of the file follow the coding style of jel
    $myclass = new bar('bla');
 </code>
 
+===== Loading classes before the session_start =====
+
+Sometimes, you may want to store some of your business object in sessions. But then your classes should be loaded before the session_start() call, so PHP can unserialize this objects.
+
+Jelix provide a simple way to indicates which classes to load before the session_start(). In the configuration, in the @@sessions@@ section, indicate the selectors of this classes in the @@V@loadClasses@@ options:
+
+<code ini>
+[sessions]
+
+loadClasses = "mymodule~bar,mymodule~subdir/foo, shop~shoesProduct"
+</code>
+
+Note: the module name is required.

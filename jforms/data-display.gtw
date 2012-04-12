@@ -1,3 +1,5 @@
+~~LANG:FR@//fr/manuel-1.1/jforms/affichage-donnees~~
+
 With jForms, you can also display not the form but only its data. It can be useful as a reporting of input steps for example. 
 
 ===== Automatic or default display =====
@@ -24,8 +26,6 @@ Et dans le template :
 
 Form labels and values are displayed in a table.
 
-
-Note : you can use //formdatafull// in a text response template.
 
 ===== Customized display =====
 

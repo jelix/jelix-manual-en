@@ -1,3 +1,5 @@
+~~LANG:FR@//fr/manuel-1.1/plugins/tpl~~
+
 You can extend tpl plugins functionalities by adding your own to [en:manual:templates|jTpl engine]. Just implement them in new template plugins.
 
 There is four types of template plugins:
@@ -50,7 +52,7 @@ An example, a zone cfunction plugin :
 
 
 <code php>
-function jtpl_cfunction_html_zone($compiler $params=array())
+function jtpl_cfunction_html_zone($compiler, $params=array())
 {
     if (count($params) < 1 || count($params) > 2) {
         $compiler->doError2('errors.tplplugin.cfunction.bad.argument.number','zone','1-2');
@@ -85,18 +87,18 @@ function jtpl_modifier_html_count_characters($string, $include_spaces = false)
 </code>
 
 
-===== plugin de bloc =====
+===== block plugins =====
 
 As with cfunction plugins, block plugins are called during template compilation. As a result a block plugin does not display anything, nor return a modified value but returns php code to be included in the compiled template.
 
 You implement your own specific loops or conditioned structure with a block plugin.
 
-A block plugin is a jtpl_block_html_//myblock// function. As parameters it receives, first a jTplCompiler object, second a boolean and optionally others. the function is stored in a block.//myblock//.php file.
+A block plugin is a function with a specific prefix, and ending with the name of the block, here @@myblock@@ in our example: @@f@jtpl_block_html_myblock@@. As parameters it receives, first a @@C@jTplCompiler@@ object, second a boolean and optionally others. the function is stored in a @@F@block.myblock.php@@ file.
 
 
-jtpl_block_html_//myblock// is called two times by the compiler, first time when the compiler finds //<myblock>// start tag and a second time when it encounters //</myblock>// end tag. the boolean parameter indicates wether the compiler is on start or end tag (true if it is start tag).
+@@f@jtpl_block_html_myblock@@ is called two times by the compiler, first time when the compiler finds @@{myblock}@@ start tag and a second time when it encounters @@{/myblock}@@ end tag. the boolean parameter indicates wether the compiler is on start or end tag (true if it is start tag).
 
-Example, plugin ifuserconnected :
+Example, plugin @@ifuserconnected@@ :
 
 <code php>
 function jtpl_block_ifuserconnected($compiler, $begin, $params=array())
@@ -118,9 +120,8 @@ function jtpl_block_ifuserconnected($compiler, $begin, $params=array())
 
 ===== plugin meta =====
 
-Meta plugins are called during evaluation of a template, but just before display. 
-. Evaluation consists of two steps: one executed before display and the latter to actually display content. the first one is often used to modify some properties of response object. As an example, for a HTML response, a tpl template only generates //body// part of html. If you want to specify head content such as CSS or JS links, such as meta informations, you must do it during first step. That's when meta plugins are called (through {meta ...} instruction).
+Meta plugins are called during evaluation of a template, but just before display. Evaluation consists of two steps: one executed before display and the latter to actually display content. the first one is often used to modify some properties of response object. As an example, for a HTML response, a tpl template only generates @@E@<body>@@ part of html. If you want to specify head content such as CSS or JS links, such as meta informations, you must do it during first step. That's when meta plugins are called (through @@{meta ...}@@ instruction).
 
-(see plugin lib/jelix/plugins/tpl/html/meta.html.php).
+(see plugin @@F@lib/jelix/plugins/tpl/html/meta.html.php@@).
 
 

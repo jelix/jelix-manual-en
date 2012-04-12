@@ -1,7 +1,10 @@
+~~LANG:FR@//fr/manuel-1.1/bd~~
+
 Jelix has an abstract database access system : jDb. jDb provides an API common to every databases. For the moment, featured drivers are those for :
   * mysql
   * postgresql
   * sqlite
+  * oracle (oci)
 
 And also the last one, pdo, allowing to specify to jDb to use pdo instead of the abstract classes internal to jDb.
 
@@ -34,8 +37,8 @@ There is a "foo" section. Each section corresponds to a connection profile. A "d
 
 In a section, you have several parameters. Their number and name can be different according to the driver used, but some of them can be used in all profile
 
- * **driver**: it indicates the driver name
- * **table_prefix**: allow to indicate a prefix for all table \\when [[http://jelix.org/articles/en/manual/dao|using a DAO]] with a profile indicating a table prefix, this prefix is added automatically to the table names indicating in the dao files\\. When you construct your SQL queries, you should use the //prefixTable()// method of the jDbConnection object. This method takes one parameter: the table name.
+  * **driver**: it indicates the driver name
+  * **table_prefix**: allow to indicate a prefix for all table when [[daos|using a DAO]] with a profile indicating a table prefix, this prefix is added automatically to the table names indicating in the dao files. When you construct your SQL queries, you should use the //prefixTable()// method of the jDbConnection object. This method takes one parameter: the table name.
 
 ==== mysql profile ====
 
@@ -48,19 +51,20 @@ Possible parameters:
    * **force_encoding** : says if the current charset should be specified during the connection. Try to set it to "on" if you have some encoding issues with your retrieved data.
 
 
-==== postgresql profil ====
+==== postgresql profile ====
 
 Possible parameters:
 
    * **driver** : should be "pgsql"
    * **database** : the database name
-   * **host** : the serveur name. If you give an empty value, the connection will be set over an unix socket.
+   * **host** : the server name. If you give an empty value, the connection will be set over an unix socket.
    * **port** : TCP port to use for the connection. Don't indicate this parameter if you want to use the default port.
-   * **user** et **password** : the login and the password to use for the connection. Don't indicate this parameters if you want to use the default user/password indicated in environment variable in the operating system.
-   * **persistent** : says if the connection should be persistant ("on") or not ("off")
-   * **force_encoding** : says if the current charset should be specified during the connection. Try to set it to "on" if you have some encoding issues with your retrieved data.
+   * **user** and **password** : the username and the password to use for the connection. Don't indicate this parameters if you want to use the default user/password indicated in environment variable in the operating system.
+   * **persistent** : says if the connection should be persistent ("on") or not ("off")
+   * **force_encoding** : says if the current character set should be specified during the connection. Try to set it to "on" if you have some encoding issues with your retrieved data.
    * **timeout** : Number of second allowed before a timeout.
-   * **single_transaction** : if set to **on**, all queries executed in a same page will be sent in a same transaction (between a BEGIN; and a COMMIT;). Défaut: **off**
+   * **single_transaction** : if set to **on**, all queries executed in a same page will be sent in a same transaction (between a BEGIN; and a COMMIT;). Default: **off**
+   * **search_path**: the list of schemas where table are getting from, if the default schema of the connection doesn't correspond to the schema used by the application
 
 ==== sqlite profile ====
 
@@ -77,7 +81,7 @@ Do not forget that the sqlite database files must be placed in the var/db/sqlite
 Possible parameters:
 
    * **driver** : should be "pdo"
-   * **dsn** : contains all parameters for the connectionas indicated in the [[http://www.php.net/pdo|PDO documentation on php.net]].
+   * **dsn** : contains all parameters for the connection as indicated in the [[http://www.php.net/pdo|PDO documentation on php.net]].
    * **user** et **password** : the login and the password to use for the connection, if needed.
    * **force_encoding** : says if the current charset should be specified during the connection. Try to set it to "on" if you have some encoding issues with your retrieved data.
 
@@ -89,6 +93,28 @@ user=
 password=
 </code>
 
+==== Virtual profile ====
+
+jDb supports connexion to a profile not declared in dbprofils file. It supports virtual profiles, useful for database whose information is known only during the execution.
+
+A virtual profile must be created before any jDb method call. Use **createVirtualProfile** method and pass it a name and an array of parameters. The latters are the same as described above of course.
+
+
+<code php>
+   $params = array(
+       'driver'=>'mysql',
+       'host'=>'localhost',
+       'database'=>'jelix',
+       'user'=>'toto',
+       'password'=>'blabla',
+       'persistent'=>'false',
+       'force_encoding'=>true
+   );
+   jDb::createVirtualProfile('my_profil', $params);
+
+   $cnx = jDb::getConnection('my_profil');
+   // and play with your database. see below.
+</code>
 
 ===== Making queries =====
 
@@ -222,8 +248,8 @@ And in the template:
     <tr> <th>name</th> <th>firstname</th></tr>
   {foreach $results as $user}
     <tr> 
-       <td>{$user->name|eschtml}</td>
-       <td>{$user->firstname|eschtml}</td>
+       <td>{$user->name|escxml}</td>
+       <td>{$user->firstname|esxml}</td>
     </tr>
   {/foreach}
    </table>

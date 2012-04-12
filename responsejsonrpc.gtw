@@ -1,18 +1,17 @@
-Jelix supports [[http://json-rpc.org/|json-rpc]]. This is a similar protocol to XML-RPC. The main differences is that datas are JSON formatted instead of XML.
+~~LANG:FR@//fr/manuel-1.1/responsejsonrpc~~
 
-RPC = Remote Procedure Call
+Jelix supports [[http://json-rpc.org/|json-rpc]]. This is a similar protocol to XML-RPC. The main differences is that data are JSON formatted instead of XML. (RPC = Remote Procedure Call)
 
 See [[responsexmlrpc|Xml-rpc documentation]].
 
-===== Specifi entry point =====
+===== Specific entry point =====
 
-A JSON-RPC request cannot be treated as a classic request, thus you can't use [[requests|"classic" request object]]. You have to create a specific entry point in //www/// directory, jsonrpc.php. This entry point will instantiate a jJsonRpcRequest instead of a jClassicRequest.
+A JSON-RPC request cannot be treated as a classic request, thus you can't use [[requests|"classic" request object]]. You have to create a specific entry point in @@F@www/@@ directory, @@F@jsonrpc.php@@. This entry point should instantiate a @@C@jJsonRpcRequest@@ instead of a @@C@jClassicRequest@@.
 
 The new entry point should look like:
 
 <code php>
-require_once ('../../lib/jelix/init.php');
-require_once ('../../MYAPPLI/application.init.php');
+require_once ('../../myapp/application.init.php');
 
 $config_file = 'jsonrpc/config.ini.php';
 
@@ -92,9 +91,9 @@ method:"myModule~default:index"
   $parameters = $this->param('params');
 </code>
 
-Of course, //$parameters// will contain "php" datas. the JSON string is decoded by jJsonRpcRequest..
+Of course, //$parameters// will contain "php" datas. the JSON string is decoded by @@C@jJsonRpcRequest@@..
 
-Note: there are javascript methods in lib/jelix-www/json.js. First, //toJSONString// which is added on all javascript object, and which allows to generate a JSON string. Second, javascript strings have a //parseJSON// method to parse a json string.  Then, you just have to pass a string to xmlHttpRequest to send the JSONRPC request to jelix. An HTMl example:
+Note: there are javascript methods in @@F@lib/jelix-www/js/json.js@@. First, @@M@toJSONString()@@ which is added on all javascript object, and which allows to generate a JSON string. Second, javascript strings have a //parseJSON// method to parse a json string.  Then, you just have to pass a string to xmlHttpRequest to send the JSONRPC request to jelix. An HTMl example:
 
 <code javascript>
  var jsonrpc = { method : "myModule~default:index",

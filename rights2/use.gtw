@@ -1,0 +1,123 @@
+~~LANG:FR@//fr/manuel-1.1/droits2/utilisation~~
+
+If a module has to implement access control or right management, you have to:
+
+  * determine which subjects you'll use.
+  * optionnaly store them with the driver setup for jAcl2, an LDAP driver or a database driver [[configuration|like jAcl2.db]] :
+  * then, use jAcl2 static methods to check if the current user has this or that right on this or that subject.
+
+If your jAcl2 driver supports user groups, you don't have to bother about them, your driver will take care of. Of course a jAcl2 driver can use jAuth as authentication system.
+
+
+===== Configuration =====
+
+first step of jAcl2 use: you must set a driver to use with jAcl2. 
+
+Drivers are plugins in jAcl2 system. They are stored in @@V@acl2@@ folder of a plugins repository. A jAcl2 plugin is a class fooAcl2Driver (foo being the plugin name) implementing jIAcl2Driver interface and located in foo.acl2.php file. As for example, "db" driver is the class dbAcl2Driver in db/db.acl2.php file .
+
+To configure an acl2, you should have an //acl2// section in your application configuration, and assign the driver parameter :
+
+<code ini>
+[acl2]
+driver=db
+</code>
+
+
+===== Ask a question to jAcl2 =====
+
+As jAcl2 discovers on its own the current user, you have on 99% cases only one method to use: //jAcl2::check//
+
+==== jAcl2::check ====
+
+
+It will probably be the most used method for checking rights. It returns right or false, of course. Example :
+
+<code php>
+if( jAcl2::check("cms.articles.create")){
+   // current user has the right to create an article
+}else{
+   // current user has no right to create an article
+}
+</code>
+
+If you want to check a right about a precise resource :
+
+<code php>
+$article_id = "opinions";
+
+if( jAcl2::check("cms.articles.update", $article_id)){
+   // current user has the right to modify THIS article
+}else{
+   // current user has no right to modify THIS article
+}
+</code>
+
+
+
+
+
+==== Automatic checking ====
+
+If you want your controller to automatically check rights, you can use the jAcl2 coordinator plugin.
+
+Just activate it in your application configuration.
+
+<code ini>
+[coordplugins]
+jacl2 = jacl2.coord.ini.php
+</code>
+ 
+and copy its default configuration file from lib/jelix/plugins/coord/jacl2/jacl2.coord.ini.php.dist to var/config/index/jacl2.coord.ini.php
+
+Edit this file to select which actions to execute or messages to display in case of failure of right access.
+
+Eventually, in your controller, use the following values in $pluginParams :
+
+<code php>
+
+   public $pluginParams = array(
+        '*' => array( 'jacl2.right'=>'subject', ...)
+        ...
+   );
+</code>
+
+Or, to check a sequence of rights about the current user : 
+<code php>
+
+   public $pluginParams = array(
+     '*' => array( 'jacl2.rights.and'=>array('subject1', 'subject2', ..)
+            ),
+        ...
+   );
+</code>
+
+Or else, to check if current user has any of a sequence of rights :
+<code php>
+
+   public $pluginParams = array(
+     '*' => array( 'jacl2.rights.or'=>array('subject1', 'subject2', ..)
+            ),
+        ...
+   );
+</code>
+
+==== template plugins ifacl2 and ifnotacl2 ====
+
+jAcl2 comes with two template plugins useful to conditionnally generate content         upon rights criteria. Their arguments are th same of jAcl2::check.
+
+<code>
+  {ifacl2 "cms.articles.create"}
+    <input type="button" value="create an article" />
+  {else}
+   <p>You cannot create an article.</p>
+  {/ifacl2}
+</code>
+
+{ifnotacl2} is of course the contary to {ifacl2}, ie. it tests if the user does NOT have the right given.
+
+And with a resource :
+<code>
+  {ifacl2 "cms.articles.update", $article_id}
+    <input type="button" value="Edit article" />
+  {/ifacl2}
+</code>

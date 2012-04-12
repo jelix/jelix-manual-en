@@ -1,3 +1,5 @@
+~~LANG:FR@//fr/manuel-1.1/responsexmlrpc~~
+
 Jelix supports [[http://xmlrpc.com/spec/|xml-rpc]]. this a protocol specified for data exchange in XML format.A client send a request containing XML content, an action to execute and parameters. Server executes action indicated with its parameters and send back an XML result.
 
 RPC = remote procedure call 
@@ -10,8 +12,7 @@ An XML-RPC request cannot be treated as a classic request, thus you can't use [[
 The new entry point should look like:
 
 <code php>
-require_once ('../../lib/jelix/init.php');
-require_once ('../../MYAPPLI/application.init.php');
+require_once ('../../myapp/application.init.php');
 
 $config_file = 'xmlrpc/config.ini.php';
 
@@ -28,7 +29,7 @@ Don't forget to add this entry point in urls engine configuration section. If yo
 xmlrpc = "@xmlrpc"
 </code>
 
-//xmlrpc // is the entry point name and //@xmlrpc // is the entry point request type.
+//xmlrpc// is the entry point name and //@xmlrpc// is the entry point request type.
 
 If you have selected [[urls/significant|significant url engine]], just add :
 <code xml>
@@ -36,7 +37,7 @@ If you have selected [[urls/significant|significant url engine]], just add :
 </code>
 
 
-Independently of url engines, you retrieve an url for a jsonrpc action like this:
+Independently of url engines, you retrieve an url for a xmlrpc action like this:
 
 <code php>
   $url = jUrl::get("module~action@xmlrpc ");
@@ -89,10 +90,11 @@ method:"myModule:default:index"
 
 Note: "~" can not be used as separator between module name and action name. It must be replaced by ":" (tilde character is not permitted in XML-RPC method name). As a result, it is **mandatory to indicate in the selector: a module, a controller and an action**.
 
+
+To retrieve received parameters, you will do:
 <code php>
   $parameters = $this->param('params');
 </code>
 
-Of course, //$parameters// will contain "php" datas. the XML string is decoded by jXmlRpcRequest..
+Of course, //$parameters// will contain "php" data. The XML string is automatically decoded by jXmlRpcRequest.
 
-An HTMl example: TODO.

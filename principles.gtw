@@ -1,0 +1,34 @@
+~~LANG:FR@//fr/manuel-1.1/principes~~
+
+Here are some explanations on how the framework can work and on the main objects that you will have to use.
+
+The framework is based on this principle: each url is corresponding to an action.
+
+
+
+===== Executions steps =====
+
+{{schema_logic.png}}
+
+  - The web server receives an HTTP request
+    * The entry point is executed by the server when a url indicates it. It's @@F@index.php@@ by default.
+    * This script instantiates a @@C@jRequest@@ object and a @@C@jCoordinator@@ coordinator.
+    * The @@C@jRequest@@ object then analyzes the content of the http request to be able to extract data from it. These data can be in the url and/or in the body of the request (POST method for example). 
+    * In particular @@C@jRequest@@ determines the name of the action to be executed and the name of the concerned module.
+  - The action parameter contains the controller name and the method to be executed. This controller is thus instanciated and the method executed. The method retrieves request parameters in order to know what to do.
+  - the method executes business processes, et retrieves eventually some results which will be used for the response
+  - The method of the controller create an instance of a @@C@jResponse@@ object which is setup with data or else (initialization of templates etc..).
+  - Jelix gets this @@C@jResponse@@ object, launch the generation of the final document (html page, pdf..) and then send it to the browser.
+
+===== What you will have to manipulate =====
+
+In general, you won't have to use a @@C@jRequest@@ or @@C@jCoordinator@@ object.
+
+On the other hand, you will have to create a @@C@jController@@ object to include the code of an action to it. This object proposes methods to get parameters extracted by @@C@jRequest@@, but also to get a @@C@jResponse@@ object. You thus will have to  handle this @@C@jResponse@@ object to specify the data to send to the browser, in the code of the action, in addition to handling the "business" objects.
+
+===== Objects in details =====
+
+Let's see now a description of each object of the core.
+
+
+

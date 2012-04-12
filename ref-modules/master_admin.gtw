@@ -1,0 +1,130 @@
+~~LANG:FR@//fr/manuel-1.1/ref-modules/master_admin~~
+
+@@master_admin@@ is a module providing a web interface dedicated to administration.
+
+It contains three zones:
+
+   * admin_menu: a menu system
+   * dashboard: a dashboard.
+   * admin_infobox: a box which contains informations about the current user 
+
+@@default:index@@ action displays the dashboard.
+
+
+===== Using the menu system =====
+
+@@admin_menu@@ zone displays a menu. This menu contains in fact some sub-menus, and sub-menus contain items. Each item and sub-menu has an id.
+
+If you want to add items or sub-menus, you should create an event listener for @@masteradminGetMenuContent@@ event.
+
+Imagine you have a "news" module, and you want to add a menu item to your CRUD controller to manage news. In the @@F@news/events.xml@@ :
+
+<code xml>
+<events xmlns="http://jelix.org/ns/events/1.0">
+   <listener name="news">
+       <event name="masteradminGetMenuContent" />
+   </listener>
+</events>
+</code>
+
+And in @@F@news/classes/news.listener.php@@, you should return in the event a @@C@masterAdminMenuItem@@ object for each item you want to add:
+
+<code php>
+class newsListener extends jEventListener{
+
+   function onmasteradminGetMenuContent ($event) {
+        $event->add(new masterAdminMenuItem('news', "manage news", jUrl::get('news~admin:index'), 30, 'general'));
+        $event->add(new masterAdminMenuItem('newscat', "manage news catagories", jUrl::get('news~admincat:index'), 31, 'general'));
+        $event->add(new masterAdminMenuItem('newssearch', "search news", jZone::get('news~search'), 32, 'general', 'zone'));
+   }
+}
+</code>
+
+Here are parameters for  @@C@masterAdminMenuItem@@:
+
+   * an id for the menu item
+   * the label of the link
+   * the URL of the link
+   * the order in the sub-menu
+   * the id of the sub-menu where to add the item. By default, there are two sub-menus: 'toplinks' and 'system'.
+
+
+If you want any HTML content in the menu item instead of a simple link, here are the arguments you should give to  @@C@masterAdminMenuItem@@:
+
+   * an id for the menu item
+   * an empty string.
+   * the HTML content
+   * the order in the sub-menu
+   * the id of the sub-menu where to add the item. By default, there are two sub-menus: 'toplinks' and 'system'.
+   * @@V@'content'@@ (by default, the value is 'url' for a link as content.
+
+
+You can add new sub-menus. Simply create a @@C@masterAdminMenuItem@@ object, where the sub-menu id parameter is empty.
+
+
+
+===== Using the infobox zone =====
+
+At the top right corner of the user interface of master_admin, there is the zone @@admin_infobox@@.  This zone displays the name of the user, a link to his profile, and a link to logout. You can add other links or simple content in this zone by responding to the @@masteradminGetInfoBoxContent@@ event, and then by returning @@C@masterAdminMenuItem@@ objects.
+
+For example, let's declaring this event in the file @@F@news/events.xml@@ :
+
+<code xml>
+<events xmlns="http://jelix.org/ns/events/1.0">
+   <listener name="news">
+       <event name="masteradminGetMenuContent" />
+       <event name="masteradminGetInfoBoxContent" />
+   </listener>
+</events>
+</code>
+
+
+In our class @@C@newsListener@@, let's adding the method @@M@onmasteradminGetInfoBoxContent@@, which will return an item to display a link to a page, which will displays the list of news written by the user.
+
+<code php>
+class newsListener extends jEventListener{
+   //....
+
+
+   function onmasteradminGetInfoBoxContent ($event) {
+
+        $event->add(new masterAdminMenuItem('news', "Your own news", jUrl::get('news~admin:usernews')));
+  
+   }
+}
+</code>
+
+
+===== Using the dashboard =====
+
+
+A dashboard is often useful in a web administration. It is often the start page of this kind of application, and displays miscellaneous informations.
+
+Each modules can display informations on the dashboard. They should listen to @@masterAdminGetDashboardWidget@@ event, and add in the event one or more @@C@masterAdminDashboardWidget@@ objects, which declare a "widget" content. This object is very simple, it has two properties: @@P@title@@ and @@P@content@@.
+
+So, you should provide a title and a html content foreach "information box" you want to add on the dashboard.
+
+<code php>
+class newsdashboardListener extends jEventListener {
+
+   function onmasterAdminGetDashboardWidget ($event) {
+
+        $box = new masterAdminDashboardWidget();
+        $box->title = "Latest news";
+        $box->content = jZone::get("news~latest");
+
+        $event->add($box);
+   }
+}
+</code>
+
+
+===== Templates =====
+
+
+The module contains two templates:
+
+   * @@F@index_login.tpl@@: displays the login form
+   * @@F@main.tpl@@: displays the main web interface.
+
+You should use this templates in your response object. The @@c@initadmin@@ jelix command creates by default two responses object, @@C@adminHtmlResponse@@ and @@C@adminLoginHtmlResponse@@ in your @@F@responses/@@ directory. This responses use the template of master_admin, and you can of course modify this objects to customize them.

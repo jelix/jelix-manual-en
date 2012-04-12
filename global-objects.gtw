@@ -1,0 +1,79 @@
+~~LANG:FR@//fr/manuel-1.1/objets_globaux~~
+
+From your classes, you can access to some global variables created by Jelix.
+
+===== $gJConfig =====
+
+This object allow you to access to the configuration of the application. Each of its properties correspond to a configuration parameter stored in the  @@F@defaultconfig.ini.php@@ or the ini file of the entry point.
+
+==== Calling gJConfig ====
+
+Here is an example in a function/method:
+
+<code php>
+function test()
+{
+   global $gJConfig;
+   $gJConfig->urlengine['basePath'];
+
+// or, without using the global keyword
+   $GLOBALS['gJConfig']->urlengine['basePath'];
+}
+</code>
+
+==== Accessing to parameters ====
+
+If the @@F@config.ini.php@@ file of the entry point has this content:
+<code ini>
+startModule = "testapp"
+startAction = "main:index"
+ 
+[coordplugins]
+autolocale = index/autolocale.ini.php
+ 
+[responses]
+html=myHtmlResponse
+</code>
+
+Then you can retrieve this parameters, by doing this:
+
+<code php>
+function test()
+{
+   global $gJConfig;
+
+   $a = $gJConfig->startModule; // "testapp"
+   $b = $gJConfig->coordplugins['autolocale']; // "index/autolocale.ini.php"
+}
+</code>
+
+
+===== $gJCoord =====
+
+The @@V@$gJCoord@@ object is the instance of a @@C@jCoordinator@@ class, created in the entry point. You can then access to its method and properties to retrieve some informations and objects : plugins list, the current @@C@jResponse@@ object, the current @@C@jRequest@@ object, the current module name and action name etc.
+
+==== Calling gJCoord ====
+
+<code php>
+function test()
+{
+   global $gJCoord;
+   $gJCoord->request->type;
+
+// or
+   $GLOBALS['gJCoord']->request->type; 
+}
+</code>
+
+==== Example ====
+
+If your entry point is called with the URL @@/index.php?test=1@@, here how to retrieve parameters and the script name:
+<code php>
+function test()
+{
+   global $gJCoord;
+
+   $a = $gJCoord->request->urlScriptName; // "index.php"
+   $b = $gJCoord->request->params['test']; // 1
+}
+</code>

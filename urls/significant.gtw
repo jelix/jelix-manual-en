@@ -1,3 +1,5 @@
+~~LANG:FR@//fr/manuel-1.1/urls/significant~~
+
 Here is how you can configure the significant engine for the [[|url system of Jelix]].
 
 The configuration principle of this engine is to indicate in a var/config/urls.xml file all the possible url forms in the application, and the actions that will be associated to them. Here is an example of file :
@@ -38,13 +40,13 @@ The configuration principle of this engine is to indicate in a var/config/urls.x
 
 ===== Entrypoint tags =====
 
-The ''urls'' root tag contains the same number of //*entrypoint// tags as entrypoints available in your application. Their exact name gives the type of request they are affected to : 
+The @@E@urls@@ root tag contains the same number of @@E@*entrypoint@@ tags as entrypoints available in your application. Their exact name gives the type of request they are affected to : 
 
-   * //classicentrypoint// for classical request, 
-   * //xmlrpcentrypoint// for xmlrpc 
+   * @@E@classicentrypoint@@ for classical request, 
+   * @@E@xmlrpcentrypoint@@ for xmlrpc 
    * etc... 
 
-Each of these tags has a ''name'' attribute specifying the name of the entry point (without the .php extension), and eventually a ''default'' attribute specifying if this entry point is the default one for the actual type of request.
+Each of these tags has a @@A@name@@ attribute specifying the name of the entry point (without the .php extension), or, precisely, its relative path to the @@basePath@@ indicated into the main configuration. And you could set eventually a @@A@default@@ attribute specifying if this entry point is the default one for the actual type of request.
 
 
 ===== Url tag =====
@@ -87,6 +89,12 @@ For this, you have to indicate ''param'' tags for each parameter which you want 
       <param name="id_art" regexp="\d+" />
    </url>
 </code>
+
+if the regular expression of the attribute regexp contains parentheses, it's necessary to say that this one should not be catched
+
+Example :
+
+<param name="type" regexp="(?:0|1|2){1}" />
 
 When the parameter is of string type, it is not mandatory to specify a param tag. The available types are :
 
@@ -278,6 +286,8 @@ Second,  you should create a .htacces file in the www directory, which should co
     RewriteRule ^(.*)$ index.php/$1 [L,QSA]
 </IfModule>
 </code>
+
+    * second line: you don't need it if you write these instructions into an @@F@.htaccess@@ in the www directory of your app. However, in an other @@F@.htaccess@@ or in the virtual host configuration, you have to write it, and you must indicate the right path to the www directory: @@F@/@@ if the documentRoot is the www directory, or the path to access this www directory from the documentRoot of the website (basePath). Example: @@RewriteBase /myapp/www/@@ if you access to your application with @@http://localhost.local/myapp/www/index.php@@
     * third and forth lines: url will be rewritten only if doesn't correspond to a real file or a real directory. (for css files, images etc..). 
     * fifth line: we get all the content of the url and put it after index.php/, so the url become the pathinfo of the new url.
 

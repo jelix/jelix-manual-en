@@ -1,36 +1,40 @@
-To be able to send binary content (a graphic, a video, some sound, an archive, and so on), one should use jReponseBinary. In your action method, just get a 'binary' response:
+~~LANG:FR@//fr/manuel-1.1/responsebinary~~
+
+To send binary content to the user (a graphic, a video, some sound, an archive, etc.), @@C@jResponseBinary@@ should be used. To use it, set 'binary' as the type of response used.
 
 <code php>
 $resp = $this->getResponse('binary');
 </code>
 
-then, you have to set $outputFileName property. $outputFileName will be the name  shown to the user. 
+Afterwards, some variables need to be set to a correct value before content is displayed.
+
+First, you have to set @@P@outputFileName@@ property. @@P@outputFileName@@ will be the name shown to the user. 
 
 <code php>
- $resp->outputFileName = 'truc.gif';
+ $resp->outputFileName = 'filename.gif';
 </code>
 
-You can define the mime type of your content:
+Next, you can define the mime type of your content:
 
 <code php>
  $resp->mimeType = 'image/gif';
 </code>
 
-You have an option for files you want the user to download (particularly, files not rendered by common browsers). just set:
+You have an option for files you want the user to download (particularly, files not rendered by common browsers - archives, for example). To force the download of the file, simple set @@P@doDownload@@ to true.
 
 <code php>
  $resp->doDownload = true;
 </code>
 
-For the content itself, you have to define either $filename or $content property. 
+For the content itself, you have to define either @@filename@@ or @@content@@ property. 
 
-If it is an existing file, just use $filename:
+If it is an existing file, just use @@P@filename@@:
      
 <code php>
-   $resp->fileName = JELIX_VAR_PATH.'fichier_a_renvoyer.gif';
+   $resp->fileName = JELIX_APP_VAR_PATH . 'file_to_send.gif';
 </code>
 
-Otherwise, if your content is generated or comes from your database, use $content:
+Otherwise, if your content is generated or comes from your database, use @@P@content@@:
 
 <code php>
    $resp->content = '...';

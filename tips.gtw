@@ -1,0 +1,46 @@
+===== Tips for common problems =====
+
+This page gather snippets of code resolving common development problems.
+
+==== Prevent some errors ====
+
+Upon an html request, don't forget that line at the beginning of an action.
+
+<code php>
+$rep = $this->getResponse('html');
+</code>
+
+==== Retrieve current action ====
+
+Use this expression to retrieve current action in a controller, a zone, your common response.
+
+<code php>
+$GLOBALS['gJCoord']->action->toString();
+</code>
+
+==== Access user session variables ====
+
+Jelix use PHP sessions by default. If you use jAuth, it stores user dao record (data coming from jelix_user table) in a PHP session variable. Thus, user infos are accessible through @@V@$_SESSION['JELIX_USER']@@ variable :
+
+<code php>
+$_SESSION['JELIX_USER']->login
+</code>
+
+==== Store current date in database ====
+
+This one applies to date fields having //datetime// or //date// as type. 
+
+Just add the following attributes to the property line associated with your date field and located in your DAO xml file :
+
+<code php>
+inserpattern="NOW()"
+</code>
+
+your date field will be set to current date on record insert.
+
+<code php>
+updatepattern="NOW()"
+</code>
+
+your date field will be set to current date on record update.
+

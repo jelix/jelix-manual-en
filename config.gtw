@@ -1,4 +1,6 @@
-====== URL entry points ======
+~~LANG:FR@//fr/manuel-1.1/configuration~~
+
+===== URL entry points =====
 
 An entry point is a script which manage some or all your application [[call-action|actions]]. Only entry points should be web accessible and therefore should lie in //www// directory of your application.
 
@@ -7,9 +9,6 @@ An entry point create a jCoordinator object, a jRequest object (to parse all req
 Below is an example of an entry point script :
 
 <code php>
-// jelix core file
-require_once ('../../lib/jelix/init.php');
-
 // application initialisation file
 require_once ('../../testapp/application.init.php');
 
@@ -30,10 +29,8 @@ $jelix->process($request);
 
 Theorically, an application should have one entry point per response type : classic, XML-RPC, JSON-RPC, RSS, Atom, and so on.. As a result, each entry point should also have its specific configuration file.
 
-====== Configuration ======
 
-
-===== Organization =====
+===== Organization of the configuration =====
 
 Jelix framework configuration is stored in an //ini//-like file. It is a file structured by sections (//[section name]//). Each section is a collection of //parameter-name=value// pairs. There is a generic section, un-named, usually at the start of such file.
 
@@ -61,7 +58,7 @@ modulesPath = lib:jelix-modules/,app:modules/
 
 dbProfils = dbprofils.ini.php
 
-[plugins]
+[coordplugins]
 ;nom = nom_fichier_ini
 
 [responses]
@@ -77,7 +74,7 @@ A specific config should only define or redefine a small amount of properties:
 startModule = "testapp"
 startAction = "main:index"
 
-[plugins]
+[coordplugins]
 autolocale = index/autolocale.ini.php
 
 [responses]
@@ -101,13 +98,6 @@ And so on for others entry points.
 See lib/jelix/core/defaultconfig.ini.php for the whole list of parameters. This file is the "source" of the identically-named file you find in var/config of your application.
 
 Below is a tour of all configuration sections.
-
-
-
-
-
-
-
 
 
 
@@ -135,8 +125,6 @@ dbProfils = dbprofils.ini.php
 
 theme = default
 use_error_handler = on
-
-enableOldActionSelector =
 </code>
 
 Parameters in details :
@@ -148,34 +136,20 @@ Parameters in details :
   * **dbProfils** : Database profiles configuration file. See  [[bd|database]] access.
   * **theme** : default selected theme. Read [[themes|theme]] system description.   
   * **use_error_handler** : this option shoud stay //on// for Jelix to return useful and detailed errors or exceptions.
-  * **enableOldActionSelector** :  assign //1// to stay compatible with old action selectors naming scheme (Jelix v1.0 beta 3 and previous). More recent versions should leave this option untouched.
 
 
+==== coordplugins section ====
+
+List all coordinator plugins Jelix has to activate. They will be loaded from the list of path defined by the pluginsPath option.
 
 
-
-
-
-
-
-==== plugins section ====
-
-Shoud list all plugins Jelix has to activate. They will be loaded from the list of path defined by pluginsPath parameter.
-
-
-An example below demonstrate the activation of an authentication plugin. Its own set of options are defined in auth.coord.ini.php file. Learn more about [[authentification|authentication]].
+The example below demonstrates the activation of an authentication plugin. Its own set of options are defined in auth.coord.ini.php file. Learn more about [[authentification|authentication]].
 
 <code ini>
-[plugins]
+[coordplugins]
 ;plugin name = ini filename
 auth = "auth.coord.ini.php"
 </code>
-
-
-
-
-
-
 
 
 ==== responses section ====
@@ -186,7 +160,7 @@ each line consists of a couple <response alias>=<response class>.
 As for example, it is usual to overload html default response (jResponseHtml) by such a line : //html=myhtmlresponse//. Find more details in [[common-processes#customizing-common-response|customizing common response]] 
 
 Below are the default alias and response types:
-<code>
+<code ini>
 [responses]
 html = jResponseHtml
 redirect = jResponseRedirect
@@ -219,13 +193,14 @@ Notifications have different levels. Jelix defined levels corresponding to PHP e
   * //default//     = selected level if no other level corresponds
   * //error//       = notify an error stopping a script execution
   * //warning//     = notifu an error which doesn't stop a script 
-  * //notice//      = notify a possible error  
+  * //notice//      = notify a possible error 
+  * //deprecated//  = notify a deprecated function (php 5.3) 
   * //strict//      = notify core PHP messages about compatibility and interoperability 
 
 Below are the whole list of parameters:
-<code>
+<code ini>
 [error_handling]
-messageLogFormat = "%date%\t[%code%]\t%msg%\t%file%\t%line%\n"
+messageLogFormat = "%date%\t%ip\t[%code%]\t%msg%\t%file%\t%line%\n"
 logFile = error.log
 email = root@localhost
 emailHeaders = "Content-Type: text/plain; charset=UTF-8\nFrom: webmaster@yoursite.com\nX-Mailer: Jelix\nX-Priority: 1 (Highest)\n"
@@ -238,6 +213,7 @@ default      = ECHO EXIT
 error        = ECHO EXIT
 warning      = ECHO
 notice       = ECHO
+deprecated   = ECHO
 strict       = ECHO
 ; exceptions implicitly use EXIT
 exception    = ECHO
@@ -248,7 +224,8 @@ exception    = ECHO
   * **quietMessage** defines a neutral message for user (ECHOQUIET)
   * **showInFirebug** : if //on//, all notifications will be redirected to firebug extension of firefox browser using its //console// api.
 
-last set of options allows to associate an ouptut format to each level of notification. 
+The last set of options allows to associate ouptut formats to each level of notification.  Each level can have more than one output format. 
+For example, in production, you'll probably want to set ://error = ECHOQUIET EXIT LOGFILE// and so on.
 
 
 
@@ -265,6 +242,15 @@ force  = off
   * **checkCacheFiletime ** : if //on// template will be compiled if its file modification date is more recent than its already PHP compiled file.
   * **force** : if //on//, template is systematically compiled
 
+==== section zone ====
+
+There is an option to globally disable zone caching. It is useful during development environment but should be set to off in production.
+
+To disable zone caching : 
+<code ini>
+[zones]
+disableCache = on  // default to off
+</code>
 
 ==== urlengine section ====
 
@@ -282,7 +268,7 @@ Log files are created and stored in /var/log/ application folder.
 
 A per-module log file can be defined by setting a couple <module name>=<log filename> and calling jLog methods with <module name> as last argument.
 
-<code>
+<code ini>
 ; default log
   default = messages.log
 
@@ -291,7 +277,7 @@ A per-module log file can be defined by setting a couple <module name>=<log file
 </code>
 
 Another example shows how you can use firebug extension as a log output (useful for quickly debugging). Still you can log to a classic file calling jLog methods with //file// as last argument (for dumping huge content for example).
-<code>
+<code ini>
 [logfiles]
 default="!firebug"
 file = "messages.log"
@@ -337,14 +323,18 @@ smtpTimeout = 10
 
 
 ==== acl section ====
-Defines options of access control list (ACL) or rights management. See [[rights|rights management]]. 
+Defines options of access control list (ACL) or rights management. See [[http://jelix.org/articles/en/manual-1.1/rights|rights management]]. You can use jAcl ou jAcl2, but not both at the same time. Indicate a driver to enable it.
 
 <code ini>
 [acl]
-driver = db
-enableAclDbEventListener = off
-</code>
+; example of driver : "db"
+driver =
 
+[acl2]
+; example of driver : "db"
+driver =
+
+</code>
 
 ==== sessions section ====
 Determines how PHP sessions are stored (file or databse). Find more details in [[session|sessions]] documentation. 
@@ -365,4 +355,3 @@ shared_session = off
 ; dao_selector = "jelix~jsession"
 ; dao_db_profile = ""
 </code>
-

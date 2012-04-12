@@ -1,10 +1,12 @@
+~~LANG:FR@//fr/manuel-1.1/authentification~~
+
 The Jelix authentication system handles only one thing : logins, passwords, and users.
 
 Relying on drivers to access user data, you can use a database, a LDAP directory, or any other way to access data. As for now, there is a database driver, an LDS directory based driver, and a driver for an external class.
 
 ===== How to =====
 
-The authentication system lies on several things :
+The authentication system relies on several things :
 
    * a coordinator plugin, verifying if authentication is done for the actions where this is necessary
    * a **jAuth** class, allowing to do different operations on authentication and logins handling. This class implements a driver system.
@@ -26,16 +28,16 @@ The role of the Auth plugin :
 When you want to use the authentication system, you have to activate the plugin and configure it.
 
 
-You should add this line to plugins section of your application configuration file:
+You should add this line to **coordplugins** section of your application configuration file:
 
 <code ini>
-[plugins]
+[coordplugins]
 auth = "auth.coord.ini.php"
 </code>
 
 //auth.coord.ini.php// defines all authentication related parameters. It is a copy of ///lib/jelix/plugins/coord/auth/auth.coord.ini.php.dist//, you have to  save in //var/config// of your application.
 
-You can learn more about [[plugins|plugins]]. 
+You can learn more about [[plugins|plugins here]]. 
 
 
 
@@ -46,7 +48,7 @@ Then, you can edit //auth.coord.ini.php//, and configure the authentication syst
 
 === Selecting a driver ===
 
-**driver** option must be assigned your driver name of choice. Use the same name to locate or create a section containing the driver parameters. 
+You must assign **driver** option with a driver name and use the same name to locate or create a section containing the driver parameters. 
 
 <code ini>
    driver=XXX

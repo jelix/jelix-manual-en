@@ -1,11 +1,14 @@
+~~LANG:FR@//fr/manuel-1.1/plugins/db~~
+
 ===== Creating a jDb driver =====
 
-A jDb driver must implement three classes :
+A jDb driver must implement four classes :
 
-   * a class which connects to database, executes queries, inheriting from jDbConnection 
+   * a class which connects to database and executes queries, inheriting from jDbConnection 
    * a class collecting results, inheriting from jDbResultSet
-pour récupérer les résultats, héritant de jDbResultSet
    * a utility class collecting basic infos on database such as table list, field list of a table. inheriting from jDbTools
+   * a helper class to build requests, inheriting from jDaoGenerator 
+
 
 ==== Namings and Files ====
 
@@ -20,12 +23,15 @@ Filename conventions :
    * //example.dbconnection.php// : connection file
    * //example.dbresultset.php//  : resultset file
    * //example.dbtools.php//      : tool file
+   * //example.daobuilder.php//   : dao query builder file
+
 
 Each file shall declares and implements its related class :
 
    * //exampleDbConnection// : connection class
    * //exampleDbResultSet//  : resultset class
    * //exampleDbTools//      : tool class
+   * //exampleDaoBuilder//   : dao builder class
 
 ==== Connection class ====
 
@@ -46,7 +52,7 @@ So the connection class should redefine some methods:
   * lastInsertId(), allowing to retrieve the last value of an auto incremented field.
   * _autoCommitNotify()
 
-If the driver don't support a feature, it should throw an exception.
+If the driver doesn't support a feature, it should throw an exception.
 
 See [[http://jelix.org/reference/trunk/jelix/db/jDbConnection.html|jDbConnection reference]].
 
@@ -66,7 +72,7 @@ You should redefine this methods:
 See [[http://jelix.org/reference/trunk/jelix/db/jDbResultSet.html|jDbResultSet reference]].
 
 
-==== Classe utilitaire ====
+==== Utility Class ====
 
 It must inherit from jDbTools. This class is used mainly by the jelix-scripts, to generate daos.
 
@@ -79,6 +85,21 @@ You should redefine this methods:
 
 
 See [[http://jelix.org/reference/trunk/jelix/db/jDbTools.html|jDbTools reference]].
+
+==== SLQ Query builder class ====
+
+That class is useful to jDao. jDao generates PHP classes implementing hardcoded SQL queries dispatched in methods. Those queries, particularly their syntax vary between database systems. Those syntax subtleties are defined in each driver in a specific class. 
+
+It must inherit from @C@@jDaoGenerator@@ and overload one or more of its methods, properties :
+
+  * genSelectPattern()
+  * _encloseName()
+  * genUpdateAutoIncrementPK()
+  * $propertiesListForInsert
+  * $trueValue, $falseValue
+  * _getAutoIncrementPKField()
+
+See details in [[http://jelix.org/reference/trunk/jelix/dao/jDaoGenerator.html|jDaoGenerator API reference]] .
 
 
 

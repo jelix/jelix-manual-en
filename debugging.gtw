@@ -1,3 +1,6 @@
+~~LANG:FR@//fr/manuel-1.1/deboggage~~
+
+
 ===== jLog =====
 
 jLog is a class which offers an api to trace, log messages or dump variables to a log output. the log output can be a classic file or alternately firebug (extension for Firefox browser) or the current response. jLog declares two static methods:
@@ -27,7 +30,7 @@ To indicate which log output to use, just fill the last argument of jLog methods
 </code>
 Note : firebug and response log output are only available since Jelix 1.0. They are triggered respectively by "!firebug" and "!response"
 
-To ease collaboration developpment on a same server, it is also possible to distinguish each developer logs. The only requirement is a unique ip per developer. just use "%ip%" pattern in the log output filename.
+To ease collaboration development on a same server, it is also possible to distinguish each developer logs. The only requirement is a unique ip per developer. just use "%ip%" pattern in the log output filename.
 
 <code ini>
 [logfiles]

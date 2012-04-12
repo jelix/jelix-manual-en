@@ -1,9 +1,11 @@
+~~LANG:FR@//fr/manuel-1.1/responseredirect~~
+
 There are two types of redirection objects available :
   * jResponseRedirect : redirects to an action of the application with optional parameters
   * jResponseRedirectUrl : redirects to any URL
 
 
-====== jResponseRedirect ======
+===== jResponseRedirect =====
 
 To specify a redirection to an action, you indicate 'redirect' as the type of response :
 
@@ -32,7 +34,7 @@ return $rep;
 </code>
 
 
-====== jResponseRedirectUrl ======
+===== jResponseRedirectUrl =====
 
 This type of response ("redirectUrl") is used to redirect to an external url (or an url which is not pointing to your application).
 

@@ -1,3 +1,5 @@
+~~LANG:FR@//fr/manuel-1.1/themes~~
+
 Jelix offers a theme system.
 
 
@@ -21,7 +23,7 @@ In your scripts, to retrieve your //theme// path, use:
    $rep->addCssLink($themePath.'design.css');
 </code>
 
-In a template, to add a css ressource, use:
+In a template, to add a css resource, use:
 
 <code html>
 {meta_html csstheme 'design.css'}

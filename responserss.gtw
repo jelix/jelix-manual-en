@@ -1,3 +1,5 @@
+~~LANG:FR@//fr/manuel-1.1/responserss~~
+
 jResponseRss20 allows to generate an RSS feed. It's fully compliant with  [[http://cyber.law.harvard.edu/rss/rss.html|RSS 2.0 specifications]].
 
 The alias usable with getResponse is "rss2.0" :

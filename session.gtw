@@ -1,10 +1,9 @@
+~~LANG:FR@//fr/manuel-1.1/session~~
+
 
 jSession provides alternative storage engines. Configuration is done in app/var/config/defaultconfig.ini.php :
 
 ===== Session name =====
-
-**Important :** the patch is not commited right now, 
-see http://developer.jelix.org/ticket/417
 
 You may need to change the session's name (default is PHPSESSID).
 
@@ -54,7 +53,7 @@ NB : a default dao is provided in the jelix module. The selector is jelix~jsessi
 The corresponding DB creation request :
 
 <code ini>
-CREATE TABLE `sessions` (
+CREATE TABLE `jsessions` (
   `id` varchar(64) NOT NULL,
   `creation` datetime NOT NULL,
   `access` datetime NOT NULL,

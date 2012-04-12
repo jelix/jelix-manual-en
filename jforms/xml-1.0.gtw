@@ -1,3 +1,5 @@
+~~LANG:FR@//fr/manuel-1.1/jforms/xml-1.0~~
+
 The format described is supported since Jelix v1.0. Preceding versions such as betas may not support some missing tags or attributes.
 
 
@@ -194,7 +196,7 @@ Your html form will likely be:
 
 ==== Checkbox (one and only) ====
 
-To display a checkbox, declare a **<checkbox>** tag. Set its //ref// attribute, its //<label>// element, and optionally //<hint>//, //<alert>//, //<help>// tags as well as  //readonly// attribute (but not //required// attribute).
+To display a checkbox, declare a **<checkbox>** tag. Set its //ref// attribute, its //<label>// element, and optionally //<hint>//, //<alert>//, //<help>// tags as well as  //readonly// and //required// attributes.
 
 <code xml>
   <checkbox ref="remember">
@@ -237,7 +239,7 @@ Check further section on datasource also but here is an example:
 
 With the control above, jForms will display a list of three checkboxes, labelled "sugar", "steack" and "orange juice". On submit, the value for "food" form variable will be a PHP array. This array will contain the values of all items checked. If user has checked "steack", you'll receive //array(27)//. If "sugar" is also checked, you'll receive //array(54, 27)//.
 
-(See [[http://jelix.org/articles/en/manual-1.1/jforms/usage|Using the form in a controller]])
+(See [[usage|Using the form in a controller]])
 
 ==== Radio buttons ====
 
@@ -305,10 +307,8 @@ If you want user to upload a file to your server, use the tag **<upload>** (equi
 
 This control supports two specific attributes to control file type and size. Respectively **mimetype** (its value has to be one or more mimetype) and **maxsize** (size in octets).
 
-Warning : with IE, the mimetype of jpg and jpeg files is image/pjpeg. Be sure to set mimetype="image/pjpeg" with image/jpeg if you want allow this file format.
-
 <code xml>
-  <upload ref="photo" mimetype="image/jpeg;image/pjpeg;image/png" 
+  <upload ref="photo" mimetype="image/jpeg;image/png" maxsize="20000">
     <label>Your photo</label>
   </upload>
 </code>
@@ -452,7 +452,7 @@ in jForms XML file :
 
 ==== Other data source ====
 
-If neither DAO, class or static data are of use, see "Defining choices on a multiple choice control" in [[http://jelix.org/articles/en/manual-1.1/jforms/usage|jForms usage]].
+If neither DAO, class or static data are of use, see "Defining choices on a multiple choice control" in [[usage|jForms usage]].
 
 If you do so, don't declare <item> tag nor dao*/dsclass attributes.
 

@@ -1,10 +1,12 @@
-An application is available to download : TestApp. It is an application which contains some examples and some unit tests for Jelix (It is usefull for developers who modify jelix).
+~~LANG:FR@//fr/manuel-1.1/installation/application~~
+
+An application is available for download: TestApp. It is an application which contains some examples and some unit tests for Jelix (It is useful for developers who modify jelix).
 
 We will take the TestApp example, but the explanations are valid for any application based on jelix
 
 ===== Files extractions =====
 
-When decompress the testapp archive, you get the following directories :
+When the testapp archive is decompressed , you get the following directories :
 
   testapp/          application directory
       modules/      modules of the application
@@ -15,14 +17,14 @@ When decompress the testapp archive, you get the following directories :
          log/       log files of jelix and of the application
       www/          root of the site of the application (document root)
 
-Copy this directory in the mysite/ directory. You then have:
+Copy this directory in the @@F@mysite/@@ directory. You then have:
 
     mysite/
        lib/
        temp/ 
        testapp/
 
-The tree structure of the sources is by default organized in order to install the application on a server on which you can specify the public root directory of the site (document root). This directory is mysite/testapp/www .
+The tree structure of the sources is by default organized in order to install the application on a server on which you can specify the public root directory of the site (document root). This directory is @@F@mysite/testapp/www@@ .
 
 You will of course be able to change the place of these directories if, for example, you cannot change the document root. We will see how to do this further.
 
@@ -30,152 +32,17 @@ You will notice that the files of the application and those of the framework are
 
 ===== Configuration files renaming =====
 
-In testapp/var/config, you have *.dist files. Rename them by removing this '.dist' suffix.
+In @@F@testapp/var/config@@, you have @@F@*.dist@@ files. Rename them by removing this '.dist' suffix. You have certainly some things to modify in this new files, like database configuration in @@F@dbprofils.ini.php@@ etc.
 
 
 ===== Creating the temporary directory =====
 
-Create the mysite/temp/testapp directory.
+Create the @@F@mysite/temp/testapp@@ directory. Perhaps your application contains different @@F@*.init.php@@ files, similar to the  @@F@application.init.php@@, but declaring differents temporary folders. So create the corresponding folders.
 
-===== Directories permissions =====
+===== Configuring the application =====
 
-You have to set write permission to apache user on the following directories :
-
-   temp/testapp/
-   testapp/var/config/
-   testapp/var/log/
+See the [[//application-configuration|correspondant chapter]].
 
 
-
-====== Server configuration ======
-
-Here is what you have to configure at server level.
-
-===== If you can change the document root =====
-
-If you can specify the document root of the site by modifying the configuration files of the web server or through an administration interface provided by your web hosting, indicate the mysite/testapp/www directory as the root of the site. 
-
-For example, with apache, you will indicate in the httpd.conf file, something like: 
-
-<code htaccess>
-   <VirtualHost *>
-      ServerName www.monsite.com
-      DocumentRoot /var/monsite/testapp/www/ 
-   </VirtualHost>
-</code>
-
-You must also indicate an alias towards the lib/jelix-www directory, by naming it to "jelix" : 
-
-<code htaccess>
-   <VirtualHost *>
-      ServerName www.mysite.com
-      DocumentRoot /var/mysite/testapp/www/ 
-      Alias /jelix/ "/var/mysite/lib/jelix-www/"
-   </VirtualHost>
-   
-   <Directory "/var/mysite/lib/jelix-www/">
-     AllowOverride None
-     Order allow,deny
-     Allow from all
-   </Directory>
-</code>
-
-Note : you can choose an other name for the alias of jelix-www. If you do this, you have to change the "jelixWWWPath" option in the configuration file of the application.
-
-In the file mysite/testapp/var/config/defaultconfig.ini.php, you can adjust the **basePath** option, by specifying the path to the index.php file (here : /).
-
-<code ini>
-basePath="/"
-</code>
-
-This setting is optional since Jelix try to discover the base path. But on complex configuration (for example, you have many entry points in different sub directories), it could not work correctly, so you have to setup this option.
-
-
-Thus, by typing http://www.mysite.com you reach your site, and http://www.mysite.com/jelix/, the contents of jelix-www, which contains a number of useful Javascript scripts, XUL resources etc.
-
-===== If you can't change the document root =====
-
-In this case, it is better to move the content of the directory mysite/testapp/www to the root of your site, mysite/.
-You then move the following files : index.php, jsonrpc.php etc. After that, you have for example :
-
-  mysite/  
-    testapp/
-    lib/
-    temp/
-    index.php
-    jsonrpc.php
-    xmlrpc.php
-
-You have also to modify this three PHP files to change the relative paths they contain. Same for the testapp/application.init.php file. For example, the file index.php will look like this :
-
-<code php>
-require_once ('lib/jelix/init.php');
-require_once ('testapp/application.init.php');
-
-require_once (JELIX_LIB_CORE_PATH.'request/jClassicRequest.class.php');
-$config_file = 'config.classic.ini.php';
-$jelix = new jCoordinator($config_file);
-$jelix->process(new jClassicRequest());
-</code>
-
-It is finally necessary to move the lib/jelix-www directory to the root and to rename it in jelix. You will obtain: 
-
-  mysite/  
-    testapp/
-    jelix/
-    lib/
-    temp/
-    index.php
-    jsonrpc.php
-    xmlrpc.php
-
-Note : you can choose an other name for the jelix-www directory. If you do this, you have to change the "jelixWWWPath" option in the configuration file of the application (mysite/testapp/var/config/defaultconfig.ini.php)
-
-Finally, in the file testapp/application.ini.php, you must change JELIX_APP_WWW_PATH :
-
-<code php>
-define ('JELIX_APP_WWW_PATH', realpath(JELIX_APP_PATH.'../').'/');
-</code>
-
-And in the file mysite/testapp/var/config/defaultconfig.ini.php, you can change the basePath option, by specifying the path to index.php (here : /) :
-
-<code ini>
-basePath="/"
-</code>
-
-You can then enter the address of your site (http://www.mysite.com for example, or http://localhost/)
-
-===== Specify an extension other than .php =====
-
-On some servers, PHP4 and PHP5 are both proposed at the same time. In general, .php are PHP4 files and .php5 are PHP5 files. You then have to make modifications for your Jelix application to be able to use PHP5. Two ways, according to the possibilities you have :
-
-==== With .htaccess ====
-
-In the www directory of your application, add .htaccess file with :
-
-  AddHandler php5-script .php
-
-And that's all. If this doesn't work, se the following point.
-
-==== By renaming the extension ====
-
-You have to rename the index.php file in index.php5 (idem for the other php files in www : jsonrpc.php, xmlrpc.php etc..). But //you don't have to rename the php files from the other directories// !
-
-In the config file var/config/defaultconfig.ini.php, put the extension in the urlengine section :
-
-  entrypointExtension = .php5
-
-
-===== Configuration for "cools" urls =====
-
-In order to use significants URLS with the urls automatic system of jelix, you have to activate in Apache (in its configuration file or in the .htaccess) :
-
- Options +Multiviews
-
-With Apache 2, you have also to do this :
-
- AcceptPathInfo on
-
-To verify if it is ok, create a test.php on your site, which executes //phpinfo()//. Then try this url : monsite.com/test/foo/bar. the phpinfo should be displayed, and in the $_SERVER[’PATH_INFO’] variable (at the bottom of the page), you should see "/foo/bar”. 
 
 

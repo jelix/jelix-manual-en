@@ -1,79 +1,87 @@
-Jelix implements an inter-module communication system. It is based on **events**.
+~~LANG:fr@//fr/manuel-1.1/events~~
 
-Anywhere in code, it is possible to emit an event. Let the modules respond.
+Jelix implements a simple inter-module communication system. It is based on **events**, and is called jEvent.
 
-On the one hand, jEvent class is used for emitting events and gathering responses. On the other hand, //listener// classes located in modules implement methods "treating" and "responding" to events. 
+Anywhere in the code, it's possible to emit an event, let the modules respond, and use the response.
 
+The @@C@jEvent@@ component is similar to the client-server scheme. The client (your code) emits a request (an event). The server (the listeners in the modules) waits for a request, treats it, and returns something (a response).
 
-===== Emit an event =====
+So basically we have, on the one hand, the @@C@jEvent@@ class that emits events and that gathers and return the responses, and on the other hand, some //Listener// classes, located in modules, that treat and respond to events. 
 
-As said before, jEvent emits events and gather all responses.
+===== Emiting an event =====
 
+To emit an event, we use jEvent's static method @@M@notify()@@.
 
-To emit an event use its static method **notify**:
+@@M@jEvent::notify@@ accepts two arguments. The first one is the name of the event you want to send (alphanumeric characters only), and the second one is an array of event parameters. As with most functions accepting parameters, the second argument is optional.
 
+@@M@jEvent::notify@@ returns a @@C@jEvent@@ object, containing all the related responses. Responses are some data returned by the listeners (don't confuse with the @@C@jResponse@@ objects returned by controllers). The structure and value of responses depend solely on each event, the number of modules that responded and how the data is structured in the listeners.
+For example:
 <code php>
-   $ev = jEvent::notify('event name', $eventParams);
+   //first way
+   $authCLEventParams = array('user' => $userObject);
+   $authCLEvent = jEvent::notify('authCanLogin', $authCLEventParams);
+
+   //second way
+   $authCL2Event = jEvent::notify('authCanLogin2');
 </code>
 
-//jEvent::notify// accepts two arguments. First one is an event name (alphanumeric characters only). Second one is an optional array of event parameters. One event shall require or not the latter. 
-
-//jEvent::notify// returns a jEvent object, containing all event responses. Responses are a mixed of values which structure and number depends on each event and on the numbers of modules that actually responded.
-
-
-Access to responses :
-
+To get access to the responses returned by the modules, use the @@M@getResponse@@ method of the jEvent object that was returned after the emission.
 <code php>
-  $reponses = $ev->getResponse();
+  $reponses = $authCLEvent->getResponse();
 </code>
 
-===== Module response to an event =====
+The result is an array containing all data returned by listeners.
 
-A module has to create a listener and declare it in its events.xml file to respond to an event.
+===== Responding to an event =====
+
+Since there is no default listener in the modules, each module that wants to respond to events need to create a listener and declare it in the @@F@events.xml@@ file of the same module. There is no limit in the number of listeners. The creation of the listener is broken down in two parts: the creation of the listener and the declaration of the listener.
 
 ==== Create a listener ====
 
-First, choose a name. 'Foo' as for example. Then create a fooListener class (note the class name is a concatenation of 'foo'+'Listener') in a classes/foo.listener.php file under your module folder. fooListener must inherits from jEventListener. 
+First, choose a name. We will use 'auth' as an example. Then create a Listener class. Note that the class name is a concatenation of the name and of 'Listener', so in our case, 'authListener'. Put that class in a file called 'name'.listener.php, so @@F@auth.listener.php@@ for us, in the @@F@classes@@ folder of your module. Remember, your listener class must inherit from @@C@jEventListener@@. 
 
-fooListener shall implements one method for each event it responds to. Those methods should be called : 'on' + 'event name'.  They accept as argument a jEvent object. 
+The listener needs to implement one method for each event it is supposed to respond to. Those methods should follow this convertion : 'on' + 'event name'.  They need to accept as single argument a @@C@jEvent@@ object. 
 
-Example :
-
+Example:
 <code php>
+//file auth.listener.php
+
 class authListener extends jEventListener{
 
    function onAuthCanLogin ($event) {
+        //retrive user parameter
         $user = $event->getParam('user');
+
+        //the actual processing
         $ok = true;
         if(isset($user->active)){
             $ok = ($user->active == '1');
         }
-
         $ok = $ok && ($user->password != '');
 
+        //the response
         $event->Add(array('canlogin'=>$ok));
    }
 }
 </code>
 
-This example demonstrates a listener responding to //AuthCanLogin// event. onAuthCanLogin method retrieves 'user' parameter of the event object. It adds some data to the response by calling $event->add. datas added as a response to an event depend of course on each event. Here, //AuthCanLogin//.
-
-
+This example demonstrates a listener responding to the //AuthCanLogin// event. First, the @@M@onAuthCanLogin@@ method retrieves an 'user' parameter from the event object. Next, it does it's internal processing, and finally, it adds some data to the response by calling @@M@$event->Add@@.
 
 ==== Declare a listener ====
 
-The final step is to declare a listener attached to your module. This is done is events.xml file located in your module root folder.
-
-An example:
+The final step to setup a listener is to declare it. This is done through the @@F@events.xml@@ file located in your module root folder. For example:
 <code xml>
 <events xmlns="http://jelix.org/ns/events/1.0">
+   <!-- We have 2 listeners each listening for some events. However, both of them will respond to the AuthCanViewUser event. -->
    <listener name="auth">
        <event name="AuthCanLogin" />
-       <event name="FetchXulOverlay" />
+       <event name="AuthCanViewUser" />
+   </listener>
+   <listener name="auth2">
+       <event name="AuthCanLogin2" />
+       <event name="AuthCanViewUser" />
    </listener>
 </events>
 </code>
 
-You can declare as many listeners as nuber of listener files stored in classes directory. A listener can listen to more than one event. Thus you have to list all events treated by a listener. 
-
-
+A listener can listen to more than one event. Since it would take too much resources to load all the listeners one by one and check what events do they respond to, you also need to list all the events that you want a listener to listen to. Remember that two listener can also respond to the same event, and that there isn't a conventional structure for the responses.

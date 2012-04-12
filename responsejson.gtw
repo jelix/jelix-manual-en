@@ -1,18 +1,59 @@
+~~LANG:FR@//fr/manuel-1.1/responsejson~~
 
 [[http://fr.wikipedia.org/wiki/JSON|JSON]] is a data format using javascript syntax techniques. this ease greatly the use of JSON encoded data in HTML content. 
 
-To send JSON data, there is a specific jResponseJson. Its alias is "json". All you need to do is assign your encoded json to $datas:
+To send JSON data, there is a specific @@C@jResponseJson@@ object. Its alias is "json". All you need to do is to assign your encoded json to the @@P@$data@@ property:
 
 <code php>
-  $rep = $this->getResponse('json');
-  $rep->datas = array( 'lastname'=>'dupont', 'firstname'=>'jean');
+  $resp = $this->getResponse('json');
+  $resp->data = array( 'lastname'=>'dupont', 'firstname'=>'jean');
+  return $resp;
 </code>
 
-the client will receive:
+To call the action, in raw javascript :
 
 <code javascript>
-  { nom: 'dupont', prenom:'jean'}
+   http = new XMLHttpRequest();
+
+   //url is a variable which contains the url of the action
+   http.open("post", url, true);
+
+   // handleJSONReturn is a function called when the response is received
+   http.onreadystatechange = handleJSONReturn;
+   http.send(null);
+
+   // url is a string conatining a php url. 
+   // handleJSONReturn is a function treating return state.
 </code>
+
+ou, avec jQuery :
+<code javascript>
+   $.getJSON( url, function (json) {
+      // do something with your json data
+   } 
+</code>
+
+The client will receive:
+
+<code javascript>
+  { "lastname":"dupont", "firstname":"jean"}
+</code>
+
+And treat it alike 
+<code javascript>
+   var json = eval('(' + http.responseText + ')');
+   alert(json.lastname + ' ' + json.firstname);
+</code>
+
+
+Alternatively, the whole client process with jQuery is :
+<code javascript>
+   $.getJSON( url, function (json) {
+       alert(json.lastname + ' ' + json.firstname);
+   });
+</code>
+
+
 
 === a use case combined with jDao ===
 
@@ -20,7 +61,7 @@ the client will receive:
 $countryDao = jDao::get('common~country');
 $countries = $countryDao->findAll();
 $response = $this->getResponse('json');
-$response->datas = array();
+$response->data = array();
 foreach($countries as $country) {
 	$response->datas[] = array('id' => $country->id , 'name' => $country->name);
 }
@@ -28,5 +69,5 @@ foreach($countries as $country) {
 
 the client will receive:
 <code javascript>
-  { id: '1', name:'Europe'}
+  { "id":20, "name":"Europe"}
 </code>

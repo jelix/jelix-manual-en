@@ -1,0 +1,61 @@
+~~LANG:FR@//fr/manuel-1.1/ref-plugins/tplplugins/cfct_swfbiscuit~~
+
+This plugin allow to include a flash application using the biscuit method.
+
+Example:
+  {swfbiscuit  'promobidon.swf',
+               array('id'=>'promo2', 'width'=>150, 'height'=>90),
+               array('quality'=>'high', 'wmode'=>'transparent'),
+               array('length'=>150)}
+
+Rendering:
+  <object id="promo2" width="150" height="90"
+          codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0"
+          classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">
+      <param value="/promobidon.swf?&longeur=150" name="movie"/>
+      <param value="high" name="quality"/>
+      <param value="transparent" name="wmode"/>
+      <embed width="150" height="90" type="application/x-shockwave-flash"
+             pluginspage="http://www.macromedia.com/go/getflashplayer"
+             src="/promofake.swf?&longeur=150"
+             wmode="transparent" quality="hight"/>
+  </object>
+
+
+
+===== Parameters =====
+==== First parameter - URL ====
+
+  {swf 'promofake.swf', ..., ..., ...}
+
+The first parameter is the relative path of the swf file to display. It is relative to "myapp/www/".
+
+==== Second parameter - Attributes ====
+
+  {swf ..., array('id'=>'promo1', 'width'=>150, 'height'=>90), ..., ...}
+
+The second parameter is a table that can have several different attributes:
+
+  * id: the identifier for the <object .../> tag
+  * class: the different classes associated to the <object .../> tag
+  * width: the width of the displayed flash animation
+  * height: the height of the displayed flash animation
+
+
+==== Third parameter - Flash player parameters ====
+
+  {swf ..., ..., array('quality'=>'high', 'wmode'=>'transparent'), ...}
+
+Flash player parameters.
+
+Example:
+  * quality: sets the quality of the animation
+
+==== Fourth parameter - FlashVars ====
+
+  {swf ..., ..., ..., array('length'=>150)}
+
+FlashVars are variables passed to Flash animation \\
+They are passed to SWF throughout GET.
+
+

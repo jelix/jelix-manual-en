@@ -1,0 +1,56 @@
+~~LANG:FR@//fr/manuel-1.1/coordplugins/zendframework~~
+
+
+Zendframework is a coordinator plugin. It allows to include the Zend_Loader class so that you can use it in your Jelix code to call Zend Framework libraries.
+
+===== Plugin declaration =====
+
+To activate zendframework plugin, set it with its config file in the [coordplugins] section of your application configuration file:
+
+<code ini>
+[coordplugins]
+zendframework = zendframework.coord.ini.php
+</code>
+
+Copy the //zendframework.coord.ini.php// config file in the ''var/config/'' directory of your application, from ''lib/jelix/plugins/coord/zendframework/zendframework.coord.ini.php.dist''.
+
+Then edit the ''zendframework.coord.ini.php'' file and fill the ''zendLibPath'' variable to tell the path to Zend Framework on your server.
+
+
+===== Use the plugin =====
+
+Though zendframework plugin is activated in your application, Zend Framework is not loaded. Because there is no point including it at every step considering some of its libraries will be useful to you only in few occasions.
+
+So you have to declare explicitly you want to use Zend Framework libraries for the actions you need.
+
+You can do that using ''$pluginParams''class variable in the controller.
+
+Example with the ''index'' action:
+
+<code php>
+public $pluginParams = array(
+        'index' => array('zf.active'=>true)
+);
+</code>
+
+Now you can use Zend Framework libraries with your ''index'' action, as in this example with Zend_Pdf :
+
+<code php>
+function index() {
+    $rep = $this->getResponse('binary');
+
+    Zend_Loader::loadClass('Zend_Pdf');
+    $pdf = new Zend_Pdf();
+    $pdf->pages = ($page = $pdf->newPage('A4'));
+    $font = Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA);
+    $page->setFont($font, 32);
+    $page->drawText('Zend Framework with Jelix !', 120, 500);        
+       
+    $rep->content = $pdf->render();
+    $rep->outputFileName = 'fooo.pdf';
+    $rep->mimeType = 'application/pdf';
+
+    return $rep;
+}
+</code>
+

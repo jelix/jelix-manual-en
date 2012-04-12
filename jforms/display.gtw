@@ -1,6 +1,8 @@
+~~LANG:FR@//fr/manuel-1.1/jforms/affichage~~
+
 To display a form and its data, you could call //getAllData// on your form object and assign its returned array to a template. With it, you'll be able to generate your HTML form along with its data. if you want to display input errors, call //getErrors// to retrieve them and again display them as you like in your template.
 
-However there are some template plugins in Jelix, to prevent you from doing this long and sometime boring task. They even do a lot more:
+However there are some template plugins in Jelix, to prevent you from doing this long and sometimes boring task. They even do a lot more:
  
   * display each control field as described in your XML form,
   * display each control label in <label> tag to improve ergonomy and accessibility,
@@ -13,7 +15,7 @@ However there are some template plugins in Jelix, to prevent you from doing this
 
 ===== Full automatic form display with formfull =====
 
-For you in hurry, this template plugin will fully display your form. its name:  **formfull**. With it, you won't control how each field, labels and submits are displayed. Still you can customize display of help and error messages (see further).
+For you in a hurry, this template plugin will fully display your form. Its name:  **formfull**. With it, you won't control how each field, labels and submits are displayed. Still you can customize display of help and error messages (see further).
 
 here are its arguments :
 
@@ -75,7 +77,28 @@ Note that form fields will be displayed in the order of their declaration in you
 
 ==== Advanced display ====
 
-One could display some controls differently than others. Just indidcate a list of control names to //formcontrols// plugin.
+Some controls need to be displayed differently. 
+
+To achieve this, you can use @@K@ifctrl@@ inside @@K@formcontrols@@.
+its argument is a list of control names.
+
+The code below adds a class on 'name' control only : 
+
+<code html>
+  {form $form, 'mymodule~default:save'}
+
+   <fieldset><legend>Your identtity : </legend>
+
+      {formcontrols}            
+         <p {ifctrl 'name'}class="help-needed"{/if}> {ctrl_label} : {ctrl_control} </p>
+      {/formcontrols}
+
+   </fieldset>
+</code>
+
+
+
+Or else, indicate a list of control names to //formcontrols// plugin. It will loop only on those controls. 
 
 <code html>
   {form $form, 'mymodule~default:save'}
@@ -126,11 +149,11 @@ Note that //ctrl_label// and //ctrl_control// also function outside of //formcon
   {/form}
 </code>
 
-lastname and firstname fields are displayed precisely in a table whereas other fields are displayed with //formcontrols//.
+Lastname and firstname fields are displayed precisely in a table whereas other fields are displayed with //formcontrols//.
 
 ==== Customizing display of password controls ====
 
-Beware that if a password control defines a confirm field (<confirm> tag in XML) you should control either the display of password field **and** confirm field. the latter name is a concatenation of password control name + **_confirm**.
+Beware that if a password control defines a confirm field (<confirm> tag in XML) you should control either the display of **password** field **and** **confirm** field. the confirm control name is a concatenation of password control name + **_confirm**.
 
 See example below:
 
@@ -165,7 +188,7 @@ On the contrary, you should not take care of confirm field in //formcontrols// l
 
 ==== Customizing display of submit buttons ====
 
-As you may recall, //formsubmit// template plugin displays a submit button declared in your form. But if one declares more than one submit button, //formsubmit// will display only the first one. In that case, use  **formsubmits** (note the ending **s**). this block template loops over submit buttons :
+As you may recall, //formsubmit// template plugin displays a submit button declared in your form. But if one declares more than one submit button, //formsubmit// will display only the first one. In that case, use  **formsubmits** (note the ending **s**). This block template loops over submit buttons :
 
 <code html>
     <ul>
@@ -184,117 +207,37 @@ Another way is to use //formsubmit// multiple times indicating each submit name 
 **Beware** : //{formsubmits}// loops over submit **controls**, not submit **items** ! It is not possible to loop over submit items (see [[http://dev.jelix.org/ticket/429|ticket #429]])
 
 
+===== Generator choice =====
 
-===== Usefull CSS classes =====
+jForms template plugins relies on other plugins. Those are jForms plugins and generate effectively a form content (label and fields markup). These are called generators. Jelix 1.1 packages have two of them inside : @@L@htm@@ and @@L@htmllight@@. [[//plugins/jforms|See documentation to create your own]] if you need to display custom markup. If you need a generator supporting a javascript library as extjs, or an ajax form, or a XUL form... 
 
-Here is a reference of classes attributes generated by jforms (some were added in version 1.0.1).
+Jelix default generator is @@L@html@@. You can change this in your configuration file. Use @@V@defaultJformsBuild@@ variable and assign it your generator of choice :
 
-  * **jforms-table** : class of <table> generated with //formfull//
-  * **jforms-submit-buttons** : class of <div> generated with //formfull//, and containing submit/reset buttons
-  * **jforms-submit** : class of each submit
-  * **jforms-reset** : class of each reset
-  * **jforms-error-list** : class of error messages list(ul) .
-  * **jforms-label** : class of each <label>
-  * **jforms-required** : class of each required control <label>
-  * **jforms-error** : class of each <label> and fields whose controls are erroneous
-  * **jforms-value** : class of <span> displaying fields value.
-  * **jforms-help** : class of <span> containing help llinks.
-  * **jforms-chkbox** : class of each <span> wrapping checkbox widget of a checkboxes control.
-  * **jforms-ctl-xxx** : class of each checkbox of a checkboxes control, class of each radio of a radiobuttons control (xxx equals ref of current control).
-  * **jforms-radio** : classof each <span> wrapping radio widget of a radiobuttons control.
+<code ini>
+[tplplugins] 
+defaultJformsBuilder = myformbuilder
+</code>
+
+To achieve a fine-grained control, you can even choose a generator in @@K@{form}@@ ou @@K@{formfull}@@ (as fourth argument) :
+
+<code html>
+  {formfull $form, 'mymodule~default:save', array(), 'htmllight'}
+</code>
+
+Note 1: Those plugins support a fifth parameter which is an array of options passed to the generator (//errorDecorator// and //helpDecorator// for 'html' and htmllight').  
+
+Note 2: You can of course create a new generator as inheriting from an existing one. That way, you can customize only some of the output or set an option directly in its constructor. ...
+
+
+More about generators :
+
+   * [[display/html-generator|"html" generator]]
+   * [[display/htmllight-generator|"htmllight" generator]]
+
+
+
 
 ===== Mixing jForms and AJAX response =====
 
 see [[//responseajax|ajax response documentation]].
 
-===== Customizing messages display =====
-
-jForms deals with two types of messages : 
-  * error messages generated by form checking
-  * help messages accessible through interrogative point 
-those messages are default displayed in an alert box. 
-
-You can customize this behaviour. Transmit your own javascript messages display function to //form// or //formfull// plugins.
-
-==== Error messages display ====
-
-To customize display of error messages, you shall define a javascript object implementing 3 methods:
-
-  * **start**, called when checking process starts.
-  * **addError**, called when an error is found. it receives a //jFormsControl// argument, which contains infos about the erroneous control, and an error code. the latter equals 1 if user has not edited a required control, 2 if its content is invalid.
-  * **end**, called when checking process ends.
-
-You're obviously free to do whatever you need/want in those methods. As for example, you could add the error messages to an error lists ( <ul> located in your html page):
-
-<code javascript>
-function MyErrorDecorator(){
-}
-
-MyErrorDecorator.prototype = {
-    start : function(){
-    },
-    addError : function(control, messageType){
-        var message='';
-        if(messageType == 1){
-            message = control.errRequired;
-        }else if(messageType == 2){
-            message = control.errInvalid;
-        }else{
-            message = "Error on '"+control.label+"' field";
-        }
-        var item = document.createElement("li");
-        item.appendChild(document.createTextNode(message));
-        document.getElementById("errors").appendChild(item);
-    },
-    end : function(){
-    }
-}
-</code>
-
-
-Then, declare your MyHelpDecorator object as fourth argument of //form// or //formfull//:
-
-
-<code html>
-  {form $form, 'mymodule~default:save', array(), "MyErrorDecorator"}
-   ...
-  {/form}
-</code>
-
-Details about jFormsControl object passed to addError (named //control// above), and its properties:
-
-   * **name** : control or field name
-   * **label** : its label
-   * **datatype** : its data type (type attribute in your XML file)
-   * **required** : boolean, true if required
-   * **readonly** : boolean, true if readonly
-   * **errInvalid** : invalid error message defined in your XML file
-    * **errRequired** : required error message defined in your XML file
-   * **help** : help message defined in your XML file
-
-
-
-==== Help messages display ====
-
-As for error messages, your javascript object displaying help messages is equivalent except that only one method is required: //show//. //show// will be called with an help message to be displayed as argument.
-
-<code javascript>
-function MyHelpDecorator(){ }
-
-MyHelpDecorator.prototype = {
-    show : function(message){
-        document.getElementById("help").firstChild = document.createTextNode(message);
-    }
-}
-</code>
-
-Then, declare your MyHelpDecorator object as fifth argument of //form// or //formfull//:
-
-
-<code html>
-  {form $form, 'mymodule~default:save', array(), "", "MyHelpDecorator"}
-   ...
-  {/form}
-</code>
-
-Note that here "" is passed as error decorator. This way, jForms will use its default errorDecorator. Of course, if you have your own, you'd better pass it  as argument also.

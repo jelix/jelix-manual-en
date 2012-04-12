@@ -1,3 +1,4 @@
+~~LANG:FR@//fr/manuel-1.1/errormanager~~
 
 The classes of the framework can generate errors in two different ways with :
 
@@ -16,15 +17,16 @@ Whatever the error comes from, we get it through an error handler (except for th
 
 The error handlers are in charge of executing the actions specified in the configuration according to the error type. This is the default", "error", "warning", "notice", "strict", "exception" parameters in the error_hanling section. Each of these parameters has to contain one or several of these words which indicates an action to be executed :
 
-| ECHO | THe message will be passed in the response |
-| LOGFILE | the message is put in the log file specified in the ligfile option of the configuration |
-| SYSLOG | the message is sent in the system log |
-| MAIL | the message is sent by mail to the address specified in the mail option |
-| EXIT | the execution stops here (EXIT is implicit for the exceptions) |
-| TRACE | include the call stack in the log file |
-| ECHOQUIET | don't display the details of the message, only displays the content of the quietMessage option from the error_handling section |
+| ECHO | The message will be passed in the response |
+| LOGFILE | The message is put in the log file specified in the ligfile option of the configuration |
+| SYSLOG | The message is sent in the system log |
+| MAIL | The message is sent by mail to the address specified in the mail option |
+| EXIT | The execution stops here (EXIT is implicit for the exceptions) |
+| TRACE | Include the call stack in the log file |
+| ECHOQUIET | Does not display the details of the message, only displays the content of the @@V@quietMessage@@ option from the error_handling section |
 
-The messageLogFormat specifies the error message format in the log file, syslog file or mail.
+@@V@messageLogFormat@@ specifies an error message format used when printing errors to log file, syslog file or mail. this format supports some special keywords @@L@%date%@@, @@L@%ip%@@, @@L@%typeerror%@@, @@L@%code%@@, @@L@%msg%@@, @@L@%url%@@, @@L@%file%@@, @@L@%line%@@, @@L@\t@@ and @@L@\n@@.
+
 
 If you want to show errors in Firebug (when ECHO is used, and only for HTML and XUL responses), set **showInFirebug** to on.
 

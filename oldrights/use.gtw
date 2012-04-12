@@ -1,3 +1,5 @@
+~~LANG:FR@//fr/manuel-1.1/droits/utilisation~~
+
 When you want your module operates on rights, you need during the implementation of this module:
 
    - Identify the subjects and values that you want to use or create
@@ -94,7 +96,7 @@ In controllers where you want to check the rights automatically, you can use the
 To do so, enable the plugin jacl in the application configuration:
 
 <code ini>
-[plugins]
+[coordplugins]
 jacl = jacl.coord.ini.php
 </code>
 

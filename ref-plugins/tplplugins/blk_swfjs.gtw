@@ -1,0 +1,85 @@
+~~LANG:FR@//fr/manuel-1.1/ref-plugins/tplplugins/blk_swfjs~~
+
+It adds a SWF with Javascript method.
+
+Example:
+  {swfjs  'promobidon.swf',
+          array('id'=>'promo3', 'width'=>150, 'height'=>90, 'version'=>'8'),
+          array('quality'=>'high', 'wmode'=>'transparent'),
+          array('longeur'=>150)}
+      {image 'whirligig.png'}
+  {/swfjs}
+
+Rendering:
+<code html>
+  <div id="promo3">
+      <embed width="150" height="90" wmode="transparent" quality="high"
+             type="application/x-shockwave-flash" src="/promobidon.swf"
+             pluginspage="http://www.adobe.com/go/getflashplayer" flashvars="length=150"/>
+  </div>
+</code>
+
+
+
+
+===== The js script =====
+
+Be sure you have the javascript file in your directory:
+'url_to_jelix_www/jquery/flash/jquery.flash.js'
+
+
+===== Parameters =====
+
+==== First parameter - URL ====
+
+  {swf 'promobidon.swf', ..., ..., ...}
+
+The first parameter is the relative path of the swf file to display. It is relative to “myapp/www/”. 
+
+
+
+
+
+==== Second parameter - Attributes ====
+
+  {swf ..., array('id'=>'promo1', 'width'=>150, 'height'=>90), ..., ...}
+
+The second parameter is a table that can have several different attributes:
+
+    *  id: the identifier for the <object …/> tag
+    *  class: the different classes associated to the <object …/> tag
+    *  width: the width of the displayed flash animation
+    *  height: the height of the displayed flash animation
+    * version: (ex: '6.0.65') Checks compatibility with installed Flash player
+    * expressinstall : (true:Bool) Uses expressinstall to provide Flash Player updates if necessary.
+    * OR  update: (false:Bool) Make animation silent if the Flash Player is not installed with the necessary version.
+
+
+
+
+==== Third parameter - Flash player parameters ====
+
+  {swf ..., ..., array('quality'=>'high', 'wmode'=>'transparent'), ...}
+Flash player parameters.
+
+Example:
+  * quality: sets the quality of the animation
+
+
+
+
+==== Fourth parameter - FlashVars ====
+
+  {swf ..., ..., ..., array('length'=>150)}
+
+FlashVars are variables passed to Flash animation \\
+They are passed to SWF throughout GET.
+
+
+===== Content =====
+
+  {image 'whirligig.png'}
+
+The content between tags {swf ...} here you can put alternative html {/swf} will be added as alternative content in between  <object .../> tags.
+
+

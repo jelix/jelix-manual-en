@@ -1,0 +1,13 @@
+~~LANG:FR@//fr/manuel-1.1/jresponse~~
+
+A jResponse object handles the control and the correct generation of the response, the output data. It represents the view in the MVC pattern. Every display command use this object.
+
+There is a class extending jResponse for each format that we want to handle : html, text, binary files, pdf, XML-RPC etc... or for other types of output, like the redirection.
+
+A jResponse object implements some methods, here are the more useful of them :
+   * addHttpHeader(): to add some HTTP header which will be sent at the right time
+   * setHttpStatus(): to set the http code  (200, 404,...)
+
+This methods are available in all type of response.
+
+To know all specificities of all response, see the [[responses|chapter about responses]].

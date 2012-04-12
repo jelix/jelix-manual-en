@@ -1,0 +1,60 @@
+~~LANG:FR@//fr/manuel-1.1/requests~~
+
+===== A jRequest object for each type of request =====
+
+A jRequest object handles the processing of the input data in order to make it easily available to the framework and especially to the actions. It allows, among other things, to determine the actions to execute.
+
+There are several types of jRequest objects, processing different input data. Indeed, we don't retrieve the input data for a HTML page (in the url (get) or encoded in the body of the HTTP request (post) ), the same way as we would do for a XML-RPC request (data in the body of the HTTP request in XML).
+
+For each jRequest object, corresponds one or more authorized output format, then one or more authorized jResponse object.
+
+The available jRequest object are :
+  * classic : for the classical requests whose response type is not important (html, text, redirection ..)
+  * xmlrpc : for the XMLRPC requests. The response must be in XMLRPC
+  * jsonrpc : for the JSONRPC requests. The response must be in jSONRPC
+
+Other requests types are possible: soap etc.
+
+===== Entry points =====
+
+It should exist an entry point for each type of request that you want to use. For the classic (so index.php), it looks like this:
+
+<code php>
+// include the main application file
+// which includes itself jelix files
+require_once ('../../myapp/application.init.php');
+ 
+// include the request objet you want to use
+require_once (JELIX_LIB_CORE_PATH.'request/jClassicRequest.class.php');
+ 
+// Let's define the configuration file for this entry point
+// Here the file is stored in var/config/index/
+$config_file = 'index/config.ini.php';
+ 
+// Let's go !
+$jelix = new jCoordinator($config_file);
+$jelix->process(new jClassicRequest());
+</code>
+
+===== API =====
+
+During the action processing, the request object is accessible throw the //request// property of the jCoordinator object. This object is accessible throw a global variable //$gJCoord//.
+
+<code php>
+// To retrieve a request parameter
+$myfooValue = $GLOBALS['gJCoord']->request->getParam('foo');
+</code>
+
+But in a controller, you have some method to do the same things shortly:
+<code php>
+ $myfooValue = $this->param('foo');
+</code>
+
+Some other properties are available :
+
+| type | to know the request type. |
+| urlScripPath | the path to the script in the url |
+| urlScriptName | the script name (so the name of the entry point) |
+| urlPathInfo | The pathinfo part of the url |
+| params        | request parameters |
+

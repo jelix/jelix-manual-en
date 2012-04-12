@@ -1,4 +1,7 @@
+~~LANG:FR@//fr/manuel-1.1/authentification/drivers~~
+
 List of authentication drivers delivered with Jelix
+
 ===== Db =====
 
 Db driver authenticates users through database infos. This driver relies on a Dao which has to be indicated in authentication config. file:
@@ -43,7 +46,7 @@ CREATE TABLE `jlx_user` (
   `usr_password` varchar(50) NOT NULL default '',
   `usr_email` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`usr_login`)
-) AUTO_INCREMENT=2 ;
+);
 </code> 
 
 jlx_user has "usr_login" as its primary key and has "usr_password" field.
@@ -63,13 +66,12 @@ the dao associated for authentication could be:
                 datatype="string" required="yes" maxlength="255" />
 
       <property name="password" fieldname="usr_password" datatype="string"
-                maxlength="50" selectmotif="%s" updatemotif="" insertmotif="%s" />
+                maxlength="50" selectpattern="%s" updatepattern="" insertpattern="%s" />
    </record>
    <factory>
      <method name="getByLoginPassword" type="selectfirst">
          <parameter name="login" />
          <parameter name="password" />
-
          <conditions>
              <eq property="login" expr="$login" />
              <eq property="password" expr="$password" />
@@ -78,7 +80,6 @@ the dao associated for authentication could be:
 
      <method name="getByLogin" type="selectfirst">
          <parameter name="login" />
-
          <conditions>
              <eq property="login" expr="$login" />
          </conditions>
@@ -87,7 +88,6 @@ the dao associated for authentication could be:
      <method name="updatePassword" type="update">
          <parameter name="login" />
          <parameter name="password" />
-
          <values>
              <value property="password" expr="$password"/>
          </values>
@@ -112,6 +112,7 @@ the dao associated for authentication could be:
              <orderitem property="login" way="asc" />
           </order>
      </method>
+
      <method name="findAll" type="select">
          <order>
              <orderitem property="login" way="asc" />
@@ -135,7 +136,7 @@ password_crypt_function = "md5"
 
 ===== Class =====
 
-Clas driver is more a multiverse driver compared to Db driver. You just have to assign a class to it, in which you do... what you want! Except that it has to implement [[http://jelix.org/reference/1.0.8/jelix/auth_driver/jIAuthDriverClass.html|jIAuthDriverClass interface]]. This class is considered as other business classes and therefore should be located in //classes// folder of one of your modules.
+Clas driver is a more universal driver than Db driver. You just have to assign a class to it, in which you do... what you want! Except that it has to implement [[http://jelix.org/reference/trunk/jelix/auth/jIAuthDriverClass.html|jIAuthDriverClass interface]]. This class is considered as other business classes and therefore should be located in //classes// folder of one of your modules.
 
 //auth.plugin.ini.php// would declare :
 
@@ -171,7 +172,7 @@ scheme= https
 LDS driver will call **foo.com** through port **80**, with login **foo** and password **bar**, over a secured https connection.
 
 
-====== Create a driver ======
+===== Create a driver =====
 
 If you have your own authentication system and you want to integrate it to Jelix, you will have to create your own driver.
 

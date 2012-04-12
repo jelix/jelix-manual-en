@@ -1,3 +1,5 @@
+~~LANG:FR@//fr/manuel-1.1/droits/configuration~~
+
 Before to use jAcl with the driver jAcl.db, you should first initialized the database and defines rights, subjects etc.
 
 You can do this with jelix-scripts.

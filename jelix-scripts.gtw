@@ -1,0 +1,66 @@
+~~LANG:FR@//fr/manuel-1.1/jelix-scripts~~
+===== Using jelix.php =====
+
+Jelix provides a CLI script, @@F@lib/jelix-scripts/jelix.php@@. it allows you  to execute commands in your application context. Particularly, you are able to create and modify some files easily and automatically.
+
+This script must be invoked with the command line version of PHP. So, open a console and go to @@F@lib/jelix-scripts/@@ directory:
+
+<code bash>
+   cd lib/jelix-scripts/      # under linux
+   cd lib\jelix-scripts\      # under windows
+</code>
+
+Then, type this kind of command line:
+
+<code bash>
+# under windows
+> php.exe jelix.php [--application_name] command_name [options] [parameters]
+
+# under linux
+$ php jelix.php [--application_name] command_name [options] [parameters]
+</code>
+
+You should always call @@F@jelix.php@@ with a "jelix command" name, and optionally some options and/or parameters.
+
+First, you access help on all available commands with the @@help@@ command:
+
+<code bash>
+   php jelix.php help
+</code>
+
+Another generic parameter you have to indicate for most of jelix commands : your application name. This is always the first parameter of @@F@jelix.php@@, and it must be preceded by @@--@@. Example
+
+<code bash>
+  php jelix.php --myapp createapp
+</code>
+
+Alternatively, you can avoid typing your application name by setting an environment variable: @@V@JELIX_APP_NAME@@. For example, type this in the console:
+
+<code bash>
+  export JELIX_APP_NAME="myapp"        # under linux
+  set JELIX_APP_NAME=myapp             # under windows
+</code>
+
+Then you can type any command without @@--myapp@@
+
+<code bash>
+  php jelix.php createapp
+</code>
+
+
+
+Notice that you can execute the script from any directory. For example, you can type:
+
+<code bash>
+  php jelix/path/lib/jelix-scripts/jelix.php --myapp createapp
+</code>
+
+===== Changing the default configuration =====
+
+Commands creating new files or directories follow a specific tree structure. Perhaps you may want to organize your files in a different manner. Also, there are some customizable infos stored in header comments of files, like your name, the project name and so on. 
+
+You can configure all of this by creating a configuration file for jelix.php CLI script.
+
+In @@F@lib/jelix-scripts/@@, there is a file @@F@scripts.conf.php.dist@@. Rename it to @@F@scripts.conf.php@@, and modify its settings by changing the different values.
+
+You can also create another file, in any other directory, (to have different configuration for each projects for example). If you do so, just indicate its path in @@V@JELIX_CONFIG@@ environment variable.

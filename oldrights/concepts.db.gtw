@@ -1,3 +1,5 @@
+~~LANG:FR@//fr/manuel-1.1/droits/concepts.db~~
+
 jAcl.db is the driver "db" for jAcl and use a database to store the rights. It implements the general concepts of jAcl, plus management of user groups. So the elements involved in the system in jAcl.db are:
 
   * a subject 

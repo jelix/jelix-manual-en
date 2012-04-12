@@ -1,0 +1,231 @@
+~~LANG:FR@//fr/manuel-1.1/responsesoap~~
+
+Jelix supports the SOAP protocol, which is a standard protocol for web services specified by W3C. Jelix use [[http://www.php.net/manual/fr/book.soap.php|the PHP SOAP API]], so you have to configure your web server to include this extension (verify with phpinfo() for example).
+
+The advantage to use Jelix to do SOAP is that you don't have to learn details of the protocol, nor to manipulate XML content of soap message, and it is well integrated into jelix: soap parameters are interpreted and available in controllers through the classical @@M@param()@@ method, and to return data for the response, you do like for all other response type. Jelix also generates automatically WSDL content.
+
+However, you have to create a specific entry poin, and to follow a specific syntax in comments in your soap controllers.
+
+
+===== Create a specific entry point =====
+
+Since a SOAP http request is not as usual, you cannot use the "classic" [[requests|request object]]. You should create a specific entry point in the @@F@www/@@ directory, @@F@soap.php@@ for example. This entry point should use @@C@jSOAPRequest@@ instead of @@C@jClassicRequest@@, and a specific coordinator: @@C@jSoapCoordinator@@. The type of the request and of the entry point is then "soap".
+
+The entry point should then content:
+
+<code php>
+require_once ('../../myapp/application.init.php');
+
+require_once (JELIX_LIB_CORE_PATH.'jSoapCoordinator.class.php');
+
+require_once (JELIX_LIB_CORE_PATH.'request/jSoapRequest.class.php');
+
+ini_set("soap.wsdl_cache_enabled", "0"); // disabling PHP's WSDL cache
+
+$config_file = 'soap/config.ini.php';
+
+$jelix = new JSoapCoordinator($config_file);
+$jelix->request = new JSoapRequest();
+$jelix->request->initService();
+$jelix->processSoap();
+</code>
+
+Don't forget to add this entry point in urls engine configuration section. If you have selected the "simple" url engine, in section //simple_urlengine_entrypoints// configuration file, just add: 
+
+<code ini>
+soap = "@soap"
+</code>
+
+//soap// étant le nom du point d'entrée, et //@soap// indiquant le type de point d'entrée.
+
+If you have selected the [[http://jelix.org/articles/fr/manuel-1.1/urls/significant|significant]] url engine, add:
+
+<code xml>
+<soapentrypoint name="soap" default="true" />
+</code>
+
+Independently of url engines, you retrieve an url for a soap action like this:
+
+<code php>
+  $url = jUrl::get("module~action@soap");
+</code>
+
+Finally, create a configuration file in @@F@var/config/soap/config.ini.php@@.
+
+===== Controller =====
+
+Since it is a specific type of request, a controller filename must be suffixed by ".soap.php". For example, for a "default" controller: @@F@default.soap.php@@. (it can co-exists with a “default” classic controller such as “default.classic.php”).
+
+==== Method of a soap controller ====
+
+The content of a controller is similar of a classical controller, with few differences. You will retrieve a  @@C@jResponseSoap@@ object for the response, which have the alias: "soap".
+
+<code php>
+class defaultCtrl extends jController {
+
+    /** 
+     * Test with a simple parameter
+     * @param string $name
+     * @return string
+     */
+    function hello() {
+        $resp = $this->getResponse('soap');
+        $resp->data = "Hello ".$this->param('name');
+        return $resp;
+    }
+}
+</code>
+
+Each action of a controller will be in fact a "soap method".
+
+=== Declaring the type of parameters and the return value ===
+
+
+A "soap method" have parameters and should receive a value. You should indicate their type so Jelix could generate correctly soap and xswl messages.
+
+To do it, just add "doc comments" (like for phpdoc), and indicates the type of parameters and of the return value, by using some "@param" tags and a  "@return" tag. Ex:
+
+<code>
+    @param string $myparameter
+</code>
+
+Here it indicates that the soap parameter "$myparameter" is a string. Other possible types are "integer", "int", "boolean", "float".
+
+If you want to indicate an array, add the type name followed by @@[]@@:
+<code>
+    @param string[] $array_of_string
+</code>
+
+If it is an associative array, use @@[=>]@@:
+
+<code>
+    @param string[=>] $array_of_string
+</code>
+
+
+=== Complex types ===
+
+If you want to use complex type, like your own objects for parameters or return values. The classes of this objects should be include in the file of the controller (with an @@include@@).
+
+
+Here an exemple of an object use for a parameter @@C@MyTestStruct@@:
+
+<code php>
+/**
+ * Struct used for tests
+ */
+class MyTestStruct{
+    /**
+     * @var string
+     */
+    public $name = 'Dupont';
+
+    /**
+     * @var string
+     */
+    public $firstName = 'Bertrand';
+
+    /**
+     * @var string
+     */
+    public $city = 'Paris';
+}
+</code>
+
+Note the use of the required "@var" keyword to indicate the type of each properties.
+
+Then in your controller:
+<code php>
+
+jClasses::Inc('mymodule~MyTestStruct');
+
+class defaultCtrl extends jController {
+
+    /** 
+     * for this method, we receive a MyTestStruct and return a MyTestStruct object
+     * @param MyTestStruct $input
+     * @return MyTestStruct
+     */
+    function receiveObject() {
+        $resp = $this->getResponse('soap');
+        $input = $this->param('input');
+        $input->name = 'Name updated';
+        $resp->data = $input;
+        return $resp;
+    }
+}
+</code>
+
+Of course, @@C@MyTestStruct@@ can have some properties with complex type:
+
+<code php>
+/**
+ * An other struct used for test, this one have an other object as member propertie
+ */
+class MyTestStructBis {
+
+    /**
+     * @var MyTestStruct
+     */
+    public $test;
+
+    /**
+     * @var string
+     */
+    public $msg = 'hello';
+
+    function __construct(){
+        $this->test = new MyTestStruct();
+    }
+}
+</code>
+
+===== Using the WSDL service =====
+
+When you use the SOAP protocol, you should provide some WSDL files, which allows  SOAP clients to know what are available SOAP methods.
+
+Jelix provides a module, jWSDL. It contains a controller named "WSDL" with a @@M@wsdl()@@ method. So, just indicate the url of this action to your soap client:
+
+   http://mysite.com/index.php/jWSDL/WSDL/wsdl?service=aModule~aController
+
+or with the "simple" url engine:
+
+   http://mysite.com/index.php?module=jWSDL&action=WSDL:wsdl&service=aModule~aController
+
+Note that you should give a "service" parameter indicating the controller which contains the web services. You can have more than one soap controller, but there is no way to returns automatically a WSDL file for all soap web services used in your application.
+
+You can display a HTML version of the list of SOAP services, by calling the @@M@index()@@ method of the WSDL controller:
+
+  http://mysite.com/index.php/jWSDL/WSDL?service=aModule~aController
+
+
+===== Calling a SOAP service with a client =====
+
+The application which calls your SOAP web services can be a PHP client, a javascript client etc.. Here is an example of a call with a PHP script.
+
+<code php>
+        ini_set('soap.wsdl_cache_enabled', 0);
+
+        // load the WSDL content
+        try {
+            $wsdlURI = "http://monsite.com/index.php/jWSDL/WSDL/wsdl?service=myapp~default";
+            $client = new SoapClient($wsdlURI, array('trace' => 1, 'soap_version'  => SOAP_1_1));
+        } catch (SoapFault $fault) {
+            throw new Exception($fault->getMessage());
+        }
+
+        try {
+            $result =  $client->__soapCall('hello', array('Sylvain'));
+            //...
+
+            $result =  $client->__soapCall('returnObjects', array());
+            //...
+
+            $result =  $client->__soapCall('returnObjectBis', array());
+            // ...
+
+        } catch (SoapFault $fault) {
+            print_r($fault);
+            throw new Exception($fault->getMessage());
+        }
+</code>

@@ -1,3 +1,5 @@
+~~LANG:FR@//fr/manuel-1.1/plugins~~
+
 Different types of plugins exists for Jelix. Each categories modify or add functionality to differents parts of Jelix. There are coordinator plugins, jDb drivers, jAuth drivers, jTpl plugins and url engines.
 
 All plugins are located in plugins //repository// (note:this is true since Jelix 1.0beta3).
@@ -23,11 +25,12 @@ Such a repository has one sub-directory for each plugin type. And within each su
 
 Below is the list of plugins type and their respective directory :
 
-    * coordinator plugins : //coord///
-    * jAuth drivers : //auth///
-    * jDb drivers : //db///
-    * templates plugins : //tpl///
-    * url engines : //urls/// 
+    * coordinator plugins : @@F@coord/@@
+    * jAuth drivers :  @@F@auth/@@
+    * jDb drivers :  @@F@db/@@
+    * templates plugins :  @@F@tpl/@@
+    * url engines :  @@F@urls/@@
+    * jForms generator :  @@F@jforms@@
 
 Note : This file hierarchy is true only since Jelix 1.0beta3. Before, only coordinator plugins existed and lied directly in repository.
 

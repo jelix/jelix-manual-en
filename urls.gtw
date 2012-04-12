@@ -1,10 +1,13 @@
+~~LANG:FR@//fr/manuel-1.1/urls~~
+
 Jelix has a mechanism allowing to avoid putting url concerning actions directly in the templates (or anywhere). For this, simply indicate the module, the action, the type of request and some other parameters if you need and jUrl handles the generation of the corresponding url. On the other hand, when a request occurs, jUrl analyzes the url to then deduce the module, the action, and the parameters, and this, whatever the type of request is. Mod_rewrite from apache is then not useful. 
 
-For this, jUrl relies on an url engine. Two are featured with Jelix :
-   * a simple url engine (the default one)
+For this, jUrl relies on an url engine. Three are featured with Jelix :
+   * a simple url engine
+   * a basic_significant url engine (the default one)
    * a significant url engine
 
-You can [[plugins/urls_engine|create your own url engine]] since a url engin is a plugin.
+You can even [[plugins/urls_engine|create your own url engine]] since a url engin is nothing more than a plugin.
 
 ===== A recall on urls =====
 
@@ -28,7 +31,7 @@ The configuration of jUrl is made in the ''urlengine'' section of the configurat
 
 === ''engine'' ===
 
-Indicates the type of engine to use. The two available values are ''simple'' and ''significant''.
+Indicates the type of engine to use. The three available values are ''simple'', ''basic_significant'' and ''significant''.
 
 === ''enableParser'' ===
 
@@ -71,15 +74,17 @@ Carefull: it is recommanded to leave empty this option, it will be easier to det
 
 ===== Configuration of URL engines =====
 
-Jelix comes bundled with two URL engines :
+Jelix comes bundled with three URL engines :
 
-  * "simple" egine, performing fast but doesn't provide //cool// url.
-  * "significant" engine, performing less fast but allow to rewrite your url as you need.
+  * the "simple" engine, the fastest of all. However, the urls are //ugly// as the query string is used.
+  * the "basic_significant" engine, an middle engine. It is faster than the significant engine but slower than the simple one. The urls are prettier than with the simple engine but not as pretty as with the significant engine.
+  * the "significant" engine, is slightly slower than the others. However, it enable the use of custom urls and enables the hiding of the entrypoint (index.php).
 
 Each engine as its own configuration documentation: 
 
-  * [[urls/simple|"simple" engine]]
-  * [[urls/significant|"significant" engine]]
+  * the [[urls/simple|"simple" engine]]
+  * the [[urls/basic_significant|"basic_significant" engine]]
+  * the [[urls/significant|"significant" engine]]
 
 
 

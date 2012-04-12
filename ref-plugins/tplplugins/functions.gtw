@@ -1,0 +1,124 @@
+~~LANG:FR@//fr/manuel-1.1/ref-plugins/tplplugins/fonctions~~
+
+===== zone =====
+
+Displays the content of a zone
+
+
+<code html>
+  <div>
+    {zone 'module~a_zone'}
+  </div>
+</code>
+
+this is equivalent to:
+
+<code php>
+    $tpl->assignZone('ZONE','module~a_zone');
+</code>
+<code html>
+  <div>
+    {$ZONE}
+  </div>
+</code>
+
+===== fetchzone =====
+
+With this plugin, you can get the content of a zone, so you can display it several times or you can test its content before the display.
+
+
+<code html>
+{fetchzonecontent 'submenu', 'navigation', array('parent'=>3)}
+{if $submenu !== ''}
+<div id="submenu">
+    <h2>Submenu</h2>
+    {$submenu}
+    <hr />
+</div>
+{/if}
+</code>
+
+
+
+===== common : cycle =====
+
+The plugin @@cycle@@ allow to display cyclic values. It is useful in loops, when you want to display a different value at each step. Typical example:
+
+<code html>
+  {foreach $list as $item}
+   <tr class="{cycle array('odd','even')}">
+      <td>...<td>
+   </tr>
+  {/foreach}
+</code>
+
+Here, the plugin will display 'odd', then 'even', then 'odd' etc.
+
+
+==== Controlling a cycle ====
+
+There are two other plugins to have a better control on a cycle : @@cycle_init@@ to initialize a cycle, and @@cycle_reset@@ to reset the cycle (the next value will be the first value of the list).
+
+
+<code html>
+  {cycle_init 'style1,style2,style3'}
+  {foreach $list as $item}
+   <tr class="{cycle}">
+      <td>...<td>
+   </tr>
+   {if $item == 'truc'}
+      {cycle_reset}
+   {/if}
+  {/foreach}
+</code>
+
+Note that @@cycle_init@@ accepts a string with values separated by a comma, instead of an array. (array will be accepted in the version 1.2).
+
+==== Named cycles ====
+
+Perhaps you would want to reuse the same cycle in several places, or to use  differents cycles in the same loop. To do it, you should name your cycle, by given a name at the first argument.
+
+<code html>
+  {foreach $list as $item}
+   <tr class="{cycle 'first', array('odd','even')}">
+      <td class="{cycle 'styletd',array('style1,style2,style3')}">...<td>
+   </tr>
+  {/foreach}
+
+
+  {cycle_init 'styles', 'style1,style2,style3'}
+  {foreach $list as $item}
+   <tr>
+      <td class="{cycle 'styles'}">...<td>
+      <td class="{cycle 'styles'}">...<td>
+   </tr>
+  {/foreach}
+
+</code>
+
+The result of the second loop will be:
+
+<code html>
+   <tr>
+      <td class="style1">...<td>
+      <td class="style2">...<td>
+   </tr>
+   <tr>
+      <td class="style3">...<td>
+      <td class="style1">...<td>
+   </tr>
+   <tr>
+      <td class="style2">...<td>
+      <td class="style3">...<td>
+   </tr>
+...
+</code>
+
+
+
+
+
+===== Others =====
+
+
+For other plugins, see the API reference documentation

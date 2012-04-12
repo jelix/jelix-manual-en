@@ -1,4 +1,8 @@
+~~LANG:FR@//fr/manuel-1.1/responsexml~~
+
 jResponseXML allows to send an XML response to the client-browser. It's alias is "xml"
+
+To create a jResponseXML object, pass 'text' as argument to @@M@getResponse()@@ method in your controller's action. 
 
 <code php>
 $rep = $this->getResponse('xml');
@@ -19,7 +23,7 @@ The $content property contains a jTpl object by default : it's up to you to set 
 
 jResponseXml handles generation of the "<?xml ?>" tag : it shouldn't be in the template-file.
 
-If you don't want the jReponseXml to generate the xml tag, set the sendXMLHeader to false :
+If you don't want that jReponseXml generates the xml tag, set the sendXMLHeader to false :
 
 <code php>
   $resp->sendXMLHeader = false;
@@ -46,8 +50,9 @@ If you don't want that jReponseXml generates the xml tag, set the sendXMLHeader 
 
 It's possible to attach CSS or XSLT style-sheets to the generated XML document using method //addCSSStyleSheet()// or //addXSLStyleSheet()//.
 
-Both expect the same first mandatory argument : the URL to the style-sheet.
-Both expect the same second optional argument : an associative array defining the pseudo-attributes for the generated processing instruction.
+Both expects the same first mandatory argument : the URL to the style-sheet.
+Both expects the same second optionnal argument : an associative array defining the pseudo-attributes for the generated procesing instruction.
+uction générée.
 
 <code php>
  $rep->addCSSStyleSheet('my.css', array('title'=>'Excellent!!'));

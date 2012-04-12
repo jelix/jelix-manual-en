@@ -1,0 +1,43 @@
+~~LANG:FR@//fr/manuel-1.1/file~~
+
+jFile help to do file processing. All methods of jFile are statics, so you don't have to instanciate this class.
+
+===== read method =====
+
+It returns the content of a file, or @@false@@ if the file doesn't exist.
+
+<code php>
+$content = jFile::read('/path/to/file.ext');
+</code>
+
+
+===== write method=====
+
+Write data into a file. It uses a temporary file, and then rename it to the given name, in order to limit access conflicts.
+
+It returns @@true@@ if it is a success.
+
+<code php>
+jFile::write('/path/to/file.ext', 'my data');
+</code>
+
+===== createDir method =====
+
+Create a directory. If parents don't exist, they are also created.
+
+<code php>
+jFile::createDir('/path/of/the/directory/');
+</code>
+
+===== removeDir method =====
+
+Delete recursively the content of a directory. The second parameter allow to delete (@@true@@ by default) or no (@@false@@) the directory itself.
+
+
+<code php>
+jFile::removeDir('/path/of/the/directory', false);
+// only the content of the directory will be deleted
+
+jFile::removeDir('/path/of/the/directory');
+// The content of "directory" AND the directory itself will be deleted
+</code>

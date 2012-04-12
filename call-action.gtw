@@ -1,0 +1,75 @@
+~~LANG:FR@//fr/manuel-1.1/appel-action~~
+
+===== URLs: identifying an action =====
+
+Once you have created a [[controllers|controller]], you can call one of its public method. So you have to  indicate the necessary information in the urls.
+
+With the default jelix configuration (with the //basic_significant// url engine), you should add in the url:
+
+   * The module name
+   * The name of the controller
+   * the name of the method
+
+<code>
+   index.php/mymodule/mycontroleur/mymethod
+</code>
+
+With the "simple" url engine, you should use //module// and //action// parameters:
+<code>
+   index.php?module=mymodule&action=mycontroleur:mymethod
+</code>
+
+Note that the name of the controller and the method should be separated by the ":" character.
+
+   * If the action is not present, jelix try to execute the method @@M@index()@@ of the controller //default//.
+   * If the parameter //module// is missing, jelix tries to perform the specified action of the module indicated in the @@V@startModule@@ parameter in the configuration file.
+   * If both url parameters are missing, jelix perform the action specified in the parameter @@V@startAction@@, from the module indicated in the @@V@startModule@@ parameter stored in the configuration of jelix.
+   * with the "simple" url engine, in the action parameter, if we just indicate the name of the method, jelix execute the indicated method of the  controller //default//
+
+
+===== Action selectors =====
+
+In your templates and in your code in general, you should never use "hard coded" url. Jelix includes a mechanism (the jUrl class) to generate the urls corresponding to actions. This allows to choose your preferred engine url (//single//, //significant// or other), and this allows to you to changes the mapping between significant urls and actions, all of this without touching templates or controllers.
+
+So the most of the time, you will have to indicate some //action selectors// (plus eventually some parameters) to various objects or methods of the Jelix API. See [[selectors|the page on the selectors]] for more information about selectors in general.
+
+The actions selectors have this syntax:
+
+<code>
+    module~controller:method
+</code>
+
+You may omit one of these parties, as previously specified:
+
+<code>
+   controler:method
+   method
+   module~
+   controler:
+</code>
+
+You can also specify the "#" character to specify the current module or common action. In these examples, let's say that the action is "bar:man" of the module "foo" which has been called in jelix:
+
+   * "#~controler:method" represents the action "controler:method" of the current module which has been called, so it is equivalent to  "foo~controler:method"
+   * "module~#" represents the action which has been called but in the indicated module, this equals to "module~bar:man"
+   * "#~#" Represents the module and  action which has been called, so it equals to "foo~bar:man".
+
+
+
+===== Indicating the entry point =====
+
+By default, when you use an action selector, it generates the url with the current entry point: if we call the application with index.php, it will be index.php.  If it is called with xmlrpc.php, it will be xmlrpc.php.
+
+However, we would want to indicate the urls for other entry points: for example, we are in an action which displays an HTML page, and we want to indicate the URL of the entry point for jsonrpc Web services.
+
+In this case, we should add at the end of the action selector, a "@" followed by the name of the type of the entry. Here is an example:
+
+<code>
+   foo~bar:man@css
+</code>
+
+Here we ask the url of the action "bar:man" in the module "foo", for queries of "css" type.
+
+For most of urls, and especially for all actions which are accessible from the index.php file, the type is "@classic."
+
+If in an action selector we just indicate the type of request, it refers to the default module and the default action indicated into startModule and startAction of the configuration. To know more, read [[urls|configuration and use of urls in Jelix]].

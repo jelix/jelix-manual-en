@@ -1,44 +1,47 @@
-a jResponseTcpdf object is delivered with jelix 1.0 package. It allows to generate a PDF and is based on[[http://tcpdf.sourceforge.net/|TCPDF class]] (which enhances the famous FPDF).
+~~LANG:FR@//fr/manuel-1.1/responsetcpdf~~
 
-=== Download and Install ===
-jResponseTcpdf requires fonts to work. Those are downloadable form jelix.org website [[http://jelix.org/articles/en/download/stable|here]] (As the fonts package weighs big, it is not bundled with jelix package). When download install them in lib/pdf-fonts/.
+a @@C@jResponseTcpdf@@ object allows you to generate a PDF and is based on the [[http://tcpdf.sourceforge.net/|TCPDF class]] (which enhances the famous FPDF).
 
-=== Use it in an action ===
+==== Download and Install ====
+
+@@C@jResponseTcpdf@@ requires fonts to work. Those are downloadable from jelix.org website [[http://jelix.org/articles/en/download/stable|here]] (As the fonts package weighs big, it is not bundled with jelix package). Download and install them in @@F@lib/pdf-fonts/@@.
+
+==== Use it in an action ====
 
 <code php>
-  $rep = $this->getResponse('tcpdf');
+  $resp = $this->getResponse('tcpdf');
 
-  $rep->outputFileName = 'article.pdf';
-  $rep->doDownload = true;
+  $resp->outputFileName = 'article.pdf';
+  $resp->doDownload = true;
 
   // initialise l'objet tcpdf
-  $rep->initPdf();
-  $rep->tcpdf->AddPage();
-  $rep->tcpdf->SetTitle('un titre');
-  $rep->tcpdf->Text(10,10,'un texte');
+  $resp->initPdf();
+  $resp->tcpdf->AddPage();
+  $resp->tcpdf->SetTitle('un titre');
+  $resp->tcpdf->Text(10,10,'un texte');
   ...
-  return $rep;
+  return $resp;
 </code>
 
-tcpdf member of the response is simply a TCPDF object. See TCPDF documentation about its use and its API.
+@@P@tcpdf@@ member of the response is simply a @@C@TCPDF@@ object (or an object which inherits from @@C@TCPDF@@). See TCPDF documentation about its use and its API.
 
-If you want to overload some tcpdf methods, you can use your own object. 
+If you want to override some tcpdf methods, you can use your own object. 
 Example:
 
 <code php>
-  $rep = $this->getResponse('tcpdf');
+  $resp = $this->getResponse('tcpdf');
 
-  $rep->outputFileName = 'article.pdf';
-  $rep->doDownload = true;
+  $resp->outputFileName = 'article.pdf';
+  $resp->doDownload = true;
 
   // initialize l'objet tcpdf
-  $rep->tcpdf = new MyTcPdf();
-  $rep->tcpdf->AddPage();
-  $rep->tcpdf->SetTitle('un titre');
-  $rep->tcpdf->Text(10,10,'un texte');
+  $resp->tcpdf = new MyTcPdf();
+  $resp->tcpdf->AddPage();
+  $resp->tcpdf->SetTitle('un titre');
+  $resp->tcpdf->Text(10,10,'un texte');
   ...
-  return $rep;
+  return $resp;
 </code>
 
-MyTcPdf of course shall inherit from TCPDF.
+@@C@MyTcPdf@@ of course shall inherit from @@C@TCPDF@@ or @@C@jTcpdf@@.
 

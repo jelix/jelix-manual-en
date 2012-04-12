@@ -1,7 +1,9 @@
-Creating and managing forms "by hand" is not very different than in a conventional PHP application. But some things (outside jForms) facilitate the work.
+~~LANG:FR@//fr/manuel-1.1/formulaires-classique~~
+
+Creating and managing forms manaully (ie without jForms) is not very different in Jelix than in a conventional PHP application. But some things (outside jForms) can facilitate your work.
 
 
-===== The actions to implement =====
+===== Actions to implement =====
 
 The implementation of a very simplistic form development will consist of two actions (the names are fictitious and used just as an example):
 
@@ -71,6 +73,7 @@ The resulting form will be the same as the first example if the url engine is th
    </form>
 </code>
 
+Please do notice that if you use the "significant" url engine, you need to specify the parameters in both calls to the templates plugins **formurl** and **formurlparam**. **formurlparam** is not effective with this url engine and that is the generated URL for the form submit that will receive the parameters.
 
 ===== Data processing after a submit =====
 

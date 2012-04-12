@@ -1,38 +1,37 @@
-We call //production server//, the server on which you will install your finished application, therefore accessible to the end-users. By opposition, there is the server of development, that on which you develop your application.
+~~LANG:FR@//fr/manuel-1.1/installation/production~~
 
-There are certain different things to take account in the case of the production server, in order to optimize the execution of your application based on Jelix.
+We call //production server//, the server on which you will install your finished application, therefore accessible to the end-users. By opposition, the server on which you develop your application is called the development server.
 
+There are certain different things to take in account for a production server, in order to optimize the execution of your application based on Jelix, and to protect your server.
 
 ===== Choosing the good edition of Jelix =====
 
 
 To develop, you use of course the "developer" edition of Jelix. This edition includes tools and scripts for the command line and other things for the development.
 
-However, for the installation on a production server, it is preferable to install the "optimized" edition of Jelix. As its name indicates it, it is optimized, and the useless things in production are removed. Note however that your application will function exactly the same way that with one of the other editions of Jelix, with details meadows: one will be able to observe light improvements of performance with the "Optimized" edition ;-).
+However, for the installation on a production server, it is preferable to install the "optimized" edition of Jelix. As its name indicates it, it is optimized, and the useless things in production are removed. Note however that your application will function exactly the same way as with one of the other editions of Jelix, except for one detail: there will be some light performance improvements with the "Optimized" edition!
 
-If you choose to remain with the "developer" edition on your production server, there is no problem with that. However it is recommended to remove scripts for command line.
+If you choose to remain with the "developer" edition on your production server, there is no problem with that. However it is recommended to remove jelix command lines scripts (the whole @@F@lib/jelix-scripts@@ directory).
 
-Note: an experimental "Gold" edition is available, for the developers which can modify the configuration of php, in particular, to install extensions PHP. Indeed, this edition uses some extensions PHP which are not available among all hosts, and this edition uses also an extension PHP especially dedicated to Jelix, which deals with certain treatments of the framework. The use of "gold" edition thus appreciably improves the performances of your application.
+A "Gold" edition is also available, it is intended for the developers who can modify the php configuration, and especially install PHP extensions. Indeed, this edition uses some PHP extensions  which are not available among all hosts, and this edition uses also a PHP extension  especially dedicated to Jelix, which deals with certain treatments of the framework. The use of "gold" edition thus significantly improves the performances of your application. You have to compile the jelix extension yourself. Therefore, the source code of this extension is provided in the package of the Gold edition.
 
 ===== Configuration =====
 
-The installation occurs to identical that on the server from development, including for the application.
+Installation process is identical to your development environment, including for the application.
 
-To have better performance and more safety, here however some additional advices.
+To have better performance and more safety, here are however some additional advices.
 
 ==== About the server configuration ====
-
-   - Directories other than the //www// of your application should be apart from the “document root” Web site.
-   - To specify the rights well on the //temp/// directory. For example, the user which runs Apache should have write rights an this directory. It is not recommended on linux, to chmod 0777 on the temp directory ;-)
+   * all directories, except the @@F@www@@ directory of your app, should be outside the document root of the web site. So you should set the root of your web site on this @@F@www@@ directory or move the content of www to the root of your web site. See the [[//application-configuration#server-configuration|chapter on the application configuration]] for examples of such configuration.
+   * To specify the rights well on the @@F@temp/your_app/@@ directory. For example, the user which runs Apache should have write rights an this directory. It is not recommended on linux, to chmod 0777 on the temp directory ;-)
 
 ==== About the application ====
 
-Here some advices for the configuration of the application, in the //var/config/defaultconfig.ini.php// file.
+Here some advices for the configuration of the application, in the @@F@var/config/defaultconfig.ini.php@@ file.
 
 === error_handling section ===
 
-In the section error_handling, the following configuration is highly advised:
-
+In the section @@error_handling@@, the following configuration is highly advised:
 
 <code ini>
 [error_handling]
@@ -41,6 +40,8 @@ logFile = error.log
 email = root@localhost
 emailHeaders = "From: webmaster@yoursite.com\nX-Mailer: Jelix\nX-Priority: 1 (Highest)\n"
 quietMessage="A technical error has occured. Sorry for this trouble."
+
+showInFirebug = off
 
 ; keywords you can use : ECHO, ECHOQUIET, EXIT, LOGFILE, SYSLOG, MAIL, TRACE
 default      = ECHOQUIET EXIT LOGFILE
@@ -53,24 +54,23 @@ exception    = ECHOQUIET LOGFILE
 
 </code>
 
-It is disadvised using the keyword ECHO, which posts all the details of the errors in the Web pages (information which could be useful for pirates), but rather ECHOQUIET, which posts simply the message indicated in the parameter //quietMessage//.
+It is not advised to use the keyword @@L@ECHO@@, which posts all the details of the errors on the website (information which could be useful for pirates), but rather @@L@ECHOQUIET@@, which posts simply the message indicated in the parameter @@V@quietMessage@@.
 
-However, it is useful to be informed of the errors and their details. Also, parallel to ECHOQUIET, it is recommended to add one of these key words
+However, it is useful to be informed of the errors and their details. Also, parallel to @@L@ECHOQUIET@@, it is recommended to add one of these key words
 
-    * LOGFILE: the errors are inserted in the file indicated in logFile
-    * SYSLOG: the errors are recorded on the level of the system
-    * EMAIL: the errors are sent by Mail.
+    * @@L@LOGFILE@@: the errors are inserted in the file indicated in @@V@logFile@@.
+    * @@L@SYSLOG@@: the errors are recorded on the level of the system.
+    * @@L@EMAIL@@: the errors are sent by email to @@V@email@@.
 
-Be carefull with the use of EMAIL: use it only once you know that your application functions well on the production server. Else you may be flooded with emails (and your hosting provider may not be very happy with that, and could think you are a spammer :-) )
+Be careful with the use of @@L@EMAIL@@: use it only once you know that your application functions well on the production server. Else you may be flooded with emails (and your hosting provider may not be very happy with that, and could think you're a spammer).
 
-Be carefull also with the use of SYSLOG: put this option only if it is your own  server (i.e. you are an administrator of the machine). Else the owner of the machine is likely not to appreciate.
+Be careful also with the use of @@L@SYSLOG@@: put this option only if it is your own server (i.e. you are an administrator of the machine). Else the owner of the machine is likely not to appreciate.
 
-In conclusion: LOGFILE is rather advised compared to EMAIL and with SYSLOG ;-)
+In conclusion: @@L@LOGFILE@@ is recommended instead of @@L@EMAIL@@ or @@L@SYSLOG@@.
 
 === compilation section ===
 
-
-In the section "compilation", you can deactivate the option "checkCacheFiletime", and even more recommended, the option "forces", if you activated it for the development.
+In the section @@V@[compilation]@@, you can deactivate the option @@V@checkCacheFiletime@@, and even more recommended, the option @@V@forces@@, if you activated it for the development.
 
 <code ini>
 [compilation]
@@ -78,9 +78,8 @@ checkCacheFiletime  = off
 force = off
 </code>
 
-The option checkCacheFiletime avoids Jelix to check all the time that the cache (files generated by Jelix for the files of configurations, the CAD, templates etc) is quite up to date compared to the files of the application. This checking is generally useless in production, since the application is seldom modified. Of course, if you deactivate it, you should imperatively empty the directory of cache (temp/votre_appli/) at each update of your application, so that your modifications are well taken into account! (especially when it is about modification in the configuration, of the daos, local, templates.)
+The option @@V@checkCacheFiletime@@ prevents Jelix from checking all the time that the cache (files generated by Jelix for the files of configurations, the DAO, templates, etc.) is up to date compared to the files in the application directory. This checking is generally useless in production, since the application is rarely modified, and each modification is usually meant to be activated as fast as possible. Of course, if you deactivate it, **you should imperatively empty the directory of cache** (@@F@temp/myapp/@@) **at each update of your application**, so that your modifications are well taken into account.
 
 === mailer section ===
 
-
-Do not forget to update the parameters of the section "mailer". Indeed, the parameters to send emails are not always identical between the server of development and the server of production. 
+Do not forget to update the parameters of the @@V@[mailer]@@ section. Usually, the mailer parameters are different between your development server and your production server unless you use third party solutions.

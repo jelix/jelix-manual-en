@@ -1,9 +1,10 @@
-jWiki is a class transforming wiki text to other formats. XHTML for example. This class inherits from [[http://wikirenderer.berlios.de|Wikirenderer]] version 3.0.
+~~LANG:FR@//fr/manuel-1.1/wiki~~
 
-in order to transform, Wikirenderer needs some precise objects, which grouped together become the //transform rules// 
+jWiki is a class transforming wiki text to other formats. XHTML for example. This class inherits from [[http://wikirenderer.berlios.de|Wikirenderer]] version 3.1.
 
-There are a bunch of //transform rules// already bundled with jelix (see lib/wikirenderer/rules/). They allow to transform wiki wr3 code into XHTML. 
-It would be possible to transform dokuwiki code into XHTML, or mediawiki into docbook. All combinations are possible. you only need to give or develop the good set of transform rules. 
+In order to transform, Wikirenderer needs some precise objects, which grouped together become the //transform rules// 
+
+There are a bunch of //transform rules// already bundled with jelix (see @@F@lib/wikirenderer/rules/@@). For instance, wr3_to_xhtml allows to transform wiki (wr3 syntax) into XHTML. It is also possible to transform dokuwiki code into XHTML, or mediawiki into docbook. All combinations are possible. you only need to give or develop the good set of transform rules. 
 
 To use jWiki, just instantiate it with a //transform rules// name. If you want to transform wiki wr3 into XHTML, just do: 
 
@@ -13,7 +14,9 @@ To use jWiki, just instantiate it with a //transform rules// name. If you want t
 </code>
 
 
-//transform rules// delivered with Jelix are in lib/wikirenderer/rules, but you can add your own set in your_app/plugins/wr_rules/. Note: remember to activate app:plugins repository in your configuration, if you intend to do so.
+//transform rules// delivered with Jelix are in @@F@lib/wikirenderer/rules@@, but you can add your own set in @@F@your_app/plugins/wr_rules/@@. Note: remember to activate app:plugins repository in your configuration, if you intend to do so.
 
-For more informations, browse [[http://wikirenderer.berlios.de|Wikirenderer 3.0 Documentation]].
+If you store your own //transform rules// into @@F@your_app/plugins/wr_rules/@@, each //transform rules// should be in its own directory, like any jelix plugins. So, if you have a "superwiki_to_xhtml" rule, you have to store its source code into the file @@F@your_app/plugins/wr_rules/superwiki_to_xhtml/superwiki_to_xhtml.rule.php@@. In this file you should have a class @@C@superwiki_to_xhtml@@ inheriting from @@C@WikiRendererConfig@@ or the class of an other rule.
+
+For more informations, browse the [[http://wikirenderer.berlios.de/en/documentation.php|Wikirenderer Documentation]].
 

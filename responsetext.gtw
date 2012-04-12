@@ -1,4 +1,8 @@
-jResponseText's creation allows the alias : "text". jResponseText has property "content" which should be filled for output.
+~~LANG:FR@//fr/manuel-1.1/responsetext~~
+
+To create a jResponseText object, pass 'text' as argument to @@M@getResponse()@@ method in your controller's action. 
+
+jResponseText has a @@P@content@@ proprerty which should be assigned before output.
 
 <code php>
    function myaction(){
@@ -10,7 +14,7 @@ jResponseText's creation allows the alias : "text". jResponseText has property "
 
 jResponseText returns "text/plain" Mime-Type by default, and uses jelix-configuration default charset.
 
-jResponseText derives from jResponse, allowing you to modify HTTP headers for Mime-Type and charset as well.
+jResponseText derives from jResponse, allowing you to modify HTTP headers such as Mime-Type or charset as well.
 
 jResponseText can be used as a base to create other formats with text-data, for example : to craft a json response for ajax.
 

@@ -1,13 +1,29 @@
+~~LANG:FR@//fr/manuel-1.1/datetime~~
+
 jDateTime is a class encapsulating a date. It defines an API to convert date to different formats and do some time calculation.
 
 There is different ways to create a jDateTime object:
    * either pass  a date value to jDateTime constructor : year, month, day, hour, minute, second arguments are all integer values and optional. 
-   * either use setFromString method on a jDateTime object. Its argument must be a date-formatted string 
+   * either use @@M@setFromString@@ method on a jDateTime object. Its argument must be a date-formatted string 
+
+===== Retrieving the current date =====
+
+The @@M@now()@@ method allow to set a @@C@jDatetime@@ object to the current date.
+
+<code php>
+  $dt = new jDateTime();
+ 
+  $dt->now();
+ 
+  $date = $dt->toString(jDateTime::LANG_DFORMAT);
+</code>
+
+@@V@$date@@ content the current date formatted for the current language in the application.
 
 
 ===== Convert a string to date-time =====
 
-**setFromString**, as said before, takes a string as first argument and an optional format type as last argument. The latter is a numeric value. jDateTime defines in its namespace, constants enumerating those formats.
+@@M@setFromString@@, as said before, takes a string as first argument and an optional format type as last argument. The latter is a numeric value. jDateTime defines in its namespace, constants enumerating those formats.
 
 lists of date and time formats accepted by jDateTime:
 
@@ -36,7 +52,7 @@ Example :
 
 You'll have noticed all member properties representing elements of a date.
 
-defaultFormat property allows to not specify a format for each jDateTime method call. 
+@@P@defaultFormat@@ property allows to not specify a format for each jDateTime method call. 
 
 <code php>
   $dt = new jDateTime();
@@ -47,7 +63,7 @@ defaultFormat property allows to not specify a format for each jDateTime method 
 
 ===== Convert date-time to string =====
 
-**toString** method convert date to string. It accepts an optional argument specifying a format (see above for formats). 
+@@M@toString@@ method convert date to string. It accepts an optional argument specifying a format (see above for formats). 
 
 <code php>
   $dt->toString(jDateTime::LANG_DFORMAT);
@@ -61,11 +77,13 @@ defaultFormat property allows to not specify a format for each jDateTime method 
   $dt->setFromString("2006-04-10",jDateTime::BD_DFORMAT);
 
   // substract 2 days
-  $dt->sub(0,0,2);
+  $date2 = new jDateTime(0,0,2);
+  $dt->sub($date2);
   echo $dt->toString(jDateTime::BD_DFORMAT); // displays 2006-04-08
 
   // add 27h15 hours
-  $dt->add(0,0,0,27,15);
+  $date2 = new jDateTime(0,0,0,27,15);
+  $dt->add($date2);
   echo $dt->toString(jDateTime::BD_DTFORMAT); // displays 2006-04-09 03:15:00
 
 </code>
@@ -85,9 +103,6 @@ defaultFormat property allows to not specify a format for each jDateTime method 
 </code>
 
 Note: be aware to use dates superior to 01/01/1970.
-
-
-
 
 
 ===== date-time comparison =====
