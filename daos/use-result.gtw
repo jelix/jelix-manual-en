@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.1/recuperation-enregistrements~~
+~~LANG:FR@//fr/manuel-1.2/daos/recuperation-enregistrements~~
 
 Creating, modifying and deleting records in a database is very useful. However, it's not as useful as being able to fetch records and use them. The page on the [[use|use of a dao factory and record]] showed you the create, the delete and the update. This is the page on the fetch, or the "select data" part of jDao.
 
@@ -82,7 +82,7 @@ The second one being @@M@fetchAll()@@ which returns an array containing an objec
     }
 </code>
 
-You can make other retrieving methods by specifying them in the xml file (see [[xml_methods|Declaring methods in the XML file]] and [[php_methods|Adding PHP methods to the factory]]) .
+You can make other retrieving methods by specifying them in the xml file (see [[http://jelix.org/articles/en/manual-1.1/daos/xml_methods|Declaring methods in the XML file]] and [[http://jelix.org/articles/en/manual-1.1/daos/php_methods|Adding PHP methods to the factory]]) .
 
 ===== Retrieve record(s) through criteria =====
 
@@ -130,7 +130,7 @@ As for the @@M@countBy()@@ method it takes one additional parameter: the propert
 <code php>
 // SELECT COUNT(DISTINCT table.label)...
 $count = $myFactory->countBy($conditions, 'label');
-</code>	
+</code>
 
 Lastly, the @@M@deleteBy()@@ method allow to delete records corresponding to indicated criteria, it returns the number of deleted records:
 <code php>

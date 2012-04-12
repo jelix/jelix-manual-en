@@ -1,0 +1,239 @@
+~~LANG:FR@//fr/manuel-1.2/creer-wizard~~
+
+An application, "installWizard", is provided with Jelix. It allow to create a wizard, to install a jelix application easily, with a browser. It could be very useful to distribute a public application. For example, a forum...
+
+A wizard contains some pages. The list of page to execute, their parameters, and the order to execute them, is indicated in an ini file. InstallWizard contains some pages ready to use, but of course you can create your own pages. You can also redefine templates of some existing pages, and redefine locales files (which are not exactly the same locales files of jelix).
+
+Note that "InstallWizard" is not a jelix application.
+
+
+===== Setting up a wizard =====
+
+First, copy these files:
+
+   * The launcher, to call from the browser: @@F@lib/installwizard/install.php.dist@@ into @@F@yourapp/www/install.php@@
+   * The configuration file: @@F@lib/installwizard/wizard.ini.php.dist@@ into @@F@yourapp/install/wizard.ini.php@@
+
+Except path for your application.init.php (you should at least uncomment it into the file), you don't have to change anything else in the @@F@install.php@@ script.
+
+==== Global configuration ====
+
+In the configuration, you have to set these global properties:
+
+
+   * @@pagesPath@@: should contain the list of directory where installWizard will find pages. Path must be relative to the ini file. By default, it is @@"../../lib/installwizard/pages/,pages/"@@, so the @@F@pages/@@ directory into installwizard, and the @@F@pages/@@ directory into your application (so @@F@yourapp/install/pages/@@, if you provides your own wizard pages.
+   * @@tempPath@@: the path to a directory where temporaries file will be stored
+   * @@customPath@@: the path where you store customized files, relative to the path of the ini file.
+   * @@supportedLang@@: the list of language code (without the country code), supported by your wizard. Of course, you should provide all locales files for the indicated language. InstallWizard will guess the language of the user and will use one of these languages.
+   * @@start@@: the name of the first page to display.
+   * @@onalreadydone@@ = the name of the page to display when the application is already installed. By default, it is the name of the last page.
+   * @@appname@@: the name of your wizard, of your application. It will be used in templates
+
+
+You have also to create some ini sections, one for each page you want to display.
+
+==== List of pages ====
+
+Each page of the wizard is declared within a section. The name of the section is the name of the page followed by @@.step@@.
+
+In each section, you have to indicate at least one property: @@next@@ (except on for the last page of your wizard). @@next@@ must contain the name of the page to display when the user click on the "next" button. If it isn't given, the wizard will stop on the current page.
+
+@@next@@ can also be an array of pages. Some pages could offer the possibility to display a specific page or an other depending of the action of the user. The page returns a numeric code, and it should correspond to a page. By default, it always return 0.
+
+<code ini>
+[apage.step]
+next[0] = foo
+next[1] = bar
+next[2] = bla
+</code>
+
+If the result code is 0, then the wizard will display the page "foo", if it equals to 1, it will display the page "bar" etc.
+
+
+Other common properties to set:
+
+   * @@noprevious=on@@: indicates that when the page is displayed, there are no "previous" button, which means that the user could not back to the previous page (because it could not make sens for example).
+   * @@messageHeader@@ and @@messageFooter@@: the locale key of some text to add at the top or the bottom of the page. Useful to add content without modifying the source code of an existing page. 
+
+You certainly have add other properties, depending of the page. You should refer to the documentation of the page to know them.
+
+==== Example of a basic wizard ====
+
+Here is an example of a typical basic wizard to install a Jelix application :
+<code ini>
+pagesPath = "../../lib/installwizard/pages/,pages/"
+customPath = "custom/"
+tempPath = "../../temp/myapp/"
+
+start = welcome
+supportedLang = en
+
+appname= My super application
+
+[welcome.step]
+next=checkjelix
+
+[installapp.step]
+next=end
+
+[checkjelix.step]
+next=dbprofile
+databases=mysql,pgsql
+
+[dbprofile.step]
+next=installapp
+availabledDrivers = mysql,pgsql
+
+[end.step]
+noprevious = on
+</code>
+
+In this example, the wizard displays first the "welcome" page (because @@start=welcome@@). Then it will display "checkjelix", "dbprofile", "installapp" and then the "end" page. All these pages are already provided in installWizard.
+
+
+===== What is a wizard page? =====
+
+Each page of the wizard are implemented or described into several files:
+
+   * a class, in which the display and the process of an optional form are implemented.
+   * a template, used to display the page
+   * a locale file, in which localized string are stored, in php. There should be one locale file for each language. It should have at least a locale file for english lang.
+
+=== files ===
+
+Files of a page are stored in a same directory, and a page is identified with a name. For instance,
+if the name of the page is "welcome":
+
+   * the directory for the page is named @@F@welcome/@@.
+   * @@F@welcome/welcome.page.php@@ is the file which implements the class of the page
+   * @@C@welcomeWizPage@@ should be the name of the class
+   * @@F@welcome/welcome.tpl@@ is the template
+   * @@F@welcome/welcome.en.php@@ is the locale file for english, @@F@welcome.fr.php@@ for french etc.
+
+
+=== The class ===
+
+The class should inherits from @@C@installWizardPage@@ and can implements two methods: @@M@show()@@ and @@M@process()@@.
+
+The @@M@show()@@ method of the class should prepare the template. It receive a @@C@jTpl@@ object as an argument. It should assign values if needed. For instance, if the template contains form elements, the @@M@show()@@ method could initialize their values, or displaying errors if the submit has failed. It should return @@true@@ if the wizard can continue after this page.
+
+The method @@M@process()@@ is called when the user press the "next" button (which is in fact a submit button), and before the redirection to the next page. In the method @@M@process()@@, you could retrieve values of the form (with @@$_POST@@). It must return false if the wizard should display the page again, or an integer (typically 0), which is the index of the "next" page indicated into the ini file. 
+
+=== Templates ===
+
+A template file should contain only a html fragment, which will be inserted into an other main template
+provided by installWizard. So you should not include @@E@<head>@@, @@E@<body>@@ elements for instance. You mustn't use the @@E@<form>@@ element, since your fragment will be included into an existing @@E@<form>@@ element into the main template. However, you can use any form elements like @@E@<input>@@, @@E@<textarea>@@ etc.. Their content after the submit will be available in @@$_POST@@ as usual
+
+jTpl is used for templates, so you can use the jTpl syntax. 
+
+Some template variables are predefined in the template:
+
+   * the parameters of the corresponding section in the configuration
+   * @@$appname@@, the application name defined in the configuration
+
+
+=== Localization ===
+
+Files corresponding to a lang are php files which should define an array into a variable named @@V@$locales@@. Keys of the array are keys of translated strings, and value the translated strings.
+
+<code php>
+$locales = array(
+
+'subtitle'=>'My subtitle',
+);
+</code>
+
+
+You can call it into templates by using the key of a translated string:
+<code>
+
+<h1>{@subtitle@}</h1>
+
+</code>
+
+Inside a class page, you have the content of @@V@$locales@@ in the property @@P@locales@@:
+
+<code php>
+ function show() {
+    //..
+
+    $subtitle = $this->locales['subtitle'];
+
+    //...
+ }
+</code>
+
+
+===== The main template =====
+
+There is a template, @@F@wiz_layout.tpl@@, which contains the whole HTML page of the wizard (except of course the specific content generated by all page.
+
+This is where there is the header, the footer of each page of the wizard.
+
+You can redefine it if you want a different design, a different content. See below.
+
+===== Existing pages =====
+
+Some pages are provided with installWizard.
+
+
+=== welcome ===
+
+It only displays a simple page, with a welcome message. You can change it by redefining the template or the locales files.
+
+=== checkjelix ===
+
+This page checks if the server configuration and the installation of Jelix is ok to install the application. 
+
+Configuration parameters are:
+
+   * @@verbose=on@@, displays more détails.
+   * @@databases=mysql,pgsql@@: the list of databases type. The page will then check if the API of the given databases are available.
+
+=== dbprofile ===
+
+This page allows to configure the dbprofils.ini.php. It shows a form where you can set the server name, the database name, the login and password to access to a database. You can provide a @@F@dbprofils.ini.php.dist@@ in the @@var/config/@@ directory of the application: the page will take it as "a template" to generate the @@F@dbprofils.ini.php@@ file. This is an opportunity for you to indicate all profiles to create.
+
+Configuration parameters:
+
+   * @@ignoreProfiles@@: list of profiles to ignore in the given @@F@dbprofils.ini.php.dist@@
+   * @@availabledDrivers@@: list of database type your application support. (mysql, pgsql, sqlite...)
+
+=== confmail ===
+
+This page allows to configure the mailer. It then will modify the @@F@defaultconfig.ini.php@@ file of the application.
+
+No configuration parameters.
+
+=== installapp ===
+
+It installs a jelix application. It calls modules installers etc..
+
+Configuration parameter:
+    * @@level@@, with one of this values: @@error@@, @@notice@@, @@warning@@. It indicates the amount of messages to show. 
+
+=== end ===
+
+This page displays a simple message to say that the installation is finished. You should use it for the last page of your wizard.
+
+
+===== Redefining templates and locales =====
+
+You may want to change the design or the HTML content of a page already provided by installWizard.
+
+To do it, you should create a directory where you'll store your own version of template of pages. Declare this directory into the @@customPath@@ option in the ini file. For a jelix application, this path is typically @@F@myapp/install/wizard/custom@@, so you'll indicate @@customPath= "custom/"@@.
+
+Just copy original files into this directory, and modify them as needed. You can do the same thing for locales file.
+
+In the same way, you can add new locales files for new languages.
+
+You can also copy the @@F@wiz_layout.tpl@@ into it, which is the main template. You can then modify this copy. Same thing for locales for the main template (@@F@wiz_layout.en.php@@).
+
+
+
+
+
+
+
+
+

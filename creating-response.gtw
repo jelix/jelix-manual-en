@@ -1,15 +1,15 @@
-~~LANG:FR@//fr/manuel-1.1/creer_response~~
+~~LANG:FR@//fr/manuel-1.2/creer_response~~
 
 If you have to deal with an unsupported format in Jelix, just create a new response.
 
 You have to follow these steps:
-    - create a class inheriting from jResponse (or another existing response), and implementing methods to support your specific format.
-    - save this class in a file located under //responses// application folder.
+    - create a class inheriting from @@C@jResponse@@ (or another existing response), and implementing methods to support your specific format.
+    - save this class in a file located under the @@F@responses/@@ application folder.
     - declare the new response type in configuration file and assign its alias.
 
 ===== Create a class =====
 
-A response class must declare at min two methods: //output()// and //outputErrors()//. And overload default value of $_type member with its specific response type. output() generates response content by means of call to print or echo. outputErrors is called if blocking errors are raised through action processing. A different response is then generated maybe respecting the specific format also. And do not forget to specify the format type in HTTP header.
+A response class must declare at min two methods: @@M@output()@@ and @@M@outputErrors()@@. And overload default value of @@P@$_type member@@ with its specific response type. @@M@output()@@ generates response content by means of call to @@print@@ or @@echo@@. @@M@outputErrors()@@ is called if blocking errors are raised through action processing. A different response is then generated maybe respecting the specific format also. And do not forget to specify the format type in HTTP header.
 
 Example (it's a totally funny format, of course):
 <code php>
@@ -43,18 +43,16 @@ class myFooResponse extends jResponse {
 }
 </code>
 
-As shown above, you can added any new member properties and methods to your response (such as //$content//) to deal with your format. But, jResponse defines an API that you can use by default: it instantiates a template, it has a title property for setting an HTML page title, it defines methods to fill the <head> block, etc. Dive into lib/jelix/response and pick a response to inherit if your format is close this existing response.
+As shown above, you can added any new member properties and methods to your response (such as @@P@$content@@) to deal with your format. But, jResponse defines an API that you can use by default: it instantiates a template, it has a title property for setting an HTML page title, it defines methods to fill the @@E@<head>@@ block, etc. Dive into @@F@lib/jelix/response/@@ and pick a response to inherit if your format is closed to this existing response.
 
 ===== Class location =====
 
-there is no naming convention for your response class but it has to be repeated in class filename. In the example above, the class should live in a "myFooResponse.class.php" file under //responses// folder of your application.
-
-
+Tthere is no naming convention for your response class but it has to be repeated in class filename. In the example above, the class should live in a @@F@myFooResponse.class.php@@ file under @@F@responses/@@ folder of your application.
 
 
 ===== Declare a response =====
 
-Last step, your new response must be declared and given an alias in configuration file. Just add this line //alias=class// in //[responses]// section of config.ini.php.
+Last step, your new response must be declared and given an alias in configuration file. Just add this line @@alias=class@@ in @@[responses]@@ section of config.ini.php.
 
 Example:
 <code ini>
@@ -62,7 +60,7 @@ Example:
 foo=myFooResponse
 </code>
 
-Then in a controller, you can use myFooResponse:
+Then in a controller, you can use @@C@myFooResponse@@:
 
 <code php>
 
@@ -81,6 +79,6 @@ Note: Jelix uses aliases for responses. It allows to redefine transparently a re
 
 In template, you have to use some plugins like functions. Template plugins are related to a specific type of response. So if you create a new response type, and if you want to reuse some existing plugins, you have to recreate some plugins for this type.
 
-However, if your response object inherits from an existing response object (like jResponseHtml), you can use existing plugins in your template, unless you modify the value of the //type// property of the response object.
+However, if your response object inherits from an existing response object (like jResponseHtml), you can use existing plugins in your template, unless you modify the value of the @@P@$type@@ property of the response object.
 
 See the [[plugins/tpl|documentation to create template plugins]].

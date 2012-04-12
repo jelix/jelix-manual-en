@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.1/formulaires-classique~~
+~~LANG:FR@//fr/manuel-1.2/formulaires-classique~~
 
 Creating and managing forms manaully (ie without jForms) is not very different in Jelix than in a conventional PHP application. But some things (outside jForms) can facilitate your work.
 
@@ -46,12 +46,12 @@ Of course you can add javascript to check the data entered by the user and use a
 
 However, the example is not entirely correct, because the url is written entirely in the form. This is problematic when you change for example the url engine, or change the configuration of the significant url engine. Depending of how the url engine is configured, the number of hidden fields can change, the content of the action attribut on the form element can change too. 
 
-It is therefore preferable to use the template plugins  **formurl** and **formurlparam** , to which you specify the selector and parametres of the action which will process the form datas after the submition. The first is used to generate the url to put into action the attribute, and the other to generate hidden fields containing any additional parameters to the action. You should always use two sets. The form then becomes:
+It is therefore preferable to use the template plugins  @@formurl@@ and @@formurlparam@@ , to which you specify the selector and parametres of the action which will process the form datas after the submition. The first is used to generate the url to put into action the attribute, and the other to generate hidden fields containing any additional parameters to the action. You should always use two sets. The form then becomes:
 
 <code html>
   <form action="{formurl 'mymodule~default:save'}" method="POST">
   <fieldset> <legend>Indicate your identity</legend>
-     {formurlparam 'mymodule~default:save'}
+     {formurlparam}
      <table>
       ...
       </table>
@@ -60,7 +60,7 @@ It is therefore preferable to use the template plugins  **formurl** and **formur
   </form>
 </code>
 
-The resulting form will be the same as the first example if the url engine is the "simple" url engine, but could become the following form if the engine is the significant url engine, with, for the example,  the url /user/save corresponding to the "mymodule~default:save" action :
+The resulting form will be the same as the first example if the url engine is the "simple" url engine, but could become the following form if the engine is the significant url engine, with, for the example,  the url @@/user/save@@ corresponding to the "mymodule~default:save" action :
 
 <code html>
    <form action="/user/save" method="POST">
@@ -73,13 +73,14 @@ The resulting form will be the same as the first example if the url engine is th
    </form>
 </code>
 
-Please do notice that if you use the "significant" url engine, you need to specify the parameters in both calls to the templates plugins **formurl** and **formurlparam**. **formurlparam** is not effective with this url engine and that is the generated URL for the form submit that will receive the parameters.
+Please do notice that before Jelix 1.2, you needed to specify the parameters in both calls to the templates plugins @@formurl@@ and @@formurlparam@@.
+
 
 ===== Data processing after a submit =====
 
-In the action used to process the data, you retrieve datas through **$this->param('a_field')** in your controller. You have other similar methods, like **$this->intParam('a_field')**, **$this->floatParam('a_field')** and **$this->boolParam('a_field')**, which can directly retrieve values from a particular type (see [[controllers|the page on controllers]]).
+In the action used to process the data, you retrieve datas through @@$this->param('a_field')@@ in your controller. You have other similar methods, like @@$this->intParam('a_field')@@, @@$this->floatParam('a_field')@@ and @@$this->boolParam('a_field')@@, which can directly retrieve values from a particular type (see [[controllers|the page on controllers]]).
 
-You can use also jFilter, which is a class to verify the format of the data (it uses the filter extension under PHP 5.2). Example:
+You can use also @@C@jFilter@@, which is a class to verify the format of the data (it uses the filter extension with PHP 5.2+). Example:
 
 <code php>
     function save() {

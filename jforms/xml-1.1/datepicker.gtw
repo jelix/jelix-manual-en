@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.1/jforms/xml/datepicker~~
+~~LANG:FR@//fr/manuel-1.2/jforms/xml/datepicker~~
 
 If you want to have a datepicker in your form, you should use the @@E@<date>@@ element (or @@E@<datetime>@@ for date + time).
 
@@ -62,9 +62,12 @@ To create a new type of datepicker (or a new datepicker configuration), you have
 
 Its name should be @@f@jelix_datepicker_xxx@@ where xxx is the type name. The function should accept this arguments:
 
-   * a javascript object (jFormsJQControlDate or jFormsJQControlDatetime with the default jforms builder) which contains some properties like the name of the field (@@P@name@@), the maximum date (@@P@maxDate@@) or the minimum date (@@P@minDate@@).
-   * a string which contains the code of the current lang
-   * the value of the basePath.
+   * a javascript object (@@C@jFormsJQControlDate@@ or @@C@jFormsJQControlDatetime@@ with the default jforms builder) which contains some properties like the name of the field (@@P@name@@), the maximum date (@@P@maxDate@@) or the minimum date (@@P@minDate@@).
+   * a javascript object containing this configuration parameters
+     * @@P@locale@@: the language code (valueof $gJConfig->locale)
+     * @@P@basePath@@: the value of basePath
+     * @@P@jqueryPath@@: The URL path to the jquery library
+     * @@P@jelixWWWPath@@: The URL path to the jelix-www content.
 
 The function is called for each datepicker of the form, and should initialize (or create) a datepicker on the different fields needed for the date. jForms generate three fields for a datepicker (day, month, hour). Their names began by the name of form plus the name of the control. Example, for a form "sample.form.xml" in a module "testapp" of the application, and which contains a control @@E@<date>@@ named "birthday", you then will have some html field:  "jforms_testapp_sample_birthday_month", "jforms_testapp_sample_birthday_day", and "jforms_testapp_sample_birthday_year".
 

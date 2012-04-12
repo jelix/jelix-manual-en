@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.1/installation/production~~
+~~LANG:FR@//fr/manuel-1.2/installation/production~~
 
 We call //production server//, the server on which you will install your finished application, therefore accessible to the end-users. By opposition, the server on which you develop your application is called the development server.
 
@@ -11,18 +11,15 @@ To develop, you use of course the "developer" edition of Jelix. This edition inc
 
 However, for the installation on a production server, it is preferable to install the "optimized" edition of Jelix. As its name indicates it, it is optimized, and the useless things in production are removed. Note however that your application will function exactly the same way as with one of the other editions of Jelix, except for one detail: there will be some light performance improvements with the "Optimized" edition!
 
-If you choose to remain with the "developer" edition on your production server, there is no problem with that. However it is recommended to remove jelix command lines scripts (the whole @@F@lib/jelix-scripts@@ directory).
+If you choose to remain with the "developer" edition on your production server, there is no problem with that.
 
-A "Gold" edition is also available, it is intended for the developers who can modify the php configuration, and especially install PHP extensions. Indeed, this edition uses some PHP extensions  which are not available among all hosts, and this edition uses also a PHP extension  especially dedicated to Jelix, which deals with certain treatments of the framework. The use of "gold" edition thus significantly improves the performances of your application. You have to compile the jelix extension yourself. Therefore, the source code of this extension is provided in the package of the Gold edition.
+A "Gold" edition is also available, it is intended for the developers who can modify the php configuration, and especially install PHP extensions. Indeed, this edition uses some PHP extensions which are not available among all hosts, and this edition uses also a PHP extension  especially dedicated to Jelix, which deals with certain processes of the framework. The use of "gold" edition thus significantly improves the performances of your application. You have to compile the jelix extension yourself. Therefore, the source code of this extension is provided in the package of the Gold edition.
 
 ===== Configuration =====
 
-Installation process is identical to your development environment, including for the application.
-
-To have better performance and more safety, here are however some additional advices.
-
 ==== About the server configuration ====
-   * all directories, except the @@F@www@@ directory of your app, should be outside the document root of the web site. So you should set the root of your web site on this @@F@www@@ directory or move the content of www to the root of your web site. See the [[//application-configuration#server-configuration|chapter on the application configuration]] for examples of such configuration.
+
+   * All directories, except the @@F@www@@ directory of your app, should be outside the document root of the web site. So you should set the root of your web site on this @@F@www@@ directory. See the [[//server-configuration|chapter about the server configuration]] for examples of such configuration.
    * To specify the rights well on the @@F@temp/your_app/@@ directory. For example, the user which runs Apache should have write rights an this directory. It is not recommended on linux, to chmod 0777 on the temp directory ;-)
 
 ==== About the application ====
@@ -35,7 +32,7 @@ In the section @@error_handling@@, the following configuration is highly advised
 
 <code ini>
 [error_handling]
-messageLogFormat = "%date%\t[%code%]\t%msg%\t%file%\t%line%\n"
+messageLogFormat = "%date%\t[%code%]\t%msg%\t%file%\t%line%\n\t%url%"
 logFile = error.log
 email = root@localhost
 emailHeaders = "From: webmaster@yoursite.com\nX-Mailer: Jelix\nX-Priority: 1 (Highest)\n"
@@ -44,13 +41,13 @@ quietMessage="A technical error has occured. Sorry for this trouble."
 showInFirebug = off
 
 ; keywords you can use : ECHO, ECHOQUIET, EXIT, LOGFILE, SYSLOG, MAIL, TRACE
-default      = ECHOQUIET EXIT LOGFILE
-error        = ECHOQUIET EXIT LOGFILE
-warning      = ECHOQUIET LOGFILE
+default      = ECHOQUIET EXIT LOGFILE TRACE
+error        = ECHOQUIET EXIT LOGFILE TRACE
+warning      = ECHOQUIET LOGFILE TRACE
 notice       =  
 strict       = 
 ; for the exceptions, there is implicitly EXIT
-exception    = ECHOQUIET LOGFILE
+exception    = ECHOQUIET LOGFILE TRACE
 
 </code>
 
@@ -68,7 +65,9 @@ Be careful also with the use of @@L@SYSLOG@@: put this option only if it is your
 
 In conclusion: @@L@LOGFILE@@ is recommended instead of @@L@EMAIL@@ or @@L@SYSLOG@@.
 
-=== compilation section ===
+To have more informations on errors, you can also add the @@L@TRACE@@ keyword, so you will have the content of stack.
+
+=== Compilation section ===
 
 In the section @@V@[compilation]@@, you can deactivate the option @@V@checkCacheFiletime@@, and even more recommended, the option @@V@forces@@, if you activated it for the development.
 
@@ -80,6 +79,8 @@ force = off
 
 The option @@V@checkCacheFiletime@@ prevents Jelix from checking all the time that the cache (files generated by Jelix for the files of configurations, the DAO, templates, etc.) is up to date compared to the files in the application directory. This checking is generally useless in production, since the application is rarely modified, and each modification is usually meant to be activated as fast as possible. Of course, if you deactivate it, **you should imperatively empty the directory of cache** (@@F@temp/myapp/@@) **at each update of your application**, so that your modifications are well taken into account.
 
-=== mailer section ===
+=== Mailer section ===
 
 Do not forget to update the parameters of the @@V@[mailer]@@ section. Usually, the mailer parameters are different between your development server and your production server unless you use third party solutions.
+
+

@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.1/responsehtml~~
+~~LANG:FR@//fr/manuel-1.2/responsehtml~~
 
 To create a jResponseHtml object, pass 'html' as argument to @@M@getResponse()@@ method in your controller's action. 
 
@@ -7,7 +7,7 @@ To create a jResponseHtml object, pass 'html' as argument to @@M@getResponse()@@
    $resp = $this->getResponse('html')
 </code>
 
-Then in $resp, you have an instance of jReponseHtml
+Then in @@V@$resp@@, you have an instance of @@C@jReponseHtml@@.
 
 ==== XTHML or HTML ====
 
@@ -27,22 +27,22 @@ Going further, you can specify your own DOCTYPE by overloading @@M@outputDocType
 
 jResponseHtml implements methods and properties to work on (X)HTML contents.
 
-The source of an HTML page is split into two parts: the <head> part, and the <body> part.
+The source of an HTML page is split into two parts: the @@E@<head>@@ part, and the @@E@<body>@@ part.
 
 {{jresponsehtml_step1.png|}}
 
-jResponseHTML generates itself the content of the <head> element, from data you give to the jResponseHTML via its dedicated methods.
+jResponseHTML generates itself the content of the @@E@<head>@@ element, from data you give to the jResponseHTML via its dedicated methods.
 
-However, you are responsible of the generation of the content of the <body> element.
+However, you are responsible of the generation of the content of the @@E@<body>@@ element.
 
 Let's see all these things.
 
 
 ===== Generating (X)HTML headers =====
 
-jResponseHtml provides features to change document's title, favicon, links to style sheets or JS scripts, meta tags ...
+jResponseHtml provides features to change document's title, favicon, links to style sheets or JS scripts, meta tags...
 
-Feature tour :
+Features tour:
 <code php>
 
 $resp->title = 'Document Title';
@@ -59,15 +59,21 @@ $resp->addCSSLink('style.css');
 // generate a <style>
 $resp->addStyle('span', 'font-weight:bold;');
 
-// Add a description meta tag :
+// Add a description meta tag:
 $resp->addMetaDescription( 'description' );
 
-// Add a keywords meta tag :
+// Add a keywords meta tag:
 $resp->addMetaKeywords( 'jelix php framework' );
+
+// Add the author:
+$resp->addMetaAuthor('Laurent');
+
+// change the meta generator name
+$resp->addMetaGenerator('My Super App 1.0');
 
 </code>
 
-Note that //addCSSLink()// and //addJSLink()// can use an associative array argument specifying custom (X)HTML tag properties, for example :
+Note that @@M@addCSSLink()@@ and @@M@addJSLink()@@ can use an associative array argument specifying custom (X)HTML tag properties, for example:
 <code php>
 $resp->addCSSLink( 
     'stylesheet.css', 
@@ -78,7 +84,7 @@ $resp->addCSSLink(
 );
 </code>
 
-If you want to add custom content in the <head> element, use //addHeadContent()//:
+If you want to add custom content in the @@E@<head>@@ element, use @@M@addHeadContent()@@:
 
 <code php>
 $resp->addHeadContent('<link rel="alternate" type="application/rss+xml" title="Recent Changes" href="/feed.php" />')
@@ -86,7 +92,7 @@ $resp->addHeadContent('<link rel="alternate" type="application/rss+xml" title="R
 
 
 It happens to require removal of parts of the generated headers (if you refuse to take the hand on third-party-module).
-You should use method //clearHtmlHeader()// for this :
+You should use method @@M@clearHtmlHeader()@@ for this :
 <code php>
 // remove links to stylesheets done with addCSSLink(), and style tags from addStyle()
 $resp->clearHtmlHeader( array( 'CSSLink', 'Styles' ) );
@@ -99,6 +105,38 @@ Acceptable array values are strings :
   * JSCode,
   * Other.
 
+==== Minifying css and javascript files ====
+
+The object jResponseHtml is able to use [[http://code.google.com/p/minify/|Minify]] to concatenate and minify CSS and JS files. It improves performance during the load of the page.
+
+Here are configuration options to minify/concatenate css or javascript files in @@jResponseHtml@@.
+
+<code ini>
+[jResponseHtml]
+
+;concatenate and minify CSS and/or JS files :
+minifyCSS = off # [on|off] : concatenate/minify CSS files
+minifyJS = off # [on|off] : concatenate/minify JS files
+
+; check all filemtime() of original js files to check if minify's cache should be generated again.
+; Should be set to "off" on production servers (i.e. manual empty cache needed when a file is changed) :
+minifyCheckCacheFiletime = on # [on|off] : check whether at least one of the source files are newer than the cached files.
+
+; list of filenames (no path) which shouldn't be minified - coma separated :
+minifyExcludeCSS = "file1.css,file2.css"
+minifyExcludeJS = "jquery.wymeditor.js"
+
+; add a unique ID to CSS and/or JS files URLs ( this gives for exemple /file.js?1267704635 ). This ID is actually the filemtime of each served file.
+; useful to serve far future expires header thus enhancing page load time and server bandwidth.
+jsUniqueUrlId = off
+cssUniqueUrlId = off
+</code>
+
+First, with @@minifyCSS@@ and @@minifyJS@@ you activate the "minification". You can indicate files to **NOT** minify in @@minifyExcludeCSS@@ and @@minifyExcludeJS@@.
+
+Keep the file name "jquery.wymeditor.js" in @@minifyExcludeJS@@. Wymeditor doesn't like to be concatenated with other files.
+
+Be sure to have a @@F@www/cache/minify@@ folder and to have enough rights on it for the webserver.
 
 ===== Generate (X)HTML body =====
 
@@ -118,8 +156,8 @@ Control its contents with either :
 ==== Using a template ====
 
 jResponseHtml provides a couple of properties :
-  * //bodyTpl//, which value should be the template selector;
-  * //body//, which contains a jTpl instance allowing control over template "settings".
+  * @@P@$bodyTpl@@, which value should be the template selector;
+  * @@P@body@@, which contains a jTpl instance allowing control over template "settings".
 
 For example :
 <code php>
@@ -132,12 +170,13 @@ Contents generated by the template engine will be integrated in the (X)HTML body
 To know more about templates, read [[templates|chapter about templates]].
 
 It happens to require appending some arbitrary contents in addition to the (X)HTML body code generated with
-method //addContent()// :
+method @@M@addContent()@@:
 
   * first argument is the string value to append to the (X)HTML body contents,
   * second argument is a bool about the order :
-    * //true// if the first argument's string value should be placed before the template
-    * //false// if it should be placed after the template.
+    * @@L@true@@ if the first argument's string value should be placed before the template
+    * @@L@false@@ if it should be placed after the template.
+
 Note that it's set to false by default. 
 
 Example :
@@ -181,8 +220,8 @@ $resp->setHttpStatus( '404', 'Not Found' );
 $resp->addHttpHeader( 'Date-modified', '...' );
 </code>
 
-If jResponseHtml's property //$xhtmlContentType// is true : HTTP response's "Content-Type" will be //application/xhtml+xml//.
-Note that the client-browser must support xHTML, or Content-Type //text/html// is sent.
+If jResponseHtml's property @@P@$xhtmlContentType@@ is true : HTTP response's "Content-Type" will be @@application/xhtml+xml@@.
+Note that the client-browser must support xHTML, or Content-Type @@text/html@@ is sent.
 
 <code php>$resp->xhtmlContentType = true ;</code>
 

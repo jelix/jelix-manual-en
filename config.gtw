@@ -1,10 +1,10 @@
-~~LANG:FR@//fr/manuel-1.1/configuration~~
+~~LANG:FR@//fr/manuel-1.2/configuration~~
 
 ===== URL entry points =====
 
-An entry point is a script which manage some or all your application [[call-action|actions]]. Only entry points should be web accessible and therefore should lie in //www// directory of your application.
+An entry point is a script which manage some or all your application [[call-action|actions]]. Only entry points should be web accessible and therefore should lie in @@F@www/@@ directory of your application.
 
-An entry point create a jCoordinator object, a jRequest object (to parse all request parameters) and indicates which configuration file to use.
+An entry point create a @@C@jCoordinator@@ object, a @@C@jRequest@@ object (to parse all request parameters) and indicates which configuration file to use.
 
 Below is an example of an entry point script :
 
@@ -30,17 +30,133 @@ $jelix->process($request);
 Theorically, an application should have one entry point per response type : classic, XML-RPC, JSON-RPC, RSS, Atom, and so on.. As a result, each entry point should also have its specific configuration file.
 
 
-===== Organization of the configuration =====
+===== project.xml =====
+
+The file @@F@project.xml@@ contains some informations on the application. Some of these are important because they are used by the installer.
+
+It is an XML file with a @@E@<project>@@ as root element, and which contains 4 elements:
+
+<code xml>
+<project xmlns="http://jelix.org/ns/project/1.0">
+    <info id="testapp@jelix.org" name="testapp" createdate="2005-01-01">
+     ...
+    </info>
+    <dependencies>
+     ...
+    </dependencies>
+    <directories>
+     ...
+    </directories>
+    <entrypoints>
+     ...
+    </entrypoints>
+</project>
+</code>
+
+
+==== info ====
+
+Int the element @@E@info@@, there are some informations indicative only about the application, like its name, a description, the copyright, the creator name etc. Note that this element can be used also in @@F@module.xml@@ files to identify a module. Here is an example:
+
+<code xml>
+<info id="testapp@jelix.org" name="testapp" createdate="2005-01-01">
+    <version>1.0</version>
+    <label lang="en-EN">Testapp</label>
+    <description lang="en-EN">Application to test Jelix</description>
+    <licence URL="http://www.gnu.org/licenses/gpl.html">GPL</licence>
+    <copyright>2005-2010 Laurent Jouanneau and other contributors</copyright>
+    <creator name="Laurent Jouanneau" email="laurent@jelix.org" active="true" />
+    <contributor name="Superman" email="superman@superville.com" active="true" since="" role=""/>
+    <homepageURL>http://jelix.org</homepageURL>
+</info>
+</code>
+
+Only the @@E@<version>@@ element and attributes  @@A@id@@ and @@A@name@@ on @@E@<info>@@ are required. Others are optionals.
+
+The id attribute should be a unique identifiant. That's why it is recommanded to use an email as an identifiant (or a UUID but it is less readable).
+
+The attribute @@A@name@@ shoudl be a "technical" name (the name of the directory of the application or of the module for instance). The @@E@label@@ element can contain a displayable name. 
+
+==== dependencies ====
+
+The element @@E@<directories>@@ should contain informations about dependencies of the application. For the moment, only the jelix version is required.
+
+<code xml>
+<dependencies>
+     <jelix minversion="1.2.0" maxversion="1.2.*" />
+</dependencies>
+</code>
+
+This element can be used in a @@F@module.xml@@ file, and can contain additionnaly one or more @@E@<module>@@ elements, which indicate modules that the installer should install in order to execute correctly the modules.
+
+<code xml>
+  <module name="testurls" minversion="2.2" maxversion="2.3" />
+  <module name="jauthdb" />
+  <module name="jacl2db" />
+</code>
+
+==== directories ====
+
+This element indicate paths of some directories. all elements in this example are required:
+<code xml>
+    <directories>
+        <config>var/config</config>
+        <log>var/log</log>
+        <var>var</var>
+        <www>www</www>
+        <temp>../temp/testapp</temp>
+    </directories>
+</code>
+
+==== entrypoints ====
+
+The @@E@entrypoints@@ element list all entry points of the application (in @@F@www/@@ or @@F@scripts/@@), with their configuration file and their type.
+
+<code xml>
+    <entrypoints>
+        <entry file="index.php" config="index/config.ini.php" />
+        <entry file="soap.php" config="soap/config.ini.php" type="soap"/>
+        <entry file="jsonrpc.php" config="jsonrpc/config.ini.php" type="jsonrpc"/>
+        <entry file="cmdline.php" config="cmdline/config.ini.php" type="cmdline"/>
+    </entrypoints>
+</code>
+
+
+===== module.xml =====
+
+A @@F@module.xml@@ file must be present in each directory of modules. It contains a root element @@E@module@@ which should contain a @@E@<info>@@ element and @@E@<dependencies>@@ element. See above to know how to write these elements.
+
+<code xml>
+<module xmlns="http://jelix.org/ns/module/1.0">
+    <info id="jelix_tests@testapp.jelix.org" name="jelix_tests">
+        <version>1.0</version>
+        <label>Jelix tests</label>
+        <description>unit tests for jelix</description>
+    </info>
+    <dependencies>
+        <jelix minversion="1.2" maxversion="1.2.*" />
+        <module name="testurls" minversion="1.0.2" maxversion="1.1b1" />
+        <module name="jauthdb" />
+        <module name="jacl2db" />
+        <module name="jacldb" />
+    </dependencies>
+</module>
+</code>
+
+
+
+
+===== configuration ini files=====
 
 Jelix framework configuration is stored in an //ini//-like file. It is a file structured by sections (//[section name]//). Each section is a collection of //parameter-name=value// pairs. There is a generic section, un-named, usually at the start of such file.
 
-Configuration files are stored in var/config.
+Configuration files are stored in @@F@var/config@@.
 
-As said before, each entry point may have its specific config file. Although in practice, many parameters can be shared between them. To prevent wasteful repeats defines a common config file : **defaultconfig.ini.php**. Jelix automatically read its entries in addition to each config file related to an entry point. No need to tell jelix about it in an entry point.
+As said before, each entry point may have its specific config file. Although in practice, many parameters can be shared between them. To prevent wasteful repeats defines a common config file : @@F@defaultconfig.ini.php@@. Jelix automatically read its entries in addition to each config file related to an entry point. No need to tell jelix about it in an entry point.
 
-Then, should lay in an entry point related config file, only specific parameters or overloaded parameters already defined in defaultconfig.ini.php. 
+Then, should lay in an entry point related config file, only specific parameters or overloaded parameters already defined in @@F@defaultconfig.ini.php@@. 
 
-a glimpse at defaultconfig.ini.php (abstract) : 
+a glimpse at @@F@defaultconfig.ini.php@@ (abstract) : 
 
 <code ini>
 locale = "fr_FR"
@@ -48,15 +164,14 @@ charset = "ISO-8859-1"
 timeZone = "Europe/Paris"
 theme = default
 
-checkTrustedModules = off
-
-; list of modules : module,module,module
-trustedModules =
-
 pluginsPath = lib:jelix-plugins/,app:plugins/
 modulesPath = lib:jelix-modules/,app:modules/
 
 dbProfils = dbprofils.ini.php
+
+[modules]
+mymodule=2
+jauth=2
 
 [coordplugins]
 ;nom = nom_fichier_ini
@@ -66,7 +181,7 @@ dbProfils = dbprofils.ini.php
 
 </code>
 
-Example : a classic request with index.php as entry point should define  var/config/index/config.ini.php file. Storing under an //index// sub-directory serves only a better organization (As each entry point may have its config file, var/config would quickly become a mess).
+Example : a classic request with index.php as entry point should define  @@F@var/config/index/config.ini.php@@ file. Storing under an //index// sub-directory serves only a better organization (As each entry point may have its config file, @@F@var/config@@ would quickly become a mess).
 
 A specific config should only define or redefine a small amount of properties:
 
@@ -95,7 +210,7 @@ And so on for others entry points.
 
 ===== Content of configuration file =====
 
-See lib/jelix/core/defaultconfig.ini.php for the whole list of parameters. This file is the "source" of the identically-named file you find in var/config of your application.
+See @@F@lib/jelix/core/defaultconfig.ini.php@@ for the whole list of parameters. This file is the "source" of the identically-named file you find in @@F@var/config@@ of your application.
 
 Below is a tour of all configuration sections.
 
@@ -113,11 +228,6 @@ locale = "en_US"
 charset = "UTF-8"
 timeZone = "US/Pacific"
 
-checkTrustedModules = off
-
-; list of modules : module,module,module
-trustedModules =
-
 pluginsPath = lib:jelix-plugins/,app:plugins/
 modulesPath = lib:jelix-modules/,app:modules/
 
@@ -131,11 +241,18 @@ Parameters in details :
   * **startModule, startAction** : default module and action (generally re-defined for each response type. see  [[config#organization|preceding section]])
   * **locale, charset** : default language and encoding of responses 
   * **timeZone** : set the time zone for every date and time functions
-  * **checkTrustedModules, trustedModules et modulesPath** : options refering to [[modules|modules]].
   * **pluginsPath** : path list to plugins. learn more in [[plugins|plugins]] documentation. 
   * **dbProfils** : Database profiles configuration file. See  [[bd|database]] access.
   * **theme** : default selected theme. Read [[themes|theme]] system description.   
   * **use_error_handler** : this option shoud stay //on// for Jelix to return useful and detailed errors or exceptions.
+
+==== modules section ====
+
+Contains the list of all used modules, and their access level
+
+   * 0 means the module is not used and must not be installed
+   * 1 means the module is used, but only by other modules (its daos, forms etc), but is not accessible directly from the web (so it has no controllers or existing controllers will never be called)
+   * 2 means the module is installed and usuable normally.
 
 
 ==== coordplugins section ====
@@ -143,7 +260,7 @@ Parameters in details :
 List all coordinator plugins Jelix has to activate. They will be loaded from the list of path defined by the pluginsPath option.
 
 
-The example below demonstrates the activation of an authentication plugin. Its own set of options are defined in auth.coord.ini.php file. Learn more about [[authentification|authentication]].
+The example below demonstrates the activation of an authentication plugin. Its own set of options are defined in @@F@auth.coord.ini.php@@ file. Learn more about [[authentification|authentication]].
 
 <code ini>
 [coordplugins]
@@ -193,8 +310,8 @@ Notifications have different levels. Jelix defined levels corresponding to PHP e
   * //default//     = selected level if no other level corresponds
   * //error//       = notify an error stopping a script execution
   * //warning//     = notifu an error which doesn't stop a script 
-  * //notice//      = notify a possible error 
-  * //deprecated//  = notify a deprecated function (php 5.3) 
+  * //notice//      = notify a possible error  
+  * //deprecated//  = notify a deprecated function (php 5.3)
   * //strict//      = notify core PHP messages about compatibility and interoperability 
 
 Below are the whole list of parameters:
@@ -254,7 +371,7 @@ disableCache = on  // default to off
 
 ==== urlengine section ====
 
-@TODO : à compléter
+@TODO : to complete
 
 
 
@@ -264,9 +381,9 @@ disableCache = on  // default to off
 ==== logfiles section ====
 
 This section defines how log calls through [[debugging|jLog]] api will be output.
-Log files are created and stored in /var/log/ application folder. 
+Log files are created and stored in @@F@var/log/@@ application folder. 
 
-A per-module log file can be defined by setting a couple <module name>=<log filename> and calling jLog methods with <module name> as last argument.
+A per-module log file can be defined by setting a couple @@<module name>=<log filename>@@ and calling jLog methods with <module name> as last argument.
 
 <code ini>
 ; default log
@@ -323,7 +440,7 @@ smtpTimeout = 10
 
 
 ==== acl section ====
-Defines options of access control list (ACL) or rights management. See [[http://jelix.org/articles/en/manual-1.1/rights|rights management]]. You can use jAcl ou jAcl2, but not both at the same time. Indicate a driver to enable it.
+Defines options of access control list (ACL) or rights management. See [[http://jelix.org/articles/en/manual-1.2/rights|rights management]]. You can use jAcl ou jAcl2, but not both at the same time. Indicate a driver to enable it.
 
 <code ini>
 [acl]

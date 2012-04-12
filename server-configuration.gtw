@@ -1,45 +1,33 @@
-~~LANG:FR@//fr/manuel-1.1/configurer-application~~
+~~LANG:FR@//fr/manuel-1.2/configurer-server~~
 
-You have the files of your application installed on your hard drive. Now you have to configure the application in order to access it from the web.
 
-Note that following instructions are not specific to jelix. You can have more details by reading the documentation of apache, php, mysql, or by reading other tutorials on the web, about server configurations etc..
+===== PHP configuration =====
+   * @@V@magic_quotes_gpc@@ and @@V@magic_quotes_runtime@@ must be set to off. If this is not the case, [[plugins/coord|you have to activate the magicquotes plugin]] delivered with Jelix.
+   * @@V@session_auto_start@@ must be set to @@L@off@@.
+   * @@V@safe_mode@@ must be set to @@L@off@@. (jelix not tested with @@L@on@@)
+  
+It is also recommended to set these values :
+   * @@V@register_globals = off@@
+   * @@V@asp_tags = off@@
+   * @@V@short_open_tag = off@@
 
-In this section, myapp is the name of the application. Replace this name by the name of your application.
+The @@f@phpinfo()@@ function can help you to see if this options are set with the right values. You can see also the @@F@php.ini@@ file of your server.
 
-===== Directories permissions =====
-
-You have to set write permission to the apache user at least on the  @@F@myapp/var/log/@@ directory and on each sub-directories of the @@F@temp/@@ directory.
-
-Example, on a debian/ubuntu server:
-
-<code bash>
-   sudo chown www-data:www-data temp/myapp*  myapp/var/log
-   sudo chmod g+w temp/myapp* myapp/var/log
-</code>
-
-For some applications, perhaps you may have to set this permissions on other folders in @@F@myapp/var/@@. Read the installation manual of the application.
-
-===== Configure the database access =====
-
-See the [[bd#profile-and-configuration|specific section in the chapter about jDb]]
 
 ===== Server configuration =====
-
-Here is what you have to configure at server level.
-
 
 Note: each time you change the configuration of your web server (like document root, php version etc,), you must delete all files in the temp directory of your applications (like @@F@temp/myapp@@ here), so Jelix will take care about modifications in the new configuration.
 
 ==== If you can change the document root ====
 
-If you can specify the document root of the site by modifying the configuration files of the web server or through an administration interface provided by your web hosting, indicate the @@F@mysite/myapp/www@@ directory as the root of the site.
+If you can specify the document root of the site by modifying the configuration files of the web server or through an administration interface provided by your web hosting, indicate the @@F@myapp/www@@ directory as the root of the site.
 
 For example, with apache, you will indicate in the @@F@httpd.conf@@ file, something like: 
 
 <code htaccess>
    <VirtualHost *>
-      ServerName www.monsite.com
-      DocumentRoot /var/monsite/myapp/www/ 
+      ServerName www.mysite.com
+      DocumentRoot /home/mysite/myapp/www/ 
    </VirtualHost>
 </code>
 
@@ -48,11 +36,11 @@ You must also indicate an alias towards the @@F@lib/jelix-www@@ directory, by na
 <code htaccess>
    <VirtualHost *>
       ServerName www.mysite.com
-      DocumentRoot /var/mysite/myapp/www/ 
-      Alias /jelix/ "/var/mysite/lib/jelix-www/"
+      DocumentRoot /home/mysite/myapp/www/ 
+      Alias /jelix/ "/home/mysite/lib/jelix-www/"
    </VirtualHost>
    
-   <Directory "/var/mysite/lib/jelix-www/">
+   <Directory "/home/mysite/lib/jelix-www/">
      AllowOverride None
      Order allow,deny
      Allow from all
@@ -61,7 +49,7 @@ You must also indicate an alias towards the @@F@lib/jelix-www@@ directory, by na
 
 Note : you can choose an other name for the alias of @@F@jelix-www@@. If you do this, you have to change the @@V@jelixWWWPath@@ option in the configuration file of the application.
 
-In the file @@F@mysite/myapp/var/config/defaultconfig.ini.php@@, you can adjust the @@V@basePath@@ option, by specifying the path to the @@F@index.php@@ file (here : /).
+In the file @@F@myapp/var/config/defaultconfig.ini.php@@, you can adjust the @@V@basePath@@ option, by specifying the path to the @@F@index.php@@ file (here : /).
 
 <code ini>
 basePath="/"
@@ -74,17 +62,15 @@ Thus, by typing http://www.mysite.com you reach your site, and http://www.mysite
 
 ==== If you can't change the document root ====
 
-In this case, it is better to move the content of the directory @@F@mysite/myapp/www@@ to the root of your site, @@F@mysite/@@. After that, you have for example :
+In this case, it is better to move the content of the directory @@F@myapp/www@@ to the root of your site, @@F@mysite/@@. After that, you have for example :
 
   mysite/  
     myapp/
     lib/
     temp/
     index.php
-    jsonrpc.php
-    xmlrpc.php
 
-Here in our example, @@F@index.php@@, @@F@jsonrpc.php@@ and @@F@xmlrpc.php@@ are some entry points of our application. You have to modify this three PHP files to change the relative paths they contain. Same for the @@F@testapp/application.init.php@@ file. For example, after modifications, the file index.php should look like this :
+Here in this example, @@F@index.php@@ is the entry point of your application. You have to modify this PHP file to change the relative paths it contains (if there are other entry points, you should do it too). Same for the @@F@myapp/application.init.php@@ file. For example, after modifications, the file index.php should look like this :
 
 <code php>
 require_once ('myapp/application.init.php');
@@ -95,7 +81,7 @@ $jelix = new jCoordinator($config_file);
 $jelix->process(new jClassicRequest());
 </code>
 
-You need also to modify the @@F@myapp/project.xml@@ file in order to update the path of each directory, so commands of jelix-scripts will work fine:
+You need also to modify the @@F@myapp/project.xml@@ file in order to update the path of each directory, so commands of jelix-scripts will work fine (path should be relative to the project.xml path):
 
 <code xml>
 <project xmlns="http://jelix.org/ns/project/1.0">
@@ -122,8 +108,6 @@ It is finally necessary to move the @@F@lib/jelix-www@@ directory to the root an
     lib/
     temp/
     index.php
-    jsonrpc.php
-    xmlrpc.php
 
 Note: you can choose another name for the @@F@jelix-www@@ directory. If you do this, you have to change the @@V@jelixWWWPath@@ option in the configuration file of the application (@@F@myapp/var/config/defaultconfig.ini.php@@)
 
@@ -133,17 +117,12 @@ Finally, in the file @@F@myapp/application.ini.php@@, you must change @@T@JELIX_
 define ('JELIX_APP_WWW_PATH', realpath(JELIX_APP_PATH.'../').'/');
 </code>
 
-And in the file @@F@myapp/var/config/defaultconfig.ini.php@@, you can change the @@V@basePath@@ option, by specifying the path to @@F@index.php@@ (here : /) :
-
-<code ini>
-basePath="/"
-</code>
 
 You can then enter the address of your site (http://www.mysite.com for example, or http://localhost/)
 
 ==== Specify an extension other than .php ====
 
-On some servers, PHP4 and PHP5 are both proposed at the same time. In general, .php are PHP4 files and .php5 are PHP5 files. You then have to make modifications for your Jelix application to be able to use PHP5. Two ways with Apache, depending of the possibilities you have.
+On some old servers, PHP4 and PHP5 are both proposed at the same time. In general, .php are PHP4 files and .php5 are PHP5 files. You then have to make modifications for your Jelix application to be able to use PHP5. Two ways with Apache, depending of the possibilities you have.
 
 === With .htaccess ===
 
@@ -165,7 +144,7 @@ If it doesn't work, read the instructions of your provider to configure PHP5, or
 
 === By renaming the extension ===
 
-You have to rename the @@F@index.php@@ file in @@F@index.php5@@ (idem for the other php files in www : @@F@jsonrpc.php@@, @@F@xmlrpc.php@@ etc..). But **you don't have to rename the php files from the other directories** !
+You have to rename the @@F@index.php@@ file in @@F@index.php5@@. But **you don't have to rename the php files from the other directories** !
 
 In the config file @@F@var/config/defaultconfig.ini.php@@, put the extension in the @@urlengine@@ section :
 
@@ -188,5 +167,19 @@ With Apache 2, you have also to do this :
 </code>
 
 To verify if it is ok, create a @@F@test.php@@ on your site, which executes @@f@phpinfo()@@. Then try this url : @@mysite.com/test/foo/bar@@. the phpinfo should be displayed, and in the @@V@$_SERVER[’PATH_INFO’]@@ variable (at the bottom of the page), you should see "/foo/bar". 
+
+===== Directories permissions =====
+
+You have to set write permission to the apache user at least on the  @@F@myapp/var/log/@@ directory and on each sub-directories of the @@F@temp/@@ directory.
+
+Example, on a debian/ubuntu server:
+
+<code bash>
+   sudo chown www-data:www-data temp/myapp*  myapp/var/log
+   sudo chmod g+w temp/myapp* myapp/var/log
+</code>
+
+For some applications, perhaps you may have to set this permissions on other folders in @@F@myapp/var/@@. Read the installation manual of the application.
+
 
 

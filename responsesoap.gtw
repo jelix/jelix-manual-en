@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.1/responsesoap~~
+~~LANG:FR@//fr/manuel-1.2/responsesoap~~
 
 Jelix supports the SOAP protocol, which is a standard protocol for web services specified by W3C. Jelix use [[http://www.php.net/manual/fr/book.soap.php|the PHP SOAP API]], so you have to configure your web server to include this extension (verify with phpinfo() for example).
 
@@ -14,7 +14,7 @@ Since a SOAP http request is not as usual, you cannot use the "classic" [[reques
 The entry point should then content:
 
 <code php>
-require_once ('../../myapp/application.init.php');
+require_once ('../application.init.php');
 
 require_once (JELIX_LIB_CORE_PATH.'jSoapCoordinator.class.php');
 
@@ -41,7 +41,7 @@ soap = "@soap"
 If you have selected the [[http://jelix.org/articles/fr/manuel-1.1/urls/significant|significant]] url engine, add:
 
 <code xml>
-<soapentrypoint name="soap" default="true" />
+<entrypoint type="soap" name="soap" default="true" />
 </code>
 
 Independently of url engines, you retrieve an url for a soap action like this:
@@ -134,13 +134,9 @@ class MyTestStruct{
 
 Note the use of the required "@var" keyword to indicate the type of each properties.
 
-Then in your controller:
+Then in your controller, don't forget to indicate @@C@MyTestStruct@@ for parameters or returned values:
+
 <code php>
-
-jClasses::Inc('mymodule~MyTestStruct');
-
-class defaultCtrl extends jController {
-
     /** 
      * for this method, we receive a MyTestStruct and return a MyTestStruct object
      * @param MyTestStruct $input
@@ -153,7 +149,6 @@ class defaultCtrl extends jController {
         $resp->data = $input;
         return $resp;
     }
-}
 </code>
 
 Of course, @@C@MyTestStruct@@ can have some properties with complex type:
@@ -192,13 +187,19 @@ or with the "simple" url engine:
 
    http://mysite.com/index.php?module=jWSDL&action=WSDL:wsdl&service=aModule~aController
 
-Note that you should give a "service" parameter indicating the controller which contains the web services. You can have more than one soap controller, but there is no way to returns automatically a WSDL file for all soap web services used in your application.
+Note that you should give a "service" parameter indicating the controller which contains the web services. You can have more than one soap controller, but there is no way to return automatically a WSDL file for all soap web services implemented in your application.
 
 You can display a HTML version of the list of SOAP services, by calling the @@M@index()@@ method of the WSDL controller:
 
   http://mysite.com/index.php/jWSDL/WSDL?service=aModule~aController
 
+Don't forget to install the module jWSDL (see the chapter about [[installing-a-module|installing a module]])
+<code bash>
+  php.exe jelix.php --app installmodule jWSDL
+</code>
 
+
+**Don't forget to install the jWSDL module on the sopa entry point too.**
 ===== Calling a SOAP service with a client =====
 
 The application which calls your SOAP web services can be a PHP client, a javascript client etc.. Here is an example of a call with a PHP script.

@@ -1,6 +1,6 @@
-~~LANG:FR@//fr/manuel-1.1/responsejson~~
+~~LANG:FR@//fr/manuel-1.2/responsejson~~
 
-[[http://fr.wikipedia.org/wiki/JSON|JSON]] is a data format using javascript syntax techniques. this ease greatly the use of JSON encoded data in HTML content. 
+[[http://fr.wikipedia.org/wiki/JSON|JSON]] is a data format using javascript syntax. This ease greatly the use of JSON encoded data in HTML content. 
 
 To send JSON data, there is a specific @@C@jResponseJson@@ object. Its alias is "json". All you need to do is to assign your encoded json to the @@P@$data@@ property:
 
@@ -13,40 +13,45 @@ To send JSON data, there is a specific @@C@jResponseJson@@ object. Its alias is 
 To call the action, in raw javascript :
 
 <code javascript>
-   http = new XMLHttpRequest();
+   var http = new XMLHttpRequest();
 
    //url is a variable which contains the url of the action
    http.open("post", url, true);
 
-   // handleJSONReturn is a function called when the response is received
-   http.onreadystatechange = handleJSONReturn;
+   http.onreadystatechange = function(){
+	if(http.readyState == 4){
+	    // Get the data from the server's response
+            var json = http.responseText;
+            var value;
+
+            // ugly way
+            //value = eval('(' + json + ')');
+
+            // good way, in modern browser such Firefox 3.5
+            value = JSON.parse(json);
+
+            // do something with your json data
+         
+	}
+   };
    http.send(null);
 
-   // url is a string conatining a php url. 
-   // handleJSONReturn is a function treating return state.
 </code>
 
-ou, avec jQuery :
+or, with jQuery :
 <code javascript>
    $.getJSON( url, function (json) {
       // do something with your json data
    } 
 </code>
 
-The client will receive:
+With our example, the client will receive:
 
 <code javascript>
   { "lastname":"dupont", "firstname":"jean"}
 </code>
 
-And treat it alike 
-<code javascript>
-   var json = eval('(' + http.responseText + ')');
-   alert(json.lastname + ' ' + json.firstname);
-</code>
-
-
-Alternatively, the whole client process with jQuery is :
+And then the whole client process with jQuery is :
 <code javascript>
    $.getJSON( url, function (json) {
        alert(json.lastname + ' ' + json.firstname);
@@ -55,7 +60,7 @@ Alternatively, the whole client process with jQuery is :
 
 
 
-=== a use case combined with jDao ===
+=== A use case combined with jDao ===
 
 <code php>
 $countryDao = jDao::get('common~country');
@@ -67,7 +72,7 @@ foreach($countries as $country) {
 }
 </code>
 
-the client will receive:
+The client will receive:
 <code javascript>
   { "id":20, "name":"Europe"}
 </code>

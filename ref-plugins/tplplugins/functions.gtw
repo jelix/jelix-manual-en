@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.1/ref-plugins/tplplugins/fonctions~~
+~~LANG:FR@//fr/manuel-1.2/ref-plugins/tplplugins/fonctions~~
 
 ===== zone =====
 
@@ -72,7 +72,9 @@ There are two other plugins to have a better control on a cycle : @@cycle_init@@
   {/foreach}
 </code>
 
-Note that @@cycle_init@@ accepts a string with values separated by a comma, instead of an array. (array will be accepted in the version 1.2).
+Note that @@cycle_init@@ accepts a string with values separated by a comma, or an array.
+
+
 
 ==== Named cycles ====
 

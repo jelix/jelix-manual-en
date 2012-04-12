@@ -1,36 +1,36 @@
-~~LANG:FR@//fr/manuel-1.1/responseredirect~~
+~~LANG:FR@//fr/manuel-1.2/responseredirect~~
 
-There are two types of redirection objects available :
-  * jResponseRedirect : redirects to an action of the application with optional parameters
-  * jResponseRedirectUrl : redirects to any URL
+There are two types of redirection objects available:
+  * @@C@jResponseRedirect@@: redirects to an action of the application with optional parameters
+  * @@C@jResponseRedirectUrl@@: redirects to any URL
 
 
 ===== jResponseRedirect =====
 
-To specify a redirection to an action, you indicate 'redirect' as the type of response :
+To specify a redirection to an action, you indicate 'redirect' as the type of response:
 
 <code php>
-$rep = $this->getResponse('redirect');
+$resp = $this->getResponse('redirect');
 </code>
 
-You have then an instance of jResponseRedirect in $rep.
+You have then an instance of @@C@jResponseRedirect@@ in @@V@$resp@@.
 
 You have three properties on this object:
-   * //action// to indicate the action to redirect (an action selector)
-   * //params// to indicate parameters for this actions (optional)
-   * //anchor// to indicate an anchor in the url #anchor (optional)
+   * @@P@action@@ to indicate the action to redirect (an action selector)
+   * @@P@params@@ to indicate parameters for this actions (optional)
+   * @@P@anchor@@ to indicate an anchor in the url #anchor (optional)
 
 Example:
 <code php>
-$rep->action = "module~controller:action";
-$rep->params = array('foo' => 'bar');
-$rep->anchor = 'yo';
+$resp->action = "mymodule~mycontroller:mycontroller";
+$resp->params = array('foo' => 'bar');
+$resp->anchor = 'yo';
 </code>
 
 And then
 
 <code php>
-return $rep;
+return $resp;
 </code>
 
 
@@ -39,13 +39,21 @@ return $rep;
 This type of response ("redirectUrl") is used to redirect to an external url (or an url which is not pointing to your application).
 
 <code php>
-$rep = $this->getResponse('redirectUrl');
+$resp = $this->getResponse('redirectUrl');
 </code>
 
-The single property of this response is //url//, where you indicate the url to redirect.
+The single property of this response is @@P@url@@, where you indicate the url to redirect.
 
 <code php>
-$rep->url = "http://jelix.org";
-return $rep;
+$resp->url = "http://jelix.org";
+return $resp;
+</code>
+
+===== Temporary or permanent redirection =====
+
+By default, redirections are temporary redirection (http status code: 303). If you want to indicate a permanent redirection, you have to set the property @@P@$temporary@@ to false.
+
+<code php>
+$resp->temporary = false;
 </code>
 

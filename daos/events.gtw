@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.1/daos/evenements~~
+~~LANG:FR@//fr/manuel-1.2/daos/evenements~~
 
 A DAO factory can automatically generate [[//events|events]] on methods call.  
 
@@ -17,13 +17,19 @@ Below is a detailed list of each event and its parameters. Every event has a **d
   * daoInsertBefore : record (to be inserted record object)
   * daoInsertAfter : record
 
-Example :
+Here an example:
+
+
+==== Dao file =====
+You have to add the property @@events@@ to the element @@E@<factory>@@ (event names should be lowercase).
 
 <code xml>
   <factory events="deleteAfter, insertAfter"> ...
 </code>
 
-And the lsitenr:
+==== Listener ====
+
+In the directory @@F@classes/@@ of the module, create a file @@F@my.listener.php@@ which defines listeners:
 
 <code php>
 class myListener extends jEventListener{
@@ -37,6 +43,23 @@ class myListener extends jEventListener{
    }
 </code>
 
+If you want to modify a property of the given record:
+<code>
+$event->getParam("record")->myPropriety = $Variable;
+</code>
+
+==== events.xml ====
+
+The file @@F@events.xml@@ of your module declares your listeners:
+
+<code xml>
+<events xmlns="http://jelix.org/ns/events/1.0">
+   <listener name="my">
+       <event name="daoInsertAfter" />
+       <event name="daoDeleteAfter" />
+   </listener>
+</events>
+</code>
 
 
 

@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.1/droits2/utilisation~~
+~~LANG:FR@//fr/manuel-1.2/droits2/utilisation~~
 
 If a module has to implement access control or right management, you have to:
 
@@ -64,10 +64,10 @@ Just activate it in your application configuration.
 
 <code ini>
 [coordplugins]
-jacl2 = jacl2.coord.ini.php
+jacl2 = "index/jacl2.coord.ini.php"
 </code>
  
-and copy its default configuration file from lib/jelix/plugins/coord/jacl2/jacl2.coord.ini.php.dist to var/config/index/jacl2.coord.ini.php
+and copy its default configuration file from @@F@lib/jelix/plugins/coord/jacl2/jacl2.coord.ini.php.dist@@ to @@F@var/config/index/jacl2.coord.ini.php@@.
 
 Edit this file to select which actions to execute or messages to display in case of failure of right access.
 

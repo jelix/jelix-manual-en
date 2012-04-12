@@ -1,4 +1,4 @@
-~~LANG:fr@//fr/manuel-1.1/events~~
+~~LANG:fr@//fr/manuel-1.2/events~~
 
 Jelix implements a simple inter-module communication system. It is based on **events**, and is called jEvent.
 
@@ -38,7 +38,7 @@ Since there is no default listener in the modules, each module that wants to res
 
 ==== Create a listener ====
 
-First, choose a name. We will use 'auth' as an example. Then create a Listener class. Note that the class name is a concatenation of the name and of 'Listener', so in our case, 'authListener'. Put that class in a file called 'name'.listener.php, so @@F@auth.listener.php@@ for us, in the @@F@classes@@ folder of your module. Remember, your listener class must inherit from @@C@jEventListener@@. 
+First, choose a name. We will use 'auth' as an example. Then create a listener class. Note that the class name is a concatenation of the name and of 'Listener', so in our case, 'authListener'. Put that class in a file called @@F@{name}.listener.php@@, so @@F@auth.listener.php@@ for us, in the @@F@classes@@ folder of your module. Remember, your listener class must inherit from @@C@jEventListener@@. 
 
 The listener needs to implement one method for each event it is supposed to respond to. Those methods should follow this convertion : 'on' + 'event name'.  They need to accept as single argument a @@C@jEvent@@ object. 
 
@@ -65,7 +65,10 @@ class authListener extends jEventListener{
 }
 </code>
 
-This example demonstrates a listener responding to the //AuthCanLogin// event. First, the @@M@onAuthCanLogin@@ method retrieves an 'user' parameter from the event object. Next, it does it's internal processing, and finally, it adds some data to the response by calling @@M@$event->Add@@.
+This example demonstrates a listener responding to the @@AuthCanLogin@@ event. First, the @@M@onAuthCanLogin@@ method retrieves an 'user' parameter from the event object. Next, it does it's internal processing, and finally, it adds some data to the response by calling @@M@$event->Add@@.
+
+Note: the convention of the name of methods and the calling of methods corresponding to events can be changed by redefining the method @@M@performEvent@@.
+
 
 ==== Declare a listener ====
 

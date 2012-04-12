@@ -1,24 +1,80 @@
-~~LANG:FR@//fr/manuel-1.1/jelix-scripts~~
+~~LANG:FR@//fr/manuel-1.2/jelix-scripts~~
+
+
+Jelix provides a CLI script, @@F@lib/jelix-scripts/jelix.php@@. It allows you  to execute commands in your application context. Particularly, you are able to create and modify some files easily and automatically.
+
+This script should be called from a console, in a command line, so the command line version of PHP (PHP-CLI) should be installed and configured.
+
+
+===== Configuration of PHP-CLI =====
+
+==== On Debian/Ubuntu/other linux distro ====
+
+You should install the **php5-cli** package to execute a PHP script on a command line.
+
+Careful, in most distro, particularly in Debian/Ubuntu, the configuration file of PHP, @@F@php.ini@@, is not the same for Apache, and for the command line version of PHP. So don't forget to configure same important parameters in these two php.ini, and to activate same php extensions. Under Debian/Ubuntu, these two files are @@F@/etc/php5/apache2/php.ini@@ and @@F@/etc/php5/cli/php.ini@@. Note that for this distro, extensions configurations are shared between apache and cli, in a @@F@conf.d@@ directory.
+
+==== With MAMP (MacOS X) ====
+
+The MAMP software provides PHP-Cli. Perhaps there is also an other PHP-CLI already installed un MacOS. And then, the problem is that PHP-CLI for MAMP is not configured to access to the MAMP mysql.
+
+The solution:
+
+   * open the file @@F@.profile@@ stored into your home directory (@@F@/Users/your_login/@@)
+   * Modify the line where the PATH variable is defined, or add it. The goal is to add some path in this variable (@@/Applications/MAMP/Library/bin:/Applications/MAMP/bin/php5.3/bin@@). The line should look like to this:
+<code>
+export PATH=/Applications/MAMP/Library/bin:/Applications/MAMP/bin/php5.3/bin:$PATH
+</code>
+If it was already exist, some other paths were probably defined, keep them. In all case, the @@$PATH@@ should be at the end.
+
+==== Configuration of PHP-Cli under windows ====
+
+Depending of the package you use (WAMP or others), your php.exe may not found its php.ini file. The CLI version of php and the apache version of PHP do not share the same php.ini file. So  you should create it for php.exe and/or configure it to activate same extensions as the apache php. Else you could have some errors like "unknow mysql_connect function" or "unable to connect to localhost" etc.
+
+
+You have also to add the path to the php-cli binary in the PATH variable of your system.
+
+   * right click on the icon of computer, then choose properties
+   * In the system properties dialog, click on the tab "advanced", then on the button to see the environment variables.
+   * In "system variable", click on the PATH variable
+   * Change the value of the PATH variable, by adding the path to the directory of the binary of php.exe. With WAMP for example, add @@F@c:\wamp\bin\php\php5.2.6\@@. Don't forget to add a ";" to separate all pathes.
+   * validate and close the dialog
+   * reboot
+
+Then you can call php.exe from any directory, and from the jelix-scripts directory.
+
+
+
+
 ===== Using jelix.php =====
 
-Jelix provides a CLI script, @@F@lib/jelix-scripts/jelix.php@@. it allows you  to execute commands in your application context. Particularly, you are able to create and modify some files easily and automatically.
+This script must be invoked with the command line version of PHP. So, open a console (cmd.exe under windows) and go to the @@F@lib/jelix-scripts/@@ directory:
 
-This script must be invoked with the command line version of PHP. So, open a console and go to @@F@lib/jelix-scripts/@@ directory:
-
+With Linux/Mac:
 <code bash>
-   cd lib/jelix-scripts/      # under linux
-   cd lib\jelix-scripts\      # under windows
+   cd lib/jelix-scripts/
+</code>
+With Windows:
+<code bash>
+   cd lib\jelix-scripts\
 </code>
 
 Then, type this kind of command line:
 
+With Windows:
 <code bash>
-# under windows
 > php.exe jelix.php [--application_name] command_name [options] [parameters]
+</code>
 
-# under linux
+With linux:
+<code bash>
 $ php jelix.php [--application_name] command_name [options] [parameters]
 </code>
+
+In next examples, we only show for linux, but parameters will be identical for windows.
+
+
+==== command_name ====
 
 You should always call @@F@jelix.php@@ with a "jelix command" name, and optionally some options and/or parameters.
 
@@ -28,11 +84,18 @@ First, you access help on all available commands with the @@help@@ command:
    php jelix.php help
 </code>
 
+==== --application_name ====
+
+
 Another generic parameter you have to indicate for most of jelix commands : your application name. This is always the first parameter of @@F@jelix.php@@, and it must be preceded by @@--@@. Example
 
 <code bash>
   php jelix.php --myapp createapp
 </code>
+
+The application name is the name of the directory of your application, and jelix.php expect to find it at the same level of the lib directory. You can of course change this behavior. See below.
+
+
 
 Alternatively, you can avoid typing your application name by setting an environment variable: @@V@JELIX_APP_NAME@@. For example, type this in the console:
 
@@ -47,13 +110,25 @@ Then you can type any command without @@--myapp@@
   php jelix.php createapp
 </code>
 
-
-
 Notice that you can execute the script from any directory. For example, you can type:
 
 <code bash>
   php jelix/path/lib/jelix-scripts/jelix.php --myapp createapp
 </code>
+
+
+==== --application_name:entrypoint ====
+
+For some commands, it is useful to indicate for which entrypoint the command should be applied. To do it, you have to indicate the name of the entrypoint after the application name followed by a ":":
+
+<code bash>
+  php jelix.php --myapp:admin installmodule foo
+</code>
+
+It will install the foo module, only for the entry point "admin" of the application myapp. (you can write admin or admin.php)
+
+The entry point should be declared in the project.xml file of the application.
+
 
 ===== Changing the default configuration =====
 
@@ -61,6 +136,36 @@ Commands creating new files or directories follow a specific tree structure. Per
 
 You can configure all of this by creating a configuration file for jelix.php CLI script.
 
-In @@F@lib/jelix-scripts/@@, there is a file @@F@scripts.conf.php.dist@@. Rename it to @@F@scripts.conf.php@@, and modify its settings by changing the different values.
+In @@F@lib/jelix-scripts/@@, there is a file @@F@my.default.conf.php.dist@@. Rename it to @@F@my.default.conf.php@@, and modify its settings by changing the different values. If you want different file for each application, replace "default" by the name of the application, for example: @@F@my.testapp.conf.php@@.
 
 You can also create another file, in any other directory, (to have different configuration for each projects for example). If you do so, just indicate its path in @@V@JELIX_CONFIG@@ environment variable.
+
+
+===== List of available commands =====
+
+here is a list of the main commands for jelix-scripts 
+
+   * Main commands
+<code>
+php jelix.php [--APPNAME[:ENTRYPOINT]] COMMAND [OPTIONS] [PARAMETERS]
+</code>
+   * Creation of one application
+<code>
+php jelix.php --[MyApplication] createapp
+</code>
+   * Creation of one module
+<code>
+php jelix.php --[MyApplication] createmodule [MyModule]
+</code>
+   * Creation of one dao
+<code>
+php jelix.php --[MyApplication] createdao [MyModule] [MyDao] [MyTable]
+</code>
+   * Creation of one class based upon a dao
+<code>
+php jelix.php --[MyApplication] createclassfromdao [MyModule] [MyClass] [MyDao]
+</code>
+   * Creation of one form (empty of from a dao, with or without locales)
+<code>
+php jelix.php --[MyApplication] createform [MyModule] [MyForm] [MyDao] 
+</code>

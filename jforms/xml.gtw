@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.1/jforms/xml~~
+~~LANG:FR@//fr/manuel-1.2/jforms/xml~~
 
 jForms automatically generates forms described in an XML dialect. Every form is described in an XML file, using a simple grammar between say HTML and XForms. 
 
@@ -8,7 +8,8 @@ Example: "myModule~product" refers to @@F@myModule/forms/product.form.xml@@.
 
 The XML grammar of jForms evolves at each new version of Jelix, so there are several versions of this grammar. However, jelix always supports old grammar version, since each version has its own namespace. So it is very easy to migrate an application from an old version of Jelix to a newer one: you don't have nothing to do for jForms file.
 
-jForms XML dialect evolves between Jelix version. Currently, there are two versions for it (@@L@1.0@@ and @@L@1.1@@). To ensure backward compatibility, Jelix 1.1 supports the new and old versions, so you don't have to migrate your old-formatted jForms XML file. 
+jForms XML dialect evolves between Jelix version. Currently, there are two versions for it (@@L@1.0@@ and @@L@1.1@@). To ensure backward compatibility, Jelix supports old versions, so you don't have to migrate your old-formatted jForms XML file. 
 
 Since each version of the format has its own namespace, be careful to indicate the right namespace in the file. Here are the documentation for each version of the format.
 
+You should use the version 1.1 of the format, since it is richer than 1.0.

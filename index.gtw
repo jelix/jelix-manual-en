@@ -1,10 +1,10 @@
-~~LANG:FR@//fr/manuel-1.1~~
+~~LANG:FR@//fr/manuel-1.2~~
 
 <bookinfo>
 title = Developer manual
-subtitle= Jelix 1.1.12
+subtitle= Jelix 1.2.7
 title_short= Developer manual
-edition = Jelix 1.1.12
+edition = Jelix 1.2.7
 author=Laurent|Jouanneau
 author=Dominique|Papin
 author=Afroxav
@@ -15,14 +15,20 @@ copyright_holder=Dominique Papin
 copyright_holder=All jelix.org wiki contributors
 </bookinfo>
 
+Download [[http://jelix.org/articles/en/download/stable/1.2#the-manual|the manual in PDF]] !
+
 
 <bookcontents>
-- part: [[installation|Installation]]
-  - chapter: [[installation/requirements|Install requirements ]]
+- part: [[introduction|Introduction]]
+  - chapter: [[new-features|New features]]
+  - chapter: [[installation/migrate|Migrating from Jelix 1.1 to Jelix 1.2]]
+
+- part: [[getting-started|Getting started]]
+  - chapter: [[installation/requirements|Install requirements]]
   - chapter: [[installation/jelix|Install Jelix]]
-  - chapter: [[installation/applications|Install an application]] 
-  - chapter: [[installation/production-serveur|Install on a production server]]
-  - chapter: [[installation/migrate|Migrating from jelix 1.0 to jelix 1.1]]
+  - chapter: [[jelix-scripts|Using jelix scripts]]
+  - chapter: [[create-application|Creating an application]]
+  - chapter: [[server-configuration|Server configuration]]
 
 - part: [[main-concepts|Main concepts]]
    - chapter:[[principles|Core workflow]]
@@ -31,13 +37,11 @@ copyright_holder=All jelix.org wiki contributors
      - section: [[coordinator|Coordinator]]
      - section: [[jresponse|Response object]]
      - section: [[call-action|Calling actions]]
-   - chapter:[[jelix-scripts|Using jelix scripts]]
-   - chapter:[[create-application|Creating an application]]
-     - section: [[application-configuration|Configuring an application]]
-     - section: [[create-application/administration-app|Creating an administration interface]]
    - chapter:[[modules|Developing a module]]
      - section: [[creating-a-module|Creating a module]]
+     - section: [[installing-a-module|Installing a module]]
      - section: [[controllers|Developing a controller]]
+     - section: [[controllers/retrieving-http-parameters|Retrieving HTTP parameters]]
      - section: [[controllers/crud|Using the CRUD controller]]
      - section: [[restfull|Developing a REST controller]]
    - chapter: [[responses|Responses: generating content]]
@@ -50,8 +54,9 @@ copyright_holder=All jelix.org wiki contributors
      - section: [[responsetcpdf|Generating PDF with TCPDF]]
      - section: [[responsebinary|Sending a binary file]]
      - section: [[responsezip|Generating a ZIP file]]
-     - section: [[responsexul|Generating a user interface in XUL]]
+     - section: [[responsexul|Generating a user interface in XUL ]]
      - section: [[responserdf|Generating RDF content]]
+     - section: [[responsesitemap|Generating a sitemap]]
    - chapter: [[personnalized-common-response|Define a customized response]]
    - chapter: [[responseredirect|Doing a redirection]]
    - chapter: [[webservices|Web services]]
@@ -62,6 +67,7 @@ copyright_holder=All jelix.org wiki contributors
      - section: [[responsesoap|SOAP]]
    - chapter: [[cmdline|Command line processing]]
    - chapter: [[common-processes|Define commons processes between many actions]]
+   - chapter: [[create-application/administration-app|Creating an administration interface]]
 
 - part: [[components|Jelix components]]
    - chapter: [[templates|jTpl, template engine]]
@@ -80,6 +86,7 @@ copyright_holder=All jelix.org wiki contributors
         - section: [[jforms/xml-1.1|Format version 1.1]]
            -section: [[jforms/xml/htmleditor|HTML editor]]
            -section: [[jforms/xml-1.1/datepicker|Datepickers]]
+           -section: [[jforms/xml/wikieditor|Wiki editor]]
      - section: [[jforms/usage|Initializing a form]]
      - section: [[jforms/display|Displaying a form in a template]].
           -section: [[jforms/display/html-generator|"html" generator]]
@@ -87,7 +94,11 @@ copyright_holder=All jelix.org wiki contributors
      - section: [[jforms/after-submit|Using a form after a submit]]
      - section: [[jforms/data-display|display only form values]].
      - section: [[jforms/security|Security in forms]].
-   - chapter: [[bd|jDb : database access]]
+   - chapter: [[bd|jDb: accessing to SQL database]]
+     - section: [[db/configuration|Profiles and configuration]]
+     - section: [[db/queries|Executing queries]]
+     - section: [[db/tools|Schemas and tools]]
+   - chapter: [[kvdb|jKVDb: accessing to key/value databases]]
    - chapter: [[business_classes|Write your own business classes]]
    - chapter: [[urls|jUrl: automatic urls]]
      - section: [[urls/simple|Simple url engine]]
@@ -101,19 +112,14 @@ copyright_holder=All jelix.org wiki contributors
       - section: [[rights2/concepts.db|jAcl2.db concepts]]
       - section: [[rights2/configuration|Configure jAcl2.db]]
       - section: [[rights2/jauth|Use jAcl2 with jAuth]]
-      - section: [[oldrights|jAcl : old rights management]]
-        - section: [[oldrights/concepts|jAcl concepts]]
-        - section: [[oldrights/use|Using jAcl in modules]]
-        - section: [[oldrights/concepts.db|jAcl.db concepts]]
-        - section: [[oldrights/configuration|Configuring jAcl.db]]
    - chapter: [[locales|jLocale: localization]]
    - chapter: [[events|jEvents: communication between modules]]
 
 - part: [[advanced-development|Advanced development]]
    - chapter: [[creating-response|Creating a response for a specific format]]
-   - chapter: [[themes|Using themes]].
+   - chapter: [[themes|Using themes]]
    - chapter: [[overloads|Overloading module files]]
-   - chapter: [[plugins|Developping plugins]] for jelix.
+   - chapter: [[plugins|Developping plugins]]
      - section: [[plugins/coord|Coordinator plugins]]
      - section: [[plugins/auth|jAuth drivers]]
      - section: [[plugins/db|jDb drivers]]
@@ -122,23 +128,32 @@ copyright_holder=All jelix.org wiki contributors
      - section: [[plugins/jforms|jForms generators]]
    - chapter: [[config|Dive into configuration]]
    - chapter: [[global-objects|Useful global objects]]
+   - chapter: [[cache|Using cache]]
+   - chapter: [[create-install-scripts|Create scripts to install the application]]
+   - chapter: [[create-wizard|Creating an installation wizard]]
 
 - part: [[help-development|Development helper tools]]
    - chapter: [[errormanager|Error manager]]
    - chapter: [[unit-tests|Creating unit tests]]
    - chapter: [[debugging|Debugging tool]]
 
-- part: [[class-utilities|Class utilities]]
-   - chapter: [[filter|jFilter: verifying and filtering datas]]
-   - chapter: [[datetime|jDateTime: dates and times ]]
-   - chapter: [[class-utilities/jhttp|jHttp: http requests ]]
-   - chapter: [[mailer|jMailer: sending mails]]
-   - chapter: [[wiki|jWiki: generating contents from wiki contents]]
-   - chapter: [[session|jSession: managing sessions]]
-   - chapter: [[message|jMessage: short messages between actions ]]
-   - chapter: [[file|jFile: file processing]]
+- part: [[installation/deployment|Deploying a Jelix application]]
+  - chapter: [[installation/production-serveur|Configuring a production server]]
+  - chapter: [[installation/applications|Installing an application]] 
+  - chapter: [[installation/application-update|Updating an application]] 
 
-- part: [[ref-plugins|Jelix plugins]]
+- part: [[tips|Tips]]
+
+- part: [[references|References]]
+   - chapter: [[class-utilities|Class utilities]]
+      - section: [[filter|jFilter: verifying and filtering datas]]
+      - section: [[datetime|jDateTime: dates and times]]
+      - section: [[class-utilities/jhttp|jHttp: http requests]]
+      - section: [[mailer|jMailer: sending mails]]
+      - section: [[wiki|jWiki: generating contents from wiki contents]]
+      - section: [[session|jSession: managing sessions]]
+      - section: [[message|jMessage: short messages between actions]]
+      - section: [[file|jFile: file processing]]
    - chapter: [[ref-plugins/tplplugins|Template plugins]]
         - section: [[ref-plugins/tplplugins/modifiers|Modifiers]]
         - section: [[ref-plugins/tplplugins/functions|Miscellaneous]]
@@ -151,10 +166,9 @@ copyright_holder=All jelix.org wiki contributors
    - chapter: [[ref-plugins/coordplugins|Coordinator plugins]]
       - section: [[coordplugins/history|history]]
       - section: [[coordplugins/zendframework|zendframework]]
-- part: [[ref-modules|Jelix modules]]
-   - chapter: [[ref-modules/master_admin|master_admin]]
-- part: [[tips|Tips]]
-
+   - chapter: [[ref-modules|Jelix modules]]
+      - section: [[ref-modules/master_admin|master_admin]]
+   - chapter: [[ref-javascript-library|Javascript Librairies]]
 </bookcontents>
 
 <booklegalnotice>

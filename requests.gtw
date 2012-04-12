@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.1/requests~~
+~~LANG:FR@//fr/manuel-1.2/requests~~
 
 ===== A jRequest object for each type of request =====
 
@@ -53,8 +53,8 @@ But in a controller, you have some method to do the same things shortly:
 Some other properties are available :
 
 | type | to know the request type. |
-| urlScripPath | the path to the script in the url |
-| urlScriptName | the script name (so the name of the entry point) |
-| urlPathInfo | The pathinfo part of the url |
+| url_script_path | the path to the script in the url |
+| url_script_name | the script name (so the name of the entry point) |
+| url_path_info | The pathinfo part of the url |
 | params        | request parameters |
 

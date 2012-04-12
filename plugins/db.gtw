@@ -1,13 +1,14 @@
-~~LANG:FR@//fr/manuel-1.1/plugins/db~~
+~~LANG:FR@//fr/manuel-1.2/plugins/db~~
 
 ===== Creating a jDb driver =====
 
 A jDb driver must implement four classes :
 
-   * a class which connects to database and executes queries, inheriting from jDbConnection 
-   * a class collecting results, inheriting from jDbResultSet
-   * a utility class collecting basic infos on database such as table list, field list of a table. inheriting from jDbTools
-   * a helper class to build requests, inheriting from jDaoGenerator 
+   * a class which connects to database and executes queries, inheriting from @@C@jDbConnection@@ 
+   * a class collecting results, inheriting from @@C@jDbResultSet@@
+   * a class inheriting from @@C@jDbTools@@, which list the correspondence between SQL types of the database to the unified type used inside @@C@jDb@@ and @@C@jDao@@. This class could also implement a method, @@M@execSQLScript@@ which executes a SQL script.
+   * classes inheriting from @@C@jDbSchema@@ and @@C@jDbTable@@, to allow to query and modify the schema of a database
+   * a helper class for jDao, to build requests, inheriting from @@C@jDaoGenerator@@
 
 
 ==== Namings and Files ====
@@ -16,41 +17,43 @@ Class names, file names and location depends on your driver name of course and m
 
 Assert you have chosen //example// as driver name.
 
-Driver files should be located in //db/**example**/// sub-directory of a [[|plugins repository]].
+Driver files should be located in @@F@db/example/@@ sub-directory of a [[|plugins repository]].
 
 Filename conventions :
 
-   * //example.dbconnection.php// : connection file
-   * //example.dbresultset.php//  : resultset file
-   * //example.dbtools.php//      : tool file
-   * //example.daobuilder.php//   : dao query builder file
+   * @@F@example.dbconnection.php@@ : connection file
+   * @@F@example.dbresultset.php@@  : resultset file
+   * @@F@example.dbschema.php@@     : schema file
+   * @@F@example.dbtools.php@@      : tool file
+   * @@F@example.daobuilder.php@@   : dao query builder file
 
 
 Each file shall declares and implements its related class :
 
-   * //exampleDbConnection// : connection class
-   * //exampleDbResultSet//  : resultset class
-   * //exampleDbTools//      : tool class
-   * //exampleDaoBuilder//   : dao builder class
+   * @@C@exampleDbConnection@@ : connection class
+   * @@C@exampleDbResultSet@@  : resultset class
+   * @@C@exampleDbSchema@@ and @@C@exampleDbTable@@     : schema classes
+   * @@C@exampleDbTools@@      : tool class
+   * @@C@exampleDaoBuilder@@   : dao builder class
 
 ==== Connection class ====
 
-It must inherit from jDbConnection and implement jDbConnection abstract methods.
+It must inherit from @@C@jDbConnection@@ and implement methods marked as abstract in @@C@jDbConnection@@.
 
 Its role is to create or free a connection to the database, execute queries, initiate transaction.
 
 So the connection class should redefine some methods:
 
   * The constructor, if you have some things to do during the instanciation
-  * _connect() and _disconnect(), for the connection and the deconnection to the database.
-  * _quote, to escape a string which will be used inside a query string.
-  * _doQuery and _doLimitQuery, to execute queries which return records, so this methods should return an object which inherits from jDbResultset (see below)
-  * _doExec, to execute queries like UPDATE, INSERT, DELETE. It should return the number of affected records, or false if the query failed
-  * prepare(), to prepare queries
-  * beginTransaction(), commit(), rollback(), for transaction
-  * errorInfo() and errorCode(), to get the last error message and its code.
-  * lastInsertId(), allowing to retrieve the last value of an auto incremented field.
-  * _autoCommitNotify()
+  * @@M@_connect()@@ and _disconnect(), for the connection and the deconnection to the database.
+  * @@M@_quote@@, to escape a string which will be used inside a query string.
+  * @@M@_doQuery@@ and @@M@_doLimitQuery@@, to execute queries which return records, so this methods should return an object which inherits from @@C@jDbResultset@@ (see below)
+  * @@M@_doExec@@, to execute queries like UPDATE, INSERT, DELETE. It should return the number of affected records, or false if the query failed
+  * @@M@prepare()@@, to prepare queries
+  * @@M@beginTransaction()@@, @@M@commit()@@, @@M@rollback()@@, for transaction
+  * @@M@errorInfo()@@ and @@M@errorCode()@@, to get the last error message and its code.
+  * @@M@lastInsertId()@@, allowing to retrieve the last value of an auto incremented field.
+  * @@M@_autoCommitNotify()@@
 
 If the driver doesn't support a feature, it should throw an exception.
 
@@ -59,34 +62,40 @@ See [[http://jelix.org/reference/trunk/jelix/db/jDbConnection.html|jDbConnection
 
 
 ==== Resultset Class ====
-It must inherit from jDbResultSet and implement jDbResultSet abstract methods. This object should be returned bu the _doQuery and _doLimitQuery of the connection object.
 
-You should redefine this methods:
+It must inherit from @@C@jDbResultSet@@ and implement jDbResultSet abstract methods. This object should be returned by the @@M@_doQuery@@ and @@M@_doLimitQuery@@ of the connection object.
 
-  * _fetch() : it should retrieve the next record in the list of records. It should take care of the _fetchMode property. The _idResult property content the resource identifiant of the result set.
-  * _free(), to free the resource of the result set
-  * _rewind(), to put the "cursor" at the begin of the results list.
-  * rowCount, which returns the number of results
-  * bindColumn, bindParam, bindValue, columnCount and execute, for prepared queries
+You should redefine these methods:
+
+  * @@M@_fetch()@@ : it should retrieve the next record in the list of records. It should take care of the @@P@_fetchMode@@ property. The _idResult property content the resource identifiant of the result set.
+  * @@M@_free()@@, to free the resource of the result set
+  * @@M@_rewind()@@, to put the "cursor" at the begin of the results list.
+  * @@M@rowCount@@, which returns the number of results
+  * @@M@bindColumn@@, bindParam, bindValue, columnCount and execute, for prepared queries
 
 See [[http://jelix.org/reference/trunk/jelix/db/jDbResultSet.html|jDbResultSet reference]].
 
 
+==== Schema classes ====
+
+Many methods should be redefined. Look at the reference API to know which to implements.
+
+
 ==== Utility Class ====
 
-It must inherit from jDbTools. This class is used mainly by the jelix-scripts, to generate daos.
+It must inherit from @@C@jDbTools@@. This class is used mainly by the jelix-scripts, to generate daos.
 
 
-You should redefine this methods:
+You should redefine this methods and properties:
 
-  * _getTableList(): returns an array of table names
-  * _getFieldList(), returns the list of fields of a table. This list contains some jDbFieldProperties objects.
-  * execSQLScript(), if you want to redefine the way how a SQL script is parsed an executed.
+  * @@M@execSQLScript()@@, if you want to redefine the way how a SQL script is parsed an executed.
+  * @@P@$typesInfo@@, containing the correspondence between sql types and unified types.
 
 
 See [[http://jelix.org/reference/trunk/jelix/db/jDbTools.html|jDbTools reference]].
 
-==== SLQ Query builder class ====
+
+==== SQL Query builder class ====
 
 That class is useful to jDao. jDao generates PHP classes implementing hardcoded SQL queries dispatched in methods. Those queries, particularly their syntax vary between database systems. Those syntax subtleties are defined in each driver in a specific class. 
 
@@ -105,5 +114,5 @@ See details in [[http://jelix.org/reference/trunk/jelix/dao/jDaoGenerator.html|j
 
 ==== Existing drivers  ====
 
-lib/jelix/plugins/db/ contains all jelix standard drivers : mysql, postgresql, sqlite, pdo, intuition. 
+@@F@lib/jelix/plugins/db/@@ contains all jelix standard drivers : mysql, postgresql, sqlite, mssql, intuition. 
 

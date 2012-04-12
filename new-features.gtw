@@ -1,0 +1,12 @@
+~~LANG:FR@//fr/manuel-1.2/nouveautes~~
+
+Main improvements provided by the version 1.2 are: 
+
+  * A new module management
+  * A new install and upgrade system, which allow easier deployment
+  * A little application to create a wizard allowing any user to install your application easily
+  * Improved the performance and the flexibility of jDb profiles
+  * new jCache class to store all you want in a cache, and where you want (memcache, files..)
+  * support of nosql database with jKVDb
+  * possibility to minify css and javscript files on the fly
+  * a new response jResponseSitemap, to generate a sitemap.

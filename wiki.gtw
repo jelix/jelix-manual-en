@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.1/wiki~~
+~~LANG:FR@//fr/manuel-1.2/wiki~~
 
 jWiki is a class transforming wiki text to other formats. XHTML for example. This class inherits from [[http://wikirenderer.berlios.de|Wikirenderer]] version 3.1.
 
@@ -17,6 +17,7 @@ To use jWiki, just instantiate it with a //transform rules// name. If you want t
 //transform rules// delivered with Jelix are in @@F@lib/wikirenderer/rules@@, but you can add your own set in @@F@your_app/plugins/wr_rules/@@. Note: remember to activate app:plugins repository in your configuration, if you intend to do so.
 
 If you store your own //transform rules// into @@F@your_app/plugins/wr_rules/@@, each //transform rules// should be in its own directory, like any jelix plugins. So, if you have a "superwiki_to_xhtml" rule, you have to store its source code into the file @@F@your_app/plugins/wr_rules/superwiki_to_xhtml/superwiki_to_xhtml.rule.php@@. In this file you should have a class @@C@superwiki_to_xhtml@@ inheriting from @@C@WikiRendererConfig@@ or the class of an other rule.
+
 
 For more informations, browse the [[http://wikirenderer.berlios.de/en/documentation.php|Wikirenderer Documentation]].
 

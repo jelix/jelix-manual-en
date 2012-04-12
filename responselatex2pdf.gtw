@@ -1,7 +1,7 @@
-~~LANG:FR@//fr/manuel-1.1/responselatex2pdf~~
+~~LANG:FR@//fr/manuel-1.2/responselatex2pdf~~
 
 
-Jelix offers a specific response jResponseLatexToPdf. It aims to convert a [[http://fr.wikipedia.org/wiki/LaTeX|latex]] document to PDF and send the result. Its alias is "ltx2pdf".
+Jelix offers a specific response @@C@jResponseLatexToPdf@@. It aims to convert a [[http://fr.wikipedia.org/wiki/LaTeX|latex]] document to PDF and send the result. Its alias is "ltx2pdf".
 
 <code php>
  $rep = $this->getResponse("ltx2pdf");
@@ -10,29 +10,31 @@ Jelix offers a specific response jResponseLatexToPdf. It aims to convert a [[htt
 
 **Note : jResponseLatexToPdf requires //pdflatex// program presence on the server!**
 
-If this program can not be found through a system environment variable (PATH under linux or Windows), you should assign its full path to //$pdflatexPath//. 
+If this program can not be found through a system environment variable (PATH under linux or Windows), you should assign its full path to @@P@$pdflatexPath@@. 
 
 <code php>
- $rep->pdflatexPath = '/usr/bin/pdflatex';
+ $resp->pdflatexPath = '/usr/bin/pdflatex';
 </code>
 
-jResponseLatexToPdf takes care of the latex header defining title and authors of the document. the latex content should be made available through a [[http://jelix.org/articles/fr/manuel-1.0/templates|template]]. You should tell jResponseLatexToPdf which template to use by assigning //$bodyTpl// property with an appropriated selector. You can pass variable to your template through //$body// property.
+jResponseLatexToPdf takes care of the latex header defining title and authors of the document. The latex content should be made available through a [[templates|template]]. You should tell jResponseLatexToPdf which template to use by assigning @@P@$bodyTpl@@ property with an appropriated selector. You can pass variable to your template through @@P@$body@@ property.
 
-More specifically, the //addCommand// method can generate some latex commands at the beginning of the document.
+More specifically, the @@M@addCommand()@@ method can generate some latex commands at the beginning of the document.
 
 Example :
 
 <code php>
-   $rep = $this->getResponse("ltx2pdf");
+   $resp = $this->getResponse("ltx2pdf");
 
-   $rep->title = 'document title';
-   $rep->authors[] = 'Michel Dupont';
-   $rep->bodyTpl = 'myModule~doclatex';
+   $resp->title = 'document title';
+   $resp->authors[] = 'Michel Dupont';
+   $resp->date = '\today'; // default value
+   $resp->outputFileName = 'myDocument.pdf';
 
-   $rep->addCommand('documentclass', 'article', array('a4', '14pt'));
-   $this->addCommand('geometry', 'hmargin=1cm, vmargin=2cm');
+   $resp->addCommand('documentclass', 'article', array('a4', '14pt'));
+   $resp->addCommand('geometry', 'hmargin=1cm, vmargin=2cm');
 
-   $rep->body->assign('texte', $unTexte);
+   $resp->bodyTpl = 'myModule~doclatex';
+   $resp->body->assign('texte', $unTexte);
 
-   return $rep;
+   return $resp;
 </code>

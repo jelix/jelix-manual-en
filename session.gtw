@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.1/session~~
+~~LANG:FR@//fr/manuel-1.2/session~~
 
 
 jSession provides alternative storage engines. Configuration is done in app/var/config/defaultconfig.ini.php :
@@ -37,9 +37,7 @@ NB : app: and lib: keywords are converted.
 
 ===== Database storage =====
 
-You may need to store your sessions in data, for example when you are doing load-balancing with multiple front servers.
-
-jSession uses jDao : 
+You may need to store your sessions in data, for example when you are doing load-balancing with multiple front servers. In this case, jSession uses jDao: 
 
 <code ini>
   [sessions]
@@ -48,16 +46,18 @@ jSession uses jDao :
   dao_db_profile = ""
 </code>
 
-NB : a default dao is provided in the jelix module. The selector is jelix~jsession.
+A default dao is provided in the jelix module. The selector is @@jelix~jsession@@.
 
-The corresponding DB creation request :
+When you install your application, if the configuration is set correctly, Jelix will create a table in your SQL database. During the development, you can execute on of these SQL script to create the table: @@F@lib/jelix/core-modules/jelix/install/sql/install_jsession.schema.*@@.
 
-<code ini>
-CREATE TABLE `jsessions` (
+Here is the table:
+
+<code php>
+CREATE TABLE  IF NOT EXISTS `jsessions` (
   `id` varchar(64) NOT NULL,
   `creation` datetime NOT NULL,
   `access` datetime NOT NULL,
-  `data` text NOT NULL,
+  `data` longblob NOT NULL,
   PRIMARY KEY  (`id`)
 ) DEFAULT CHARSET=utf8;
 </code>

@@ -1,8 +1,0 @@
-~~LANG:FR@//fr/manuel-1.1/droits~~
-
-Jelix 1.0 had a right management system, jAcl, offering similar features as those in other frameworks. In Jelix 1.1, it is replaced by jAcl2 a more powerful system. However it is kept for backwards compatibility.   
-
-jAcl is structured around drivers. Default driver is a "db" driver (called jAcl.db in following documentation). As you have guessed, jAcl.db stores rights informations in database.
-
-Notice that jAcl is not mandatory for an application. Thus, jAcl is not activated by default in a Jelix application. You have to activate it if one module needs it.
-

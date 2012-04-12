@@ -1,144 +1,51 @@
-~~LANG:FR@//fr/manuel-1.1/authentification/drivers~~
+~~LANG:FR@//fr/manuel-1.2/authentification/drivers~~
 
 List of authentication drivers delivered with Jelix
 
 ===== Db =====
 
-Db driver authenticates users through database infos. This driver relies on a Dao which has to be indicated in authentication config. file:
+Db driver authenticates users through database infos. This driver relies on a Dao which has to be indicated in the authentication configuration file.
+
+Jelix provides a module, jauthdb, which contains a default dao. If you want to use it, you can install it:
+
+<code bash>
+cd lib/jelix-scripts/
+php jelix.php --myapp installmodule jauthdb
+
+# or if you want to add a default user "admin" at the same time, (with the password "admin")
+php jelix.php --myapp installmodule -p defaultuser jauthdb
+</code>
+
+The jauthdb installer will create a jlx_users table into your database. You can customize this table, add some fields and then provide an other dao file (see below).
+
+In the configuration file of the plugin auth, you'll find something like that: 
 
 <code ini>
-
 driver= Db
 
 [Db]
-dao = "mymodule~mydao"
-password_crypt_function = "md5"
+dao = "jauthdb~jelixuser"
+password_crypt_function = "sha1"
 </code>
 
-**dao** option value must be a dao selector. You can of course use the dao provided by module jauth :
-<code ini>
-dao = "jauth~jelixuser"
-</code>
+@@dao@@ option value must be a dao selector. You can indicate any dao you want. But if you select one of your dao, be aware:  **it must have at least the same properties and methods defined into the jelixuser dao**.
 
-But if you select one of your dao, be aware:  it must have the properties "login" and "password" and define the following methods (See **jelixuser** dao of **jauth** for an example):
+   * @@P@login@@ and @@P@password@@
+   * @@M@getByLoginPassword (login, password)@@
+   * @@M@getByLogin(login)@@
+   * @@M@updatePassword(login,password)@@
+   * @@M@deleteByLogin(login)@@
+   * @@M@findByLogin(pattern)@@
 
-   * **getByLoginPassword (login, password)** 
-   * **getByLogin(login)**
-   * **updatePassword(login,password)**
-   * **deleteByLogin(login)**
-   * **findByLogin(pattern)**
+Mandatory: database table associated with the dao must have "login" field as primary key or as a "UNIQUE" key.
 
-Mandatory : database table associated with the dao must have "login" field as primary key.
-
-You can add any other properties and methods to the dao. 
-
-**password_crypt_function** option selects which encrypt function jAuth will use for passwords. You can define your own encrypt function (implementing it in application.init.php for example) and assign **password_crypt_function** with your function name.
-
-
-
-==== Example ====
-
-Imagine this table structure ( mysql script) :
-
-<code sql>
-CREATE TABLE `jlx_user` (
-  `usr_login` varchar(50) NOT NULL default '',
-  `usr_password` varchar(50) NOT NULL default '',
-  `usr_email` varchar(255) NOT NULL default '',
-  PRIMARY KEY  (`usr_login`)
-);
-</code> 
-
-jlx_user has "usr_login" as its primary key and has "usr_password" field.
-the dao associated for authentication could be:
-
-<code xml>
-<?xml version="1.0" encoding="UTF-8"?>
-<dao xmlns="http://jelix.org/ns/dao/1.0">
-   <datasources>
-      <primarytable name="usr" realname="jlx_user" primarykey="usr_login" />
-   </datasources>
-   <record>
-      <property name="login" fieldname="usr_login"
-          required="yes" datatype="string"  maxlength="50" />
-
-      <property name="email" fieldname="usr_email"
-                datatype="string" required="yes" maxlength="255" />
-
-      <property name="password" fieldname="usr_password" datatype="string"
-                maxlength="50" selectpattern="%s" updatepattern="" insertpattern="%s" />
-   </record>
-   <factory>
-     <method name="getByLoginPassword" type="selectfirst">
-         <parameter name="login" />
-         <parameter name="password" />
-         <conditions>
-             <eq property="login" expr="$login" />
-             <eq property="password" expr="$password" />
-         </conditions>
-     </method>
-
-     <method name="getByLogin" type="selectfirst">
-         <parameter name="login" />
-         <conditions>
-             <eq property="login" expr="$login" />
-         </conditions>
-     </method>
-
-     <method name="updatePassword" type="update">
-         <parameter name="login" />
-         <parameter name="password" />
-         <values>
-             <value property="password" expr="$password"/>
-         </values>
-         <conditions>
-             <eq property="login" expr="$login" />
-         </conditions>
-     </method>
-
-     <method name="deleteByLogin" type="delete">
-         <parameter name="login" />
-         <conditions>
-             <eq property="login" expr="$login" />
-         </conditions>
-     </method>
-
-     <method name="findByLogin" type="select">
-         <parameter name="pattern" />
-         <conditions>
-             <like property="login" expr="$pattern" />
-         </conditions>
-         <order>
-             <orderitem property="login" way="asc" />
-          </order>
-     </method>
-
-     <method name="findAll" type="select">
-         <order>
-             <orderitem property="login" way="asc" />
-         </order>
-     </method>
-   </factory>
-</dao>
-</code>
-
-Say you have stored this dao in foo mdule under the name user.dao.xml, your auth.plugin.ini.php should be:
-
-<code ini>
-
-driver= Db
-
-[Db]
-dao = "foo~user"
-password_crypt_function = "md5"
-</code>
-
+You can add any other properties and methods to the dao.
 
 ===== Class =====
 
-Clas driver is a more universal driver than Db driver. You just have to assign a class to it, in which you do... what you want! Except that it has to implement [[http://jelix.org/reference/trunk/jelix/auth/jIAuthDriverClass.html|jIAuthDriverClass interface]]. This class is considered as other business classes and therefore should be located in //classes// folder of one of your modules.
+Clas driver is a more universal driver than Db driver. You just have to assign a class to it, in which you do... what you want! Except that it has to implement [[http://jelix.org/reference/1.2.7/jelix/auth_driver/jIAuthDriverClass.html|jIAuthDriverClass interface]]. This class is considered as other business classes and therefore should be located in @@F@classes/@@ folder of one of your modules.
 
-//auth.plugin.ini.php// would declare :
+@@F@auth.plugin.ini.php@@ would declare :
 
 <code ini>
 
@@ -146,15 +53,15 @@ driver= Class
 
 [Class]
 class = "mymodule~myclass"
-password_crypt_function = "md5"
+password_crypt_function = "sha1"
 </code>
 
 
-===== LDS =====
+===== LDS/MDS=====
 
-This driver relies on a LDS server (http://lds.linbox.org/). an LDS has an XML-RPC API. This driver authenticates through calls to this API. 
+This driver relies on an MDS server (http://mds.mandriva.org/, its previous name was LDS), and call its  XML-RPC API. This driver authenticates through calls to this API. 
 
-//auth.plugin.ini.php// for a LDS driver:
+@@F@auth.plugin.ini.php@@ for a MDS driver:
 
 <code ini>
 
@@ -169,8 +76,43 @@ scheme= https
 </code>
 
 
-LDS driver will call **foo.com** through port **80**, with login **foo** and password **bar**, over a secured https connection.
+LDS driver will call **foo.com** through port **80**, with login @@L@foo@@ and password @@L@bar@@, over a secured https connection.
 
+
+===== ldap =====
+
+This driver authenticates users registered in a directory services using LDAP.
+The configuration for the driver :
+
+<code ini>
+
+driver= ldap
+
+[ldap]
+; default "localhost"
+hostname=
+; default 389
+port=
+
+; DOMAIN\user or user@DOMAIN to connect with LDAP (user who has at least search right)
+ldapUser=
+; password used to connect with LDAP
+ldapPassword=
+
+; LDAP search params 
+; search base, example for Active Directory: "ou=ADAM users,o=Microsoft,c=US"
+searchBaseDN=
+; search filter, example for Active Directory: "(objectClass=user)"
+searchFilter=
+; attributes to retrieve for the search, example for Active Directory: "cn,distinguishedName,name"
+searchAttributes=
+
+; name of the php function to crypt the password in the database
+password_crypt_function = sha1
+; if you want to use a salt with sha1:
+;password_crypt_function = "1:sha1WithSalt"
+;password_salt = "here_your_salt"
+</code>
 
 ===== Create a driver =====
 

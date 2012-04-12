@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.1/jforms/xml-1.0~~
+~~LANG:FR@//fr/manuel-1.2/jforms/xml-1.0~~
 
 The format described is supported since Jelix v1.0. Preceding versions such as betas may not support some missing tags or attributes.
 
@@ -408,12 +408,12 @@ Example:
 
 ==== Dynamic data through a class ====
 
-If a DAO doesn't suit your needs, you can use a class. This class should inherit from **jIFormDatasource** interface and stored in //classes// folder of a module. You'll declare this class with **dsclass** attribute. 
+If a DAO doesn't suit your needs, you can use a class. This class should inherit from the @@C@jIFormDatasource@@ interface and stored in @@F@classes/@@ folder of a module. You'll declare this class with @@A@dsclass@@ attribute. 
 
 Class example:
 
 <code php>
-class listDatas implements jIFormDatasource
+class listDatas implements jIFormsDatasource
 {
   protected $formId = 0;
 

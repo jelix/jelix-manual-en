@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.1/templates~~
+~~LANG:FR@//fr/manuel-1.2/templates~~
 
 Jelix includes its own template engine: jTpl. Templates are files with the ".tpl" extension and located in the @@F@templates@@ directory of modules.
 
@@ -189,15 +189,16 @@ Since Jelix 1.1, for more complex expressions , you can use the syntax with @@=@
   {=intval($myvariable)*3}
 </code>
 
-==== Predefined constant ====
+==== Predefined constants ====
 
 Some variables are predefined so you have not to assign them:
 
-   * @@V@$j_basepath@@ : it contains the url path of the directory of the application (this is the value of the parameter "basePath" in the configuration)
-   * @@V@$j_jelixwww@@ : it contains the url path of the directory @@F@jelix-www/@@ (this is the value of the parameter "jelixWWWPath" in the configuration)
-   * @@V@$j_themepath@@ : it contains the url path of the directory of the current theme in www
-   * @@V@$j_datenow@@ : current date (aaaa-mm-jj)
-   * @@V@$j_timenow@@ : current hour (hh:mm:ss)
+   * @@V@$j_basepath@@: it contains the url path of the directory of the application (this is the value of the parameter "basePath" in the configuration)
+   * @@V@$j_jelixwww@@: it contains the url path of the directory @@F@jelix-www/@@ (this is the value of the parameter "jelixWWWPath" in the configuration)
+   * @@V@$j_themepath@@: it contains the url path of the directory of the current theme in www
+   * @@V@$j_datenow@@: current date (aaaa-mm-jj)
+   * @@V@$j_timenow@@: current hour (hh:mm:ss)
+   * @@V@$j_locale@@: current locale code (the value of @@$gJConfig->locale@@)
 
 ==== Modifiers ====
 
@@ -273,7 +274,21 @@ Note that some plugins are provided and are specific conditional statements, lik
 
 The expression should be identical as the expression of the @@for@@ in PHP.
 
-==== functions ====
+
+
+=== break ===
+
+You can use @@{break}@@ to insert a @@break@@ instruction into a loop:
+
+<code>
+  {while condition}
+    ...
+     {if ...}  {break} {/if}
+    ....
+  {/while}
+</code>
+
+==== Functions ====
 
 Functions in a template are plugins you can use in a template. This plugins are simple PHP functions and you can create some kind of plugins.
 
@@ -286,13 +301,14 @@ You mustn't use parentheses around all parameters. Expressions are jtpl expressi
 Note that some functions and other template plugins are callable in general only in a template used by a specific type of response. Some plugins are for HTML responses, some other plugins are for text responses.
 
 
-==== personnalized functions and modifiers ====
+==== Personnalized functions and modifiers ====
 
 If you want to have some new jtpl functions or modifiers, you can realized some plugins.  [[plugins/tpl|See the documentation about it]]. This is simple.
 
 An other solution is to declare the modifiers or the functions dynamically, by calling the jtpl methods @@M@registerModifier()@@ or @@M@registerFunction()@@. To this methods, you should indicate a name which will used in the template, and a name of a php function which implements the modifier or the function. The arguments of the php function are the same of the php function of a jtpl plugin.
 
-==== meta informations ====
+==== Meta informations ====
+
 
 There is a special tag: @@{meta}@@. It doesn't change how the template is generated, it doesn't generate some content, and more important, it cannot be influenced by any other template instructions. Putting it inside an "if" statement for example, does nothing. The meta tag will be interpreted, even if the if statement is false. The meta tag exists only to provide informations for the code which uses the jtpl object.
 
@@ -336,13 +352,29 @@ Example which uses the meta_html plugin. This plugin allows to modify the curren
   {meta_html bodyattr array('onload'=>'alert("charge")')}
 </code>
 
-===== templates dedicated to a locale =====
+===== Templates dedicated to a locale =====
 
 In a template, we saw that we can use {@foo.bar@} to include localized string. However, you can have many localized string, and so the template is less readable, and performance are lower.
 
 There is a solution: create templates for each language. Of course, it means that you duplicate the code of the template, and so it is less easy to maintain them. So you should think if you prefer performance or easy modifications...
 
 To create a template for each language, create sub-directories into the template directory. Their name should be the code of a lang. Example: @@F@templates/fr_FR@@, @@F@templates/en_EN@@ etc. And save in each of this sub-directories a copy of your translated template.
+
+===== Including a template into an other =====
+
+There is some case where you would like shared contents of a template with other templates. To do it, you will create a template file, and use the @@{include}@@ tag inside the template which will include the other template. You should give the selector name.
+
+<code>
+ <div>
+   ...
+   {include 'mymodule~sharedcontent'}
+ </div>
+</code>
+
+All template variables declared in the jtpl object will be accessibled into the included template.
+
+Before using the include tag, first consider using [[http://jelix.org/articles/en/manual-1.2|zones]], in many case, it is better.
+
 
 ===== Redefining a template =====
 

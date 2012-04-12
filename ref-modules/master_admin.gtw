@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.1/ref-modules/master_admin~~
+~~LANG:FR@//fr/manuel-1.2/ref-modules/master_admin~~
 
 @@master_admin@@ is a module providing a web interface dedicated to administration.
 
@@ -100,9 +100,9 @@ class newsListener extends jEventListener{
 
 A dashboard is often useful in a web administration. It is often the start page of this kind of application, and displays miscellaneous informations.
 
-Each modules can display informations on the dashboard. They should listen to @@masterAdminGetDashboardWidget@@ event, and add in the event one or more @@C@masterAdminDashboardWidget@@ objects, which declare a "widget" content. This object is very simple, it has two properties: @@P@title@@ and @@P@content@@.
+Each modules can display informations on the dashboard. They should listen to @@masterAdminGetDashboardWidget@@ event, and add in the event one or more @@C@masterAdminDashboardWidget@@ objects, which declare a "widget" content. This object is very simple, it has three properties: @@P@title@@,  @@P@content@@ and @@P@order@@.
 
-So, you should provide a title and a html content foreach "information box" you want to add on the dashboard.
+So, you should provide a title and a html content foreach "information box" you want to add on the dashboard, and the order you want to sort the display.
 
 <code php>
 class newsdashboardListener extends jEventListener {
@@ -112,6 +112,7 @@ class newsdashboardListener extends jEventListener {
         $box = new masterAdminDashboardWidget();
         $box->title = "Latest news";
         $box->content = jZone::get("news~latest");
+        $box->order = 1;
 
         $event->add($box);
    }

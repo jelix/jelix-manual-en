@@ -1,0 +1,45 @@
+~~LANG:FR@//fr/manuel-1.2/controleurs/recuperation-parametres-http~~
+
+
+===== Forget $_GET and $_POST variables =====
+
+In an action of a controller, one of task you'll do very often, is to retrieve HTTP parameters.
+
+In PHP, you usually get them into @@$_GET@@, @@$_POST@@, @@$_REQUEST@@, @@$_FILES@@ etc.
+
+However, except for files uploading (@@$_FILES@@), you'll never use them. You must call one of the methods of @@C@jController@@.
+
+Your module used to be reusable, so it doesn't know how to retrieve parameters. For instance, depending of how URLS are configured (router), perhaps one of parameters is inside the pathinfo or in $_GET. A form could be changed, so parameters are in $_GET instead of $_POST. **More important**, HTTP parameters could be changed by a plugin, without changing original PHP arrays.
+
+With other protocols like SOAP or XML-RPC, parameters can be stored into the body of the request. The Request object of jelix extract them for you.
+
+This is why you have one unified way to retrieve a parameter: the method @@param()@@ of a controller. This is the same method for GET, POST, PUT, DELETE, SOAP, XML-RPC, JSON etc...
+
+
+===== Accessing client-request parameters =====
+
+HTTP client-request parameters are accessible through an instance of @@C@jRequest@@, which is accessible from @@C@jCoordinator@@. For example :
+
+<code php>
+ $id = $GLOBALS['gJCoord']->request->getParam('id');
+</code>
+
+Although @@C@jController@@ provides the method @@M@param()@@:
+
+<code php>
+  $id = $this->param('id');
+</code>
+
+Fetching an undefined parameter makes @@M@param()@@ to return null or it's second argument for example:
+
+<code php>
+   $title = $this->param('title','Hello World (default title)');
+</code>
+
+@@C@jController@@ provides a few filtering methods like @@M@intParam()@@, @@M@floatParam()@@ or @@M@boolParam()@@ which use the same arguments:
+
+  * **intParam()** to fetch an integer,
+  * **floatParam()** to fetch a float value,
+  * **boolParam()** returns @@L@false@@ except if the parameter's string value is @@L@"true"@@, @@L@"1"@@, @@L@"on"@@, or @@L@"yes"@@
+
+Use @@C@jFilter@@ for any other type of filtering.

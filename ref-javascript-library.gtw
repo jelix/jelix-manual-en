@@ -1,0 +1,20 @@
+This chapter discribes the javascript library used inside Jelix.
+
+
+====== MarkitUp ======
+
+Jelix uses [[http://markitup.jaysalvat.com/home/|MarkitUp]] inside the framework, as a [[jforms/xml/wikieditor|wikieditor]].
+
+The current version is 1.1.7.
+
+
+====== jQuery and jQuery UI ======
+
+
+Jelix uses [[http://jquery.com/|jQuery]] inside the framework, and more with [[jforms|jForms]].
+
+Versions used are the following :
+
+  * [[http://jquery.com/|jQuery 1.4.2]]
+  * [[http://jqueryui.com/|jQueryUi 1.8.2]]
+

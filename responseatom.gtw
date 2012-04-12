@@ -1,7 +1,7 @@
-~~LANG:FR@//fr/manuel-1.1/responseatom~~
+~~LANG:FR@//fr/manuel-1.2/responseatom~~
 
 
-[[responserss|In addition to RSS feeds]], Jelix allows to generate an Atom 1.0 feed with jResponseAtom10 (alias : 'atom1.0'); which handles most of the [[http://tools.ietf.org/html/rfc4287|Atom 1.0 RFC]].
+[[responserss|In addition to RSS feeds]], Jelix allows to generate an Atom 1.0 feed with @@C@jResponseAtom10@@ (alias : 'atom1.0'); which handles most of the [[http://tools.ietf.org/html/rfc4287|Atom 1.0 RFC]].
 
 <code php>
   $rep = $this->getResponse('atom1.0');
@@ -11,9 +11,9 @@ jResponseAtom10 and jResponseRss20 have a similar signature.
 
 ===== ATOM Feed Informations =====
 
-jResponseAtom10's property 'infos' is an object allowing to set the ATOM feed's properties : title, website url, copyright, description, etc, etc ...
+jResponseAtom10's property @@P@infos@@ is an object allowing to set the ATOM feed's properties: title, website url, copyright, description, etc.
 
-For example :
+For example:
 
 <code php>
    $rep->infos->title = 'Jelix news';
@@ -24,13 +24,13 @@ For example :
    $rep->infos->selfLink=jUrl::get();
 </code>
 
-The updated property is the date of the update of the atom feed. It is determined by the date of the last item inserted into the feed.
+The @@P@updated@@ property is the date of the update of the atom feed. It is determined by the date of the last item inserted into the feed.
 
-The seflink property is the url of this atom feed.
+The @@P@seflink@@ property is the url of this atom feed.
 
 
-Property //description// should be a string; however it's possible to specify the format (HTML or XHTML) in property //descriptionType//.
-Property //descriptionType// expects any of the following values : "html", "xhtml" ou "text".
+Property @@P@description@@ should be a string; however it's possible to specify the format (HTML or XHTML) in property @@P@descriptionType@@.
+Property @@P@descriptionType@@ expects any of the following values: "html", "xhtml" ou "text".
 
 
 ===== Items =====
@@ -38,11 +38,11 @@ Property //descriptionType// expects any of the following values : "html", "xhtm
 The ATOM channel should be fed with items to publish.
 For example, items can have the description of each new tickets of a blog.
 
-Each item should be created with jResponseAtom10's method : //createItem()//.
+Each item should be created with a method of @@C@jResponseAtom10@@: @@M@createItem()@@.
 It allows to fetch an object with item's informations.
-You can fill this object and add it the the response with jResponseAtom10's method : //addItem()//.
+You can fill this object and add it the the response with a method of @@C@jResponseAtom10@@: @@M@addItem()@@.
 
-For example, with a news DAO :
+For example, with a news DAO:
 
 <code php>
   $newsdao = jDao::get('news');
@@ -90,6 +90,6 @@ For example, with a news DAO :
 
 It's possible to explicitely specify more informations about the RSS food or about each item.
 
-Check [[http://jelix.org/reference/|the API documentation]] about jAtom10Info and jAtom10Item to go deeper.
+Check [[http://jelix.org/reference/|the API documentation]] about @@C@jAtom10Info@@ and @@C@jAtom10Item@@ to go deeper.
 
 

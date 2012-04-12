@@ -1,10 +1,13 @@
-~~LANG:FR@//fr/manuel-1.1/datetime~~
+~~LANG:FR@//fr/manuel-1.2/datetime~~
 
 jDateTime is a class encapsulating a date. It defines an API to convert date to different formats and do some time calculation.
 
 There is different ways to create a jDateTime object:
    * either pass  a date value to jDateTime constructor : year, month, day, hour, minute, second arguments are all integer values and optional. 
    * either use @@M@setFromString@@ method on a jDateTime object. Its argument must be a date-formatted string 
+
+
+Note: for your time calculations, **prefer the use of the object DateTime appeared in PHP 5.2**. jDatetime have some limitations (it doesn't work with date lower than 01/01/1970).
 
 ===== Retrieving the current date =====
 
@@ -31,11 +34,13 @@ lists of date and time formats accepted by jDateTime:
 | jDateTime::LANG_DFORMAT | date format of current application lang (with //en//, this is mm/jj/aaaa) |
 | jDateTime::LANG_DTFORMAT |date and time format of current application lang |
 | jDateTime::LANG_TFORMAT | time format of current application lang |
-| jDateTime::BD_DFORMAT | date format of classic database style: "AAAA-MM-JJ" |
-| jDateTime::BD_DTFORMAT | date and time format of classic database style: "AAAA-MM-JJ HH:mm:SS" |
-| jDateTime::BD_TFORMAT | time format of classic database style: "HH:mm:SS" |
+| jDateTime::DB_DFORMAT | date format of classic database style: "AAAA-MM-JJ" |
+| jDateTime::DB_DTFORMAT | date and time format of classic database style: "AAAA-MM-JJ HH:mm:SS" |
+| jDateTime::DB_TFORMAT | time format of classic database style: "HH:mm:SS" |
 | jDateTime::ISO8601_FORMAT | ISO8601 format |
 | jDateTime::TIMESTAMP_FORMAT | integer, number of seconds since 1/1/1970 |
+| jDateTime::FULL_LANG_DATE | full format date (i.e. day of week and month in letter) respecting language conventions (ex: thursday, may 27th 2010) |
+
 
 Note: LANG_* formats are converted by jDateTime based on locales **format** file located in jelix module and current lang selected by your application.
 
@@ -44,7 +49,7 @@ Example :
 <code php>
   $dt = new jDateTime();
 
-  $dt->setFromString("2006-04-10",jDateTime::BD_DFORMAT);
+  $dt->setFromString("2006-04-10",jDateTime::DB_DFORMAT);
 
   echo "your date is ", $dt->year, ",", $dt->month, ",", $dt->day, ",", $dt->hour, ",", $dt->minute, ",", $dt->second;
 
@@ -56,7 +61,7 @@ You'll have noticed all member properties representing elements of a date.
 
 <code php>
   $dt = new jDateTime();
-  $dt->defaultFormat = jDateTime::BD_DFORMAT;
+  $dt->defaultFormat = jDateTime::DB_DFORMAT;
 
   $dt->setFromString("2006-04-10");
 </code>
@@ -69,22 +74,22 @@ You'll have noticed all member properties representing elements of a date.
   $dt->toString(jDateTime::LANG_DFORMAT);
 </code>
 
-===== date-time calcuation =====
+===== date-time calculation =====
 
 **sub** and **add** methods does substract or add duration to a date.
 <code php>
   $dt = new jDateTime();
-  $dt->setFromString("2006-04-10",jDateTime::BD_DFORMAT);
+  $dt->setFromString("2006-04-10",jDateTime::DB_DFORMAT);
 
   // substract 2 days
-  $date2 = new jDateTime(0,0,2);
-  $dt->sub($date2);
-  echo $dt->toString(jDateTime::BD_DFORMAT); // displays 2006-04-08
+  $dur1 = new jDuration(array('day'=>2));
+  $dt->sub($dur1);
+  echo $dt->toString(jDateTime::DB_DFORMAT); // displays 2006-04-08
 
   // add 27h15 hours
-  $date2 = new jDateTime(0,0,0,27,15);
-  $dt->add($date2);
-  echo $dt->toString(jDateTime::BD_DTFORMAT); // displays 2006-04-09 03:15:00
+  $dur2 = new jDuration(array('hour'=>27, 'minute'=>15));
+  $dt->add($dur2);
+  echo $dt->toString(jDateTime::DB_DTFORMAT); // displays 2006-04-09 03:15:00
 
 </code>
 
@@ -92,18 +97,19 @@ You'll have noticed all member properties representing elements of a date.
 
 <code php>
   $dt = new jDateTime();
-  $dt->setFromString("2006-04-10",jDateTime::BD_DFORMAT);
+  $dt->setFromString("2006-04-10",jDateTime::DB_DFORMAT);
 
   $dt2 = new jDateTime();
-  $dt2->setFromString("2006-04-12",jDateTime::BD_DFORMAT);
+  $dt2->setFromString("2006-04-12",jDateTime::DB_DFORMAT);
 
   // duration between $dt and $dt2
   $dt3 = $dt->durationTo($dt2);
-  echo $dt3->toString(jDateTime::BD_DTFORMAT); // displays 0000-00-02 00:00:00
+  echo $dt3->toString(jDateTime::DB_DTFORMAT); // displays 0000-00-02 00:00:00
 </code>
 
 Note: be aware to use dates superior to 01/01/1970.
 
+it is now possible to do some subtraction of dates by using the function substract() which takes and returns a  jDateTime. 
 
 ===== date-time comparison =====
 
@@ -111,10 +117,10 @@ Note: be aware to use dates superior to 01/01/1970.
 
 <code php>
   $dt = new jDateTime();
-  $dt->setFromString("2006-04-10",jDateTime::BD_DFORMAT);
+  $dt->setFromString("2006-04-10",jDateTime::DB_DFORMAT);
 
   $dt2 = new jDateTime();
-  $dt2->setFromString("2006-04-12",jDateTime::BD_DFORMAT);
+  $dt2->setFromString("2006-04-12",jDateTime::DB_DFORMAT);
 
   $result = $dt->compareTo($dt2);
 </code>

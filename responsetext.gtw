@@ -1,20 +1,20 @@
-~~LANG:FR@//fr/manuel-1.1/responsetext~~
+~~LANG:FR@//fr/manuel-1.2/responsetext~~
 
-To create a jResponseText object, pass 'text' as argument to @@M@getResponse()@@ method in your controller's action. 
+To create a @@C@jResponseText@@ object, pass 'text' as argument to @@M@getResponse()@@ method in your controller's action. 
 
-jResponseText has a @@P@content@@ proprerty which should be assigned before output.
+jResponseText has a @@P@content@@ property which should be assigned before output.
 
 <code php>
    function myaction(){
-       $rep = $this->getResponse('text');
-       $rep->content = 'my text';
-       return $rep;
+       $resp = $this->getResponse('text');
+       $resp->content = 'my text';
+       return $resp;
    }
 </code>
 
 jResponseText returns "text/plain" Mime-Type by default, and uses jelix-configuration default charset.
 
-jResponseText derives from jResponse, allowing you to modify HTTP headers such as Mime-Type or charset as well.
+jResponseText derives from @@C@jResponse@@, allowing you to modify HTTP headers such as Mime-Type or charset as well.
 
-jResponseText can be used as a base to create other formats with text-data, for example : to craft a json response for ajax.
+jResponseText can be used as a base to create other formats with text-data, for example to craft a CSV response.
 

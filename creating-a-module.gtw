@@ -1,18 +1,16 @@
-~~LANG:FR@//fr/manuel-1.1/creer-un-module~~
+~~LANG:FR@//fr/manuel-1.2/creer-un-module~~
 
-===== Declaring modules =====
 
-A module is a directory with a precise file-system hierarchy.
-They are groupped in one or several directories called: //modules group//.
+A module is a directory with a precise file-system hierarchy. Modules are groupped in one or several directories called //modules group//, or repository of modules.
 
-==== General configuration ====
 
-Module groups are declared in the configuration property @@V@modulesPath@@. It's possible to set a value of one or several relative or absolute paths separated by commas.
-It's possble to use directory codes with a particular notation :
+===== Declaring a modules group =====
+
+Module groups are declared in the configuration property @@V@modulesPath@@. It's possible to set a value of one or several relative or absolute paths separated by commas. It's also possible to use directory codes with a particular notation :
 
    directorycode:relative/path/
 
-The following directory codes are avalaible :
+The following directory codes are available :
 
 | **lib** | @@F@lib/@@ directory |
 | **app** | application directory |
@@ -28,52 +26,57 @@ It declares two module groups :
   * //jelix-modules//, subdirectory of jelix's @@F@lib/@@;
   * //modules//, subdirectory of your application path.
 
-Modules from both directories are usable and actions they declare will be executable from the client's browser.
-
-==== Deactivate a module ====
-
-In a //modules group//, perhaps there are some modules you don't use, which are not "installed", not configured.
-
-So it is necessary to indicate this modules in order to prevent to access to them through the web, and to prevent other modules to use its ressources.
-
-To indicates this uninstalled modules, you should use the option @@V@unusedModules@@ in the configuration. Modules name should be separated by a coma.
-
-<code ini>
-unusedModules = "foo,bar"
-</code>
-
-Here, modules foo and bar are not usable by the application.
-
-==== Restrictions to some entry points ====
-
-Sometimes you use and have configured some modules, but you would like to forbid access to this modules from the web, or to restrict the access from specific entry points.
-
-Two configuration options allow to set this restrictions.
-
-<code ini>
-   checkTrustedModules = on
-   trustedModules = foo,bar,baz
-</code>
-
-Enabling @@V@checkTrustedModules@@ activates the module restriction system.
-List of permitted modules should be a comma-separated list set to @@V@trustedModules@@.
-
-Other modules won't be accessible to the client; however it's still possible for other modules to access restricted modules resources, such as classes, zones, persistent objects...
-
-If you want to restrict from all entry points, indicate the options in @@F@defaultconfig.ini.php@@, else indicate them in each @@F@config.ini.php@@ file of entry points.
-
-Don't forget to [[urls|configure correctly the url engine]], so Jelix could generate modules URLS correctly with their respective entrypoints.
-
+Modules from both directories could be activated and installed in your application.
 
 ===== Create a module =====
 
 It's as simple as creating a sub-directory of a modules group, and filling it with controllers, persistent objects ...
 
-It's simple with jelix's script's **createmodule** command :
+The @@c@createmodule@@ command helps you to create all this directories, and to activate and install automatically the new module:
+
 <code bash>
-   php jelix.php createmodule mymodule
+   php jelix.php --myapp createmodule mymodule
 </code>
-This command creates the module "mymodule" in your application's sub-directory //modules//, some sub-directories as well as a default controller.
+
+This command creates the module "mymodule" in your application's sub-directory @@F@modules@@. It creates also  some sub-directories as well as a default controller.
 
 **Important** : The name of modules are used in the name of some classes generated automatically by Jelix. So you mustn't use other characters than a-z, A-Z, 0-9 and '_'.
+
+
+By default, the module is created in the @@F@modules@@ directory of the application. Perhaps you would like to create it into an other modules group. In this case, indicate the path of the repository after the module name. You can use the same syntax as in @@modulesPath@@ (an absolute path or a relative path with "lib:" or "app:".
+
+This example creates a "supermodule" module into the @@F@shared-modules@@ directory which is itself into the @@F@lib@@ directory provided with jelix.
+
+<code bash>
+php jelix.php --myapp createmodule supermodule lib:shared-modules/
+</code>
+
+See the online help of the @@c@createmodule@@ command to know other options.
+
+
+===== Setting the version and dependencies =====
+
+After creating the module, you should verify if the default initial version is ok for you (0.1), and set dependencies. It is very important for the installation system of Jelix.
+
+You can indicate the version to the @@createmodule@@ command, with the @@-ver@@ option :
+
+<code bash>
+php jelix.php --myapp createmodule -ver 1.0 supermodule
+</code>
+
+You can also modify the version in the @@F@module.xml@@ file generated in the module, if needed.
+
+You can set dependencies of the module. Dependencies are modules necessary to execute the new module. In the @@E@<dependencies>@@ element in the @@F@module.xml@@ file, add a @@E@<module>@@ element for each required module.
+
+<code xml>
+   <dependencies>
+     <jelix minversion="1.2" maxversion="1.2.*" />
+     <module name="jauth" minversion="1.2" />
+     <module name="anOtherModule" minversion="1.0" maxversion="1.4.*" />
+   </dependencies>
+</code>
+
+The attributes @@A@minversion@@ and @@A@maxversion@@ are optional.
+
+For more details about the content of module.xml, [[config#module.xml|read the corresponding chapter]].
 

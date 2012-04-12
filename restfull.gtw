@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.1/restfull~~
+~~LANG:FR@//fr/manuel-1.2/restfull~~
 
 
 REST principles consist of using HTTP protocol features to access and manipulate a resource. It is true that POST and GET method are very-well known HTTP requests but HTTP also defines PUT and DELETE methods. Thus RESTful says a resource should be identified by a unique URI and the four HTTP methods should be used to create, modify, delete and display it. 
@@ -58,10 +58,24 @@ With the url result of jUrl::get("module~example:"), you will then be able to ca
 
 There is another way to do REST in a classic controller. Scan $_SERVER['REQUEST_METHOD'] value. But this is  a less "sexy" solution than a jIRestController interface. ;-)
 
+
+
 ===== Retrieving parameters of the request =====
 
-As in any controller, you can retrieve parameters with the @@M@param()@@ method, by indicating the parameter name. It works with GET and POST method.
+As in any controller, you can retrieve parameters with the @@M@param()@@ method, by indicating the parameter name.
 
-However, PHP doesn't support correctly the HTTP PUT method. It doesn't read the body of the request, even if the data format is "multipart/form-data" or "application/x-www-url-encoded" (there isn't a @@$_PUT@@ global variable).
+For POST and PUT requests, @@M@param()@@ is working only if parameters are stored in the body http request with the content-type "multipart/form-data" or "application/x-www-url-encoded" (this is mostly the case with POST request).
 
-So you have to read the stream @@php://input@@ and then you should parse the content. The next version of Jelix will do it for you.
+==== The PUT case ====
+
+PHP doesn't support correctly the HTTP PUT method. It doesn't read the body of the request, even if the data format is "multipart/form-data" or "application/x-www-url-encoded" (there isn't a @@$_PUT@@ global variable).
+
+Jelix read for you the body (by reading "php://input". If the content-type of data is "multipart/form-data" or "application/x-www-url-encoded", then data are accessible from the @@M@param()@@ method as usual. However, it doesn't detect uploaded files, so there isn't any content in @@$_FILE@@ and then you have to read file properties by getting the corresponding parameters through the @@M@param()@@ method.
+
+If the content-type of data is not "multipart/form-data" or "application/x-www-url-encoded", you could retrieve the entire content in the special parameter @@__httpbody@@.
+
+<code php>
+  $data = $this->param('__httpbody');
+</code>
+
+Then you have to parse yourself the content to extract data you want. You can read @@$_SERVER["CONTENT_TYPE"]@@ to get the content type of the data.

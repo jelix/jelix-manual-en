@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.1/responsejsonrpc~~
+~~LANG:FR@//fr/manuel-1.2/responsejsonrpc~~
 
 Jelix supports [[http://json-rpc.org/|json-rpc]]. This is a similar protocol to XML-RPC. The main differences is that data are JSON formatted instead of XML. (RPC = Remote Procedure Call)
 
@@ -32,7 +32,7 @@ jsonrpc = "@jsonrpc"
 
 If you have selected [[urls/significant|significant url engine]], just add :
 <code xml>
-<jsonrpcentrypoint name="jsonrpc" default="true" />
+<entrypoint type="jsonrpc" name="jsonrpc" default="true" />
 </code>
 
 

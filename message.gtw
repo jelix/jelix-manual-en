@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.1/message~~
+~~LANG:FR@//fr/manuel-1.2/message~~
 
 Often, you'll find useful to display some results/consequences/hints of an action in a subsequent action. As an example, when you redirect a user to your home page after a login failure, it would be very interesting to display him a message that is login has failed and the reasons why. 
 

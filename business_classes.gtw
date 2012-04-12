@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.1/classes-metiers~~
+~~LANG:FR@//fr/manuel-1.2/classes-metiers~~
 
 To be able to respect the layer model, it is recommended to do all the business processing and the services in classes dedicated to it.
 

@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.1/droits2/concepts.db~~
+~~LANG:FR@//fr/manuel-1.2/droits2/concepts.db~~
 
 jAcl2.db is a "db" or database driver of jAcl2. rights are stored in a database. It implements generic concepts fo jAcl2 and add one feature : support of user groups. Then, the basic elements defining a right are :
 

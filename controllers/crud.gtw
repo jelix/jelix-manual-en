@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.1/controlleurs/crud~~
+~~LANG:FR@//fr/manuel-1.2/controleurs/crud~~
 
 ===== Introduction =====
 
@@ -48,6 +48,14 @@ and you can now manage/administrate all your products.
 Essential : the CRUD controller uses the common "html" response. So, you have to create 
 [[//common-processes#customizing-common-response|a custom response object]]. If you don't do it, nothing will appear in your browser. If you don't want to create such a response, you have to redefine the _getResponse() method (see below).
 
+
+Note : You can also use the command @@createdaocrud@@ which allows to create the controller, the dao and the form in the same time, just by indicating the table name.
+
+<code bash>
+php jelix.php --myapp createdaocrud the_module the_table
+</code>
+
+See the help of this command to know options (@@php jelix.php help createdaocrud@@).
 ===== Customizing the CRUD controller =====
 
 You certainly have some things to change in the controller, because it doesn't fit exactly to your needs. The CRUD controller can be customize by setting some properties or overriding some methods.
@@ -55,10 +63,10 @@ You certainly have some things to change in the controller, because it doesn't f
 
 ==== Setting the jDb profile ====
 
-If a specific profile should be selected, set the $dbProfil value:
+If a specific profile should be selected, set the $dbProfile value:
 
 <code php>
-  protected $dbProfil = 'admin';
+  protected $dbProfile = 'admin';
 </code>
 
 ==== Setting the response ====
@@ -234,3 +242,21 @@ Like in previous section, you can overload some methods:
 
 Displayed by //delete// action. This one calls //_delete// method which you can overlaod.
 
+
+===== Configuring URLs =====
+
+If you have activated significant URLs, here is the content that you can add to your @@F@urls.xml@@ file in your module. Here the controller is "mycrud", and we want urls that begin with "/thedata/".
+
+<code xml>
+<url pathinfo="/thedata/" action="mycrud:index" />
+<url pathinfo="/thedata/view/:id" action="mycrud:view" />
+<url pathinfo="/thedata/precreate" action="mycrud:precreate" />
+<url pathinfo="/thedata/create" action="mycrud:create" />
+<url pathinfo="/thedata/savecreate" action="mycrud:savecreate" />
+<url pathinfo="/thedata/preedit/:id" action="mycrud:preupdate" />
+<url pathinfo="/thedata/edit/:id" action="mycrud:editupdate" />
+<url pathinfo="/thedata/save/:id" action="mycrud:saveupdate" />
+<url pathinfo="/thedata/delete/:id" action="mycrud:delete" />
+</code>
+
+So, for a crud controller, you have to define 9 URLs.

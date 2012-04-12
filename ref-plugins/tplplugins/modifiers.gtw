@@ -1,5 +1,197 @@
-~~LANG:FR@//fr/manuel-1.1/ref-plugins/tplplugins/modifiers~~
+~~LANG:FR@//fr/manuel-1.2/ref-plugins/tplplugins/modifiers~~
 
 All template modifiers bundled with Jelix.
 
-Documentation to do.
+
+
+===== gravatar =====
+
+this modifier permits to display an avatar from the website http://gravatar.com/
+
+To do so, you just need to provide the email in the template as follow  :
+
+<code php>
+{gravatar 'foo@bar.com'}
+</code>
+
+Thus, your gravatar will be displayed at wanted place in the template.
+
+===== hook =====
+
+==== Introduction ====
+The Hook system permits to add in the templates of his choice, the fonctionnalities that we wish.
+
+To exploit the hooks we will write in the template :
+
+<code smarty>
+{hook 'event', $params}
+</code>
+where **event** is the event name triggered the grabbing of all the functionalities and **$params** is the array of parameters given to the listener answering to **event**.
+
+Example : 
+<code smarty>
+{hook 'SampleBannerAnnouncement'}
+</code>
+
+will display a banner of announcement in the template of your choice by answering to the event **SampleBannerAnnouncement**.
+
+==== Hooks naming convention ====
+
+this will permit you to understand, by reading the event name, to which page / template the hook is linked. It's not a rule written in the stone, but a way to organize your futur hooks.
+
+  * Before**TemplateName**
+  * **TemplateName**
+  * After**TemplateName**
+
+where :
+  * **TemplateName** is the name of the template where the hook is used
+  * BeforeTemplateName is the name of the hook called at the beginning of the template TemplateName
+  * TemplateName is also the place where the hook is called (in the middle of the template)
+  * AfterTemplateName is the name of the hook called at the end the template TemplateName
+
+==== How to respond to hooks ? ====
+
+We have to produce a module : 
+
+  * a listener 
+  * a zone 
+  * a template
+  * the Listener will be in charge of **responding** to the event in calling a zone
+<code php>
+
+class hookListener extends jEventListener{
+    
+   function onhfbSampleBannerAnnouncement ($event) {
+        $event->add( jZone::get('hook~samplebanner_accouncement') );
+   } 
+}
+</code>
+  * file events.xml to define the listener which will //respond// to the event
+<code xml>
+<?xml version="1.0" encoding="iso-8859-1"?>
+<events xmlns="http://jelix.org/ns/events/1.0">
+   <listener name="hook">
+	<event name="hfbSampleBannerAnnouncement" />
+   </listener>
+</events>
+</code>
+  * the zone will exploit the data of your choice and will provide them to the template
+<code php>
+class samplebanner_accouncementZone extends jZone {
+    protected $_tplname='zone.samplebanner_accouncement';
+    
+    protected function _prepareTpl(){    
+        $this->_tpl->assign('text',jLocale::get('hook~main.welcome'));
+    }        
+}
+</code>
+  * the template will display the data
+<code smarty>
+<div class="grid_16">
+    <div class="box">
+    <h2>Banner</h2>
+    {$text}
+    </div>
+</div>
+<div class="clear"></div>
+</code>
+
+all of this will be returned to the Hook in the wanted template at the place you want
+
+===== jdatetime =====
+
+The jdatetime modifier permit to convert a date string in a format to another one. This modifier use the [[//datetime|jDateTime class]].\\ 
+Without parameter, this modifier expect a database string format(jDateTime::BD_DTFORMAT) and return a date in selected language format (jDateTime::LANG_DTFORMAT).
+
+<code smarty>
+  <p>this date are {$myDate|jdatetime}.</p>
+</code>
+
+if $myDate='2006-04-12 01:05:26' an if language are en, then it display
+
+<code>
+ this date are 12/04/2006 01h05mn26s.
+</code>
+
+To use another formats, you have to use one of this string in modifier parameter :
+
+^ parameter ^ constant in jDateTime class ^ format ^
+| 'lang_date' | jDateTime::LANG_DFORMAT | date format of current application lang (with //en//, this is mm/dd/yyyy) |
+| 'lang_datetime' | jDateTime::LANG_DTFORMAT | date and time format of current application lang |
+| 'lang_time' | jDateTime::LANG_TFORMAT | time format of current application lang |
+| 'db_date' | jDateTime::DB_DFORMAT |date of classic database style : "YYYY-MM-DD" |
+| 'db_datetime' | jDateTime::DB_DTFORMAT | date and time of classic database style : "YYYY-MM-DD HH:mm:SS" |
+| 'db_time' | jDateTime::DB_TFORMAT | timeof classic database style : "HH:mm:SS" |
+| 'iso8601' | jDateTime::ISO8601_FORMAT | format ISO8601 |
+| 'timestamp' | jDateTime::TIMESTAMP_FORMAT | integer, number of seconds since 1/1/1970 (timestamp) |
+| 'full_lang_date' | jDateTime::FULL_LANG_DATE | full format date (i.e. day of week and month in letter) respecting language conventions (ex: thursday, may 27th 2010) |
+
+
+The first parameter is the format of date string to convert, the second one, the format to display.
+<code smarty>
+  <p>this date are {$myDate|jdatetime:'db_date':'timestamp'}.</p>
+</code>
+
+if $myDate='2006-04-15' then it display
+
+<code>
+ this date are 1145052000.
+</code>
+
+===== mailto =====
+
+this modifier permits to display a link to the user's email in the form of your choice :
+
+several options can be used for that: 
+  * displaying an email in a classic form
+<code smarty>
+{mailto array('address'=>'me@domain.com')}
+</code>
+  * displaying an email encoded in javascript 
+<code smarty>
+{mailto array('address'=>'me@domain.com', 'encode'=>'javascript')}
+</code>
+  * displaying an email encoded in hexa
+<code smarty>
+{mailto array('address'=>'me@domain.com', 'encode'=>'hex')}
+</code>
+  * displaying an email following by the subject of this onejavascript 
+<code smarty>
+{mailto array('address'=>'me@domain.com', 'subject'=>'Hello to you!')}
+</code>
+  * displaying an email with 'cc' on severals email
+<code smarty>
+{mailto array('address'=>'me@domain.com', 'cc'=>'you@domain.com,they@domain.com')}
+</code>
+  * additionals options are available, like a CSS class 
+<code smarty>
+{mailto array('address'=>'me@domain.com', 'extra'=>'class="mailto"')}
+</code>
+
+
+===== number_format =====
+this modifier format a number to be displayed like explains in the PHP doc [[http://uk.php.net/number_format]] 
+
+for example :
+<code smarty>
+{number_format $number, 2, '.', ''}
+</code>
+
+===== truncate ===== 
+
+Modifier that truncates a string to a certain length if necessary, optionally splitting in the middle of a word, and appending the $etc string.
+<code smarty>
+{$mytext|truncate}
+{$mytext|truncate:40}
+{$mytext|truncate:45:'...'}
+{$mytext|truncate:60:'...':true}
+</code>
+
+===== truncatehtml ===== 
+Modifier that cuts a html formated string and close all opened tags so that it doesn't inpact on the rest of the page.
+You should use this modifier in a zone so that the return value is cached 
+<code smarty>
+{$mytext|wordwrap} 
+{$mytext|truncatehtml:150:"\n<a href="...">read full article</a>"} 
+{$mytext|truncatehtml:45} 
+</code>

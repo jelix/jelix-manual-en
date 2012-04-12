@@ -1,14 +1,20 @@
-~~LANG:FR@//fr/manuel-1.1/jforms/xml-1.1~~
+~~LANG:FR@//fr/manuel-1.2/jforms/xml-1.1~~
 
 The format described here is supported since Jelix v1.1. 
 
-===== Main difference with 1.0 =====
+===== Main difference with jforms 1.0 =====
 
-   * The namespace is now http://jelix.org/ns/forms/1.1
+   * The namespace is http://jelix.org/ns/forms/1.1
    * new elements/widgets : @@E@<htmleditor>@@, @@E@<captcha>@@, @@E@<hidden>@@, @@E@<group>@@, @@E@<choice>@@, @@E@<date>@@, @@E@<datetime>@@
    * "html" type on @@E@<input>@@ et @@E@<textarea>@@
    * new way to declare datasources
    * new @@E@<emptyitem>@@ on @@E@<menulist>@@
+
+Although the version of jforms did not changed in Jelix 1.2, there is a new elements and attributes since jelix 1.2: 
+
+   * @@E@<wikieditor>@@.
+   * @@E@<itemsgroup>@@ and @@A@groupby@@ for datasources.
+   * @@A@pattern@@ on @@E@<input>@@.
 
 
 ===== Main structure =====
@@ -121,13 +127,15 @@ You can modify this property with the PHP object of the form.
 
 ==== Text input ====
 
-To declare an input field, use @@E@<input>@@ tag. Set its @@A@ref@@ attribute, and optionally @@E@<label>@@, @@E@<hint>@@, @@E@<alert>@@, @@E@<help>@@ tags as well as  @@A@readonly@@ and @@A@required@@ attributes. It supports also the following attributes: @@A@type@@, @@A@defaultvalue@@, @@A@size@@, @@A@minlength@@ and @@A@maxlength@@.
+To declare an input field, use @@E@<input>@@ tag. Set its @@A@ref@@ attribute, and optionally @@E@<label>@@, @@E@<hint>@@, @@E@<alert>@@, @@E@<help>@@ tags as well as  @@A@readonly@@ and @@A@required@@ attributes. It supports also the following attributes: @@A@type@@, @@A@defaultvalue@@, @@A@size@@, @@A@minlength@@, @@A@maxlength@@ and @@A@pattern@@.
 
 @@A@defaultvalue@@ indicates a default value displayed when form is empty. You can use @@L@"now"@@ if your input represents a date. Default value will be the current date. 
 
 @@A@size@@ defines field length in terms of number of chars.
 
 @@A@maxlength@@ and @@A@minlength@@ declare a constraint on the input value: input value length shall be over minlength and under maxlength. Those attributes are only valid with @@A@type="string"@@.
+
+@@A@pattern@@: It should contain a regular expression, compatible with PHP and JS. This attribute is allowed only when @@A@type="string"@@.
 
 @@A@type@@ defines which data format a user input shall match. On submit, a client-side javascript checking will be done, and also a server-side checking (case of javascript deactivated) with a call of @@M@check()@@ method on the form object.
 
@@ -152,6 +160,14 @@ A simple example :
   <input ref="email" type="email">
      <label locale="mymodule~myform.email.label" />
      <hint>Email shoud be valid</hint>
+  </input>
+</code>
+
+A example with attribute "pattern" 
+
+<code xml>
+  <input ref="url" type="string" pattern="/^[a-z0-9\-]+$/">
+      <label>Url</label>
   </input>
 </code>
 
@@ -186,6 +202,18 @@ To use an HTML editor in your form, you should use the @@E@<htmleditor>@@ elemen
 The default html builder of jforms uses Wymeditor. You can specify an other html editor by setting the @@A@engine@@ attribute. You can also indicate a configuration file with the @@A@config@@ attribute, and indicates a skin with the @@A@skin@@ attribute.
 
 To know more about configuring a wysiwyg html editor, see [[xml/htmleditor|the dedicated section on htmleditor]].
+
+==== wiki editor ====
+
+You can use a textarea to edit wiki content. There is a @@E@<wikieditor>@@ element to allow it. Generator could displays a toolbar with buttons to help to write wiki tags, and will use WikiRenderer (jWiki) to convert the content into HTML when displaying it.
+
+<code xml>
+  <wikieditor ref="description">
+	<label>Describe the product</label>
+  </wikieditor>
+</code>
+
+You can indicate a configuration file with the @@A@config@@ attribute. To know more about how configuring this editor, read [[xml/wikieditor|the corresponding section]].
 
 ==== Datepickers ====
 
@@ -436,7 +464,7 @@ When a user selects one of this item (represented by radio buttons in HTML), con
 
 Each @@E@<item>@@ element should have a @@A@value@@ attribute.
 
-The @@E@<choice>@@ element accept @@E@<help>@@, @@E@<hint>@@, @@E@<alert>@@, as well as readonly and selectedvalue attributes. This last attribute can contain a value of one of the items. You can also put a @@A@selected="true"@@ attribute on an @@E@<item>@@ element to select it.
+The @@E@<choice>@@ element accept @@E@<help>@@, @@E@<hint>@@, @@E@<alert>@@, as well as @@A@readonly@@, @@A@required@@ and @@A@selectedvalue@@ attributes. This last attribute can contain a value of one of the items. You can also put a @@A@selected="true"@@ attribute on an @@E@<item>@@ element to select it.
 
 
 
@@ -568,6 +596,8 @@ You use the @@A@criteria@@ attribute for "static" parameters:
 
 Here the method @@M@findByCat()@@ will be called with the "admin" value as parameter.
 
+== Dependencies with an other control ==
+
 If the value of the parameter could be the value of an other control, use @@A@criteriafrom@@ which should contain the identifier of the control.
 
 <code xml>
@@ -584,7 +614,14 @@ If the value of the parameter could be the value of an other control, use @@A@cr
 
 In this exemple, the content of the second list will be filled depending of the selected value of the first list.
 
-Note: this dependency between controls is resolved only during the display of the form. For the moment, the second list is not dynamically changed when the user changes the value of the first menulist (this behavior is planed in future version of jForms). So, the most common usage of this dependency, is the use of an hidden field as criteria.
+Note that since jelix 1.2, the content of the menulist is replaced dynamically when the user change the value of the control indicated into @@A@criteriafrom@@. In Jelix 1.1, nothing happen.
+
+=== For the display of values ===
+
+When the form is displayed with plugins @@{formdata}@@ or @@{formdatafull}@@, where only values are displayed (or more exactly, corresponding labels), jForms don't call the method indicated into @@A@method@@. By default, it calls the @@M@get@@ method of the dao, with the selected value. If there are some criterias, they are also passed to the method. It means that //the selected value and criteria values must correspond to the primary key// of the corresponding record.
+
+However, it is not always the case. These values could correspond to other fields of the record. You have then to indicate an other method than @@M@get@@, which allows to retrieve the record. This method should accept the selected value and all criterias, as parameters. Indicate the name of the method into the attribute @@A@labelmethod@@. The method should return only one record (type @@selectfirst@@).
+
 
 === Multiple values in attributes ===
 
@@ -616,12 +653,12 @@ Let's improve the previous example: we want to display the list depending on dat
 
 ==== Dynamic data through a class ====
 
-If a DAO doesn't suit your needs, you can use a class. This class should inherit from @@C@jIFormDatasource@@ interface and stored in @@F@classes/@@ folder of a module. You'll declare this class with the @@E@<datasource>@@ element and the  @@A@class@@ attribute. 
+If a DAO doesn't suit your needs, you can use a class. This class should inherit from @@C@jIFormsDatasource@@ interface and stored in @@F@classes/@@ folder of a module. You'll declare this class with the @@E@<datasource>@@ element and the  @@A@class@@ attribute. 
 
 Class example:
 
 <code php>
-class listDatas implements jIFormDatasource
+class listDatas implements jIFormsDatasource
 {
   protected $formId = 0;
 
@@ -664,6 +701,31 @@ in jForms XML file :
 If neither DAO, class or static data are of use, see "Defining choices on a multiple choice control" in [[usage|jForms usage]].
 
 If you do so, don't declare @@E@<item>@@ element nor @@E@<datasource>@@ element.
+
+
+==== Grouped data ====
+
+For @@E@<menulist>@@ or @@E@listbox@@, you can group data into "sections". It will produce @@E@optgroup@@ elements in HTML.
+
+For static datasource, use the @@E@<itemsgroup>@@ element with an attribute @@A@label@@ or @@A@locale@@.
+
+<code xml>
+   <menulist ref="country">
+      <label>Countries </label>
+      <itemsgroup label="Europe">
+        <item value="fr">France</item>
+        <item value="gb">Great Britain</item>
+      </itemsgroup>
+      <itemsgroup label="Asia">
+        <item value="zh">China</item>
+        <item value="in">India</item>
+      </itemsgroup> 
+  </menulist>
+</code>
+
+For dao datasource or class datasource, you have to set an attribute @@A@groupby@@ on the @@E@<datasource>@@ element. For a dao datasource, @@A@groupby@@ indicates a property of the dao which contains the label of a group on which the record belongs to. For a class datasource, the meaning of @@A@groupby@@ will depend of the implementation of the datasource.
+
+
 
 ==== Preselecting values ====
 

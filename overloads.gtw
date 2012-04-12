@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.1/surcharge-de-fichiers~~
+~~LANG:FR@//fr/manuel-1.2/surcharge-de-fichiers~~
 
 A Jelix application can make use of third-party module. But certainly, you will need to customize it more or less. Still, it would be a pain to modify its code directly. Jelix offers a way to overload the module files. As a result, any update of the module will be transparent and won't revert your modifications. 
 
@@ -8,16 +8,16 @@ Module files you can overload :
    * templates through [[themes|theme]] system
    * [[locales|localization]] files
    * [[daos|Dao]] files
-   * [[http://jelix.org/articles/en/manual-1.1/forms|Form]] files
+   * [[http://jelix.org/articles/en/manual-1.2/forms|Form]] files
 
-As for templates, see [[themes|theme system]] description. If you haven't configure your themes, then the default one is active. You only need to put your modified files in var/themes/default. 
+As for templates, see [[themes|theme system]] description. If you haven't configure your themes, then the default one is active. You only need to put your modified files in @@F@var/themes/default@@. 
 
-Other files needs to be located under var/overloads/<module_name_to_overload>/. 
+Other files needs to be located under @@F@var/overloads/<module_name_to_overload>/@@. 
 Say you want to overload //example// module.
 
-  * daos will be located under var/overloads/example/daos/
-  * forms will be located under var/overloads/example/forms/
-  * locales will be located under var/overloads/example/locales/
+  * daos will be located under @@F@var/overloads/example/daos/@@
+  * forms will be located under @@F@var/overloads/example/forms/@@
+  * locales will be located under @@F@var/overloads/example/locales/@@
 
 
 Filenames must be equivalent to their original copy. And in the case of dao, you shoud respect its original api, ie, keep all methods defined in the original.

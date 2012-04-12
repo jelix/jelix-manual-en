@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.1/locales~~
+~~LANG:FR@//fr/manuel-1.2/locales~~
 
 Jelix has its own localization/internationalization mechanism. The setLocale and gettext functions from php are not used because too much constraining to setup, and their configuration is chancy on servers.
 
@@ -88,9 +88,17 @@ The value of space will be ' ', and the value of nospace, ''.
 
 == HTML entities ==
 
-Localized strings shouldn't contain HTML entities. First because a localized string could be used for other content than HTML, and second because jelix escapes html characters for you went necessary (i.e. the title of a page). So if the given string contains entities, this entities will be escaped and the browser won't identify them. To summarize, &copy; will become &amp;copy;.
+Localized strings shouldn't contain HTML entities. First because a localized string could be used for other content than HTML, and second because jelix escapes html characters for you when necessary (i.e. the title of a page). So if the given string contains entities, this entities will be escaped and the browser won't identify them. To summarize, &copy; will become &amp;copy;.
 
 If you want to use specific characters (&#126; or &copy; etc), choose the corresponding charset and directly use these characters. They will be escaped for you. This is why it is a good idea to use the UTF-8 character encoding in your application, since it includes every existing character in any language.
+
+If you really want to put some html in a localized string, and to use it in a jtpl template with the @@{jlocale}@@ tag, a possibility is to put a ".html" at the end of the locale name as follow:
+
+<code ini>
+my.nice.title.of.my.paragraph.html = <strong>My nice title of my paragraph</strong>
+</code>
+
+Then, the @@{jlocale}@@ tag won't escape the content of the locale.
 
 ===== Retrieving a localized string =====
 

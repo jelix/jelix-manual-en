@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.1/controleurs~~
+~~LANG:FR@//fr/manuel-1.2/controleurs~~
 
 Controller objects run actions corresponding to client-input. An action corresponds to a unique URL of your application.
 
@@ -88,30 +88,3 @@ Each response type is declared with a keyword. So, to retrieve a specific respon
 
 Notice that you can create your own response object. You can then support a new output format, or you can overload an existing response object to do some things shared between many actions. For example, you can create your own response HTML which generates dynamically a menu. Then, in all actions where you use this responses, you will have this menu. See [[creating-response|the page which explains how to do this]].
 
-==== Accessing client-request parameters ====
-
-HTTP client-request parameters are accessible through an instance of @@C@jRequest@@, which is accessible from @@C@jCoordinator@@. For example :
-
-<code php>
- $id = $GLOBALS['gJCoord']->request->getParam('id');
-</code>
-
-Although @@C@jController@@ provides the method @@M@param()@@ :
-
-<code php>
-  $id = $this->param('id');
-</code>
-
-Fetching an undefined parameter makes @@M@param()@@ to return null or it's second argument for example :
-
-<code php>
-   $title = $this->param('title','Hello World (default title)');
-</code>
-
-@@C@jController@@ provides a few filtering methods like @@M@intParam()@@, @@M@floatParam()@@ or @@M@boolParam()@@ which use the same arguments :
-
-  * **intParam()** to fetch an integer,
-  * **floatParam()** to fetch a float value,
-  * **boolParam()** returns @@L@false@@ except if the parameter's string value is @@L@"true"@@, @@L@"1"@@, @@L@"on"@@, or @@L@"yes"@@
-
-Use @@C@jFilter@@ for any other type of filtering.

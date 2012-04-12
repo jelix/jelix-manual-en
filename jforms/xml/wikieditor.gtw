@@ -1,0 +1,63 @@
+~~LANG:FR@//fr/manuel-1.2/jforms/xml/wikieditor~~
+
+The wiki editor provides a toolbar for easy formatting of the text.
+
+for this, [[http://markitup.jaysalvat.com/home/|MarkItUp]] has been integrated.
+
+===== Editor Configuration =====
+in the file defaultconfig.ini.php we will add  :
+<code>
+[wikieditors]
+default.engine.name = wr3
+default.wiki.rules = wr3_to_xhtml
+; path to the engine file
+default.engine.file = jelix/markitup/jquery.markitup.js
+; define the path to the "internationalized" file to translate the label of each button
+default.config.path = jelix/markitup/sets/wr3/
+; define the path to the image of buttons of the toolbar
+default.image.path = jelix/markitup/sets/wr3/images/
+default.skin = jelix/markitup/skins/simple/style.css
+</code> 
+
+where : 
+  * "default" is the name of the editor
+  * **default.engine.name** is the name of the engine, used for the render
+  * **default.wiki.rules**  is the name of the rules transformation 
+  * **default.engine.file** is the path to the markitup javascript
+  * **default.config.path**  is the path to the lables translations of each button
+  * **default.image.path** is the path to the images of the buttons
+  * **default.skin** is the path to the CSS which handles the layout of the textarea
+
+**default.config.path**  could have the value of any //sets// supported by MarkitUp, like bbcode, dotclear etc...  to use it you will add this set in the path of your choice and put this path in the defaultconfig.ini.php file
+
+Here is an example (a little bit creazy, because the rules of transformation  bbcode_to_xhtml does not exist, but you could create it ) :
+
+You just need to download the "set" bbcode from the markitup website and install it and set the path as below 
+
+<code>
+[wikieditors]
+default.engine.name = bbcode
+default.wiki.rules = bbcode_to_xhtml
+; path to the engine file
+default.engine.file = jelix/markitup/jquery.markitup.js
+; define the path to the "internationalized" file to translate the label of each button
+default.config.path = jelix/markitup/sets/bbcode/
+; define the path to the image of buttons of the toolbar
+default.image.path = jelix/markitup/sets/bbcode/images/
+default.skin = jelix/markitup/skins/simple/style.css
+</code> 
+
+
+
+===== Configuration jForms =====
+
+
+So to add a wiki editor to a form, we will writte in the .form.xml file :
+
+<code xml>
+<wikieditor ref="message" config="default" required="true">
+</code>
+where : 
+  * **ref** is the name of the textarea, here //message//
+  * **config** is the config name used in the file  defaultconfig.ini.php
+  * **required** if you want this textarea is mandatory
