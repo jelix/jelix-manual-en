@@ -22,7 +22,7 @@ copyright_holder=All jelix.org wiki contributors
   - chapter: [[installation/production-serveur|Install on a production server]]
 
 - part: [[main-concepts|Main concepts]]
-   - chapter:[[http://jelix.org/articles/en/manual/principles|Core workflow]]
+   - chapter:[[principles|Core workflow]]
      - section: [[selectors|Selectors]]
      - section: [[requests|Request object]]
      - section: [[coordinator|Coordinator]]
@@ -57,7 +57,7 @@ copyright_holder=All jelix.org wiki contributors
 - part: [[components|Jelix components]]
    - chapter: [[templates|jTpl, template engine]]
    - chapter: [[zones|Zones]]
-   - chapter: [[daos|jDao : relational object mapping]]
+   - chapter: [[daos|jDao: relational object mapping]]
      - section: [[daos/file|DAO file]]
      - section: [[daos/use|Instantiation and use of a dao factory and record]]
      - section: [[daos/xml_methods|Declaring methods in the XML file]]
@@ -70,7 +70,7 @@ copyright_holder=All jelix.org wiki contributors
      - section: [[jforms/usage|Using the form in a controller]]
      - section: [[jforms/display|Displaying the form in a template]].
      - section: [[jforms/data-display|Form data display (simple)]].
-   - chapter: [[bd|jDb : database access]]
+   - chapter: [[bd|jDb: database access]]
    - chapter: [[business_classes|Write your own business classes]]
    - chapter: [[urls|jUrl: automatic urls]]
      - section: [[urls/simple|Simple url engine]]
@@ -103,11 +103,11 @@ copyright_holder=All jelix.org wiki contributors
    - chapter: [[debugging|Debugging tool]]
 
 - part: [[class-utilities|Class utilities]]
-   - chapter: [[filter|jFilter : verifying and filtering datas]]
+   - chapter: [[filter|jFilter: verifying and filtering datas]]
    - chapter: [[datetime|jDateTime : dates and times ]]
-   - chapter: [[mailer|jMailer : sending mails]]
-   - chapter: [[wiki|jWiki : generating contents from wiki contents]]
-   - chapter: [[session|jSession : allowing to choose the storage : files, database]]
+   - chapter: [[mailer|jMailer: sending mails]]
+   - chapter: [[wiki|jWiki: generating contents from wiki contents]]
+   - chapter: [[session|jSession: allowing to choose the storage : files, database]]
 
 </bookcontents>
 
