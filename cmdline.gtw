@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/cmdline~~
+~~LANG:FR@//fr/manuel-1.3/cmdline~~
 
 On the server-side, an application could need to process some jobs silently and perhaps repeatedly. This is often done in shell or perl scripts using cron utility. As PHP is a scripting language, it is also well suited for those jobs. 
 
@@ -22,14 +22,14 @@ Jelix-scripts have some helper tools to create those.
 When you create your application, just add //-withcmdline// option:
 
 <code bash>
-$ php jelix.php createapp -withcmdline
+$ php createapp.php -withcmdline myapp
 </code>
 
 //-withcmdline// option will tell @@c@createapp@@ to create inside a classic application structure, a @@F@scripts/@@ folder containing @@F@cmdline.php@@ entry point. 
 
 If you already created the application, you can also use the createentrypoint command :
 <code bash>
-$ php jelix.php createentrypoint -type cmdline myscript
+$ php cmd.php createentrypoint -type cmdline myscript
 </code>
 
 It will create a new entrypoint for command line, named @@F@myscript.php@@ in the @@F@scripts/@@ folder.
@@ -41,7 +41,7 @@ If your application already exists and don't want to use jelix-scripts, you just
 
 <code php>
 <?php
-require_once ('../application-cli.init.php');
+require_once ('../application.init.php');
 require_once (JELIX_LIB_CORE_PATH.'jCmdlineCoordinator.class.php');
 require_once (JELIX_LIB_CORE_PATH.'request/jCmdLineRequest.class.php');
 
@@ -54,7 +54,6 @@ $jelix->process(new jCmdLineRequest());
 
 Comparing a cmdline entry point to a default web entry point, you find :
 
-   * the use of a @@F@application-cli.init.php@@ file, which is similar to the @@F@application.init.php@@ used for web entry points, but which have some differences, like defining a different temp folder (otherwise some rights problem could arise)
    * a @@C@jCmdlineCoordinator@@ instead of @@C@jCoordinator@@
    * a @@C@jCmdLineRequest@@ instead of de @@C@jClassicRequest@@
    * a specific configuration file @@F@cmdline/config.ini.php@@
@@ -72,20 +71,20 @@ You have also to update the @@F@myapp/project.xml@@ to declare this new entry po
 
 You have to create a controller dedicated to command line processing.
 
-=== with jelix-scripts ===
+=== with jelix-scripts commands ===
 
 such a controller can be created using jelix-scripts :
 
 <code bash>
 # module foo creation, with a cmdline controller inside
-$ php jelix.php createmodule -cmdline foo
+$ php cmd.php createmodule -cmdline foo
 </code>
 
 or
 
 <code bash>
 # create bar cmdline controller inside foo module
-$ php jelix.php -cmdline foo bar
+$ php cmd.php -cmdline foo bar
 </code>
 
 === Manually ===

@@ -1,8 +1,8 @@
-~~LANG:FR@//fr/manuel-1.2/errormanager~~
+~~LANG:FR@//fr/manuel-1.3/errormanager~~
 
-The classes of the framework can generate errors in two different ways with :
+The classes of the framework can generate errors in two different ways, with:
 
-  * a trigger_error (PHP error)
+  * a @@trigger_error@@ (PHP error)
   * an exception
 
 A PHP error is generated in the case of a technical error due to a programing default. It is then the job of the developer to correct the error.
@@ -10,31 +10,42 @@ A PHP error is generated in the case of a technical error due to a programing de
 An exception is generated in the case of an error that can occur in an unpredictable way during the execution of an action. For example, an error when it is impossible to connect to a database or a "functional", "business" error.
 
 
-
 ===== Error handlers setup =====
 
-Whatever the error comes from, we get it through an error handler (except for the exceptions which are interpreted by a try/catch block). There is an error handler for PHP errors and another for the exceptions.
+Whatever the error comes from, we get it through an error handler (except for catched exceptions). There is an error handler for PHP errors and another for the exceptions.
 
-The error handlers are in charge of executing the actions specified in the configuration according to the error type. This is the default", "error", "warning", "notice", "strict", "exception" parameters in the error_hanling section. Each of these parameters has to contain one or several of these words which indicates an action to be executed :
+Since Jelix 1.3, error handlers use @@C@jLog@@ to store the error somewhere. By default, all errors (and warnings) are stored into a @@F@var/log/errors.log@@ file.
 
-| ECHO | The message will be passed in the response |
-| LOGFILE | The message is put in the log file specified in the ligfile option of the configuration |
-| SYSLOG | The message is sent in the system log |
-| MAIL | The message is sent by mail to the address specified in the mail option |
-| EXIT | The execution stops here (EXIT is implicit for the exceptions) |
-| TRACE | Include the call stack in the log file |
-| ECHOQUIET | Does not display the details of the message, only displays the content of the @@V@quietMessage@@ option from the error_handling section |
+You can change this behavior. You can also log all notices and other php errors, you can send messages to a syslog, etc. See the [[debugging|chapter on jLog]] to know how to configure it.
 
-@@V@messageLogFormat@@ specifies an error message format used when printing errors to log file, syslog file or mail. this format supports some special keywords @@L@%date%@@, @@L@%ip%@@, @@L@%typeerror%@@, @@L@%code%@@, @@L@%msg%@@, @@L@%url%@@, @@L@%file%@@, @@L@%line%@@, @@L@\t@@ and @@L@\n@@.
+Note: all options in the @@[error_handling]@@ (except @@V@messageLogFormat@@ and @@V@errorMessage@@)  existing for Jelix 1.2 and lower, are not used anymore since Jelix 1.3. They are deprecated.
+
+==== The message format ====
+
+The error message stored in files, syslog or mail, contains the error message itself, the stack trace and other useful informations. You can configure what should be store exactly. In the section @@[error_handling]@@ of the configuration, you have an option @@V@messageLogFormat@@ specifing the format of the message. This format supports some special keywords @@L@%date%@@, @@L@%ip%@@, @@L@%typeerror%@@, @@L@%code%@@, @@L@%msg%@@, @@L@%url%@@, @@L@%file%@@, @@L@%line%@@, @@L@\t@@ and @@L@\n@@.
+
+==== The error page ====
+
+Since Jelix 1.3, details of error messages are never displayed in the browser (except in the debug bar if you activate it). When an error occured, Jelix displays an error page with the HTTP code 500.
+
+By default, it shows the page stored in @@F@lib/jelix/core/response/error.en_US.php@@. You can provide your own page by copying this file into the @@F@yourapp/responses/@@ directory. Modify then this page to customize it with your own design.
+
+Notice that @@error.en_US.php@@ is a simple php script. You can write any PHP instructions. However, don't call any Jelix objects. The occured error may not appear in a "safe" context (some object may not be present, configured etc). And don't try to display the true error, for security reasons and for better usability. In fact, this page should be almost a static page. Just keep existing @@echo@@ instructions.
+
+The error page may not be used in some case:
+  * when an error occured before or during the reading of the configuration file
+  * when the browser doesn't accept html
+
+In this case, Jelix returns a simple text content. This text content can be configured into the option @@errorMessage@@ inside the @@[error_handling]@@ section of the configuration.
 
 
-If you want to show errors in Firebug (when ECHO is used, and only for HTML and XUL responses), set **showInFirebug** to on.
+===== Errors code =====
 
-===== Error code =====
+Each error message is localized in the properties files and each error should have a number. This number is indicated in the properties files of the localized messages, this way:
 
-Each error message is localized in the properties files and each error should have a number. This number is indicated in the properties files of the localized messages, this way :
-
+<code ini>
  key.string = (error_code)error message
+</code>
 
 In the end, the error message won't be with the error code. And this one will be extracted
 

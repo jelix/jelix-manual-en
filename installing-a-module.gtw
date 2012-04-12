@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/installer-un-module~~
+~~LANG:FR@//fr/manuel-1.3/installer-un-module~~
 
 This section is not targeting new modules created with the @@c@createmodule@@ command, as this command activate and install the new module except if you want to change the access level.
 
@@ -32,10 +32,11 @@ Of course, if you have several entry points, some modules could be activated for
 
 Don't forget to [[urls|configure correctly the url engine]], so Jelix could generate modules URLS correctly with their respective entrypoints.
 
-Note that when you use the @@c@createmodule@@ command, the new module is automatically activated with the access level 2. Further more, configuration options like @@V@checkTrustedModules@@, @@V@trustedModules@@ and @@V@unusedModules@@ do not exist anymore in Jelix 1.2.
+Note that when you use the @@c@createmodule@@ command, the new module is automatically activated with the access level 2. Further more, configuration options like @@V@checkTrustedModules@@, @@V@trustedModules@@ and @@V@unusedModules@@ do not exist anymore (since jelix 1.2).
 
 
 Note: if you want all modules accessible (access=2), you can set this option in the global section of the configuration: @@enableAllModules=on@@. Access values in the modules section will be ignored. **Warning**: only do this if you know what you do, you could activate some modules you don't know. Use it only on particular project.
+
 
 ===== Parameters for the installation =====
 
@@ -53,6 +54,7 @@ If you don't want to execute the installation script of a module, indicate it wi
 news.skipinstaller=skip
 </code>
 
+
 ===== Installation =====
 
 After defining the access level of a module, you should "install" it. You do this with the command @@c@installmodule@@, which executes the installation script provided with the module, if it exists (this script could create some SQL tables...), and activates the module in the @@F@var/config/installer.ini.php@@.
@@ -60,11 +62,11 @@ After defining the access level of a module, you should "install" it. You do thi
 For example, to use the jauth module provided with jelix, and after declaring it into the modules section in the configuration file, do it:
 
 <code bash>
-php jelix.php --myapp installmodule jauth
+php cmd.php installmodule jauth
 </code>
 
 
-Note: It is possible to deactivate completely the installation system, and then modules will be implicitely installed, without calling the command installapp or installmodule. To deactivate, set this option in the global section of the configuration: @@disableInstallers=on@@. **Warning:** if you do that, you'll have to install modules and update module **by hand**. You'll have to execute SQL queries for example, to modify configuration files and so on, everything that installers and updaters do, by yourself. So Installation and updates of jelix **will be harder**. Deactivate it only on some particular project. It is **strongly recommended to not deactivate installers**.
+Note: It is possible to deactivate completely the installation system, and then modules will be implicitely installed, without calling the command installapp or installmodule. To deactivate, set this option in the global section of the configuration: @@disableInstallers=on@@. However, you should configure and install all things needed by the module (tables in the database for instance). Updates will be harder too. Deactivate it only on some specific project.
 
 ===== Updating a module =====
 

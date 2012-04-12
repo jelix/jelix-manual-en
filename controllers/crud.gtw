@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/controleurs/crud~~
+~~LANG:FR@//fr/manuel-1.3/controleurs/crud~~
 
 ===== Introduction =====
 
@@ -49,13 +49,15 @@ Essential : the CRUD controller uses the common "html" response. So, you have to
 [[//common-processes#customizing-common-response|a custom response object]]. If you don't do it, nothing will appear in your browser. If you don't want to create such a response, you have to redefine the _getResponse() method (see below).
 
 
+
 Note : You can also use the command @@createdaocrud@@ which allows to create the controller, the dao and the form in the same time, just by indicating the table name.
 
 <code bash>
-php jelix.php --myapp createdaocrud the_module the_table
+php cmd.php createdaocrud the_module the_table
 </code>
 
-See the help of this command to know options (@@php jelix.php help createdaocrud@@).
+See the help of this command to know options (@@php cmd.php help createdaocrud@@).
+
 ===== Customizing the CRUD controller =====
 
 You certainly have some things to change in the controller, because it doesn't fit exactly to your needs. The CRUD controller can be customize by setting some properties or overriding some methods.

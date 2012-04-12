@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/authentification~~
+~~LANG:FR@//fr/manuel-1.3/authentification~~
 
 The Jelix authentication system handles only one thing: logins, passwords, and users.
 
@@ -29,11 +29,10 @@ To activate it, if you want to use ressources of the module @@jauth@@ (controlle
 
 ==== By installing the module jauth ====
 
-Use the command installmodule of jelix to install the module :
+Use the command installmodule of jelix to install the module:
 
 <code bash>
-$ cd lib/jelix-scripts/
-$ php jelix.php --myapp installmodule jauth
+$ php cmd.php installmodule jauth
 </code>
 
 It will activate the module, and create a new file @@F@var/config/index/auth.coord.ini.php@@, which is the configuration of the plugin @@auth@@.
@@ -202,6 +201,7 @@ Exceptions : In a case where you don't want a login step to end up in the action
 
 Of course, same apply to logout step and @@enable_after_logout_override@@.
 
+
 ==== Setup of URLS significants ====
 
 if you use the significant urls engine, you will have to add in the file
@@ -210,6 +210,9 @@ if you use the significant urls engine, you will have to add in the file
 <url pathinfo="/auth"     module="jauth" include="urls.xml"/>
 </code>
 to get the urls dedicated to the module.
+
+
+
 ===== Using your own controller =====
 
 Authentication can be done using your own controllers of course. You'll have to dive in jAuth API et call its static methods to check users login/password, and connect or disconnect them.
@@ -318,8 +321,6 @@ To retrieve a list of users, use @@M@jAuth::getUserList()@@:
 </code>
 
 The result is an iterator over a list of objects, each objects representing a user (like the object you retrieve with @@M@getUser()@@).
-
-
 
 
 ==== Events ====

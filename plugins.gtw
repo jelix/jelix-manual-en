@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/plugins~~
+~~LANG:FR@//fr/manuel-1.3/plugins~~
 
 Different types of plugins exists for Jelix. Each categories modify or add functionality to differents parts of Jelix. There are coordinator plugins, jDb drivers, jAuth drivers, jTpl plugins and url engines.
 
@@ -24,6 +24,7 @@ Such a repository has one sub-directory for each plugin type. And within each su
 Below is the list of plugins type and their respective directory:
 
     * coordinator plugins: @@F@coord/@@
+    * plugins for jLog: @@F@logger/@@
     * jAuth drivers: @@F@auth/@@
     * jAcl2 drivers: @@F@acl2/@@
     * jDb drivers:  @@F@db/@@
@@ -32,7 +33,8 @@ Below is the list of plugins type and their respective directory:
     * jForms generators: @@F@jforms/@@
     * jKVDb drivers: @@F@kvdb/@@
     * jCache drivers: @@F@cache/@@
-
+    * plugins for the debugbar: @@F@debugbar/@@
+    * plugins for jResponseHtml: @@F@htmlresponse/@@
 
 ===== Plugins development =====
 

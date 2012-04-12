@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/responseredirect~~
+~~LANG:FR@//fr/manuel-1.3/responseredirect~~
 
 There are two types of redirection objects available:
   * @@C@jResponseRedirect@@: redirects to an action of the application with optional parameters
@@ -22,7 +22,7 @@ You have three properties on this object:
 
 Example:
 <code php>
-$resp->action = "mymodule~mycontroller:mycontroller";
+$resp->action = "mymodule~mycontroller:mymethod";
 $resp->params = array('foo' => 'bar');
 $resp->anchor = 'yo';
 </code>

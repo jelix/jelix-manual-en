@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/responsesoap~~
+~~LANG:FR@//fr/manuel-1.3/responsesoap~~
 
 Jelix supports the SOAP protocol, which is a standard protocol for web services specified by W3C. Jelix use [[http://www.php.net/manual/fr/book.soap.php|the PHP SOAP API]], so you have to configure your web server to include this extension (verify with phpinfo() for example).
 
@@ -195,11 +195,9 @@ You can display a HTML version of the list of SOAP services, by calling the @@M@
 
 Don't forget to install the module jWSDL (see the chapter about [[installing-a-module|installing a module]])
 <code bash>
-  php.exe jelix.php --app installmodule jWSDL
+  php.exe cmd.php installmodule jWSDL
 </code>
 
-
-**Don't forget to install the jWSDL module on the sopa entry point too.**
 ===== Calling a SOAP service with a client =====
 
 The application which calls your SOAP web services can be a PHP client, a javascript client etc.. Here is an example of a call with a PHP script.
@@ -230,3 +228,39 @@ The application which calls your SOAP web services can be a PHP client, a javasc
             throw new Exception($fault->getMessage());
         }
 </code>
+
+
+
+===== Calling a SOAP service with Jelix =====
+
+If your jelix application needs to call soap servers, you can use @@C@jSoapClient@@. It is a class to retrieve a native @@C@SoapClient@@ object, automatically configured with some parameters stored in a @@F@var/config/profiles.ini.php@@, like for jDb.
+
+To use it, add sections in @@F@var/config/profiles.ini.php@@. Sections are profiles for connections. options in @@[jsoapclient]@@ are aliases for profiles. Profiles are stored in section named @@[jsoapclient:myname]@@ where @@myname@@ is a name you choose freely. @@default@@ name indicate the default profile. A profile should contain at least a @@wsdl@@ option, containing the URL to a WSDL file. You can add other options, corresponding to parameters for the native class SoapClient of PHP.
+
+<code ini>
+[jsoapclient]
+
+[jsoapclient:default]
+wsdl= "http://example.com/books.wsdl"
+soap_version = SOAP_1_1
+</code>
+
+And then, in your code: 
+
+<code php>
+        $client = jSoapClient::get(); // give a profile name if different from 'default'
+        $result = $client->hello('Sylvain');
+        // or
+        $result =  $client->__soapCall('hello', array('Sylvain'));
+</code>
+
+You can indicate the option classmap in the profile, to map some classes on soap types. You have to use the json format to indicate the mapping.
+
+<code ini>
+[jsoapclient:default]
+wsdl= "http://example.com/books.wsdl"
+soap_version = SOAP_1_1
+classmap = '{"soaptype":"myclass", "soaptype2":"myclass2"}'
+</code>
+
+The classes you indicate should be loaded before calling @@jSoapClient::get()@@. 

@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/formulaires-classique~~
+~~LANG:FR@//fr/manuel-1.3/formulaires-classique~~
 
 Creating and managing forms manaully (ie without jForms) is not very different in Jelix than in a conventional PHP application. But some things (outside jForms) can facilitate your work.
 

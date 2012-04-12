@@ -1,5 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/creer-script-installation~~
-
+~~LANG:FR@//fr/manuel-1.3/creer-script-installation~~
 
 Since 1.2, Jelix provides an installation system, which allows to execute scripts when you want to install a module inside an application, or to install the whole application.
 
@@ -183,5 +182,5 @@ class newsModuleUpgrader_fff extends jInstallerModule {
 } 
 </code>
 
-
 You'll guess that you can indicate several versions in @@P@$targetVersions@@. It is useful when you have several branch in a project, and when an update script should be executed for several branch. With the date of the release, Jelix can determinate if, during an update, it can execute the script or not. For instance, you have a script for an update for versions 1.24 and 1.35. If the user update from the version 1.2.3 or from the version 1.3.4, the script will be called. If he update from the version 1.2.5 to the version 1.3.6, the script won't be called because the 1.2.6 version contains modifications brought by the 1.2.5 version.
+

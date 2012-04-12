@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/classes-utiles/jhttp~~
+~~LANG:FR@//fr/manuel-1.3/classes-utiles/jhttp~~
 
 jHttp is a class defining an API to make http request targeting external urls.
 It can be useful to call web services, for example.

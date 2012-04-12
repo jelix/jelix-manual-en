@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/jforms/xml-1.1~~
+~~LANG:FR@//fr/manuel-1.3/jforms/xml-1.1~~
 
 The format described here is supported since Jelix v1.1. 
 
@@ -69,6 +69,22 @@ You have the option of using a [[//locales|locale]] attribute instead of an hard
 </code>
 
 
+==== Required controls ====
+
+If some controls are required in your form just add them a @@A@required@@ attribute with value @@L@true@@.
+
+@@E@<submit>@@, @@E@<checkbox>@@, @@E@<group>@@, @@E@<choice>@@, @@E@<hidden>@@ and @@E@<output>@@ controls do not support it.
+
+
+
+==== Readonly controls ====
+
+On rare occasions, it can be helpful to make a control readonly.
+Set a @@A@readonly@@ attribute with value @@L@true@@ on your control. 
+
+@@E@<submit>@@ and @@E@<output>@@ controls do not support it.
+
+You can modify this property with the PHP object of the form.
 
 ==== Messages ====
 
@@ -94,7 +110,7 @@ You could also declare an hint message which will be displayed as a tooltip on m
 
 ==== Error Messages ====
 
-When user input is invalid on a field or just missing on a required field, Jelix  displays pre-defined error messages. You can redefine those pre-defined messages with an @@E@<alert>@@ tag. This tag must have a @@A@type@@ attribute telling if it is an //invalid// message or a //required// message. As for helper messages, you can use either a locale or an hard-coded message.
+When user input is invalid on a field (it depends of its type) or just missing on a required field (see the @@A@required@@ attribute), Jelix  displays pre-defined error messages. You can redefine those pre-defined messages with an @@E@<alert>@@ tag. This tag must have a @@A@type@@ attribute telling if it is an //invalid// message or a //required// message. As for helper messages, you can use either a locale or an hard-coded message.
 
 <code xml>
   <input ref="birthdate" type="date">
@@ -106,22 +122,6 @@ When user input is invalid on a field or just missing on a required field, Jelix
 
 
 
-==== Required controls ====
-
-If some controls are required in your form just add them a @@A@required@@ attribute with value @@L@true@@.
-
-@@E@<submit>@@, @@E@<checkbox>@@, @@E@<group>@@, @@E@<choice>@@, @@E@<hidden>@@ and @@E@<output>@@ controls do not support it.
-
-
-
-==== Readonly controls ====
-
-On rare occasions, it can be helpful to make a control readonly.
-Set a @@A@readonly@@ attribute with value @@L@true@@ on your control. 
-
-@@E@<submit>@@ and @@E@<output>@@ controls do not support it.
-
-You can modify this property with the PHP object of the form.
 
 ===== Input fields =====
 
@@ -170,6 +170,7 @@ A example with attribute "pattern"
       <label>Url</label>
   </input>
 </code>
+
 
 ==== Multiline input ====
 

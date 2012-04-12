@@ -1,11 +1,10 @@
-~~LANG:FR@//fr/manuel-1.2/datetime~~
+~~LANG:FR@//fr/manuel-1.3/datetime~~
 
 jDateTime is a class encapsulating a date. It defines an API to convert date to different formats and do some time calculation.
 
 There is different ways to create a jDateTime object:
    * either pass  a date value to jDateTime constructor : year, month, day, hour, minute, second arguments are all integer values and optional. 
    * either use @@M@setFromString@@ method on a jDateTime object. Its argument must be a date-formatted string 
-
 
 Note: for your time calculations, **prefer the use of the object DateTime appeared in PHP 5.2**. jDatetime have some limitations (it doesn't work with date lower than 01/01/1970).
 

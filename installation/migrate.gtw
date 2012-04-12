@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/installation/migration~~
+~~LANG:FR@//fr/manuel-1.3/installation/migration~~
 
 When you migrate from an old version of jelix to a newer one, you always must do these tasks:
 
@@ -7,42 +7,69 @@ When you migrate from an old version of jelix to a newer one, you always must do
   * remove all the files in the @@F@temp/yourapp/@@ directory
   * update your code as specified hereafter.
 
-===== Updating from jelix 1.1 =====
+===== Upgrading from jelix 1.2 =====
 
-==== What you have to know before the migrating ====
+Here are all steps to follow to migrate your application.
 
-There is a new way to declare modules in the application. In the configuration file,  @@unusedModules@@, @@trustedModules@@ and @@checkTrustedModules@@ are not used anymore. There is now a "modules" section, in which a level access of each modules is declared.
+==== Backup ====
 
-To use a module, a module should be "installed". In fact, there should be a new file @@F@installer.ini.php@@ which contains, for each entrypoints, the list of installed modules, and for each of them, the installed version. New commands "installapp" and "installmodule" are provided to install and upgrade modules. You shouldn't modify yourself the @@F@installer.ini.php@@ file.
+First, do a backup of your databases, and of your application files (modules, configuration etc.).
 
-==== Migrating ====
 
-A "migrate" command is provided, in order to do needed changes in configuration file of your existing application made with jelix 1.1, and to create this @@F@installer.ini.php@@ file. Follow these steps:
+==== Temp directories ====
 
-  * save your application files. If the migrate script failed, you should have to restore your previous configuration files and remove new files, before relaunching the migrate command.
-  * replace the @@F@lib/@@ directory by the @@F@lib/@@ of Jelix 1.2
-  * verify that your project.xml is ok, that it contains a <jelix> tag with the max version to "1.1" and declares all entry points. See [[//config#project.xml|the chapter about this file]].
-  * in your configuration files (defaultconfig.ini.php and other ini files):
-     * set @@checkTrustedModules@@ to "on"
-     * removed from @@modulesPath@@, directories where you don't use any modules
-     * list all modules which can be called from the web in @@trustedModules@@
-     * list all modules you don't use at all in @@unusedModules@@. If you indicated @@lib/jelix-admin-modules@@ and/or @@lib/jelix-modules@@ in  @@modulesPath@@, see the list of modules inside them and indicate those you don't use. The list has changed since jelix 1.1.
-  * go into @@F@lib/jelix-scripts/@@ and run @@php jelix.php --yourapp migrate@@
-  * removed all files from @@F@temp/yourapp/@@
-  * read the next section, to do changes in your code
-  * test your application. it should be ok.
-  
-A new a installation script @@F@yourapp/install/installer.php@@ has been created, so you can use it later (in a command line) to install or update easily your application. You can create scripts into the @@F@install/@@ directory of your modules, which will be called to install or upgrade your modules. Read the corresponding chapter in this manual.
+As usual, you must remove every files into the @@F@temp/yourapp/@@ directory. You have also to delete the @@F@temp/yourapp-cli/@@ directory and the @@F@temp/yourapp-scripts/@@ directory, they are not used anymore.
 
-==== Other migration steps ====
+==== Change your application.init.php ====
 
-  *  The support of old action selectors and old class naming used as of Jelix 1.0 beta, have been removed. You should change your selector and class name if you migrate from a very old version of Jelix < 1.0.
-  * If you use directly jelixuser.dao.xml, you should change your selector: it has been moved from the jauth module to jauthdb module.
-  * if you made your own jDb driver with a plugin for jDaoGenerator, you should change some methods calls, since some of them have been renamed. A refactoring has been made and you can redefine more methods.
-  * If you made a customized datasource for jForms, replace the name of the interface @@C@jIFormDatasource@@ by @@C@jIFormsDatasource@@.
-  * the deprecated method @@M@jResponseHtml::_commonProcess()@@ has been removed (you must rename it to @@M@doAfterActions@@)
+This file should use now @@jApp::initPaths()@@ instead of defining JELIX_APP_* constants. You can access now to every path using the @@C@jApp@@ object. JELIX_APP_* constants are generated for you automatically, to keep compatibility with modules not fully compatible with Jelix 1.3. However, it is highly recommanded to replace these JELIX_APP_* constants in theses modules, because future version of Jelix won't support anymore these constants.
 
-===== Updating from Jelix 1.0 or lower =====
+Your @@F@application.init.php@@ should contain this kind of code:
 
-Read the manual of jelix 1.1 to upgrade from 1.0 to 1.1, and then you could upgrade to 1.2 version.
- 
+<code php>
+$appPath = dirname (__FILE__).'/';
+require ($appPath.'../lib/jelix/init.php');
+
+jApp::initPaths(
+    $appPath
+    //$appPath.'www/',
+    //$appPath.'var/',
+    //$appPath.'var/log/',
+    //$appPath.'var/config/',
+    //$appPath.'scripts/'
+);
+jApp::setTempBasePath(realpath($appPath.'../temp/testapp/').'/');
+</code>
+
+==== Files removal ====
+
+You can remove @@F@application-cli.init.php@@ and @@F@jelix-scripts.init.php@@, they are useless now. If you have command line scripts into the @@F@scripts/@@ directory of your application, replace the include instruction for  @@F@application-cli.init.php@@, by an include instruction for @@F@application.init.php@@.
+
+==== Other stuffs ====
+
+
+  * If you have activated minification of js and css files in your html responses, it won't work anymore because the configuration has changed. Some options have dispeared, the directory @@F@www/cache/minify@@ is not used anymore, and a @@F@minify.php@@ script should be installed into @@F@www/@@.
+  * you can add a @@F@tests/runtests.php@@ script into your app directory, copied from @@F@lib/jelix-scripts/templates/tests/@@. It allows you to develop and run tests using phpunit.
+
+==== Upgrading modules ====
+
+  * update sources of vendor's modules that you have installed, with version compatible with Jelix 1.3.
+  * For your own modules:
+     * As indicated above, replace the use of JELIX_APP_* constants by the use of @@C@jApp@@.
+     * In module.xml files, indicate that the module is compatible with Jelix 1.3 (change the attributes maxversion). Example :
+
+        <jelix minversion="1.2" maxversion="1.3.*"/>
+
+==== Jelix update ====
+
+After all these modifications, you should run your installer.php script. The jelix module will change some things:
+  * in your configuration
+  * will create a new profiles.ini.php, storing content of dbprofils.ini.php, cache.ini.php, jkvdbprofiles.ini.php. Theses files will be removed.
+  * will create a new cmd.php in the root of your application, to launch commands of jelix-script
+
+The module jacl2db will update your database, if you use this module.
+
+
+===== Updating from Jelix 1.1 or lower =====
+
+Read the upgrade instructions of all previous manuals and then follow instruction above.

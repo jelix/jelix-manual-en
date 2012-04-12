@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/creer-un-module~~
+~~LANG:FR@//fr/manuel-1.3/creer-un-module~~
 
 
 A module is a directory with a precise file-system hierarchy. Modules are groupped in one or several directories called //modules group//, or repository of modules.
@@ -35,7 +35,7 @@ It's as simple as creating a sub-directory of a modules group, and filling it wi
 The @@c@createmodule@@ command helps you to create all this directories, and to activate and install automatically the new module:
 
 <code bash>
-   php jelix.php --myapp createmodule mymodule
+   php cmd.php createmodule mymodule
 </code>
 
 This command creates the module "mymodule" in your application's sub-directory @@F@modules@@. It creates also  some sub-directories as well as a default controller.
@@ -48,7 +48,7 @@ By default, the module is created in the @@F@modules@@ directory of the applicat
 This example creates a "supermodule" module into the @@F@shared-modules@@ directory which is itself into the @@F@lib@@ directory provided with jelix.
 
 <code bash>
-php jelix.php --myapp createmodule supermodule lib:shared-modules/
+php cmd.php createmodule supermodule lib:shared-modules/
 </code>
 
 See the online help of the @@c@createmodule@@ command to know other options.
@@ -61,7 +61,7 @@ After creating the module, you should verify if the default initial version is o
 You can indicate the version to the @@createmodule@@ command, with the @@-ver@@ option :
 
 <code bash>
-php jelix.php --myapp createmodule -ver 1.0 supermodule
+php cmd.php createmodule -ver 1.0 supermodule
 </code>
 
 You can also modify the version in the @@F@module.xml@@ file generated in the module, if needed.

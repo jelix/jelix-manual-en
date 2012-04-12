@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/urls/significant~~
+~~LANG:FR@//fr/manuel-1.3/urls/significant~~
 
 Here is how you can configure the significant engine for the [[|url system of Jelix]].
 
@@ -115,6 +115,7 @@ When the parameter is of string type, it is not mandatory to specify a @@A@param
 | year   | a year on four digits |
 | month | a month on two digits |
 | day | a day on two digits |
+| path | a sub-path of the url. this parameter must be the last one in the URL |
 
 Notice: you must of course indicate the values of these parameters when calling @@C@jUrl@@.
 

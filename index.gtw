@@ -1,27 +1,27 @@
-~~LANG:FR@//fr/manuel-1.2~~
+~~LANG:FR@//fr/manuel-1.3~~
 
 <bookinfo>
 title = Developer manual
-subtitle= Jelix 1.2.7
+subtitle= Jelix 1.3.1
 title_short= Developer manual
-edition = Jelix 1.2.7
+edition = Jelix 1.3.1
 author=Laurent|Jouanneau
 author=Dominique|Papin
 author=Afroxav
 author=|All jelix.org wiki contributors||
-copyright_years=2006-2012
+copyright_years=2006-2011
 copyright_holder=Laurent Jouanneau
 copyright_holder=Dominique Papin
 copyright_holder=All jelix.org wiki contributors
 </bookinfo>
 
-Download [[http://jelix.org/articles/en/download/stable/1.2#the-manual|the manual in PDF]] !
+Download [[http://download.jelix.org/jelix/documentation/en/manual-jelix-1.3.pdf|the manual in PDF]] !
 
 
 <bookcontents>
 - part: [[introduction|Introduction]]
   - chapter: [[new-features|New features]]
-  - chapter: [[installation/migrate|Migrating from Jelix 1.1 to Jelix 1.2]]
+  - chapter: [[installation/migrate|Migrating from Jelix 1.2 to Jelix 1.3]]
 
 - part: [[getting-started|Getting started]]
   - chapter: [[installation/requirements|Install requirements]]
@@ -31,13 +31,14 @@ Download [[http://jelix.org/articles/en/download/stable/1.2#the-manual|the manua
   - chapter: [[server-configuration|Server configuration]]
 
 - part: [[main-concepts|Main concepts]]
-   - chapter:[[principles|Core workflow]]
+   - chapter: [[principles|Core workflow]]
      - section: [[selectors|Selectors]]
-     - section: [[requests|Request object]]
+     - section: [[requests|Request object and entry points]]
      - section: [[coordinator|Coordinator]]
      - section: [[jresponse|Response object]]
      - section: [[call-action|Calling actions]]
-   - chapter:[[modules|Developing a module]]
+   - chapter: [[config|Configuration files]]
+   - chapter: [[modules|Developing a module]]
      - section: [[creating-a-module|Creating a module]]
      - section: [[installing-a-module|Installing a module]]
      - section: [[controllers|Developing a controller]]
@@ -121,21 +122,24 @@ Download [[http://jelix.org/articles/en/download/stable/1.2#the-manual|the manua
    - chapter: [[overloads|Overloading module files]]
    - chapter: [[plugins|Developping plugins]]
      - section: [[plugins/coord|Coordinator plugins]]
+     - section: [[plugins/logger|jLog plugins]]
      - section: [[plugins/auth|jAuth drivers]]
      - section: [[plugins/db|jDb drivers]]
      - section: [[plugins/tpl|Template plugins]]
      - section: [[plugins/urls_engine|Url engines]]   
      - section: [[plugins/jforms|jForms generators]]
-   - chapter: [[config|Dive into configuration]]
+     - section: [[plugins/debugbar|plugins for the debugbar]]
+     - section: [[plugins/htmlresponse|plugins for jResponseHtml]]
+   - chapter: [[configuration-details|Dive into configuration]]
    - chapter: [[global-objects|Useful global objects]]
    - chapter: [[cache|Using cache]]
    - chapter: [[create-install-scripts|Create scripts to install the application]]
    - chapter: [[create-wizard|Creating an installation wizard]]
 
 - part: [[help-development|Development helper tools]]
-   - chapter: [[errormanager|Error manager]]
+   - chapter: [[errormanager|Configuring the error management]]
+   - chapter: [[debugging|Debugging and using jLog]]
    - chapter: [[unit-tests|Creating unit tests]]
-   - chapter: [[debugging|Debugging tool]]
 
 - part: [[installation/deployment|Deploying a Jelix application]]
   - chapter: [[installation/production-serveur|Configuring a production server]]
@@ -146,6 +150,7 @@ Download [[http://jelix.org/articles/en/download/stable/1.2#the-manual|the manua
 
 - part: [[references|References]]
    - chapter: [[class-utilities|Class utilities]]
+      - section: [[japp|jApp: directories of the application]]
       - section: [[filter|jFilter: verifying and filtering datas]]
       - section: [[datetime|jDateTime: dates and times]]
       - section: [[class-utilities/jhttp|jHttp: http requests]]
@@ -169,6 +174,7 @@ Download [[http://jelix.org/articles/en/download/stable/1.2#the-manual|the manua
    - chapter: [[ref-modules|Jelix modules]]
       - section: [[ref-modules/master_admin|master_admin]]
    - chapter: [[ref-javascript-library|Javascript Librairies]]
+
 </bookcontents>
 
 <booklegalnotice>

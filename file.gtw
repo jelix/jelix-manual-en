@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/file~~
+~~LANG:FR@//fr/manuel-1.3/file~~
 
 jFile help to do file processing. All methods of jFile are statics, so you don't have to instanciate this class.
 

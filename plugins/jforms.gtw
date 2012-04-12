@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/plugins/jforms~~
+~~LANG:FR@//fr/manuel-1.3/plugins/jforms~~
 
 As noted in [[//jforms/display|display jforms chapter]], you can select which plugin will generate forms content (in HTML, XUL, javascript and so on..) sent to clients. 
 
@@ -10,7 +10,7 @@ Thoses plugins are called generators. You can of course create one and for any f
 
 @@C@moreformsJformsBuilder@@ should implement following list of methods. Those display form parts and don't return any value. They are called through jForms template plugins.
 
-After each modification of your generator, **don't forget to clear your temp directory** (by using the command @@cleartemp@@ with the jelix script).
+After each modification of your generator, **don't forget to clear your temp directory** (by using the command @@cleartemp@@ for example).
 
 ==== outputMetaContent ====
 

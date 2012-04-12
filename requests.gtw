@@ -1,40 +1,46 @@
-~~LANG:FR@//fr/manuel-1.2/requests~~
+~~LANG:FR@//fr/manuel-1.3/requests~~
 
 ===== A jRequest object for each type of request =====
 
 A jRequest object handles the processing of the input data in order to make it easily available to the framework and especially to the actions. It allows, among other things, to determine the actions to execute.
 
-There are several types of jRequest objects, processing different input data. Indeed, we don't retrieve the input data for a HTML page (in the url (get) or encoded in the body of the HTTP request (post) ), the same way as we would do for a XML-RPC request (data in the body of the HTTP request in XML).
+There are several types of jRequest objects, processing different input data. Indeed, we don't retrieve the input data for a HTML page (in the url (get) or encoded in the body of the HTTP request (post) ), the same way as we would do for a SOAP request (data in the body of the HTTP request in XML).
 
 For each jRequest object, corresponds one or more authorized output format, then one or more authorized jResponse object.
 
 The available jRequest object are :
-  * classic : for the classical requests whose response type is not important (html, text, redirection ..)
-  * xmlrpc : for the XMLRPC requests. The response must be in XMLRPC
-  * jsonrpc : for the JSONRPC requests. The response must be in jSONRPC
+  * classic: for the classical requests whose response type is not important (html, text, redirection ..)
+  * soap: for SOAP request, when you want implement some SOAP services. The response should be in SOAP format.
+  * xmlrpc: for the XMLRPC requests. The response must be in XMLRPC
+  * jsonrpc: for the JSONRPC requests. The response must be in jSONRPC
 
-Other requests types are possible: soap etc.
+Other requests types are possible of course.
 
 ===== Entry points =====
 
-It should exist an entry point for each type of request that you want to use. For the classic (so index.php), it looks like this:
+An entry point is a script which manage a part or all your application [[call-action|actions]]. Only entry points should be web accessible and therefore should lie in @@F@www/@@ directory of your application. It should exist an entry point for each type of request that you want to use. As a result, each entry point should also have its specific configuration file.
+
+An entry point create a @@C@jCoordinator@@ object, a @@C@jRequest@@ object (to parse all request parameters) and indicates which configuration file to use. For the classic entry point (so index.php), it looks like this:
 
 <code php>
-// include the main application file
-// which includes itself jelix files
-require_once ('../../myapp/application.init.php');
- 
-// include the request objet you want to use
-require_once (JELIX_LIB_CORE_PATH.'request/jClassicRequest.class.php');
- 
-// Let's define the configuration file for this entry point
-// Here the file is stored in var/config/index/
+// application initialisation file
+require_once ('../../testapp/application.init.php');
+
+// configuration file
 $config_file = 'index/config.ini.php';
- 
-// Let's go !
+
+// jCoordinator object
 $jelix = new jCoordinator($config_file);
-$jelix->process(new jClassicRequest());
+
+// jRequest object
+require_once (JELIX_LIB_CORE_PATH.'request/jClassicRequest.class.php');
+$request = new jClassicRequest();
+
+// action processing
+$jelix->process($request);
+
 </code>
+
 
 ===== API =====
 
@@ -52,9 +58,14 @@ But in a controller, you have some method to do the same things shortly:
 
 Some other properties are available :
 
-| type | to know the request type. |
-| url_script_path | the path to the script in the url |
-| url_script_name | the script name (so the name of the entry point) |
-| url_path_info | The pathinfo part of the url |
-| params        | request parameters |
+| @@P@type@@ | to know the request type. |
+| @@P@url_script_path@@ | the path to the script in the url |
+| @@P@url_script_name@@ | the script name (so the name of the entry point) |
+| @@P@url_path_info@@ | The pathinfo part of the url |
+| @@P@params@@        | request parameters |
+
+Some methodes:
+
+  * @@M@getIp()@@: to retrieve the IP of the client
+  * @@M@isAjax()@@: to know if the request is an ajax request or not.
 

@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/creer-wizard~~
+~~LANG:FR@//fr/manuel-1.3/creer-wizard~~
 
 An application, "installWizard", is provided with Jelix. It allow to create a wizard, to install a jelix application easily, with a browser. It could be very useful to distribute a public application. For example, a forum...
 
@@ -192,11 +192,11 @@ Configuration parameters are:
 
 === dbprofile ===
 
-This page allows to configure the dbprofils.ini.php. It shows a form where you can set the server name, the database name, the login and password to access to a database. You can provide a @@F@dbprofils.ini.php.dist@@ in the @@var/config/@@ directory of the application: the page will take it as "a template" to generate the @@F@dbprofils.ini.php@@ file. This is an opportunity for you to indicate all profiles to create.
+This page allows to configure the profiles.ini.php file for jDb. It shows a form where you can set the server name, the database name, the login and password to access to a database. You can provide a @@F@profiles.ini.php.dist@@ in the @@var/config/@@ directory of the application: the page will take it as "a template" to generate the @@F@profiles.ini.php@@ file. This is an opportunity for you to indicate all profiles to create.
 
 Configuration parameters:
 
-   * @@ignoreProfiles@@: list of profiles to ignore in the given @@F@dbprofils.ini.php.dist@@
+   * @@ignoreProfiles@@: list of profiles to ignore in the given @@F@profiles.ini.php.dist@@
    * @@availabledDrivers@@: list of database type your application support. (mysql, pgsql, sqlite...)
 
 === confmail ===

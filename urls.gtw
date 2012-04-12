@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/urls~~
+~~LANG:FR@//fr/manuel-1.3/urls~~
 
 Jelix has a mechanism allowing to avoid putting url concerning actions directly in the templates (or anywhere). For this, simply indicate the module, the action, the type of request and some other parameters if you need and jUrl handles the generation of the corresponding url. On the other hand, when a request occurs, jUrl analyzes the url to then deduce the module, the action, and the parameters, and this, whatever the type of request is. Mod_rewrite from apache is then not useful. 
 
@@ -22,7 +22,7 @@ An url is made of different parts :
 
 The url engines analyze the pathinfo and the parameters to determine the module/action.
 
-You can have to configure some options in Apache. See [[http://jelix.org/articles/en/manual-1.2/installation]].
+You can have to configure some options in Apache. See [[server-configuration#configuration-for-cools-urls|apache configuration]].
 
 
 ===== Configuration =====

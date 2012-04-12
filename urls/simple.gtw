@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/urls/simple~~
+~~LANG:FR@//fr/manuel-1.3/urls/simple~~
 
 All the urls will be like entrypoint.php?module=...&action=...&... . This is a very simple engine and it is very fast.
 

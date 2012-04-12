@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/jforms/apres-submit~~
+~~LANG:FR@//fr/manuel-1.3/jforms/apres-submit~~
 
 Once a form has been created, displayed and then filled by the user, it is submitted to an action.
 
@@ -96,8 +96,6 @@ This is a 2 step process :
 
 </code>
 
-
-Note : in Jelix 1.1 beta1, //initModifiedControlsList()// didn't exists. (there was //resetModifiedControlsList()// instead, but it is now deprecated). Moreover, //getModifiedControls()// was returning only modified values since last submit.
 
 
 ===== Storing data =====

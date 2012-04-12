@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/jforms/affichage~~
+~~LANG:FR@//fr/manuel-1.3/jforms/affichage~~
 
 To display a form and its data, you could call @@M@getAllData@@ on your form object and assign its returned array to a template. With it, you'll be able to generate your HTML form along with its data. if you want to display input errors, call @@M@getErrors@@ to retrieve them and again display them as you like in your template.
 
@@ -219,6 +219,32 @@ Another way is to use @@formsubmit@@ multiple times indicating each submit name 
 
 **Beware** : @@{formsubmits}@@ loops over submit **controls**, not submit **items** ! It is not possible to loop over submit items (see [[http://dev.jelix.org/ticket/429|ticket #429]])
 
+
+
+===== Adding javascript code =====
+
+You can add behaviors to any controls with javascript, with your prefered js library (jForms uses jQuery).
+
+All generated fields have an id. Ids are composed names: "jforms_module_formname_controlref". For example, for a  control with the ref "address", declared in the form "identity" provided the "users" module, the id of the generated field is: "jforms_users_identity_address".
+
+The form element is also generated with an id, composed with the name of the module and the name of the jforms form: "jforms_module_formname". In our example, the id is "jforms_users_identity".
+
+Knowing that, you can retrieve all fields and the form element with the @@document.getElementById()@@ function.
+
+To add additionnal check or to run anything you want during the submit event, you should not to use an event listener, but you should add a "submit handler" on the javascript jforms object. A submit handler is a function, accepting a DOM event as parameter, and returning true if the form can be submitted, else false. You add a submit handler with the function @@M@addSubmitHandler@@ on the jforms object.
+
+Here is an example to add a confirmation message:
+<code javascript>
+jQuery(document).ready(function(){
+    jFormsJQ.getForm("the_id_of_formelement").addSubmitHandler(function(ev){
+         return window.confirm("Do you really want to submit this data?");
+       });
+});
+</code>
+
+By default, the handler is executed after the check on data. If you want to add the handler before the check, indicate true as second parameter to @@M@addSubmitHandler@@.
+
+All handlers (and the data check) are executed, even if one handler or the data checker return false. If you want to stop the execution of handlers following your's, just throw an exception.
 
 ===== Generator choice =====
 

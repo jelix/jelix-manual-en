@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/responsexml~~
+~~LANG:FR@//fr/manuel-1.3/responsexml~~
 
 jResponseXML allows to send an XML response to the client-browser. Its alias is "xml".
 

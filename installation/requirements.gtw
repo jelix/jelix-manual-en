@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/installation/prerequis~~
+~~LANG:FR@//fr/manuel-1.3/installation/prerequis~~
 
 You must install the 5.2 version of PHP at least ([[http://jelix.org/en/news/post/jelix-supports-gophp5|Jelix project supports gophp5 campaign]]). The **dom**, **simplexml**, **pcre**, **session**, **tokenizer** and **spl** extensions are required (they are generally turned on in a standard PHP 5.2 installation).
 
@@ -8,4 +8,4 @@ You can install a database connector too. For the moment, Jelix deals with mysql
 
 **To test the compatibility of your server** with Jelix, install the file @@F@lib/jelix_check_server.php@@ provided into the jelix archive, on your web hosting (without jelix, the framework is not needed), and call this page with your browser (example : http://example.com/jelix_check_server.php). The page displays all missing PHP extensions, if the PHP version is ok etc.
 
-Jelix provides a script to use in the command line, @@F@jelix.php@@, which help you to develop a Jelix application. So you also should install the command line version of PHP (CLI, php.exe under windows).
+Jelix provides scripts to use in the command line, @@F@createapp.php@@ and @@F@cmd.php@@ (in the application), which help you to develop a Jelix application. So you also should install the command line version of PHP (CLI, php.exe under windows).

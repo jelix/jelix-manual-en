@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/filtre~~
+~~LANG:FR@//fr/manuel-1.3/filtre~~
 
 jFilter is a class dealing with string checking and validation. Such as checking if the string is a mail, an url, a number. It is used by jForms but can be likely be used anywhere.
 

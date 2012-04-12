@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/installation/application~~
+~~LANG:FR@//fr/manuel-1.3/installation/application~~
 
 This chapter explains how to install an existing application developed with Jelix. We're going to take the TestApp application availabled in the download section of jelix.org. It is an application which contains some examples and some unit tests for Jelix (It is useful for developers who modify jelix).
 
@@ -41,7 +41,7 @@ You will notice that the files of the application and those of the framework are
 
 ===== Configuration files renaming =====
 
-In @@F@testapp/var/config@@, you have @@F@*.dist@@ files. Rename them by removing this '.dist' suffix. You have certainly some things to modify in this new files, like database configuration in @@F@dbprofils.ini.php@@ etc. We will see how exactly below.
+In @@F@testapp/var/config@@, you have @@F@*.dist@@ files. Rename them by removing this '.dist' suffix. You have certainly some things to modify in this new files, like database configuration in @@F@profiles.ini.php@@ etc. We will see how exactly below.
 
 ===== Creating the temporary directory =====
 
@@ -66,11 +66,11 @@ It is recommended to remove the @@F@install.php@@ file (save it in a protected f
 
 ==== With the application installer ====
 
-If there is a @@F@testapp/install/installer.php@@ script, this is a script to execute in a console. So first fill all needed parameters in @@F@dbProfils.ini.php@@ and in @@F@defaultconfig.ini.php@@ (read the documentation of the application to know what exactly change). Then open a console, go into the @@F@testapp/install/@@ directory, and then type @@php.exe installer.php@@.
+If there is a @@F@testapp/install/installer.php@@ script, this is a script to execute in a console. So first fill all needed parameters in @@F@profiles.ini.php@@ and in @@F@defaultconfig.ini.php@@ (read the documentation of the application to know what exactly change). Then open a console, go into the @@F@testapp/install/@@ directory, and then type @@php.exe installer.php@@.
 
 ==== With the jelix installer ====
 
-If there isn't wizard or dedicated installation script, you have to configure @@F@dbProfils.ini.php@@ and in @@F@defaultconfig.ini.php@@, then, with a console, go into the @@F@lib/jelix-scripts/@@ directory and type @@php.exe jelix.php --testapp installapp@@. Read [[//jelix-scripts|the chapter about jelix commands]] to have more informations about this command line.
+If there isn't wizard or dedicated installation script, you have to configure @@F@profiles.ini.php@@ and in @@F@defaultconfig.ini.php@@, then, with a console, go into the @@F@testapp/@@ directory and type @@php.exe cmd.php installapp@@. Read [[//jelix-scripts|the chapter about jelix commands]] to have more informations about this command line.
 
 ==== If the installation system is deactivated into the configuration ====
 

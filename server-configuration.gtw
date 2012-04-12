@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/configurer-server~~
+~~LANG:FR@//fr/manuel-1.3/configurer-server~~
 
 
 ===== PHP configuration =====
@@ -111,10 +111,17 @@ It is finally necessary to move the @@F@lib/jelix-www@@ directory to the root an
 
 Note: you can choose another name for the @@F@jelix-www@@ directory. If you do this, you have to change the @@V@jelixWWWPath@@ option in the configuration file of the application (@@F@myapp/var/config/defaultconfig.ini.php@@)
 
-Finally, in the file @@F@myapp/application.ini.php@@, you must change @@T@JELIX_APP_WWW_PATH@@ to:
+Finally, in the file @@F@myapp/application.ini.php@@, you must change the path (second parameter to jApp::initPaths):
 
 <code php>
-define ('JELIX_APP_WWW_PATH', realpath(JELIX_APP_PATH.'../').'/');
+jApp::initPaths(
+    $appPath
+    $appPath.'../',
+    //$appPath.'var/',
+    //$appPath.'var/log/',
+    //$appPath.'var/config/',
+    //$appPath.'scripts/'
+);
 </code>
 
 

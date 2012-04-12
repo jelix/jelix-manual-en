@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/cache~~
+~~LANG:FR@//fr/manuel-1.3/cache~~
 
 jCache is a class to store any data in a cache system like memcache. It supports other kind of storage like files or a SQL database.
 
@@ -6,8 +6,9 @@ Note that jCache doesn't use jKVDb as a backend, but it could use it in next ver
 
 ===== Configuration =====
 
-You should declare storages in a @@F@var/config/cache.ini.php@@ file. It may contain some section, corresponding to a "profile", like for jDb or jKVDb.
+You should declare storages in a @@F@var/config/profiles.ini.php@@ file. See [[config#the-profiles.ini.php-file|the corresponding chapter]] to know how to use this file. It may contain some section, corresponding to a "profile", like for jDb or jKVDb.
 
+The connection type to indicate in profile names is @@jcache@@.
 
 Each profile must declare these properties:
 
@@ -24,7 +25,7 @@ It is a driver for memcache, using the memcache API of PHP (not memcached API).
 The configuration parameter is @@server@@, containing a list of host and port.
 
 <code>
-[mymemcache]
+[jcache:mymemcache]
 driver=memcache
 ttl=360
 enabled=1

@@ -1,10 +1,27 @@
-~~LANG:FR@//fr/manuel-1.2/tests_unitaires~~
+~~LANG:FR@//fr/manuel-1.3/tests_unitaires~~
 
 See the definition of unit-test on wikipedia: http://en.wikipedia.org/wiki/Unit-testing .
 
-===== Preparation =====
 
-Unit-testing is ready with Jelix developer edition : it contains the "junittests" module and a copy of [[http://www.lastcraft.com/simple_test.php|SimpleTest]]. Other distributions of Jelix require a copy of libs/simpletest and lib/jelix-modules/junittests.
+===== Creating tests with PHPUnit =====
+
+Using PHPUnit to create tests is the prefered method in jelix 1.3 and higher. See [[https://github.com/sebastianbergmann/phpunit/|the manual of PHPUnit]] to know how to use it. You must install PHPUnit, it is not provided in the Jelix package.
+
+Jelix brings some helpers. The @@createapp@@ command has created a @@F@tests/runtests.php@@ in your application (or copy the file @@F@lib/jelix-scripts/templates/tests/runtests.php@@). You will launch this file instead of PHPUnit. It then allows you to not fill a @@F@phpunit.xml@@ with all your tests stored in your modules. To do so:
+
+   * create your tests in the @@tests/@@ directory of your modules
+   * store them in files with the suffix @@.pu.php@@ (and not @@Tests.php@@ as usual with PHPUnit)
+   * launch @@php runtests.php --all-modules@@ to run tests in all modules
+   * launch @@php runtests.php --module foo@@ to run tests only in the module foo
+   * you can add the option @@--testtype xxxx@@ and it launches only @@*.xxxx.pu.php@@ files. That way, you can separate unit tests, functional tests etc..
+
+You can use all others options of PHPUnit with runtests.php.
+
+===== Creating tests with Simpletest =====
+
+Simpletests is the framework used in jelix since the begining. However, since Jelix 1.3, it is deprecated, although it is still provided with the Jelix developer edition.
+
+Jelix contains the "junittests" module and a copy of [[http://www.lastcraft.com/simple_test.php|SimpleTest]]. Other distributions of Jelix require a copy of libs/simpletest and lib/jelix-modules/junittests.
 
 For the test-runner to be avalaible, please add the following to your
 project's configuration :
@@ -12,8 +29,6 @@ project's configuration :
 enableTests = on
 </code>
 Setting "off" desactivates the online test-runner.
-
-===== Creating unit tests =====
 
 ==== Test files ====
 
@@ -129,10 +144,6 @@ class testShopCart extends UnitTestCase {
 }
 </code>
 
-===== Test-runners =====
-
-Test-runners execute your tests.
-
 
 ==== Web-interface test-runner ====
 
@@ -190,3 +201,4 @@ php tests.php single jelix_tests core.jlocale
 When the running of tests ends, the number of unit tests that succeeded and faild is displayed.
 
 If you don't have the ''tests.php'' file in the scripts directory, you can retrieve all the necessary files (the script and the config file) in the install directory of the junittests module.
+

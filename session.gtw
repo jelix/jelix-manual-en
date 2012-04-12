@@ -1,7 +1,8 @@
-~~LANG:FR@//fr/manuel-1.2/session~~
+~~LANG:FR@//fr/manuel-1.3/session~~
 
+jSession is the object used by Jelix to initialize the storage engine. It is not used to read or store variables in session. **Use $_SESSION as usual** to do this task.
 
-jSession provides alternative storage engines. Configuration is done in app/var/config/defaultconfig.ini.php :
+Configuration of the session storage is done in @@F@app/var/config/defaultconfig.ini.php@@, in a @@sessions@@ section.
 
 ===== Session name =====
 

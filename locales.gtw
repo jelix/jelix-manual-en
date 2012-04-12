@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/locales~~
+~~LANG:FR@//fr/manuel-1.3/locales~~
 
 Jelix has its own localization/internationalization mechanism. The setLocale and gettext functions from php are not used because too much constraining to setup, and their configuration is chancy on servers.
 

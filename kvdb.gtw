@@ -1,22 +1,24 @@
-~~LANG:FR@//fr/manuel-1.2/kvdb~~
+~~LANG:FR@//fr/manuel-1.3/kvdb~~
 
 Jelix has an abstract layer to access to key-value databases, less complex than SQL databases.
 
-You have a @@C@jKVDb@@ from witch you retrieve a connector to a key-value database. Like jDb, there are some "profiles", stored in a file, @@F@kvprofiles.ini.php@@, where you define parameters to connect to these databases.
+You have a @@C@jKVDb@@ from which you retrieve a connector to a key-value database. Like jDb, there are some "profiles", stored in the @@F@profiles.ini.php@@ file (See [[config#the-profiles.ini.php-file|the corresponding chapter]]), where you define parameters to connect to these databases.
 
 jKVDb works with some "drivers" to access to "key-value" data. Jelix provides drivers for simple files (file and file2), memcache, redis, and... sql. See below for more informations about this drivers.
 
 
 ===== Configuration =====
 
-As for jDb, @@F@kvprofiles.ini.php@@ contains some section, one for each databases you want to access. Each section should contain at least, one parameter, @@driver@@, indicating the name of the driver to use. Other parameters should be set, depending on the driver.
+As for jDb, @@F@profiles.ini.php@@ contains some section, one for each databases you want to access. Each section should contain at least, one parameter, @@driver@@, indicating the name of the driver to use. Other parameters should be set, depending on the driver.
+
+The connection type to indicate in profile names is @@jkvdb@@.
 
 
 ===== Accessing to a database =====
 
 You must call @@jKVDb::getConnection()@@, by giving eventually a profile (else the profile "default" is used). You retrieve an object inheriting from @@C@jKVDriver@@.
 
-With this object, you can accessing and modifying to the content of the key-value database. Here are some methods you can call:
+With this object, you can access and modify the content of the key-value database. Here are some methods you can call:
 
 
    * @@M@get($key)@@: to retrieve the value corresponding to the given key.
@@ -32,7 +34,7 @@ With this object, you can accessing and modifying to the content of the key-valu
 
 ===== Other specific operations =====
 
-Some drivers can implement additionnal methods, depending of the capabilites of the database. One of this interface is @@I@jIKVttl@@, where values have a limited live time.
+Some drivers can implement additionnal methods, depending of the capabilites of the database. One of this interface is @@I@jIKVttl@@, where values have a limited life time.
 
 To store such values, you should call the method @@M@setWithTtl($key, $value, $ttl)@@, where $ttl must be a value in seconds.
 
@@ -43,12 +45,12 @@ You can call also the @@M@garbage@@ method to delete all keys which are not anym
 
 ==== memcache ====
 
-It use the Memcache API of PHP (don't confuse with the other API, memcached). It supports only the version 3.0.1 of memcache or lower.
+It uses the Memcache API of PHP (don't confuse with the other API, memcached). It supports only the version 3.0.1 of memcache or lower.
 
 In the profile, you have to indicate a host and a port, or several host/port. Example with a single server:
 
 <code ini>
-[mymemcacheserver]
+[jkvdb:mymemcacheserver]
 driver=memcache
 host=localhost
 </code>
@@ -56,7 +58,7 @@ host=localhost
 Or with several servers:
 
 <code ini>
-[mymemcacheserver]
+[jkvdb:mymemcacheserver]
 driver=memcache
 
 host=memcache_server1:11211;memcache_server2:11212
@@ -77,7 +79,7 @@ This driver supports the @@I@jIKVttl@@ interface.
 This driver allows to access to a Redis database. It uses the library php5redis. For the configuration, indicate a @@host@@ and a @@port@@ parameter.
 
 <code ini>
-[myredis]
+[jkvdb:myredis]
 driver=redis
 host = localhost
 port = 6379
@@ -116,7 +118,7 @@ It stores values in files. Each file content one value. Configuration:
 
    * @@storage_dir@@: the directory where files are stored. Can contain shortcuts like "var:" or "temp:". default dir is @@F@var/kvfiles/@@.
    * @@file_locking@@: false to disable file locking. By default: true. 
-   * @@automatic_cleaning_factor@@: indicate the frequency to clean deprecated files. @@L@0@@ means never, @@L@1@@ means at each access, higher means a less frequency.
+   * @@automatic_cleaning_factor@@: indicate the frequency to clean deprecated files. @@L@0@@ means never, @@L@1@@ means at each access, higher means a lower frequency.
    * @@directory_level@@: if you know that you'll have thousand values, you can increase the directory level. By default: 2.
    * @@directory_umask@@: umask of created directories. By default: 0700
    * @@file_umask@@: umask of created files. By default: 0600.

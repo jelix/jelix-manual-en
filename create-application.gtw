@@ -1,17 +1,17 @@
-~~LANG:FR@//fr/manuel-1.2/creer-application~~
+~~LANG:FR@//fr/manuel-1.3/creer-application~~
 
-The first thing before using Jelix is to create an application. You can create an application manually, but there is an easier way : use @@createapp@@ command.
+The first thing before using Jelix is to create an application. You can create an application manually, but there is an easier way : using the @@createapp@@ script.
 
 In a console, change directory to @@F@lib/jelix-scripts@@, and run:
 
 <code bash>
-php jelix.php --myapp createapp
+php createapp.php /path/where/you/want/your/myapp
 </code>
 
-@@myapp@@ is the name of your application.
+@@myapp@@ will be the name of your application.
 
 
-@@createapp@@ create a @@F@myapp/@@ directory, at the same level of @@F@lib/@@ directory. Its content is :
+@@createapp@@ create a @@F@myapp/@@ directory with the given path. Its content is:
 
   myapp/
      install/      scripts to install your application on other server

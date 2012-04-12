@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/authentification/drivers~~
+~~LANG:FR@//fr/manuel-1.3/authentification/drivers~~
 
 List of authentication drivers delivered with Jelix
 
@@ -9,11 +9,10 @@ Db driver authenticates users through database infos. This driver relies on a Da
 Jelix provides a module, jauthdb, which contains a default dao. If you want to use it, you can install it:
 
 <code bash>
-cd lib/jelix-scripts/
-php jelix.php --myapp installmodule jauthdb
+php cmd.php installmodule jauthdb
 
 # or if you want to add a default user "admin" at the same time, (with the password "admin")
-php jelix.php --myapp installmodule -p defaultuser jauthdb
+php cmd.php installmodule -p defaultuser jauthdb
 </code>
 
 The jauthdb installer will create a jlx_users table into your database. You can customize this table, add some fields and then provide an other dao file (see below).
@@ -43,7 +42,7 @@ You can add any other properties and methods to the dao.
 
 ===== Class =====
 
-Clas driver is a more universal driver than Db driver. You just have to assign a class to it, in which you do... what you want! Except that it has to implement [[http://jelix.org/reference/1.2.7/jelix/auth_driver/jIAuthDriverClass.html|jIAuthDriverClass interface]]. This class is considered as other business classes and therefore should be located in @@F@classes/@@ folder of one of your modules.
+Clas driver is a more universal driver than Db driver. You just have to assign a class to it, in which you do... what you want! Except that it has to implement [[http://jelix.org/reference/1.3.1/jelix/auth_driver/jIAuthDriverClass.html|jIAuthDriverClass interface]]. This class is considered as other business classes and therefore should be located in @@F@classes/@@ folder of one of your modules.
 
 @@F@auth.plugin.ini.php@@ would declare :
 

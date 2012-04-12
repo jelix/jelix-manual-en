@@ -1,13 +1,13 @@
-~~LANG:FR@//fr/manuel-1.2/bd/configuration~~
+~~LANG:FR@//fr/manuel-1.3/bd/configuration~~
 
-To be able to access a database, you need of course to specify the connection parameters in a configuration file. This file is @@F@dbprofils.ini.php@@ by default in @@F@var/config/@@. You can have one with a different name, and you have then to specify this name in the main config file of your application.
+To be able to access a database, you need of course to specify the connection parameters in a configuration file. This file is @@F@profiles.ini.php@@ in @@F@var/config/@@. See [[//config#the-profiles.ini.php-file|the corresponding chapter]] to know how to use this file.
 
 You can define several connections named profiles. Thus, you can define connection for the production database, development database, or also the different bases on which lies your application. 
 
-Here is an example of @@F@dbprofils.ini.php@@ file :
+Here is an example in @@F@profiles.ini.php@@ file:
 
 <code ini>
-[default]
+[jdb:default]
 driver="mysql"
 database="jelix"
 host= "localhost"
@@ -17,21 +17,9 @@ persistent= on
 force_encoding=true
 </code>
 
-There is a "default" section. Each section corresponds to a connection profile. A "default" section specify the profile to use by default.
+The connection type to indicate in profile names is @@jdb@@.
 
-You can use also an alias:
-
-<code ini>
-default = foo
-
-[foo]
-driver="mysql"
-database="jelix"
-...
-</code>
-
-
-In a section, you have several parameters. Their number and name can be different according to the driver used, but some of them can be used in all profile
+In a section, you have several parameters. Their number and name can be different according to the driver used, but some of them can be used in all profiles.
 
   * **driver**: it indicates the driver name
   * **table_prefix**: allow to indicate a prefix for all table when [[//daos|using a DAO]] with a profile indicating a table prefix, this prefix is added automatically to the table names indicating in the dao files. When you construct your SQL queries, you should use the @@M@prefixTable()@@ method of the @@C@jDbConnection@@ object. This method takes one parameter: the table name.
@@ -70,7 +58,7 @@ Possible parameters:
    * **database** : the database file. You can use the shortcuts like "app:", "lib:" or "var:" to indicate a path inside the application directory, the lib directory, or the var directory.
    * **persistent** : says if the connection should be persistent ("on") or not ("off")
 
-Do not forget that the sqlite database files must be placed in the var/db/sqlite/ directory of your application. Theses files and the directory must have read and write permissions for your webserver user.
+Do not forget that the sqlite database files must be placed in the @@F@var/db/sqlite/@@ directory of your application. Theses files and the directory must have read and write permissions for your webserver user.
 
 ===== PDO profile =====
 
@@ -84,49 +72,13 @@ Or you can still use the deprecated way to use PDO, by creating a profile using 
    * **force_encoding** : says if the current charset should be specified during the connection. Try to set it to "on" if you have some encoding issues with your retrieved data.
 
 <code ini>
-[bar]
+[jdb:bar]
 driver=pdo
 dsn= "mysql:host=localhost;dbname=test"
 user=
 password=
 </code>
 
-===== Profile aliases =====
-
-At the begining of the file, you can specify some aliases to existing profile. It is useful for modules which use a specific profile name, and you want to assign this profile name to an existing profile. jAcl2 uses an aliases, jacl2_profile. You can create a new profile named "jacl2_profile", or create an alias:
-
-<code ini>
-jacl2_profile=default
-
-[default]
-driver=mysql
-...
-</code>
 
 
 
-
-
-
-===== Virtual profile =====
-
-jDb supports connexion to a profile not declared in @@F@dbprofils.ini.php@@ file. It supports virtual profiles, useful for database whose information is known only during the execution.
-
-A virtual profile must be created before any jDb method call. Use @@M@createVirtualProfile@@ method and pass it a name and an array of parameters. The latters are the same as described above of course.
-
-
-<code php>
-   $params = array(
-       'driver'=>'mysql',
-       'host'=>'localhost',
-       'database'=>'jelix',
-       'user'=>'toto',
-       'password'=>'blabla',
-       'persistent'=>false,
-       'force_encoding'=>true
-   );
-   jDb::createVirtualProfile('my_profil', $params);
-
-   $cnx = jDb::getConnection('my_profil');
-   // and play with your database. see below.
-</code>

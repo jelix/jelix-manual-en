@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/fondamentaux~~
+~~LANG:FR@//fr/manuel-1.3/fondamentaux~~
 
 As any framework, Jelix defines and manipulates concepts particularly those rolling out of MVC logic ie Model-View-Controller. Inherently, Jelix defines some core objects reflecting those concepts.
 

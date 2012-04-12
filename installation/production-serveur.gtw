@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/installation/production~~
+~~LANG:FR@//fr/manuel-1.3/installation/production~~
 
 We call //production server//, the server on which you will install your finished application, therefore accessible to the end-users. By opposition, the server on which you develop your application is called the development server.
 
@@ -7,7 +7,7 @@ There are certain different things to take in account for a production server, i
 ===== Choosing the good edition of Jelix =====
 
 
-To develop, you use of course the "developer" edition of Jelix. This edition includes tools and scripts for the command line and other things for the development.
+To develop, you use of course the "developer" edition of Jelix. This edition includes some additionals instructions for logger, to help debugging etc.
 
 However, for the installation on a production server, it is preferable to install the "optimized" edition of Jelix. As its name indicates it, it is optimized, and the useless things in production are removed. Note however that your application will function exactly the same way as with one of the other editions of Jelix, except for one detail: there will be some light performance improvements with the "Optimized" edition!
 
@@ -26,46 +26,13 @@ A "Gold" edition is also available, it is intended for the developers who can mo
 
 Here some advices for the configuration of the application, in the @@F@var/config/defaultconfig.ini.php@@ file.
 
-=== error_handling section ===
+=== section jResponseHtml ===
 
-In the section @@error_handling@@, the following configuration is highly advised:
+Déactivate the debugbar plugin.
 
-<code ini>
-[error_handling]
-messageLogFormat = "%date%\t[%code%]\t%msg%\t%file%\t%line%\n\t%url%"
-logFile = error.log
-email = root@localhost
-emailHeaders = "From: webmaster@yoursite.com\nX-Mailer: Jelix\nX-Priority: 1 (Highest)\n"
-quietMessage="A technical error has occured. Sorry for this trouble."
+=== configuration du logger ===
 
-showInFirebug = off
-
-; keywords you can use : ECHO, ECHOQUIET, EXIT, LOGFILE, SYSLOG, MAIL, TRACE
-default      = ECHOQUIET EXIT LOGFILE TRACE
-error        = ECHOQUIET EXIT LOGFILE TRACE
-warning      = ECHOQUIET LOGFILE TRACE
-notice       =  
-strict       = 
-; for the exceptions, there is implicitly EXIT
-exception    = ECHOQUIET LOGFILE TRACE
-
-</code>
-
-It is not advised to use the keyword @@L@ECHO@@, which posts all the details of the errors on the website (information which could be useful for pirates), but rather @@L@ECHOQUIET@@, which posts simply the message indicated in the parameter @@V@quietMessage@@.
-
-However, it is useful to be informed of the errors and their details. Also, parallel to @@L@ECHOQUIET@@, it is recommended to add one of these key words
-
-    * @@L@LOGFILE@@: the errors are inserted in the file indicated in @@V@logFile@@.
-    * @@L@SYSLOG@@: the errors are recorded on the level of the system.
-    * @@L@EMAIL@@: the errors are sent by email to @@V@email@@.
-
-Be careful with the use of @@L@EMAIL@@: use it only once you know that your application functions well on the production server. Else you may be flooded with emails (and your hosting provider may not be very happy with that, and could think you're a spammer).
-
-Be careful also with the use of @@L@SYSLOG@@: put this option only if it is your own server (i.e. you are an administrator of the machine). Else the owner of the machine is likely not to appreciate.
-
-In conclusion: @@L@LOGFILE@@ is recommended instead of @@L@EMAIL@@ or @@L@SYSLOG@@.
-
-To have more informations on errors, you can also add the @@L@TRACE@@ keyword, so you will have the content of stack.
+If you still use the "dev" edition of jelix on your production server, remove the line @@sql=...@@, @@soap=...@@ and other type of log that you think it isn't relevant. And remove the logger "memory" in each type of log. It will save some memory (the "memory" logger is only useful for the debugbar)
 
 === Compilation section ===
 
@@ -82,5 +49,36 @@ The option @@V@checkCacheFiletime@@ prevents Jelix from checking all the time th
 === Mailer section ===
 
 Do not forget to update the parameters of the @@V@[mailer]@@ section. Usually, the mailer parameters are different between your development server and your production server unless you use third party solutions.
+
+
+=== If your server is behind a proxy ===
+
+if you server is not listen on standard port, you should indicate to jelix that it should generate urls with standard port (for the proxy). In the general section:
+
+<code ini>
+forceHTTPPort = true
+forceHTTPSPort = true
+</code>
+
+And you should probably indicate the real domain name of the site (else Jelix use the server name)
+<code>
+domainName = www.example.com
+</code>
+
+If the "basePath" value of the server does not correspond to the "public" basePath, (ex: the proxy redirect urls like http://example.com/index.php to your backend server http://backend.example.com/foo/bar/index.php), You have to indicate the "public" basePath and the backend base Path:
+
+<code ini>
+[urlengine]
+basePath= /
+backendBasePath = /foo/bar
+</code>
+
+And if the proxy redirect HTTPS request to HTTP, you must deactivate the HTTPS check
+
+<code ini>
+[urlengine]
+checkHttpsOnParsing = off
+</code>
+
 
 

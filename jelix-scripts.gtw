@@ -1,9 +1,9 @@
-~~LANG:FR@//fr/manuel-1.2/jelix-scripts~~
+~~LANG:FR@//fr/manuel-1.3/jelix-scripts~~
 
 
-Jelix provides a CLI script, @@F@lib/jelix-scripts/jelix.php@@. It allows you  to execute commands in your application context. Particularly, you are able to create and modify some files easily and automatically.
+Jelix provides some CLI script, @@F@lib/jelix-scripts/createapp.php@@, allowing you to create a new application, and @@F@cmd.php@@ inside your application allowing to execute commands on your application. Particularly, you are able to create and modify some files easily and automatically.
 
-This script should be called from a console, in a command line, so the command line version of PHP (PHP-CLI) should be installed and configured.
+This scripts should be called from a console, in a command line, so the command line version of PHP (PHP-CLI) should be installed and configured.
 
 
 ===== Configuration of PHP-CLI =====
@@ -29,6 +29,7 @@ If it was already exist, some other paths were probably defined, keep them. In a
 
 ==== Configuration of PHP-Cli under windows ====
 
+
 Depending of the package you use (WAMP or others), your php.exe may not found its php.ini file. The CLI version of php and the apache version of PHP do not share the same php.ini file. So  you should create it for php.exe and/or configure it to activate same extensions as the apache php. Else you could have some errors like "unknow mysql_connect function" or "unable to connect to localhost" etc.
 
 
@@ -46,29 +47,29 @@ Then you can call php.exe from any directory, and from the jelix-scripts directo
 
 
 
-===== Using jelix.php =====
+===== Using cmd.php =====
 
-This script must be invoked with the command line version of PHP. So, open a console (cmd.exe under windows) and go to the @@F@lib/jelix-scripts/@@ directory:
+This script, stored in your application, must be invoked with the command line version of PHP. So, open a console (cmd.exe under windows) and go to the directory of your application, @@F@myapp/@@:
 
 With Linux/Mac:
 <code bash>
-   cd lib/jelix-scripts/
+   cd myapp/
 </code>
 With Windows:
 <code bash>
-   cd lib\jelix-scripts\
+   cd myapp\
 </code>
 
 Then, type this kind of command line:
 
 With Windows:
 <code bash>
-> php.exe jelix.php [--application_name] command_name [options] [parameters]
+> php.exe cmd.php  command_name [options] [parameters]
 </code>
 
 With linux:
 <code bash>
-$ php jelix.php [--application_name] command_name [options] [parameters]
+$ php cmd.php command_name [options] [parameters]
 </code>
 
 In next examples, we only show for linux, but parameters will be identical for windows.
@@ -76,56 +77,23 @@ In next examples, we only show for linux, but parameters will be identical for w
 
 ==== command_name ====
 
-You should always call @@F@jelix.php@@ with a "jelix command" name, and optionally some options and/or parameters.
+You should always call @@F@cmd.php@@ with a "jelix command" name, and optionally some options and/or parameters.
 
 First, you access help on all available commands with the @@help@@ command:
 
 <code bash>
-   php jelix.php help
+   php cmd.php help
 </code>
 
-==== --application_name ====
+==== The option -ep ====
 
-
-Another generic parameter you have to indicate for most of jelix commands : your application name. This is always the first parameter of @@F@jelix.php@@, and it must be preceded by @@--@@. Example
+For some commands, it is useful to indicate for which entrypoint the command should be applied. To do it, you have to indicate the name of the entrypoint after the option "-ep":
 
 <code bash>
-  php jelix.php --myapp createapp
+  php cmd.php installmodule -ep admin.php foo
 </code>
 
-The application name is the name of the directory of your application, and jelix.php expect to find it at the same level of the lib directory. You can of course change this behavior. See below.
-
-
-
-Alternatively, you can avoid typing your application name by setting an environment variable: @@V@JELIX_APP_NAME@@. For example, type this in the console:
-
-<code bash>
-  export JELIX_APP_NAME="myapp"        # under linux
-  set JELIX_APP_NAME=myapp             # under windows
-</code>
-
-Then you can type any command without @@--myapp@@
-
-<code bash>
-  php jelix.php createapp
-</code>
-
-Notice that you can execute the script from any directory. For example, you can type:
-
-<code bash>
-  php jelix/path/lib/jelix-scripts/jelix.php --myapp createapp
-</code>
-
-
-==== --application_name:entrypoint ====
-
-For some commands, it is useful to indicate for which entrypoint the command should be applied. To do it, you have to indicate the name of the entrypoint after the application name followed by a ":":
-
-<code bash>
-  php jelix.php --myapp:admin installmodule foo
-</code>
-
-It will install the foo module, only for the entry point "admin" of the application myapp. (you can write admin or admin.php)
+It will install the foo module, only for the entry point "admin" of the application. (you can write admin or admin.php)
 
 The entry point should be declared in the project.xml file of the application.
 
@@ -134,38 +102,45 @@ The entry point should be declared in the project.xml file of the application.
 
 Commands creating new files or directories follow a specific tree structure. Perhaps you may want to organize your files in a different manner. Also, there are some customizable infos stored in header comments of files, like your name, the project name and so on. 
 
-You can configure all of this by creating a configuration file for jelix.php CLI script.
+You can configure all of this by creating a configuration file, in your home directory.
 
-In @@F@lib/jelix-scripts/@@, there is a file @@F@my.default.conf.php.dist@@. Rename it to @@F@my.default.conf.php@@, and modify its settings by changing the different values. If you want different file for each application, replace "default" by the name of the application, for example: @@F@my.testapp.conf.php@@.
+In @@F@lib/jelix-scripts/templates/@@, there is a file @@F@jelix-scripts.ini@@. Copy it to your home directory (@@F@/home/yourlogin/@@ for example in Linux), and rename it to @@F@.jelix-scripts.ini@@. You can then modify it by changing different values. If you want different values for each application, create section in the file, named with the name of the application, and set values in it.
 
-You can also create another file, in any other directory, (to have different configuration for each projects for example). If you do so, just indicate its path in @@V@JELIX_CONFIG@@ environment variable.
+<code ini>
+[myapp]
+incofCopyright=2011 my company
+</code>
 
 
 ===== List of available commands =====
 
-here is a list of the main commands for jelix-scripts 
+here is a list of some commands
 
    * Main commands
 <code>
-php jelix.php [--APPNAME[:ENTRYPOINT]] COMMAND [OPTIONS] [PARAMETERS]
-</code>
-   * Creation of one application
-<code>
-php jelix.php --[MyApplication] createapp
+php cmd.php COMMAND [-ep ENTRYPOINT] [OPTIONS] [PARAMETERS]
 </code>
    * Creation of one module
 <code>
-php jelix.php --[MyApplication] createmodule [MyModule]
+php cmd.php createmodule [MyModule]
 </code>
    * Creation of one dao
 <code>
-php jelix.php --[MyApplication] createdao [MyModule] [MyDao] [MyTable]
+php cmd.php createdao [MyModule] [MyDao] [MyTable]
 </code>
    * Creation of one class based upon a dao
 <code>
-php jelix.php --[MyApplication] createclassfromdao [MyModule] [MyClass] [MyDao]
+php cmd.php createclassfromdao [MyModule] [MyClass] [MyDao]
 </code>
    * Creation of one form (empty of from a dao, with or without locales)
 <code>
-php jelix.php --[MyApplication] createform [MyModule] [MyForm] [MyDao] 
+php cmd.php createform [MyModule] [MyForm] [MyDao] 
+</code>
+   * Creation of a zone (with or without a template)
+<code>
+php cmd.php  createzone [-notpl] [MyModule] [MyZone] [MyTemplate] 
+</code>
+   * Creation of one CRUD, create dao, form and CRUD controller
+<code>
+php cmd.php createdaocrud module table controller_name
 </code>
