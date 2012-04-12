@@ -1,0 +1,126 @@
+You can extend tpl plugins functionalities by adding your own to [en:manual:templates|jTpl engine]. Just implement them in new template plugins.
+
+There is four types of template plugins:
+
+   * functions
+   * modifiers
+   * blocks
+   * meta
+
+look in lib/jelix/plugins/tpl/, you'll find here the core template plugins of Jelix. They are simple and useful examples of how plugins work.
+
+===== Location =====
+
+Template plugins are stored in a folder having a precise sub-folder tree. In fact, plugins are grouped in sub-folders. Each sub-folder is associated with a response type. It prevents for example to pick a XUL template when HTML is required.
+
+As a result, in a template plugins repository, you'll find //html//, //xul//, //text// and //common// directories. In //common// folder are stored plugins independent of any response type.
+
+lib/jelix/plugins/tpl/ is the default template plugins repository for Jelix. However, you'll more generally add your own plugins in your application //plugins/// folder, or another repository (remember to declare a specific repository as documented in [[|plugins doc]]). And as said before, locate your plugins files in either tpl/common/, tpl/html/, or tpl/text/ or else...
+
+===== plugin type "function" =====
+
+Those plugins are invoked with code like this:
+<code>
+   {myfunction $param1,$param2}
+</code>
+
+If as an example, this plugin is an html-only plugin, you should create a //function.myfunction.php// in tpl/html in which you'll declare a //jtpl_function_html_myfunction// function. the function takes at minimum one paramater : the jTpl object used for this template. You can manipulate this object as needed. Also, your function can declare more parameters but shall return nothing.
+
+In your function core, do what you need, for example, you could echo something to be displayed.
+
+Example, zone plugin:
+
+<code php>
+function jtpl_function_html_zone($tpl, $name, $params=array())
+{
+     echo jZone::get($name, $params);
+}
+</code>
+
+
+===== plugin type "cfunction" =====
+
+On a user point of view ie. in templates, cfunction plugins equals to function plugins. However, there are not coded the same. Contrary to plugin functions, always called during //display// or template //evaluation//, a cfunction plugin is called before, during template //compilation//. Remember, a template is first converted in php code (compilation), stored in a cache file and evaluated each time it must be displayed.
+
+As a result, a cfunction plugin does not generate any content but PHP code sotred in cache. In some cases, it is mandatory and in others it enhances performances.
+
+A cfunction receives as parameters, first a jTplCompiler compiler, and second an array of options specified in the template. Often, you just have to include those parameters in the generated PHP code. Those type of plugins do not display anything nor returns modified or generated content. 
+
+An example, a zone cfunction plugin :
+
+
+<code php>
+function jtpl_cfunction_html_zone($compiler $params=array())
+{
+    if (count($params) < 1 || count($params) > 2) {
+        $compiler->doError2('errors.tplplugin.cfunction.bad.argument.number','zone','1-2');
+    }
+
+    if (count($params) == 1) {
+         $php = ' echo jZone::get('.$params[0].');';
+    }
+    else {
+         $php = ' echo jZone::get('.$params[0].', '.$params[1].');';
+    }
+    return $php;
+}
+</code>
+
+
+
+===== plugin type "modifier" =====
+
+A modifier plugin is a function. It shall be named jtpl_modifier_//mymodifier// and take at minimum a string as first parameter (there can other parameters specifying modifier options), and returns the string modified. your modifier should be stored in a modifier.//mymodifier//.php file.
+
+Example of count_characters :
+
+<code php>
+function jtpl_modifier_html_count_characters($string, $include_spaces = false)
+{
+    if ($include_spaces)
+       return(strlen($string));
+
+    return preg_match_all("/[^\s]/",$string, $match);
+}
+</code>
+
+
+===== plugin de bloc =====
+
+As with cfunction plugins, block plugins are called during template compilation. As a result a block plugin does not display anything, nor return a modified value but returns php code to be included in the compiled template.
+
+You implement your own specific loops or conditioned structure with a block plugin.
+
+A block plugin is a jtpl_block_html_//myblock// function. As parameters it receives, first a jTplCompiler object, second a boolean and optionally others. the function is stored in a block.//myblock//.php file.
+
+
+jtpl_block_html_//myblock// is called two times by the compiler, first time when the compiler finds //<myblock>// start tag and a second time when it encounters //</myblock>// end tag. the boolean parameter indicates wether the compiler is on start or end tag (true if it is start tag).
+
+Example, plugin ifuserconnected :
+
+<code php>
+function jtpl_block_ifuserconnected($compiler, $begin, $params=array())
+{
+    if($begin){
+        if(count($params)){
+            $content='';
+            $compiler->doError1('errors.tplplugin.block.too.many.arguments','ifuserconnected');
+        }else{
+            $content = ' if(jAuth::isConnected()){';
+        }
+    }else{
+        $content = ' } ';
+    }
+    return $content;
+}
+</code>
+
+
+===== plugin meta =====
+
+Meta plugins are called during evaluation of a template, but just before display. 
+. Evaluation consists of two steps: one executed before display and the latter to actually display content. the first one is often used to modify some properties of response object. As an example, for a HTML response, a tpl template only generates //body// part of html. If you want to specify head content such as CSS or JS links, such as meta informations, you must do it during first step. That's when meta plugins are called (through {meta ...} instruction).
+
+(see plugin lib/jelix/plugins/tpl/html/meta.html.php).
+
+

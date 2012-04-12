@@ -1,0 +1,3 @@
+That part lists all Jelix components that do not belong to application structure or MVC pattern. 
+
+Here, you'll find how to use templates, accesss database, generate forms, internationalize and so on.

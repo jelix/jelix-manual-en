@@ -1,0 +1,371 @@
+Before to use jAcl with the driver jAcl.db, you should first initialized the database and defines rights, subjects etc.
+
+You can do this with jelix-scripts.
+
+===== Database setup =====
+
+You should setup a database access and create the table in this database.
+
+=== database access ===
+
+See [[//bd|the page on jDb]] to configure database access.
+
+If you don't want to store jAcl.db tables in the default profile, you should create a new profile, and indicate it in the parameter "**jacl_profil**". Here is an example of the file dbprofils.ini.php :
+
+<code ini>
+
+default = foo
+jacl_profil= acl
+
+[foo]
+driver="mysql"
+database="jelix"
+host= "localhost"
+user= "jelix"
+password= "jelix"
+persistent= on
+force_encoding=true
+
+[acl]
+driver="mysql"
+database="rights"
+host= "localhost"
+user= "jelix"
+password= "xilej"
+persistent= on
+force_encoding=true
+
+</code>
+
+=== Create the tables ===
+
+You will find some sql script in lib/jelix/core-modules/jelix/install/. You should execute this script in your database to create all tables needed by jAcl.db : install_jacl.schema.mysql.sql.
+
+Then you should have this tables:
+  * jacl_group
+  * jacl_user_group
+  * jacl_right_values_group
+  * jacl_right_values
+  * jacl_subject
+  * jacl_rights
+
+Once these tables created, you can start configuring jAcl.
+
+===== Configuration =====
+
+You should use jelix-scripts to configure the rights. So go into the lib/jelix-scripts/ directory: 
+
+<code bash>
+$  cd lib/jelix-scripts/        # linux
+$  cd lib\jelix-scripts\        #  windows
+</code>
+
+(note : $ in the shell).
+
+Setup the application name in JELIX_APP_NAME:
+
+<code bash>
+$  export JELIX_APP_NAME="myapp"        #  linux
+$  set JELIX_APP_NAME=myapp             #  windows
+</code>
+
+Then you should use the jelix.php script. Remember that we use jelix.php like this:
+
+<code bash>
+$  php jelix.php a_command argument argument argument...
+</code>
+(or php.exe jelix.php... on windows)
+
+There are three command to configure jAcl.db: aclvalue, aclgroup and aclright. Each of this commands take at least one argument, a "sub-command".
+
+
+===== Creating the values =====
+
+You should create some subjects. Each subjects is associated to a group of values. So before to create subjects, you have to create group of values. In the order :
+
+  * you create a groupe of values
+  * you create all values in this group
+  * you create the subject.
+
+Let's create a subject "cms.articles" with the values READ, LIST, CREATE, DELETE, UPDATE.
+
+First, you can list all existing groups of values:
+
+<code bash>
+$ php jelix.php aclvalue group_list
+</code>
+
+The first time, of course, you should have an empty list
+
+<code>
+ ----List of group of values of rights
+ 
+ id      label key                       type
+ --------------------------------------------------------
+</code>
+
+If there isn't a group of values you want for your subject, you should create one. You have to indicate a numerical identifiant (not already taken by another group), a locale key for its label (you must register this key in a localization file) as well as the type of group.
+
+If the subject can be associated with multiple values of the group (that is our case), the type is 0. If it should be associated to only one value of a group (for example, a group that contains "true" and "false"), the type is 1.
+
+Let's create the group of values:
+<code bash>
+$ php jelix.php aclvalue group_add  1 "cms~acl.articles.values" 0
+</code>
+
+You may modify the  values of the identifier and the name of locale key of course. If you do not use a module to manage rights, then the key locale is not essential so you can put any string.
+
+The result of the command is:
+<code>
+----Add a group of values of rights
+
+OK
+</code>
+
+When the result of an acl command has succeed, there is always the message "OK". Now you can list the groups of values:
+
+<code bash>
+$ php jelix.php aclvalue group_list
+---List of group of values of rights
+
+id      label key                       type
+--------------------------------------------------------
+1       cms~acl.articles.values      0 (combinable values)
+</code>
+
+You can delete a group by doing:
+
+<code bash>
+$ php jelix.php aclvalue group_delete  1
+</code>
+
+Now you have to store values inside this group. You should indicate the value itself, a key of locale for the label, and the id of the group where we put it.
+
+<code bash>
+$ php jelix.php aclvalue add  READ "cms~acl.articles.value.read" 1
+$ php jelix.php aclvalue add  LIST "cms~acl.articles.value.list" 1
+$ php jelix.php aclvalue add  CREATE "cms~acl.articles.value.create" 1
+$ php jelix.php aclvalue add  DELETE "cms~acl.articles.value.delete" 1
+$ php jelix.php aclvalue add  UPDATE "cms~acl.articles.value.update" 1
+</code>
+
+We can verify that all is ok, by listing values:
+
+<code bash>
+$ php jelix.php aclvalue list
+----List of right values
+
+        value   label key
+-----------------------------------------
+GROUP 1 (cms~acl.articles.values)
+        CREATE  cms~acl.articles.value.create
+        DELETE  cms~acl.articles.value.delete
+        LIST    cms~acl.articles.value.list
+        READ    cms~acl.articles.value.read
+        UPDATE  cms~acl.articles.value.update
+</code>
+
+You can delete a value by indicating its name and the id of the group:
+
+<code bash>
+$ php jelix.php aclvalue delete LIST 1
+</code>
+
+You can create all group of values you need. A group of value can be used for many subject.
+
+=== Tables for the values ===
+
+  * //**jacl_right_values_group**//, for the group of values
+  * //**jacl_right_values**//, for the values
+ 
+
+
+===== Creating subject =====
+
+	
+Now that values are created, we can create subjects. The management of subjects is done by using the aclright command. Let's create the subject "cms.articles", by indicating a key of locale for the label of this subject (or any language if you do not use module rights management) and the id of the group of values we want to assign to it (here 1).
+
+<code bash>
+$ php jelix.php aclright subject_create "cms.articles" "cms~acl.articles.subject" 1
+</code>
+
+We can verify in the subjects list:
+
+<code bash>
+$ php jelix.php aclright subject_list
+----List of subjects
+
+id                      label key
+--------------------------------------------------------
+cms.articles    cms~acl.articles.subject
+        possible values: CREATE DELETE LIST READ UPDATE
+</code>
+
+You can delete a subject:
+
+<code bash>
+$ php jelix.php aclright subject_delete "cms.articles"
+</code>
+
+=== Table ===
+
+  * //**jacl_subject**//
+
+
+===== Creating a group of users =====
+
+A right need a subject, a value, and a group of users. Let's create a group of users now. We should use the aclgroup command.
+
+Let's create a group of writers:
+
+<code bash>
+$ php jelix.php aclgroup  create "writers"
+</code>
+
+The command displays "OK" and the id of the new group (here 1) :
+
+<code>
+----Create a new group
+
+OK. Group id is: 1
+</code>
+
+We're going to create a second group, which will be the default group of new users. We have to use the option **-defaultgroup**.
+
+<code bash>
+$ php jelix.php aclgroup -defaultgroup create "readers"
+</code>
+
+We can list the groups:
+<code bash>
+$ php jelix.php aclgroup  list
+----List of users groups
+
+id      label name              default
+--------------------------------------------------------
+2       readers                yes
+1       writers
+</code>
+
+We can change the "default" status with the sub-command setdefault, by giving the id of the group and a boolean:
+
+<code bash>
+$ php jelix.php aclgroup setdefault 1 true
+or
+$ php jelix.php aclgroup setdefault 1 false
+</code>
+
+We can change the name of a group:
+
+<code bash>
+$ php jelix.php aclgroup changename 1 "super writers"
+</code>
+
+To delete a group:
+
+<code bash>
+$ php jelix.php aclgroup delete 1
+</code>
+
+=== Tables ===
+
+  * //**jacl_group**//, for groups of users
+  * //**jacl_user_group**//, to associate users to groups
+
+
+===== Creating rights =====
+
+Now we have all things to define rights. We use the aclright command.
+
+Let's imagine that readers can read and list articles. So we should link the values LIST and READ, with the subject "cms.articles", and with the group of readers (id: 2).
+
+<code bash>
+$ php jelix.php aclright add  2 "cms.articles" LIST
+$ php jelix.php aclright add  2 "cms.articles" READ
+</code>
+
+Now let's verify the list of rights with the sub-command list
+
+<code bash>
+$ php jelix.php aclright list
+----Rights list
+
+group   subject value           resource
+---------------------------------------------------------------
+- group readers (2)
+        cms.articles
+                LIST
+                READ
+</code>
+
+Let's define rights for writers (id: 1) now. We give all rights to them:
+
+<code bash>
+$ php jelix.php aclright add  1 "cms.articles" LIST
+$ php jelix.php aclright add  1 "cms.articles" READ
+$ php jelix.php aclright add  1 "cms.articles" CREATE
+$ php jelix.php aclright add  1 "cms.articles" DELETE
+$ php jelix.php aclright add  1 "cms.articles" UPDATE
+</code>
+
+The list:
+<code bash>
+$ php jelix.php aclright list
+----Rights list
+
+group   subject value           resource
+---------------------------------------------------------------
+- group readers (2)
+        cms.articles
+                LIST
+                READ
+- group writers (1)
+        cms.articles
+                CREATE
+                DELETE
+                LIST
+                READ
+                UPDATE
+</code>
+
+If we want to allow readers to modify a specific article "opinions", so we have to create a write with this specific resource "opinions":
+
+<code bash>
+$ php jelix.php aclright add  2 "cms.articles" UPDATE "opinions"
+</code>
+
+Now we verify:
+<code bash>
+$ php jelix.php aclright list
+----Rights list
+
+group   subject value           resource
+---------------------------------------------------------------
+- group readers (2)
+        cms.articles
+                LIST
+                READ
+                UPDATE          opinions
+- group writers (1)
+        cms.articles
+                CREATE
+                DELETE
+                LIST
+                READ
+                UPDATE
+</code>
+
+You can remove a right with the sub-command remove, by indicating the subject, the group of users, the value (and the resource if needed)
+
+<code bash>
+$ php jelix.php aclright remove  2 "cms.articles" UPDATE "opinions"
+</code>
+
+Now you can use jAcl::check() in your application to check rights in different circumstance.
+
+
+=== Table ===
+
+  * //**jacl_rights**//
+
+

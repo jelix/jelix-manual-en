@@ -1,0 +1,45 @@
+
+jMailer is a class useful for sending emails in controllers.
+
+Some features:
+  * Attachments
+  * HTML email
+  * Multiple recipients
+  * Multiple sending options (mail(), sendmail)
+  * SMTP authentication support
+
+
+===== Configuration file =====
+jMailer options shall be edited in //var/config/defaultconfig.ini.php//. Look for [mailer] section.
+
+==== Configuration options ====
+
+  * mailerType : option used to send mails (default: smtp)
+    * mail : PHP mail function
+    * sendmail utility
+    * smtp : direct connection to an SMTP host
+  * hostname : used in Message-Id and Received headers, also as default HELO string. If empty, the value returned by SERVER_NAME is used or 'localhost.localdomain'.
+  * sendmailPath : path to sendmail executable
+  * smtpHost : SMTP hostname
+  * smtpPort : SMTP port
+  * smtpHelo : SMTP Helo message
+  * smtpAuth : turn on/off SMTP authentication 
+  * smtpUsername : SMTP login
+  * smtpPassword : SMTP password
+  * smtpTimeout  : SMTP server time out
+
+
+===== Sending a simple mail =====
+Sending a text email.
+
+<code php>
+  $mail = new jMailer();
+
+  $mail->Subject = 'Subject';
+  $mail->Body = 'Text content';
+
+  $mail->AddAddress('recipientId@exemple.com' , 'recipient name');
+
+  $mail->Send();
+</code>
+

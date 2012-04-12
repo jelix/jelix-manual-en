@@ -1,0 +1,26 @@
+jAcl.db is the driver "db" for jAcl and use a database to store the rights. It implements the general concepts of jAcl, plus management of user groups. So the elements involved in the system in jAcl.db are:
+
+  * a subject 
+  * a value
+  * a group of users
+  * an optional resource
+
+===== Groups and users =====
+
+Each user belongs to one or more groups. A right is always attached to one or more groups and not to a specific user.
+
+It is possible to assign rights to a single user, but there is a "private" group for each user, and rights for a specific user are attached to his private group (to facilitate treatment). And in a private group, there is only one user.
+
+So there are three kind of groups:
+
+    * private groups. We don't see them in the list of groups
+    * normal groups
+    * default normal groups: those in which new users are automatically included.
+
+
+===== Utility classes =====
+
+There are two classes for jAcl.db, to manage groups, users and rights: jAclDbManager and jAclDbUserGroup.
+
+The use of these classes is similar to the commands in jelix-scripts to manage right (see next chapters..). So, just read  [[http://jelix.org/reference|API reference]].
+

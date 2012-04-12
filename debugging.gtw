@@ -1,0 +1,41 @@
+===== jLog =====
+
+jLog is a class which offers an api to trace, log messages or dump variables to a log output. the log output can be a classic file or alternately firebug (extension for Firefox browser) or the current response. jLog declares two static methods:
+
+  * **jLog::log($message, $logAlias)** to write a message
+  * **jLog::dump($variable, $message, $logAlias)** to write a variable content (concretely it does call var_export)
+
+Default log output for an application is the file //var/log/messages.log//.
+You can define another filename or other log outputs. To achieve this, add a new line in your configuration **logfile** section :
+
+Example : 
+<code ini>
+[logfiles]
+default = messages.log
+news = modulenews.log
+fire = "!firebug"
+resp = "!response"
+</code>
+
+To indicate which log output to use, just fill the last argument of jLog methods with its corresponding alias:
+<code php>
+ jLog::log("hello world!"); // write 'hello world' to messages.log (default log)
+ jLog::log("hello news!", "news");  // writes 'hello news!' to modulenews.log file
+ jLog::dump($record, "enregistrement news", "news"); // dump $record to modulenews.log file ;
+ jLog::log("script passed here", "fire" ) ; // you will see 'script passed here' in firebug console 
+ jLog::log("script passed here", "resp" ) ; // you will see 'script passed here' in your response output. 
+</code>
+Note : firebug and response log output are only available since Jelix 1.0. They are triggered respectively by "!firebug" and "!response"
+
+To ease collaboration developpment on a same server, it is also possible to distinguish each developer logs. The only requirement is a unique ip per developer. just use "%ip%" pattern in the log output filename.
+
+<code ini>
+[logfiles]
+default = "messages_%ip%.log"
+news = "%ip%_modulenews.log"
+</code>
+
+If a developer works on 192.168.1.2 host, his logs will be 192.168.1.2_modulenews.log and messages_192.168.1.2.log
+
+
+Starting from Jelix v1.0, date and time can also be used in log filenames. Just include some of : %Y% (year), %m% (month), %d% (day),  %H% (hour) pattern in log filenames.

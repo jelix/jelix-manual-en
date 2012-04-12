@@ -1,0 +1,49 @@
+There are two types of redirection objects available :
+  * jResponseRedirect : redirects to an action of the application with optional parameters
+  * jResponseRedirectUrl : redirects to any URL
+
+
+====== jResponseRedirect ======
+
+To specify a redirection to an action, you indicate 'redirect' as the type of response :
+
+<code php>
+$rep = $this->getResponse('redirect');
+</code>
+
+You have then an instance of jResponseRedirect in $rep.
+
+You have three properties on this object:
+   * //action// to indicate the action to redirect (an action selector)
+   * //params// to indicate parameters for this actions (optional)
+   * //anchor// to indicate an anchor in the url #anchor (optional)
+
+Example:
+<code php>
+$rep->action = "module~controller:action";
+$rep->params = array('foo' => 'bar');
+$rep->anchor = 'yo';
+</code>
+
+And then
+
+<code php>
+return $rep;
+</code>
+
+
+====== jResponseRedirectUrl ======
+
+This type of response ("redirectUrl") is used to redirect to an external url (or an url which is not pointing to your application).
+
+<code php>
+$rep = $this->getResponse('redirectUrl');
+</code>
+
+The single property of this response is //url//, where you indicate the url to redirect.
+
+<code php>
+$rep->url = "http://jelix.org";
+return $rep;
+</code>
+

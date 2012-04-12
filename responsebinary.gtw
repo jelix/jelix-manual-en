@@ -1,0 +1,37 @@
+To be able to send binary content (a graphic, a video, some sound, an archive, and so on), one should use jReponseBinary. In your action method, just get a 'binary' response:
+
+<code php>
+$resp = $this->getResponse('binary');
+</code>
+
+then, you have to set $outputFileName property. $outputFileName will be the name  shown to the user. 
+
+<code php>
+ $resp->outputFileName = 'truc.gif';
+</code>
+
+You can define the mime type of your content:
+
+<code php>
+ $resp->mimeType = 'image/gif';
+</code>
+
+You have an option for files you want the user to download (particularly, files not rendered by common browsers). just set:
+
+<code php>
+ $resp->doDownload = true;
+</code>
+
+For the content itself, you have to define either $filename or $content property. 
+
+If it is an existing file, just use $filename:
+     
+<code php>
+   $resp->fileName = JELIX_VAR_PATH.'fichier_a_renvoyer.gif';
+</code>
+
+Otherwise, if your content is generated or comes from your database, use $content:
+
+<code php>
+   $resp->content = '...';
+</code>

@@ -1,0 +1,32 @@
+
+[[http://fr.wikipedia.org/wiki/JSON|JSON]] is a data format using javascript syntax techniques. this ease greatly the use of JSON encoded data in HTML content. 
+
+To send JSON data, there is a specific jResponseJson. Its alias is "json". All you need to do is assign your encoded json to $datas:
+
+<code php>
+  $rep = $this->getResponse('json');
+  $rep->datas = array( 'lastname'=>'dupont', 'firstname'=>'jean');
+</code>
+
+the client will receive:
+
+<code javascript>
+  { nom: 'dupont', prenom:'jean'}
+</code>
+
+=== a use case combined with jDao ===
+
+<code php>
+$countryDao = jDao::get('common~country');
+$countries = $countryDao->findAll();
+$response = $this->getResponse('json');
+$response->datas = array();
+foreach($countries as $country) {
+	$response->datas[] = array('id' => $country->id , 'name' => $country->name);
+}
+</code>
+
+the client will receive:
+<code javascript>
+  { id: '1', name:'Europe'}
+</code>

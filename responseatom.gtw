@@ -1,0 +1,93 @@
+
+[[responserss|In addition to RSS feeds]], Jelix allows to generate an Atom 1.0 feed with jResponseAtom10 (alias : 'atom1.0'); which handles most of the [[http://tools.ietf.org/html/rfc4287|Atom 1.0 RFC]].
+
+<code php>
+  $rep = $this->getResponse('atom1.0');
+</code>
+
+jResponseAtom10 and jResponseRss20 have a similar signature.
+
+===== ATOM Feed Informations =====
+
+jResponseAtom10's property 'infos' is an object allowing to set the ATOM feed's properties : title, website url, copyright, description, etc, etc ...
+
+For example :
+
+<code php>
+   $rep->infos->title = 'Jelix news';
+   $rep->infos->webSiteUrl= 'http://jelix.org/en/';
+   $rep->infos->copyright = 'Copyright 2006-2007 jelix.org';
+   $rep->infos->description = 'News about Jelix, fresh meat for hairy trolls.';
+   $rep->infos->updated = '2007-06-08 12:00:00';
+   $rep->infos->selfLink=jUrl::get();
+</code>
+
+The updated property is the date of the update of the atom feed. It is determined by the date of the last item inserted into the feed.
+
+The seflink property is the url of this atom feed.
+
+
+Property //description// should be a string; however it's possible to specify the format (HTML or XHTML) in property //descriptionType//.
+Property //descriptionType// expects any of the following values : "html", "xhtml" ou "text".
+
+
+===== Items =====
+
+The ATOM channel should be fed with items to publish.
+For example, items can have the description of each new tickets of a blog.
+
+Each item should be created with jResponseAtom10's method : //createItem()//.
+It allows to fetch an object with item's informations.
+You can fill this object and add it the the response with jResponseAtom10's method : //addItem()//.
+
+For example, with a news DAO :
+
+<code php>
+  $newsdao = jDao::get('news');
+  $first = true;
+
+  /*
+  Fetch the ten last news from the DAO,
+  assuming it's ordered from the newest to the oldest.
+  (method defined in the DAO)
+  */
+  $list = $newsdao->findTenFirstNews();
+
+  foreach($list as $news){
+
+    if($first){
+        /*
+        The first record allow to fetch channel's date
+        */
+        $rep->infos->updated = $news->date_create;
+        $first=false;
+    }
+
+    // Fetch the URL from the news article
+    $url = jUrl::get('news~default:article', array('newsid'=>$news->id));
+
+    // Create an ATOM item, specifying the title, url, and date (format : [yyyy-mm-jj hh-mm-ss] )
+    $item = $rep->createItem($news->title, $url, $news->date_create);
+
+    // News author
+    $item->authorName = $news->author;
+
+    $item->summary = $news->summary;
+    $item->summaryType='html';
+
+    // Item's contents
+    $item->content = $news->content;
+    $item->contentType ='html';
+
+    // Add this item to the feed.
+    $rep->addItem($item);
+  }
+</code>
+
+===== Other informations =====
+
+It's possible to explicitely specify more informations about the RSS food or about each item.
+
+Check [[http://jelix.org/reference/|the API documentation]] about jAtom10Info and jAtom10Item to go deeper.
+
+

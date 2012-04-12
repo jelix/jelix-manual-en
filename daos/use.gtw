@@ -1,0 +1,161 @@
+You have seen how to describe a dao in a xml file (see [[file]]). You have to place this file in a "daos/" directory of a module and name it like this : //name//.dao.xml. //name// is the name of your dao.
+
+Remember that you actually define two objects:
+   * a dao object which is a factory : it allows you to retrieve, insert, modify, delete one ore several records. It proposes basic methods, but also has the methods that you will have described in the xml file 
+   * a dao record object representing a database record whose properties are described in the xml file
+
+===== Retrieving the factory and an empty DAO record =====
+
+To be able to retrieve these objects, you have to use the jDao object which proposes several static methods :
+
+   * **get** : allows to get a factory. Always return the same instance (use a singleton)
+   * **create** : allows to get a new instance of a factory. Rarely useful.
+   * **createRecord** : allows to get an empty dao record object.
+   * **createConditions** : allows to get a jDAOConditions object which is useful to specify some select conditions to retrieve a set of record objects.
+
+Get, create and createRecord all take a dao file selector as parameter and an optional parameter which is the name of the [[//bd|jDb profile]] to use (if this parameter is not specified, it will use the default one).    
+
+If the used jDb profile specifie a table prefix, then all used tables in the dao file will be prefixed.
+
+If we have foo.dao.xml dao file in the bar module :
+
+<code php>
+   $myDao = jDao::get("bar~foo");
+   // or if this line of code is in a file of the bar module :
+   $myDao = jDao::get("foo");
+   
+   $myRecord = jDao::createRecord("foo");
+</code>
+
+$myDao contains a factory of foo, and $myRecord an empty record of foo type.
+
+
+===== Retrieve records =====
+
+A DAO factory proposes two default methods :
+
+   * findAll : to retrieve all the records
+   * get : to retrieve a record by specifying its key
+
+<code php>
+  
+   // instantiation of the factory
+   $myFactory = jDao::get("foo");
+   
+   // retrieve a complete list of the foo type records
+   $list = $myFactory->findAll();
+   
+   // retrieve a record whose content corresponds
+   // to the record with identifier = 3
+   $baz = $myFactory->get(3);
+
+</code>
+
+You can make other retrieving methods, by specifying it in the xml file (see advanced dao) .
+
+
+
+===== Retrieve record in function of critieria =====
+
+The DAO factories propose the findBy method, which is used by passing a jDaoConditions object :
+
+<code php>   
+   $conditions = jDao::createConditions();
+   $conditions->addCondition('label','=',$a_name);
+   $conditions->addCondition('status','=',5);
+   
+   $list = $myFactory->findBy($conditions);
+</code>
+
+The addCondition method take as parameter a property name, an operator (SQL), and a value. FindBy returns the list of records corresponding to indicated criteria. You can specify an order of select, and group various criterion together :
+
+<code php>   
+   $conditions = jDao::createConditions();
+   
+   // condition : label = $a_name AND (status=5 OR status=4) ORDER BY label desc
+   $conditions->addCondition('label','=',$a_name);   
+   $conditions->startGroup('OR');
+        $conditions->addCondition('status','=',5);
+        $conditions->addCondition('status','=',4);
+   $conditions->endGroup(); 
+   $conditions->addItemOrder('label','desc');
+   
+   $list = $myFactory->findBy($conditions);
+</code>
+
+To add a limit, you can specify additionnal parameters to the findby method: the offset and the number of records.
+
+<code php>
+$liste = $maFactory->findBy($conditions, 0, 15);
+</code>
+
+You will see that you can get the same result with methods in the xml file. However, the using one or the other possibility depends on the context.
+
+You will use jDaoConditions when you don't know the number of criterion and their type. This can be true for a complex search form, where the user can choose his criterion. You will also use jDaoConditions when the query is done is used only one time or very rarely. Indeed, the xml methods are compiled in PHP, and thus included each time you call the factory. This may not be useful to include every time a code which is almost never used. This will improve the global performances.
+
+In the other cases, it is recommended to use xml methods, especially when you know the criteria by advance (without forcibly knowing their value of course), and when it is an often used research. 
+
+For example, we often redefine the findAll method in XML, to be able to specify a retrieving order...
+
+
+
+
+===== Create, modify, delete a record =====
+
+The insert, update, and delete methods of the factory are made for this. You specify a record to the first two methods. For delete, you specify the keys of the record.
+
+==== Create ====
+
+You should get a new record, fill it and then call the insert method of the factory.
+
+<code php>
+   // get the factory
+   $myFactory = jDao::get("foo");
+
+   // create a new record
+   $record = jDao::createRecord("foo");
+
+   // fill the record
+   $record->foo = "hello";
+   $record->bar = "...";
+
+   // save the record
+   $myFactory->insert($record);   
+
+</code>
+
+If there are some autoincremented fields, the corresponding properties will be updated byt the insert methode with the new value.
+
+
+==== Update ====
+
+The process is like "create": you retrieve a record, you modify its properties, then you call the update method of the factory:
+
+<code php>
+   // get the factory
+   $myFactory = jDao::get("foo");
+
+   // retrieve the record which have 3 as primary key
+   $record = $myFactory->get(3);
+
+  // fill the record
+   $record->foo = "hello";
+   $record->bar = "...";
+
+   // save the record
+   $myFactory->update($record);   
+
+</code>
+
+
+==== Delete ====
+
+You should call the delete method of the factory, by giving the primary key of the record to delete.
+
+<code php>
+   // get the factory
+   $myFactory = jDao::get("foo");
+
+   // delete the record which have 3 as id
+   $myFactory->delete(3);
+</code>

@@ -1,0 +1,174 @@
+====== Introduction ======
+
+A controller to do CRUD is provided by jelix : jControllerDaoCrud.
+
+CRUD means Create, Read, Update, Delete. So this is a controller which contains all actions needed to list record, to read, to update, to create and to delete a record.
+
+So you just have to specify a jdao and a jform file to this controller, and then you have a full operational interface to manage the content of an SQL table. Very useful to create quickly an admin interface.
+
+====== Creating a CRUD ======
+
+To use all possibilities of the CRUD controller, you have to create a controller in your module, which inherits from jControllerDaoCrud.
+
+Example, in a samplecrud.classic.php file:
+
+<code php>
+class sampleCrudCtrl extends jControllerDaoCrud {
+
+}
+</code>
+
+Then you have to specify a jdao file, which map on the table we want to manage, and a jform file, so you could edit records:
+
+<code php>
+class sampleCrudCtrl extends jControllerDaoCrud {
+
+    protected $dao = 'testapp~products';
+
+    protected $form = 'testapp~products';
+
+}
+</code>
+
+And that's all !
+
+So, if this controller is in the "main" module, show the page:
+
+  index.php?module=main&action=samplecrud:index
+
+You can now manage all your products.
+
+Important: the CRUD controller use the "html" response. So, you have to create 
+[[//common-processes#customizing-common-response|a custom response object]]. If you don't do it, nothing will appear in your browser. If you don't want to create such object, you have to redefine the _getResponse() response method (see below).
+
+====== Customizing the CRUD controller ======
+
+You certainly have some things to change in the controller, because it doesn't fit exactly to your needs. The CRUD controller can be customize by setting some properties or overriding some methods.
+
+
+===== Setting the jDb profile =====
+
+If a specific profile should be use, set the $dpProfil value:
+
+<code php>
+  protected $dbProfil = 'admin';
+</code>
+
+===== Setting the response =====
+
+By default, the controller retrieve the "html" response defining in the jelix configuration (so, a custom html response if it is defined).
+
+It is done in the //_getResponse()// method of the CRUD controller:
+
+<code php>
+    protected function _getResponse(){
+        return $this->getResponse('html');
+    }
+</code>
+
+This response is used by all actions of the controller.
+
+As you can see, nothing else is done on the response (except, in each action, an assignment of a "MAIN" template variable with the content of a CRUD page).
+
+If you want to change this, redefine this method. Example:
+
+<code php>
+    protected function _getResponse(){
+        $rep = $this->getResponse('html');
+        $rep->addCSSLink('admin.css');
+        $rep->body->assignZone('menu', 'adminmenu');
+        return $rep;
+    }
+</code>
+
+So, in all page of the controller, there will be an admin.css stylesheet and a admin menu.
+
+
+==== Main template in actions ====
+
+Each action of the CRUD controller which displays a HTML page, put their specific content into the MAIN template variable of the template of the html response, like:
+
+<code php>
+    $rep->body->assign('MAIN', $resultatTemplateAction);
+</code>
+
+If you main template have not a MAIN template variable, but another variable for a similar purpose, indicate the name of this variable in //$templateAssign//:
+
+<code php>
+class sampleCrudCtrl extends jControllerDaoCrud {
+   //...
+    protected $templateAssign = 'OTHER';
+   //...
+}
+</code>
+
+===== Record list =====
+
+It is displayed by the action //index//.
+
+
+==== Simple configuration ====
+
+Here are the properties to parameter the list.
+
+=== Number of record per page ===
+
+This is the property //$listPageSize// :
+
+<code php>
+    protected $listPageSize = 20;
+</code>
+
+=== List of the record fields ===
+
+By default, all fields of the DAO are displayed. If you want to display only some of them, setup the //propertiesForList// :
+
+<code php>
+    protected $propertiesForList = array('title','date_create','author');
+</code>
+
+=== Order of the display ===
+
+To indicate an order in the list :
+
+<code php>
+    protected $propertiesForRecordsOrder = array('date'=>'desc', 'title'=>'asc');
+</code>
+
+Keys are properties name of the dao.
+
+=== Template ===
+
+The default template used to display the list is 'jelix~crud_list'.
+
+<code php>
+    protected $listTemplate = 'jelix~crud_list';
+</code>
+
+You can overlaod this template in the default theme, or you can change this value to define an other template. In the template, you have this template variables:
+
+   * **list** : results list (returned by the dao)
+   * **primarykey** : name of the primary key
+   * **properties** : list of dao properties to display
+   * **controls** : list of the controls of the jforms form, so you can get the labels of each fields
+   * **editAction** : the name of the action for the link to edit a record
+   * **createAction** : the name of the action for the link to create a record
+   * **deleteAction** : lthe name of the action for the link to delete a record
+   * **viewAction** : the name of the action for the link to view the details of a record
+   * **listAction** : the name of the action for the list the records (so the current action)
+   * **listPageSize** : the value of the member //$listPageSize// 
+   * **page** : the value of the "offset" url parameter, which is the number of the first displayed record in the list
+   * **recordCount**
+   * **offsetParameterName**
+
+
+==== Advanced configuration of the list ====
+
+
+===== Page: details of a record =====
+
+===== Page: create a record =====
+
+===== Page: update of a record =====
+
+===== Page: delete of a record =====

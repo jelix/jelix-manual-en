@@ -1,0 +1,368 @@
+====== URL entry points ======
+
+An entry point is a script which manage some or all your application [[call-action|actions]]. Only entry points should be web accessible and therefore should lie in //www// directory of your application.
+
+An entry point create a jCoordinator object, a jRequest object (to parse all request parameters) and indicates which configuration file to use.
+
+Below is an example of an entry point script :
+
+<code php>
+// jelix core file
+require_once ('../../lib/jelix/init.php');
+
+// application initialisation file
+require_once ('../../testapp/application.init.php');
+
+// configuration file
+$config_file = 'index/config.ini.php';
+
+// jCoordinator object
+$jelix = new jCoordinator($config_file);
+
+// jRequest object
+require_once (JELIX_LIB_CORE_PATH.'request/jClassicRequest.class.php');
+$request = new jClassicRequest();
+
+// action processing
+$jelix->process($request);
+
+</code>
+
+Theorically, an application should have one entry point per response type : classic, XML-RPC, JSON-RPC, RSS, Atom, and so on.. As a result, each entry point should also have its specific configuration file.
+
+====== Configuration ======
+
+
+===== Organization =====
+
+Jelix framework configuration is stored in an //ini//-like file. It is a file structured by sections (//[section name]//). Each section is a collection of //parameter-name=value// pairs. There is a generic section, un-named, usually at the start of such file.
+
+Configuration files are stored in var/config.
+
+As said before, each entry point may have its specific config file. Although in practice, many parameters can be shared between them. To prevent wasteful repeats defines a common config file : **defaultconfig.ini.php**. Jelix automatically read its entries in addition to each config file related to an entry point. No need to tell jelix about it in an entry point.
+
+Then, should lay in an entry point related config file, only specific parameters or overloaded parameters already defined in defaultconfig.ini.php. 
+
+a glimpse at defaultconfig.ini.php (abstract) : 
+
+<code ini>
+locale = "fr_FR"
+charset = "ISO-8859-1"
+timeZone = "Europe/Paris"
+theme = default
+
+checkTrustedModules = off
+
+; list of modules : module,module,module
+trustedModules =
+
+pluginsPath = lib:jelix-plugins/,app:plugins/
+modulesPath = lib:jelix-modules/,app:modules/
+
+dbProfils = dbprofils.ini.php
+
+[plugins]
+;nom = nom_fichier_ini
+
+[responses]
+...
+
+</code>
+
+Example : a classic request with index.php as entry point should define  var/config/index/config.ini.php file. Storing under an //index// sub-directory serves only a better organization (As each entry point may have its config file, var/config would quickly become a mess).
+
+A specific config should only define or redefine a small amount of properties:
+
+<code ini>
+startModule = "testapp"
+startAction = "main:index"
+
+[plugins]
+autolocale = index/autolocale.ini.php
+
+[responses]
+html=myHtmlResponse
+</code>
+
+take xmlrpc.php entry point, its config file could be :
+
+<code ini>
+
+  startModule = "testapp"
+  startAction = "xmlrpc:index"
+
+</code>
+
+And so on for others entry points.
+
+
+===== Content of configuration file =====
+
+See lib/jelix/core/defaultconfig.ini.php for the whole list of parameters. This file is the "source" of the identically-named file you find in var/config of your application.
+
+Below is a tour of all configuration sections.
+
+
+
+
+
+
+
+
+
+
+==== generic section ====
+
+Usually its parameters are at the beginning of file. They define default or global values of the framework.
+
+
+<code ini>
+startModule = "jelix"
+startAction = "default:index"
+locale = "en_US"
+charset = "UTF-8"
+timeZone = "US/Pacific"
+
+checkTrustedModules = off
+
+; list of modules : module,module,module
+trustedModules =
+
+pluginsPath = lib:jelix-plugins/,app:plugins/
+modulesPath = lib:jelix-modules/,app:modules/
+
+dbProfils = dbprofils.ini.php
+
+theme = default
+use_error_handler = on
+
+enableOldActionSelector =
+</code>
+
+Parameters in details :
+  * **startModule, startAction** : default module and action (generally re-defined for each response type. see  [[config#organization|preceding section]])
+  * **locale, charset** : default language and encoding of responses 
+  * **timeZone** : set the time zone for every date and time functions
+  * **checkTrustedModules, trustedModules et modulesPath** : options refering to [[modules|modules]].
+  * **pluginsPath** : path list to plugins. learn more in [[plugins|plugins]] documentation. 
+  * **dbProfils** : Database profiles configuration file. See  [[bd|database]] access.
+  * **theme** : default selected theme. Read [[themes|theme]] system description.   
+  * **use_error_handler** : this option shoud stay //on// for Jelix to return useful and detailed errors or exceptions.
+  * **enableOldActionSelector** :  assign //1// to stay compatible with old action selectors naming scheme (Jelix v1.0 beta 3 and previous). More recent versions should leave this option untouched.
+
+
+
+
+
+
+
+
+
+==== plugins section ====
+
+Shoud list all plugins Jelix has to activate. They will be loaded from the list of path defined by pluginsPath parameter.
+
+
+An example below demonstrate the activation of an authentication plugin. Its own set of options are defined in auth.coord.ini.php file. Learn more about [[authentification|authentication]].
+
+<code ini>
+[plugins]
+;plugin name = ini filename
+auth = "auth.coord.ini.php"
+</code>
+
+
+
+
+
+
+
+
+==== responses section ====
+
+this section allows to customize each response type and its alias. 
+each line consists of a couple <response alias>=<response class>.
+
+As for example, it is usual to overload html default response (jResponseHtml) by such a line : //html=myhtmlresponse//. Find more details in [[common-processes#customizing-common-response|customizing common response]] 
+
+Below are the default alias and response types:
+<code>
+[responses]
+html = jResponseHtml
+redirect = jResponseRedirect
+redirectUrl = jResponseRedirectUrl
+binary = jResponseBinary
+text = jResponseText
+jsonrpc = jResponseJsonrpc
+json = jResponseJson
+xmlrpc = jResponseXmlrpc
+xul = jResponseXul
+xuloverlay = jResponseXulOverlay
+xuldialog = jResponseXulDialog
+xulpage = jResponseXulPage
+rdf = jResponseRdf
+xml = jResponseXml
+zip = jResponseZip
+rss2.0 = jResponseRss20
+atom1.0 = jResponseAtom10
+css= jResponseCss
+ltx2pdf= jResponseLatexToPdf
+tcpdf = jResponseTcpdf
+</code>
+
+
+==== error_handling section ====
+
+Those parameters are used to configure notifications occuring during an application script execution. Details can be found in [[errormanager|error manager]] documentation.
+
+Notifications have different levels. Jelix defined levels corresponding to PHP error_reporting levels: 
+  * //default//     = selected level if no other level corresponds
+  * //error//       = notify an error stopping a script execution
+  * //warning//     = notifu an error which doesn't stop a script 
+  * //notice//      = notify a possible error  
+  * //strict//      = notify core PHP messages about compatibility and interoperability 
+
+Below are the whole list of parameters:
+<code>
+[error_handling]
+messageLogFormat = "%date%\t[%code%]\t%msg%\t%file%\t%line%\n"
+logFile = error.log
+email = root@localhost
+emailHeaders = "Content-Type: text/plain; charset=UTF-8\nFrom: webmaster@yoursite.com\nX-Mailer: Jelix\nX-Priority: 1 (Highest)\n"
+quietMessage="A technical error has occured. Sorry for this trouble."
+
+showInFirebug = off
+
+; keywords you can use : ECHO, ECHOQUIET, EXIT, LOGFILE, SYSLOG, MAIL, TRACE
+default      = ECHO EXIT
+error        = ECHO EXIT
+warning      = ECHO
+notice       = ECHO
+strict       = ECHO
+; exceptions implicitly use EXIT
+exception    = ECHO
+</code>
+
+  * **messageLogFormat** and **logFile** configure a log file output (LOGFILE or SYSLOG)
+  * **email** et **emailHeaders** configure mail ouptut (MAIL)
+  * **quietMessage** defines a neutral message for user (ECHOQUIET)
+  * **showInFirebug** : if //on//, all notifications will be redirected to firebug extension of firefox browser using its //console// api.
+
+last set of options allows to associate an ouptut format to each level of notification. 
+
+
+
+==== compilation section ====
+
+Defines the template behavior of Jelix template engine. And more precisely of its compilation step. Find in-depth details in [[templates|templates]].
+
+<code ini>
+[compilation]
+checkCacheFiletime  = on
+force  = off
+</code>
+
+  * **checkCacheFiletime ** : if //on// template will be compiled if its file modification date is more recent than its already PHP compiled file.
+  * **force** : if //on//, template is systematically compiled
+
+
+==== urlengine section ====
+
+@TODO : à compléter
+
+
+
+
+
+
+==== logfiles section ====
+
+This section defines how log calls through [[debugging|jLog]] api will be output.
+Log files are created and stored in /var/log/ application folder. 
+
+A per-module log file can be defined by setting a couple <module name>=<log filename> and calling jLog methods with <module name> as last argument.
+
+<code>
+; default log
+  default = messages.log
+
+; log for "news" module
+  news = news.log
+</code>
+
+Another example shows how you can use firebug extension as a log output (useful for quickly debugging). Still you can log to a classic file calling jLog methods with //file// as last argument (for dumping huge content for example).
+<code>
+[logfiles]
+default="!firebug"
+file = "messages.log"
+</code>
+
+Learn more about Jelix debugging through [[debugging|jLog]] documentation.
+
+
+==== mailer section ====
+Parameters required to send mails through application scripts. As for example, authentication or notifications can send emails.
+
+<code ini>
+[mailer]
+webmasterEmail = root@localhost
+webmasterName =
+
+; How to send mail : "mail" (mail()), "sendmail" (call sendmail), or "smtp" (send directly to a smtp)
+mailerType = mail
+; Sets the hostname to use in Message-Id and Received headers
+; and as default HELO string. If empty, the value returned
+; by SERVER_NAME is used or 'localhost.localdomain'.
+hostname =
+sendmailPath = "/usr/sbin/sendmail"
+
+; if mailer = smtp , fill the following parameters
+
+; SMTP hosts.  All hosts must be separated by a semicolon : "smtp1.example.com:25;smtp2.example.com"
+smtpHost = "localhost"
+; default SMTP server port
+smtpPort = 25
+; SMTP HELO of the message (Default is hostname)
+smtpHelo =
+; SMTP authentication
+smtpAuth = off
+smtpUsername =
+smtpPassword =
+; SMTP server timeout in seconds
+smtpTimeout = 10
+
+</code>
+
+
+
+
+==== acl section ====
+Defines options of access control list (ACL) or rights management. See [[rights|rights management]]. 
+
+<code ini>
+[acl]
+driver = db
+enableAclDbEventListener = off
+</code>
+
+
+==== sessions section ====
+Determines how PHP sessions are stored (file or databse). Find more details in [[session|sessions]] documentation. 
+
+<code ini>
+[sessions]
+shared_session = off
+; Use alternative storage engines for sessions
+;
+; usage :
+;
+; storage = "files"
+; files_path = "app:var/sessions/"
+;
+; or
+;
+; storage = "dao"
+; dao_selector = "jelix~jsession"
+; dao_db_profile = ""
+</code>
+

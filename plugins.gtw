@@ -1,0 +1,38 @@
+Different types of plugins exists for Jelix. Each categories modify or add functionality to differents parts of Jelix. There are coordinator plugins, jDb drivers, jAuth drivers, jTpl plugins and url engines.
+
+All plugins are located in plugins //repository// (note:this is true since Jelix 1.0beta3).
+
+
+===== Adding a plugins repository =====
+
+You can add one or more plugins repositories. It consists of a directory with a strict subtree structure. Each plugins repository must be added to //pluginsPath// of your application [[config|configuration]]. Its default value is :
+
+<code ini>
+pluginsPath = lib:jelix-plugins/,app:plugins/
+</code>
+
+Different repositories are divided by a comma. Default value indicate two repositories : /lib/jelix-plugins directory and your plugins application directory. Jelix also load an implicit repository lib/jelix/plugins. the latter contains all plugins bundled with Jelix. 
+
+Note : //lib:// is a shortcut indicating base lib/ directory and //app:// is a shortcut for your application directory. You can also use an absolute path but beware to check if you migrate your application from one host to another. A relative path is also permitted. it has to be relative to your entry point script (/var/www/index.php for example).
+
+
+
+===== Repository structure and plugins creation =====
+
+Such a repository has one sub-directory for each plugin type. And within each sub-directory, each plugin has its own folder. 
+
+Below is the list of plugins type and their respective directory :
+
+    * coordinator plugins : //coord///
+    * jAuth drivers : //auth///
+    * jDb drivers : //db///
+    * templates plugins : //tpl///
+    * url engines : //urls/// 
+
+Note : This file hierarchy is true only since Jelix 1.0beta3. Before, only coordinator plugins existed and lied directly in repository.
+
+
+
+===== Plugins development =====
+
+Jelix comes with a bunch of plugins within the standard package. They are located in lib/jelix/plugins. However, it is often useful to create your own plugins to fulfill specific needs. And If your plugin is generic or useful enough, you're likely to push it to the developers team :-).

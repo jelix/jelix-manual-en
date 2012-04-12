@@ -1,0 +1,225 @@
+The Jelix authentication system handles only one thing : logins, passwords, and users.
+
+Relying on drivers to access user data, you can use a database, a LDAP directory, or any other way to access data. As for now, there is a database driver, an LDS directory based driver, and a driver for an external class.
+
+===== How to =====
+
+The authentication system lies on several things :
+
+   * a coordinator plugin, verifying if authentication is done for the actions where this is necessary
+   * a **jAuth** class, allowing to do different operations on authentication and logins handling. This class implements a driver system.
+   * a **jauth** module offering a controller and some default templates. It is not mandatory and you can define your own authentication module.
+   * a session object, containing information about the user. It is provided by the driver. This can be a DAO object, a simple class, and so on.
+
+
+==== plugin installation ====
+
+The role of the Auth plugin :
+
+  * Check authentication
+  * Control session timeout (optional)
+  * Control authentication persistance (optional)
+  * Specify which driver to use
+  * Specify parameters for the driver (dao for jAuthDb, cn/sn/uid for ldap driver etc)
+  * Indicates what to do if not authenticated
+
+When you want to use the authentication system, you have to activate the plugin and configure it.
+
+
+You should add this line to plugins section of your application configuration file:
+
+<code ini>
+[plugins]
+auth = "auth.coord.ini.php"
+</code>
+
+//auth.coord.ini.php// defines all authentication related parameters. It is a copy of ///lib/jelix/plugins/coord/auth/auth.coord.ini.php.dist//, you have to  save in //var/config// of your application.
+
+You can learn more about [[plugins|plugins]]. 
+
+
+
+
+==== Auth plugin configuration ====
+
+Then, you can edit //auth.coord.ini.php//, and configure the authentication system. 
+
+=== Selecting a driver ===
+
+**driver** option must be assigned your driver name of choice. Use the same name to locate or create a section containing the driver parameters. 
+
+<code ini>
+   driver=XXX
+   
+   [XXX]
+   foo=bar
+</code>
+
+
+An example with **Db** driver (user infos are stored in a database):
+
+<code ini>
+ driver=Db
+   
+ [Db]
+ dao = "my_dao"
+ password_crypt_function = md5
+</code>
+
+To have in-depth view of each existing drivers, or even to create one, read [[authentification/drivers|jAuth drivers documentation]].
+
+=== Timeout ===
+
+**timeout** option indicates inactivity duration to invalid authentication. Its unit is minutes. If you set it to **0**, there is no timeout. And the authentication session will live throughout the browser session.
+
+
+=== Control authentication in each action ===
+
+Each action can declare if it needs an authentication. It is done through authentication plugin api.
+If all actions needs an authentication then just set **auth_required** to //on// in auth.config.ini.php file. Whereas an //off// specifies the contrary.
+
+<code ini>
+auth_required=on
+</code>
+
+In any case, you'll certainly have to deal with exceptions. Imagine you have an home page which doesn't need authentication but every other page requires one.
+Those exceptions are declared in controllers using auth plugin parameters.
+
+Example:
+<code php>
+class xxxCtrl extends jController {
+
+    public $pluginParams = array(
+        '*'=>array('auth.required'=>true),
+        'index'=>array('auth.required'=>false)
+    );
+
+}
+</code>
+
+Here the auth plugin is configured to check for authentication in every action of this controller (* rule) except for //index// action (possibly your home page).
+
+On the contrary, you can tell auth plugin to check for authentication only for some actions such as //index// and //secret//. See below:
+
+<code php>
+class xxxCtrl extends jController {
+
+    public $pluginParams = array(
+        '*'=>array('auth.required'=>false),
+        'index'=>array('auth.required'=>true),
+        'secret'=>array('auth.required'=>true),
+     );
+}
+</code>
+
+See [[plugins/coord|coordinator plugins]] documentation for an in-depth view of $pluginParams usage (remember that auth plugin is a coordinator plugin).
+
+=== Application behavior if authentication does not succeed ===
+
+If authentication does not succeed and current action needs it, auth plugin reacts regarding to **on_error** option value. 
+
+If on_error=**1**, auth plugin will generate an error message configured by **error_message** option.
+
+If on_error=**2**, auth plugin will execute action selected by **on_error_action** option. it can a controller action of auth module (default case) or any action of any other module. Basically this action will ask for login/password couple but you can imagine other scenario.
+
+
+=== Authentication persistence ===
+
+jAuth offers a way to create authentication persistence. In other words, a user will authenticate once and on every other visits, he will be automatically authenticated. This is done by a cookie which stores some user information. Even a part of them are encrypted. 
+
+To configure persistence use the parameters below:
+
+   * **persistant_enable** : set it to __on__ to activate authentication persistence
+   * **persistant_crypt_key** : this one is mandatory. You **must** replace its default value ! It is a string composed of arbitrary chars (its length should over 10). It will be used as an encrypt key for cookie datas. If you change key value, be aware that all users will have to re-authenticate to benefit of persistence.
+
+Other less important parameters:
+
+   * **persistant_cookie_name** : cookie name. Default : "jelixAuthentificationCookie".
+   * **persistant_duration** : validity time (in days) of persistence. Default is one day.
+   * **persistant_cookie_path** : cookie path. Default empty : cookie will be stored with basePath general config value.
+
+
+
+
+===== jAuth module : default controllers =====
+
+jAuth module implements generic controllers. You can use them to control login, logout step. Alternatively, jAuth module offers also zones and templates. The latter is useful if you need to add login/logout option to one or more of your own controllers. 
+
+If you want other features, like registering and clearing account forms, changing passwords or lost password forms, you may use the jcommunity module. See http://forge.jelix.org/projects/jcommunity.
+
+
+=== Classic configuration ===
+
+When using **jAuth** module, one can add/modify options to suit his neeeds. 
+An example of //auth.plugin.ini.php// file:
+<code ini>
+  driver = Db
+  on_error_action = "jauth~login:out"
+  after_login = "myapp~default:index"
+  after_logout = "jauth~login:form"
+  on_error_sleep = 3
+  [Db]
+  dao = "jauth~jelixuser"
+</code>
+
+//on_error_sleep// defines defines a duration. This is the amount of time in seconds, where authentication form is inactivated if user has not succeeded it. 
+//after_login// and //after_logout//, watch below.
+
+
+You'll notice in the example above, it uses a Db driver. jAuth module also delivers a DAO for Db driver. To use this DAO, the following table structure is required (mysql here):
+
+<code sql>
+  CREATE TABLE `jlx_user` (
+  `usr_login` VARCHAR( 50 ) NOT NULL ,
+  `usr_email` VARCHAR( 255 ) NOT NULL ,
+  `usr_password` VARCHAR( 50 ) NOT NULL ,
+  PRIMARY KEY ( `usr_login` )
+  );
+</code>
+
+You can customize this schema adding other fields. Then, you'll have also to customize its related DAO or declare your own DAO (See [[authentification/drivers|Db authentication driver]] documentation).
+
+jAuth templates can be easily customized if you overload them. Just copy and edit them in var/themes/default/jauth/. More on overloading [[overloads|here]].
+
+
+
+=== Redirection options ===
+
+Auth plugin defines a bunch of config options to specify redirections on login/logout steps.  
+  * **after_login** (required): action selector. effective redirection if login succeeds
+  * **after_logout** (required): action selector. effective redirection if  logout succeeds
+  * **enable_after_login_override** (optional): //on// or //off//. flag for exceptional redirections after login
+  * **enable_after_logout_override** (optional): //on// or //off//. flag for exceptional redirections after logout
+
+Exceptions : 
+In a case where you don't want a login step to end up in the action selected by //after_login// parameter, you'll have to put an hidden **auth_url_return** parameters in your login form. it will contain an url. the one you want the user to be redirected to. This only works if **enable_after_login_override** is set to //on//. 
+
+Of course, same apply to logout step and **enable_after_logout_override**.
+
+
+===== Use your own controller =====
+
+Authentication can be done using your own controllers of course. You'll have to dive in jAuth API et call its static methods to check users login/password, and connect or disconnect them.
+
+
+
+===== jAuth class =====
+
+jAuth is the main class for authentication. All its methods are static. It manages users, connect or disconnect them. Its methods must be called to authenticate either by jAuth module or in your own controllers. 
+ Read [[http://jelix.org/reference/trunk/jelix/auth/jAuth.html|its reference description]].
+
+Some methods needs a user object argument. jAuth itself provides it to you. It contains user datas and has no defined class. Its type depends on the driver used. (In a Db driver, users object and datas will certainly be structured by a DAO). The only requirement on this user object is that it must have a **login** and a **password** field.
+
+jAuth shouldn't be derived from. Its driver based system should cover all authentication formats.
+
+==== Events ====
+
+About every jAuth methods emit Events. As a result, modules can be aware of authentication status and do some specific action related to user. 
+
+  * AuthNewUser : a new user has been created
+  * AuthCanRemoveUser : ask if deletion of a user is allowed
+  * AuthRemoveUser : a user has been removed
+  * AuthUpdateUser : current user has been updated
+  * AuthCanLogin : ask if user can connect
+  * AuthLogin : a user has logged in
+  * AuthLogout : a user has logged out

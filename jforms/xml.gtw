@@ -1,0 +1,7 @@
+jForms generate forms from XML descriptive files. Every form is describe in an XML file, using a simple grammar between say HTML and XForms. 
+
+Those XML files reside in //forms// folder of modules et must follow this name scheme //foo.form.xml//. //foo// is the identifier of the form. You choose it of course. This identifier is later used in selectors and jForms API.
+
+Example: "myModule~product" refers to myModule/forms/product.form.xml.
+
+  * [[xml-1.0|Format version 1.0]]

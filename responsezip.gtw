@@ -1,0 +1,31 @@
+jResponseZip can generate zip file and send it for download to the client. its alias is "zip":
+
+<code php>
+$rep = $this->getResponse('zip');
+</code>
+
+You can now indicate $zipFilename property. it will be the zip name proposed to the user for download. Note that it may not be an existing file on the server hard disk.  
+
+<code php>
+$rep->zipFilename='myCrazyPackage.zip';
+</code>
+
+Then, you have to create the zip. //$content// property is a jZipCreator creator. all its methods can be used to add content to the zip result. (see [[http://jelix.org/reference/|reference documentation]] on jZipCreator).
+
+<code php>
+// add  data/truc.txt (stored on the server) content to zip, 
+// and alias it with machin.txt name. 
+$rep->content->addFile(JELIX_VAR_PATH.'data/truc.txt', 'machin.txt');
+
+// add whole "examples" directory content to zip
+$rep->content->addDir(JELIX_VAR_PATH.'examples/', 'examples', true);
+
+// create a file into zip, given a name and some content
+$rep->addContentFile('dynamic.txt', 'generated content as we like');
+
+</code>
+
+And you're done :-)
+
+The user will see a dialog asking him to save or open myCrazyPackage.zip, containing  a machin.txt file, an examples directory, and a dynamic.txt file.
+

@@ -1,0 +1,118 @@
+Jelix has a mechanism allowing to avoid putting url concerning actions directly in the templates (or anywhere). For this, simply indicate the module, the action, the type of request and some other parameters if you need and jUrl handles the generation of the corresponding url. On the other hand, when a request occurs, jUrl analyzes the url to then deduce the module, the action, and the parameters, and this, whatever the type of request is. Mod_rewrite from apache is then not useful. 
+
+For this, jUrl relies on an url engine. Two are featured with Jelix :
+   * a simple url engine (the default one)
+   * a significant url engine
+
+You can [[plugins/urls_engine|create your own url engine]] since a url engin is a plugin.
+
+===== A recall on urls =====
+
+An url is made of different parts :
+
+  http://mysite.com/a/path/entrypoint.php/path/info?param1=value1
+
+   * a/path/entrypoint corresponds to the path of the entry point : /index for example
+   * .php the extension of the entry point. It is optional if multiview is activated in apache.
+   * /path/info the pathinfo, complementary part to the path, not corresponding to a path on the disk
+   * ?param1=value1 : the parameters.
+
+The url engines analyze the pathinfo and the parameters to determine the module/action.
+
+You can have to configure some options in Apache. See [[installation]].
+
+
+===== Configuration =====
+
+The configuration of jUrl is made in the ''urlengine'' section of the configuration file. Here are its parameters :
+
+=== ''engine'' ===
+
+Indicates the type of engine to use. The two available values are ''simple'' and ''significant''.
+
+=== ''enableParser'' ===
+
+Activates the url analyzing by the url engine. If you prefer to use mod_rewrite of apache, you can then specify off. 
+
+=== ''multiview'' ===
+
+Indicates if the multiview is activated or not in apache. this specifies then to the url engine not to generate the extension of the entry points (.php) in the moment of the creation of urls. Thus, we have "cleaner" urls.
+
+=== ''basePath'' ===
+
+Path to the www directory, or more exactly, the common part of the paths of all the entry points.
+
+Thus, if you access index.php with the url :
+http://localhost/jelix/myapp/www/index.php, you specify : 
+
+  basePath= /jelix/myapp/www/
+
+On the other hand, if you have specified the documentRoot in apache, pointing on jelix/myapp/www, you will then specify :
+
+  basePath= /
+
+Be careful, the basePath value must always begin with a /
+
+If you leave basePath empty, Jelix will try to guess its value.
+
+=== ''defaultEntrypoint'' ===
+
+Default entry point of the application. ''index'' by default. You must not indicate the suffix (.php).
+
+=== ''entrypointExtension'' ===
+
+Extension of the entry points. It's .php by default, but it may be .php5.
+
+=== ''notfoundAct'' ===
+
+The action to do when a url do not correspond to anything. Indicate it under the form of a selector : "module~action". This action should display an error message, and return a 404 http code.
+
+Carefull: it is recommanded to leave empty this option, it will be easier to detect some bugs, because in this case Jelix will display a detailed error message.
+
+===== Configuration of URL engines =====
+
+Jelix comes bundled with two URL engines :
+
+  * "simple" egine, performing fast but doesn't provide //cool// url.
+  * "significant" engine, performing less fast but allow to rewrite your url as you need.
+
+Each engine as its own configuration documentation: 
+
+  * [[urls/simple|"simple" engine]]
+  * [[urls/significant|"significant" engine]]
+
+
+
+
+===== Using jUrl =====
+
+Whatever you want to do, you must avoid to put complete urls in your code, in your modules. Otherwise, this would create some dependencies, and the portability would be decreased. It is then impossible to use the module for several applications at the same time because urls can be different according to the configuration of the applications. And if the module is reused anywhere else, you would have to modify the templates etc.
+
+The urls must be built by Jelix. For this, you have two tools available.
+
+==== jUrl::get ====
+
+The jUrl object has a static method, get(), which, according to an action and other parameters, returns the corresponding url for the current application :
+
+<code php>
+   $string_url = jUrl::get("news~view@classic", array("id_news"=>"54"));
+</code>
+
+The first parameter of the function is an action selector. Here, we ask the url corresponding to the view action of the news module, for the classic type of request with an id_news parameter. With the simple url engine, the corresponding url will probably be ''index.php?module=news&action=view&id_news=54''.
+
+If the [[urls/significant|significant url engine]] is used, this can be anything else, according to what is configured in the urls.xml file.
+
+
+==== jUrl template plugin ====
+
+In the templates, you can use the jUrl plugin. The syntax is the same as jUrl::get(). Example :
+
+<code html>
+  <p><a href="{jurl 'news~view@classic', array('id_news'=>'54')}">Details of the news</a></p>
+</code>
+
+The result with the simple url engine will then be :
+
+<code html>
+  <p><a href="index.php?module=news&amp;action=view&amp;id_news=54">Details of the news</a></p>
+</code>

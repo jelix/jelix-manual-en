@@ -1,0 +1,341 @@
+Jelix includes its own template engine: jTpl. Templates are files with the ".tpl" extension and located in the "templates" directory of modules.
+
+===== The jTpl object =====
+
+The jTpl object is meant to generate the content specified in a template file, with data input by you, following the instructions in the template.
+
+jResponse or jZone instanciate for you a jTpl object. For example the body property of the jResponseHtml object is a jTpl object, as for the _tpl property of jZone.
+
+In other case, you have to instanciate a jTpl:
+
+<code php>
+   $tpl = new jTpl();
+</code>
+
+Here are the most important methods to know.
+
+=== assign ===
+
+<code php>
+  $tpl->assign($name, $value);
+</code>
+
+This method allows you to create a template variable. A template variable is only accessible in the template level. You will then use this method to pass data (static values, objects, iterators, etc) to the template to be able to use it for content generation.
+
+You can also create or modify a variable directly in the template, using:
+
+<code html>
+  {assign $name = $value}
+</code>
+
+**Important** : the name of a template variable should follow syntaxic rules for a name of a PHP variable. the name should contain only letters, numbers or "_".
+
+
+=== assignIfNone ===
+
+Same purpose of the assign method, but the value is assigned only if the variable doesn't exist.
+
+=== assignZone ===
+
+<code php>
+    $tpl->assignZone($name, $zoneSelector, $params);
+</code>
+
+The params parameters is optional. This method is a shortcut for:
+
+<code php>
+   $tpl->assign($name, jZone::get($zoneSelector, $params));
+</code>
+
+=== assignZoneIfNone ===
+
+Same as assignZone, but the content of the zone is assigned only if the variable doesn't exist.
+
+=== get ===
+If you want to get the value of a template variable that is already initialized, you can use this method :
+
+<code php>
+  $value = $tpl->get('foo');
+</code>
+
+=== Other methods ===
+
+There are two other methods that you nearly won't us because the jResponse objects do it instead of you :
+
+    * display ($tplSelector) : launching the generation of content of the template indicated in the selector passed as argument and sends it directly to the browser.
+    * fetch ($tplSelector) : the same as display, except that it sends the content in return.
+
+
+=== Generating the content ===
+
+After variables are created and initialized, you can call the "fetch" method to generate the content of the template, and to retrieve it. You give the selector of the file template as the first parameter.
+
+<code php>
+  $content = $tpl->fetch('mymodule~mytemplate');
+</code>
+
+You call this method only if you have instanciate the jTpl object. In other case, you needn't to call it.
+
+There is an other method you won't never call, since jResponse objects use it : display.
+
+<code php>
+  $tpl->display('mymodule~mytemplate');
+</code>
+
+It generates the content and ouput it directly.
+
+===== Template files =====
+
+A template file is made of HTML, XUL or whatever you want if it corresponds to the type of the response. It contains also some instructions to incorporate values that you will define, instructions to repeat the generation of HTML, XUL, etc portions.
+
+The syntax used in jTpl is in the middle of the one used in smarty and the one of PHP. The goal is to have templates readable enough, easy to modify and not forcing a syntax that is too different from PHP. All this proposing features that PHP doesn't have and adapted to Jelix.
+
+Do not forget that most of the templates that you will make shouldn't be entire files. Especially for the HTML responses, your templates must contain only what is between the <body> and </body> tags, the rest is automatically generated thanks to jResponseHtml. 
+
+==== Syntax of statements ====
+
+Statements in jTpl  are specified between curly braces : {instruction ...}
+
+If you want to include curly braces in the template, in an other context than a jtpl statement, you can use {ldelim} for "{", or {rdelim} for "}".
+
+If you have a block with several curly braces, like in a piece of code of javascript, you can use {literal} instead of {ldelim} or {rdelim}.
+
+<code html>
+  <script type="text/javascript">
+   {literal}
+      for(i=0;i<max;i++) {
+         if(foo){ ...}
+      }
+   {/literal}
+  </script>
+</code>
+
+If you want to put comments which won't be include in the resulting content, use {*...*}
+
+<code html>
+   <p>bla bla</p>
+   {* this is a comment *}
+</code>
+
+==== Expressions ====
+
+A jtpl expression is identical to a PHP expression, and return a value, like in PHP. You can use classical PHP operators, objects, array etc. You can use also template variables, like any PHP variables.
+
+<code php>
+   $template_variable
+</code>
+
+An expression can also contain some selector of locales, by using a specific syntax. This selectors should be introduced between two "@".
+
+<code html>
+   @my_module~key.localized.string@."fooo bar"
+</code>
+
+It is equal to this PHP code :
+<code php>
+   jLocale("my_module~key.localized.string")."fooo bar"
+</code>
+
+Inside a locale key, you can use some template variables. It allows to construct dynamically a locale key:
+
+<code php>
+   @my_module~key.$variable.string@."fooo bar"
+</code>
+
+It is equal to this PHP code :
+<code php>
+   jLocale("my_module~key.".$variable.".string")."fooo bar"
+</code>
+
+
+
+==== Displaying an expression, a variable ====
+
+To display the result of an expression, you should put it between curly braces. The first element of the expression should be a variable or a locale selector.
+
+<code>
+  {$myvariable}
+  {$myvariable * 3}
+  {$myvariable." - ".@mod~message.ok@}
+  {@modul~a.key.of.locale@."-".$anOtherVariable}
+  {@modul~a.key.$dynamique@."-".$anOtherVariable}
+</code>
+
+This is equal to
+
+<code php>
+  <?php echo $myvariable; ?>
+  <?php echo $myvariable * 3; ?>
+  <?php echo $myvariable." - ".jLocale::get("mod~message.ok"); ?>
+  <?php echo jLocale::get("modul~a.key.of.locale")."-".$anOtherVariable; ?>
+  <?php echo jLocale::get("modul~a.key.".$dynamique)."-".$anOtherVariable; ?>
+</code>
+
+==== Predefined constant ====
+
+Some variables are predefined so you have not to assign them:
+
+   * **$j_basepath** : it contains the url path of the directory of the application (this is the value of the parameter "basePath" in the configuration)
+   * **$j_jelixwww** : it contains the url path of the directory jelix-www (this is the value of the parameter "jelixWWWPath" in the configuration)
+   * **$j_themepath** : it contains the url path of the directory of the current theme in www
+   * **$j_datenow** : current date (aaaa-mm-jj)
+   * **$j_timenow** : current hour (hh:mm:ss)
+
+==== Modifiers ====
+
+A modifier is a function which modify the output of an expression. You can use many modifiers at the same time. It works in fact like modifiers of Smarty:
+
+<code>
+  {$avariable|upper}
+  {$avariable|upper|escxml}
+  {$aUrl|escurl}
+</code>
+
+It is equal to:
+
+<code>
+  <?php echo strtoupper($avariable);?>
+  <?php echo htmlspecialchars(strtoupper($avariable));?>
+  <?php echo rawurlencode($aUrl);?>
+</code>
+
+Some modifiers, like those in the previous exemple, are simple alias to some native PHP functions:
+
+    * upper  (strtoupper)
+    * lower  (strtolower)
+    * escxml (htmlspecialchars)
+    * strip_tags (strip_tags)
+    * escurl (rawurlencode)
+    * capitalize (ucwords)
+
+Many others are function defined in plugins for jTpl. See the list in the [[http://jelix.org/reference/|API reference]]
+
+=== modifiers with parameters ===
+
+Some modifiers need some parameters. You should put this parameters after a ":" after the modifier name, and you should separate parameters with ",". Parameters are expressions.
+
+Example with the jdatetime modifier:
+
+<code smarty>
+  <p>The date is {$myDate|jdatetime:'db_date','timestamp'}.</p>
+</code>
+
+==== Control structures ====
+
+They are similar to control structures of PHP.
+
+=== if, else, elseif ===
+
+  {if condition_1}
+     // code here
+  {elseif condition_2}
+     // code here
+  {else}
+     // code here
+  {/if}
+
+Note : parentheses are not needed around the condition.
+
+=== while ===
+
+  {while condition}
+    // code here
+  {/while}
+
+Note : parentheses are not needed around the condition.
+
+=== foreach ===
+
+  {foreach expression}
+    // code here
+  {/foreach}
+
+Note : don't use parentheses
+
+
+
+=== for ===
+  {for expression}
+    // code here
+  {/for}
+
+The expression should be identical as the expression of the "for" in PHP. However, you mustn't use parentheses.
+
+
+==== functions ====
+
+Functions in a template are plugins you can use in a template. This plugins are simple PHP functions and you can create some kind of plugins.
+
+The syntaxe of the call in a template is:
+
+  {function_name  expression, expression,...}
+
+You mustn't use parentheses around all parameters. Expressions are jtpl expressions, so similar to PHP expressions.
+
+Note that some functions and other template plugins are callable in general only in a template used by a specific type of response. Some plugins are for HTML responses, some other plugins are for text responses.
+
+==== meta informations ====
+
+There is a special tag: {meta}. It doesn't change how the template is generated, and doesn't generate directly some content. But it provide informations for the code which uses the jtpl object.
+
+The syntax is
+<code html>
+ {meta name expression}
+</code>
+
+Example:
+  {meta author 'laurent'}
+
+You can create all meta you want. Then this informations are available in the jTpl object, by using the "meta" method.
+
+<code php>
+  $tpl = new jTpl();
+
+  $metas = $tpl->meta('mymodule~thetemplate');
+
+  $metas['author']; // contains 'laurent'
+
+</code>
+
+
+Note: if you use a variable in the expression of a meta tag, this variable should be assigned from the jtpl object, not from other instruction in the template itself (like @@{assign ...}@@).
+
+==== Advanced meta informations ====
+
+The {meta} tag provides "static" data. An other type of meta tag allow to do automatic process on meta data. This processes are implemented into template plugins.
+
+The syntax is:
+
+<code html>
+  {meta_//plugin_name// name expression}
+</code>
+
+
+template. Par exemple, il existe un plugin de meta permettant d'indiquer des informations pour une réponse HTML (feuille de style CSS, script JS, etc...). Leur syntaxe est :
+
+Example, which use the meta_html plugin. This plugin allows to modify the current html response : it can add a css stylesheet, a javascript link etc.
+
+<code html>
+  {meta_html css '/styles/my.css'}
+  {meta_html js 'fooscript.js'}
+  {meta_html bodyattr array('onload'=>'alert("charge")')}
+</code>
+
+===== Overloading a template =====
+
+Each module defines some template. If the module comes from an other project, or is shared by other application, you shouldn't modify the template.
+
+Fortunately, Jelix provide a system of theme, so you can redefine template without modify the original files.
+
+The default theme is in the directory ///var/themes/default//. So the /var/themes/default/my_module/my_template.tpl redefines the template my_module/templates/my_template.tpl
+
+For more details, see the [[themes|chapter on themes]]
+
+
+===== Inside the template engine =====
+
+Jtpl templates are "compiled". Jtpl convert template to PHP files, and this php file are stored in the cache to increase performances. You can see theme into temp/your_app/compiled/templates/modules/your_module~your_template.php, or for template from themes, temp/your_app/compiled/templates/themes/theme_name/your_module~your_template.php
+
+You can create your own plugin template, to use your own tag in a template. See [[plugins/tpl]]
+
+

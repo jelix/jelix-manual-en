@@ -1,0 +1,18 @@
+Features of your application should be grouped by module. 
+
+A module is a directory which contains :
+
+  * controllers
+  * business classes
+  * templates
+  * jdao files
+  * jform files
+  * localization files
+
+In general, all files inside a same module are about a same fonctionnal domain. For exemple, a "news" module contains all files to display or manage news.
+
+In an application, you should have at least one module which you should create. In general this module is the main module, which contains for example the home page of your application.
+
+Note that your application has natively another module, called "jelix" and stored in lib/jelix/core-modules/jelix. 
+
+Now, let's see how we create a module and a controller.

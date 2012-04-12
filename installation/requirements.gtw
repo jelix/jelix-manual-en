@@ -1,0 +1,52 @@
+You must install at least PHP version 5.2 ([[http://jelix.org/en/news/post/jelix-supports-gophp5|Jelix project supports gophp5 campaign]]). **dom**, **simplexml**, **pcre**, **session**, **tokenizer** and **spl** extensions are required (they are generally turned on in a standard PHP 5.2 installation).
+
+Note about DOM and XML: check that the [[http://www.php.net/manual/en/intro.dom.php|DOM extension]] is installed and the [[http://www.php.net/manual/en/intro.domxml.php|DOM-XML extension]] is **not** installed. Some distribution includes both (or only DOM-XML), and then it results in conflicting PHP errors within Jelix.
+
+You can install a database connector too. For the moment, Jelix deals with mysql 4.1+, postgresql 8.0+, sqlite and PDO.
+
+If you intend to use the inline scripts helping development (jelix-scripts), you need to install the command line version of PHP : **PHP-CLI**.
+
+
+==== PHP configuration ====
+   * **magic_quotes_gpc** and **magic_quotes_runtime** must be set to off. If this is not the case, [[//plugins/coord|you have to activate the magicquotes plugin]] delivered with Jelix.
+   * **session_auto_start** must be set to off.
+   * **safe_mode** must be set to off. (jelix not tested with **on**)
+  
+It is also recommended to set these values :
+   * **register_globals = off**
+   * **asp_tags = off**
+   * **short_open_tag = off**
+
+phpinfo() function can help you to see if these options are set with the right values. You can also watch in php.ini file of your server.
+
+
+===== Configuration of PHP-Cli with MAMP (MacIntosh) =====
+
+The MAMP software provides PHP-Cli. Perhaps there is also an other PHP-CLI already installed un MacOS. And then, the problem is that PHP-CLI for MAMP is not configured to access to the MAMP mysql.
+
+The solution:
+
+   * Open the ///etc/profile// file with administrator rights
+   * Add this two lines at the end (change the path if it is not the good path)
+<code>
+export DYLD_LIBRARY_PATH=/Applications/MAMP/Library/lib:${DYLD_LIBRARY_PATH}
+export PATH=/Applications/MAMP/bin/php5/bin:${PATH}
+</code>
+   * save
+
+If you want to use the old PHP-CLI, delete this two lines.
+
+===== Configuration of PHP-Cli under windows =====
+
+You have to add the path to the php-cli binary in the PATH variable of your system.
+
+   * right click on the icon of computer, then choose properties
+   * In the system properties dialog, click on the "advanced" tab, then on the button to see the environment variables.
+   * In "system variable", click on the PATH variable
+   * Change the value of the PATH variable, by adding the path to the directory of the binary of php.exe. With WAMP for example, add c:\wamp\bin\php\php5.2.6\. Don't forget to add a ";" to separate all paths.
+   * validate and close the dialog
+   * reboot
+
+Then you can call php.exe from any directory, and from the jelix-scripts directory.
+
+

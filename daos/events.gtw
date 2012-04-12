@@ -1,0 +1,49 @@
+
+A DAO factory can automatically generate [[//events|events]] on methods call.  
+
+===== Native methods events =====
+
+update, insert, delete and deleteby methods can generate events, either before or after execution, or both. To activate event dispatching, you have to declare which events your application want to catch in **events** attribute of main factory tag. event names are separated by a comma. complete event list includes:  deletebefore, deleteafter, updatebefore, updateafter, insertbefore, insertafter, deletebybefore, deletebyafter.
+
+Below is a detailed list of each event and its parameters. Every event has a **dao** corresponding to their dao selector.
+
+  * daoDeleteBefore : key (key values of the to be deleted record)
+  * daoDeleteAfter : key, result (1 if record is truely deleted)
+  * daoDeleteByBefore : key, criterias (objet jDaoConditions)
+  * daoDeleteByAfter : key, criterias, result (number of deleted records)
+  * daoUpdateBefore : record (to be updated record object)
+  * daoUpdateAfter : record
+  * daoInsertBefore : record (to be inserted record object)
+  * daoInsertAfter : record
+
+Example :
+
+<code xml>
+  <factory events="deleteAfter, insertAfter"> ...
+</code>
+
+And the lsitenr:
+
+<code php>
+class myListener extends jEventListener{
+ 
+   function onDaoDeleteAfter ($event) {
+        $dao = ;
+        if ($event->getParam('dao') == 'mymodule~thedao') {
+            $key = $event->getParam('key');
+            //...
+        }
+   }
+</code>
+
+
+
+
+===== Customized method events =====
+
+Customized //update// or //delete// methods (XML or PHP methods) can declare  //eventbefore// and/or //eventafter// attributes and set them to //true// or //false//.
+
+generated events will be: daoSpecificUpdateBefore, daoSpecificUpdateAfter, daoSpecificDeleteBefore and daoSpecificDeleteAfter. They will emitted with those parameters:
+  * dao : dao selector
+  * method: method name
+  * params: parameters list

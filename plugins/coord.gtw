@@ -1,0 +1,96 @@
+Adding coordinator (jelix core class) plugins allow you to customize different steps of the processing of any action.  
+
+You can execute some code, at process start, before action execution, after action execution (but before display), at process end. 
+
+Note : Coordinator plugins are commonly named //plugin coord// in Jelix.
+
+
+
+
+====== Activate a coord. plugin ======
+
+You need to modify entry point configuration file. for example /var/config/index/config.ini.php if it is for index.php entry point  :
+
+  * [[|add its repository]] e.g the parent directory of your plugin one to configuration. set //pluginsPath// option as this purpose.
+  * add your plugn name to [plugins] sections and assign it, its configuration file if any
+
+
+Example : 
+your plugin is located in //foo// folder of <application name>/plugins/coord/ 
+ your config file should look like :
+
+<code ini>
+pluginsPath = app:plugins/
+
+[plugins]
+foo = foo.plugin.ini.php
+</code>
+
+
+//foo.plugin.ini.php// is a dedicated config file. Its content and structure depends only on the plugin. Having a plugin configuration file is not required. In that case, you should assign //1// to your plugin name :
+
+<code ini>
+[plugins]
+foo = 1
+</code>
+
+If you use several plugins for the coordinator, the order in wich they appear in //plugins// configuration section is important: jelix will follow this order to instantiate and call the plugins. So be careful about this order, and read the documentation of the plugins you use.
+
+
+====== Plugin configuration ======
+
+In order to configure a plugin, you might have declared a specific configuration file (see above). It is an //ini// file, located in //var/config///. Its content will be passed as argument to your plugin constructor as an array.
+
+
+
+
+===== Plugin parameters =====
+
+As said before, your plugin might need some options or parameters. Those can be set in a config file but also within controllers. Indeed, your plugin might do different treatments for each controller actions. 
+
+As an example, jAuth plugin checks if an action needs authentication or not. Each controller will set  a parameter for each action indicating wether authentication is needed. 
+
+There is a member of controller to serve this purpose : //pluginParams//. It is an associative array. its keys are method names (or actions names) and its value s are arrays setting all plugins parameters. ***** key covers all methods or actions.
+
+Code Example :
+
+<code php>
+
+public $pluginParams = array(
+      '*'=>array('auth.required'=>false)
+    );
+
+</code>
+
+Result : every actions has a parameter //auth.required// set to false.
+
+
+
+
+====== Plugin development ======
+
+Concretely a plugin must implement //jICoordPlugin// interface.
+And so declare the following methods :
+<code php>
+    public function __construct($config);
+    public function beforeAction($params);
+    public function beforeOutput();
+    public function afterProcess ();
+</code>
+
+class constructor receive its plugin configuration.
+
+//beforeAction// method received plugin parameters set by controllers. It can return //null// if all is ok or an action selector, //jSelectorAct//, if another action must be executed (sort of redirection). 
+
+//beforeOutput// will be called after action execution.
+
+//afterProcess// method will be called at the end of coordinator processing, thus just before display.
+
+this class must be located in a  [[|plugins repository]].  //plugins/// application folder or a //plugins/// module folder are possible candidates. See [[|plugins]]. 
+
+For an //example// plugin :
+
+   * plugin folder will be **plugins/coord/example/**
+   * its file will be **plugins/coord/example/example.coord.php**
+   * its class will be **exampleCoordPlugin** and will implement //jICoordPlugin// interface
+

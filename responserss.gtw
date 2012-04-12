@@ -1,0 +1,96 @@
+jResponseRss20 allows to generate an RSS feed. It's fully compliant with  [[http://cyber.law.harvard.edu/rss/rss.html|RSS 2.0 specifications]].
+
+The alias usable with getResponse is "rss2.0" :
+
+<code php>
+  $rep = $this->getResponse('rss2.0');
+</code>
+
+===== RSS Feed Informations =====
+
+jReponseRss20's property 'infos' is an object allowing to set the RSS feed's properties : title, website url, copyright, description, etc, etc ...
+
+For example :
+
+<code php>
+   $rep->infos->title = 'Jelix news';
+   $rep->infos->webSiteUrl= 'http://jelix.org/';
+   $rep->infos->copyright = 'Copyright 2006-2008 jelix.org';
+   $rep->infos->description = 'News about Jelix, fresh meat for hairy trolls.';
+   $rep->infos->updated = '2007-06-08 12:00:00';
+   $rep->infos->published = '2007-06-08 12:00:00';
+   $rep->infos->ttl=60;
+</code>
+
+Property //ttl// is the cache-timeout, in minutes.
+Property //description// should be a string; however it's possible to specify the format (HTML or XHTML) in property //descriptionType//.
+Property //descriptionType// expects any of the following values : "html", "xhtml" ou "text".
+
+
+===== Items =====
+
+The RSS channel should be fed with items to publish.
+For example, items can have the description of each new tickets of a blog.
+
+Each item should be created with jResponseRss20's method : //createItem()//.
+It allows to fetch an object with item's informations.
+You can fill this object and add it the the response with jResponseRss20's method : //addItem()//.
+
+For example, with a news DAO :
+
+<code php>
+  $newsdao = jDao::get('news');
+  $first = true;
+
+  /*
+  Fetch the ten last news from the DAO,
+  assuming it's ordered from the newest to the oldest.
+  (method defined in the DAO)
+  */
+  $list = $newsdao->findTenFirstNews();
+
+  foreach($list as $news){
+
+    if($first){
+        /*
+        The first record allow to fetch channel's date
+        */
+        $rep->infos->updated = $news->date_create;
+        $rep->infos->published = $news->date_create;
+        $first=false;
+    }
+
+    // Fetch the URL from the news article
+    $url = jUrl::get('news~default:article', array('newsid'=>$news->id));
+
+    // Create an RSS item, specifying the title, url, and date (format : [yyyy-mm-jj hh-mm-ss] )
+    $item = $rep->createItem($news->title, $url, $news->date_create);
+
+    // News author
+    $item->authorName = $news->author;
+
+    // Item's contents
+    $item->content = $news->content;
+    $item->contentType ='html';
+
+    /*
+    Assuming the news-URL being the news-ID in this example.
+    Note that it would have been possible to use : $item->id =$news->id
+    */
+    $item->idIsPermalink = true;
+
+    // Add this item to the feed.
+    $rep->addItem($item);
+  }
+</code>
+
+
+
+
+===== Other informations =====
+
+It's possible to explicitely specify more informations about the RSS food or about each item.
+
+Check [[http://jelix.org/reference/|the API documentation]] about jRSS20Info and jRSSItem to go deeper.
+
+

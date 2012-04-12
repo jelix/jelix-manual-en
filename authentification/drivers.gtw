@@ -1,0 +1,180 @@
+List of authentication drivers delivered with Jelix
+===== Db =====
+
+Db driver authenticates users through database infos. This driver relies on a Dao which has to be indicated in authentication config. file:
+
+<code ini>
+
+driver= Db
+
+[Db]
+dao = "mymodule~mydao"
+password_crypt_function = "md5"
+</code>
+
+**dao** option value must be a dao selector. You can of course use the dao provided by module jauth :
+<code ini>
+dao = "jauth~jelixuser"
+</code>
+
+But if you select one of your dao, be aware:  it must have the properties "login" and "password" and define the following methods (See **jelixuser** dao of **jauth** for an example):
+
+   * **getByLoginPassword (login, password)** 
+   * **getByLogin(login)**
+   * **updatePassword(login,password)**
+   * **deleteByLogin(login)**
+   * **findByLogin(pattern)**
+
+Mandatory : database table associated with the dao must have "login" field as primary key.
+
+You can add any other properties and methods to the dao. 
+
+**password_crypt_function** option selects which encrypt function jAuth will use for passwords. You can define your own encrypt function (implementing it in application.init.php for example) and assign **password_crypt_function** with your function name.
+
+
+
+==== Example ====
+
+Imagine this table structure ( mysql script) :
+
+<code sql>
+CREATE TABLE `jlx_user` (
+  `usr_login` varchar(50) NOT NULL default '',
+  `usr_password` varchar(50) NOT NULL default '',
+  `usr_email` varchar(255) NOT NULL default '',
+  PRIMARY KEY  (`usr_login`)
+) AUTO_INCREMENT=2 ;
+</code> 
+
+jlx_user has "usr_login" as its primary key and has "usr_password" field.
+the dao associated for authentication could be:
+
+<code xml>
+<?xml version="1.0" encoding="UTF-8"?>
+<dao xmlns="http://jelix.org/ns/dao/1.0">
+   <datasources>
+      <primarytable name="usr" realname="jlx_user" primarykey="usr_login" />
+   </datasources>
+   <record>
+      <property name="login" fieldname="usr_login"
+          required="yes" datatype="string"  maxlength="50" />
+
+      <property name="email" fieldname="usr_email"
+                datatype="string" required="yes" maxlength="255" />
+
+      <property name="password" fieldname="usr_password" datatype="string"
+                maxlength="50" selectmotif="%s" updatemotif="" insertmotif="%s" />
+   </record>
+   <factory>
+     <method name="getByLoginPassword" type="selectfirst">
+         <parameter name="login" />
+         <parameter name="password" />
+
+         <conditions>
+             <eq property="login" expr="$login" />
+             <eq property="password" expr="$password" />
+         </conditions>
+     </method>
+
+     <method name="getByLogin" type="selectfirst">
+         <parameter name="login" />
+
+         <conditions>
+             <eq property="login" expr="$login" />
+         </conditions>
+     </method>
+
+     <method name="updatePassword" type="update">
+         <parameter name="login" />
+         <parameter name="password" />
+
+         <values>
+             <value property="password" expr="$password"/>
+         </values>
+         <conditions>
+             <eq property="login" expr="$login" />
+         </conditions>
+     </method>
+
+     <method name="deleteByLogin" type="delete">
+         <parameter name="login" />
+         <conditions>
+             <eq property="login" expr="$login" />
+         </conditions>
+     </method>
+
+     <method name="findByLogin" type="select">
+         <parameter name="pattern" />
+         <conditions>
+             <like property="login" expr="$pattern" />
+         </conditions>
+         <order>
+             <orderitem property="login" way="asc" />
+          </order>
+     </method>
+     <method name="findAll" type="select">
+         <order>
+             <orderitem property="login" way="asc" />
+         </order>
+     </method>
+   </factory>
+</dao>
+</code>
+
+Say you have stored this dao in foo mdule under the name user.dao.xml, your auth.plugin.ini.php should be:
+
+<code ini>
+
+driver= Db
+
+[Db]
+dao = "foo~user"
+password_crypt_function = "md5"
+</code>
+
+
+===== Class =====
+
+Clas driver is more a multiverse driver compared to Db driver. You just have to assign a class to it, in which you do... what you want! Except that it has to implement [[http://jelix.org/reference/1.0.8/jelix/auth_driver/jIAuthDriverClass.html|jIAuthDriverClass interface]]. This class is considered as other business classes and therefore should be located in //classes// folder of one of your modules.
+
+//auth.plugin.ini.php// would declare :
+
+<code ini>
+
+driver= Class
+
+[Class]
+class = "mymodule~myclass"
+password_crypt_function = "md5"
+</code>
+
+
+===== LDS =====
+
+This driver relies on a LDS server (http://lds.linbox.org/). an LDS has an XML-RPC API. This driver authenticates through calls to this API. 
+
+//auth.plugin.ini.php// for a LDS driver:
+
+<code ini>
+
+driver= LDS
+
+[LDS]
+host=foo.com
+port=80
+login= foo
+password= bar
+scheme= https
+</code>
+
+
+LDS driver will call **foo.com** through port **80**, with login **foo** and password **bar**, over a secured https connection.
+
+
+====== Create a driver ======
+
+If you have your own authentication system and you want to integrate it to Jelix, you will have to create your own driver.
+
+[[//plugins/auth|authentication drivers creation page]] will give you an overview.
+
+Once you are done, consider contributing it to Jelix. It will be gladly welcomed :-).

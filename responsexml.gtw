@@ -1,0 +1,55 @@
+jResponseXML allows to send an XML response to the client-browser. It's alias is "xml"
+
+<code php>
+$rep = $this->getResponse('xml');
+</code>
+
+Two solutions exist to set the XML contents.
+
+**Warning** : the XML should be correctly formated in any case, or the response will generate an error.
+
+===== Generation with a template =====
+
+The $content property contains a jTpl object by default : it's up to you to set the template-selector in property $contentTpl.
+
+<code php>
+  $resp->contentTpl = 'myModule~myxml';
+  $resp->content->assign('foo','bla bla bla');
+</code>
+
+jResponseXml handles generation of the "<?xml ?>" tag : it shouldn't be in the template-file.
+
+If you don't want the jReponseXml to generate the xml tag, set the sendXMLHeader to false :
+
+<code php>
+  $resp->sendXMLHeader = false;
+</code>
+
+===== Without a template  =====
+
+It's possible to set the XML content as a string value in property $content.
+
+<code php>
+  $rep->content = '<mydoc> <title>jelix</title> </mydoc>';
+</code>
+
+jResponseXml handles generation of the "<?xml ?>" tag : you shouldn't set it explicitely.
+
+
+If you don't want that jReponseXml generates the xml tag, set the sendXMLHeader to false :
+
+<code php>
+  $resp->sendXMLHeader = false;
+</code>
+
+===== Using style-sheets =====
+
+It's possible to attach CSS or XSLT style-sheets to the generated XML document using method //addCSSStyleSheet()// or //addXSLStyleSheet()//.
+
+Both expect the same first mandatory argument : the URL to the style-sheet.
+Both expect the same second optional argument : an associative array defining the pseudo-attributes for the generated processing instruction.
+
+<code php>
+ $rep->addCSSStyleSheet('my.css', array('title'=>'Excellent!!'));
+ $rep->addXSLStyleSheet('my.xsl');
+</code>

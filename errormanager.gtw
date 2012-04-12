@@ -1,0 +1,52 @@
+
+The classes of the framework can generate errors in two different ways with :
+
+  * a trigger_error (PHP error)
+  * an exception
+
+A PHP error is generated in the case of a technical error due to a programing default. It is then the job of the developer to correct the error.
+
+An exception is generated in the case of an error that can occur in an unpredictable way during the execution of an action. For example, an error when it is impossible to connect to a database or a "functional", "business" error.
+
+
+
+===== Error handlers setup =====
+
+Whatever the error comes from, we get it through an error handler (except for the exceptions which are interpreted by a try/catch block). There is an error handler for PHP errors and another for the exceptions.
+
+The error handlers are in charge of executing the actions specified in the configuration according to the error type. This is the default", "error", "warning", "notice", "strict", "exception" parameters in the error_hanling section. Each of these parameters has to contain one or several of these words which indicates an action to be executed :
+
+| ECHO | THe message will be passed in the response |
+| LOGFILE | the message is put in the log file specified in the ligfile option of the configuration |
+| SYSLOG | the message is sent in the system log |
+| MAIL | the message is sent by mail to the address specified in the mail option |
+| EXIT | the execution stops here (EXIT is implicit for the exceptions) |
+| TRACE | include the call stack in the log file |
+| ECHOQUIET | don't display the details of the message, only displays the content of the quietMessage option from the error_handling section |
+
+The messageLogFormat specifies the error message format in the log file, syslog file or mail.
+
+If you want to show errors in Firebug (when ECHO is used, and only for HTML and XUL responses), set **showInFirebug** to on.
+
+===== Error code =====
+
+Each error message is localized in the properties files and each error should have a number. This number is indicated in the properties files of the localized messages, this way :
+
+ key.string = (error_code)error message
+
+In the end, the error message won't be with the error code. And this one will be extracted
+
+Here are the error codes fields
+
+| 0-99 | general errors |
+| 100-199 | core errors |
+| 200-299 | locale errors |
+| 300-399 | templates errors |
+| 400-499 | database errors |
+| 500-599 | dao errors |
+| 600-699 | authentication errors |
+| 700-799 | rights errors |
+| 800-899 | jforms errors |
+| > 5000  | user errors |
+
+If you generate errors for your own use, their code must be greater than 5000.

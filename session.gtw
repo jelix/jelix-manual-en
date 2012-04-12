@@ -1,0 +1,64 @@
+
+jSession provides alternative storage engines. Configuration is done in app/var/config/defaultconfig.ini.php :
+
+===== Session name =====
+
+**Important :** the patch is not commited right now, 
+see http://developer.jelix.org/ticket/417
+
+You may need to change the session's name (default is PHPSESSID).
+
+To make such a change, you can use the following configuration directive :
+
+<code ini>
+[sessions]
+name = "mysession"
+</code>
+
+NB : only alpha-numeric chars are allowed.
+
+
+
+
+===== File storage =====
+
+Storing session files in default path may not be a good idea, as that path is often worldwide readable/writable, like /tmp/ for example.
+
+To make jSession store sessions in your own defined path : 
+
+<code ini>
+  [sessions]
+  storage = "files"
+  files_path = "app:var/sessions/"
+</code>
+
+NB : app: and lib: keywords are converted.
+
+
+
+===== Database storage =====
+
+You may need to store your sessions in data, for example when you are doing load-balancing with multiple front servers.
+
+jSession uses jDao : 
+
+<code ini>
+  [sessions]
+  storage = "dao"
+  dao_selector = "jelix~jsession"
+  dao_db_profile = ""
+</code>
+
+NB : a default dao is provided in the jelix module. The selector is jelix~jsession.
+
+The corresponding DB creation request :
+
+<code ini>
+CREATE TABLE `sessions` (
+  `id` varchar(64) NOT NULL,
+  `creation` datetime NOT NULL,
+  `access` datetime NOT NULL,
+  `data` text NOT NULL,
+  PRIMARY KEY  (`id`)
+) DEFAULT CHARSET=utf8;
+</code>

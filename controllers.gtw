@@ -1,0 +1,95 @@
+====== Controllers ======
+
+Controller objects run actions corresponding to client-input.
+
+Actions are methods of the controller that prepare a response.
+
+Each controller is dedicated to one client-request type.
+
+===== Naming conventions =====
+
+==== File-system ====
+
+Controllers are sorted per-module on the file-system, in the //controllers// directory. Each should have a unique prefix and suffix :
+<code>controllerName.clientRequestType.php</code>
+
+For example, the //foo// controller usable on classic client-requests :
+<code>foo.classic.php</code>
+
+==== Class name ====
+
+All controller class name should use suffix //Ctrl//.
+
+For example, the //foo// controller class name should be :
+<code>fooCtrl</code>
+
+
+===== Creating a controller =====
+
+Each module should have a defined default controller.
+
+For example, the first controller that you might want to create :
+<code>exampleModule/controllers/default.classic.php # class : defaultCtrl</code>
+Skeleton :
+<code php>
+// Each controller class should inherit from jController
+class defaultCtrl extends jController {
+        /**
+         * Each of the controllers action has one method :
+         * - it should be public,
+         * - it should not expect any argument,
+         * - it should return an instance of jResponse.
+         *
+         * For example :
+         */
+         public function index(){
+            $resp = $this->getResponse('html');
+                $resp->addContent('<p>Hello world</p>');
+                return $resp;
+        }
+}
+</code>
+Your project is usable with this controller because it can return responses to client queries :
+
+   * controller "default" exists,
+   * method "index" exists in the default controller.
+
+===== Services provided by jController =====
+
+It provides methods for your actions.
+
+
+==== Fetch a jResponse object ====
+
+Actions return jResponse objects which implements to "View" of the MVC pattern.
+Jelix supplies several response objects, and you can make your own inheriting from jResponse.
+
+Fetching a precise jReponse object with method **getResponse** require passing the keyword corresponding to the client request type :
+
+<code php>
+$resp = $this->getResponse('html');
+</code>
+
+$resp is now an instance of jResponseHtml capable of generating HTML.
+
+Notice that you can create your own response object. You can then support a new output format, or you can overload an existing response object to do some things shared between many actions. For example, you can create your own response HTML which generates dynamically a menu. Then, in all actions where you use this respones, you will have this menu. See [[common-processes|the page which explains how to do this]].
+
+==== Accessing client-request parameters ====
+
+HTTP client-request parameters are accessible through an instance of jRequest, which is accessible from jCoordinator. For example :
+<code php>$id = $GLOBALS['gJCoord']->request->getParam('id');</code>
+Altough jController provides the method **param()** :
+<code php>$id = $this->param('id');</code>
+Fetching an undefined parameter makes **param()** to return null or it's second argument for example :
+<code php>$title = $this->param('title','Hello World (default title)');</code>
+It provides a few filtering methods like **intParam()**, **floatParam()** or **boolParam()** which use the same arguments :
+
+  * **intParam()** to fetch an integer,
+  * **floatParam()** to fetch a float value,
+  * **boolParam()** returns false except if the parameter's string value is :
+    * true,
+    * 1,
+    * on,
+    * yes.
+
+Use 'jFilter' for any other type of filtering.

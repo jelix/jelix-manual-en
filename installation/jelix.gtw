@@ -1,0 +1,26 @@
+Jelix is provided in the form of a tar.gz or zip file. This file contains a jelix/lib directory which contains all the files of the framework and the dependent libraries, as well as a jelix/temp directory. 
+
+Extract the file with software like winzip, unzip or tar.
+
+  tar xvzf jelix_1.0.tar.gz
+
+You get the following directories : 
+
+  jelix/
+     lib/               source of Jelix and other libs
+        jelix/          source of Jelix
+        jelix-modules/  standard modules delivered with Jelix
+        jelix-plugins/  standard plugins delivered with Jelix
+        jelix-scripts/  command-line scripts that can help developer
+        jelix-www/      javascript, css, xul... resources  (1.0alpha3)
+     temp/              Temporary files of Jelix applications.
+
+There are other folders in lib/ (not listed here), which are additional libs, external to the jelix project and used by jelix : wikirenderer, JSON, difflib, etc.
+
+For more safety, it is recommended to install these directories out of your website's public directory. You will also be able to share it with several applications. But that is not mandatory. We will admit thereafter that you copied these directories in a mysite/ directory.
+
+You have to set write permissions to apache user on the temp directory.
+
+You can now create or install a jelix application.
+
+

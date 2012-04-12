@@ -1,0 +1,121 @@
+Jelix supports [[http://json-rpc.org/|json-rpc]]. This is a similar protocol to XML-RPC. The main differences is that datas are JSON formatted instead of XML.
+
+RPC = Remote Procedure Call
+
+See [[responsexmlrpc|Xml-rpc documentation]].
+
+===== Specifi entry point =====
+
+A JSON-RPC request cannot be treated as a classic request, thus you can't use [[requests|"classic" request object]]. You have to create a specific entry point in //www/// directory, jsonrpc.php. This entry point will instantiate a jJsonRpcRequest instead of a jClassicRequest.
+
+The new entry point should look like:
+
+<code php>
+require_once ('../../lib/jelix/init.php');
+require_once ('../../MYAPPLI/application.init.php');
+
+$config_file = 'jsonrpc/config.ini.php';
+
+require_once (JELIX_LIB_CORE_PATH.'request/jJsonRpcRequest.class.php');
+
+$jelix = new jCoordinator($config_file);
+$jelix->process(new jJsonRpcRequest());
+
+</code>
+
+Don't forget to add this entry point in urls engine configuration section. If you have selected [[urls|simple url engine]], in section //simple_urlengine_entrypoints// configuration file, just add: 
+
+<code ini>
+jsonrpc = "@jsonrpc"
+</code>
+
+//jsonrpc// is the entry point name and //@jsonrpc// is the entry point request type.
+
+If you have selected [[urls/significant|significant url engine]], just add :
+<code xml>
+<jsonrpcentrypoint name="jsonrpc" default="true" />
+</code>
+
+
+Independently of url engines, you retrieve an url for a jsonrpc action like this:
+
+<code php>
+  $url = jUrl::get("module~action@jsonrpc");
+</code>
+
+===== Controller =====
+
+As JSON-RPC is a specific request type, a controller filename must be suffixed by  ".jsonrpc.php". A "default" controller  file would be: "default.jsonrpc.php". (it can co-exists with a "default" classic controller such as "default.classic.php").
+
+Controller content is similar to those of a classic controller. You just have to use a jResponseJsonRpc response (alias:"jsonrpc"):
+
+<code php>
+class defaultCtrl extends jController {
+
+  function index(){
+
+    $resp = $this->getResponse('jsonrpc');
+
+    // any data types : integer, string, array, objects...
+    $data_php = ... ;
+
+    $resp->response = $data_php;
+
+    return $resp;
+
+  }
+}
+</code>
+
+
+
+=====  Client request =====
+
+To send a jsonrpc request, as specified in [[http://json-rpc.org/|json-rpc spec]], you have to use a specific json string:
+
+<code>
+{ method : "",
+  id:"",
+  params: {}
+}
+</code>
+
+//method// parameter indicates which action to execute. In a  Jelix application, it must be an action selector:
+
+<code>
+method:"myModule~default:index"
+</code>
+
+//params// parameter datas will be assigned to //params// member of your response. In your action, you will access them like this:
+
+<code php>
+  $parameters = $this->param('params');
+</code>
+
+Of course, //$parameters// will contain "php" datas. the JSON string is decoded by jJsonRpcRequest..
+
+Note: there are javascript methods in lib/jelix-www/json.js. First, //toJSONString// which is added on all javascript object, and which allows to generate a JSON string. Second, javascript strings have a //parseJSON// method to parse a json string.  Then, you just have to pass a string to xmlHttpRequest to send the JSONRPC request to jelix. An HTMl example:
+
+<code javascript>
+ var jsonrpc = { method : "myModule~default:index",
+    id:"1",
+    params: null
+ };
+
+ var toSend = jsonrpc.toJSONString();
+ var p = new XMLHttpRequest();
+ p.onload = null;
+ p.open("POST", "http://mysupersite.tld/jsonrpc.php", false);
+ p.send(toSend);
+
+ var response = p.responseText.parseJSON();
+ var result = reponse.result;
+</code>
+
+And in your jelix action, if you do: 
+
+<code php>
+  $resp->response = "hello";
+</code>
+
+In your javascript example, //result// variable content will be "hello".

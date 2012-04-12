@@ -1,0 +1,94 @@
+Creating and managing forms "by hand" is not very different than in a conventional PHP application. But some things (outside jForms) facilitate the work.
+
+
+===== The actions to implement =====
+
+The implementation of a very simplistic form development will consist of two actions (the names are fictitious and used just as an example):
+
+    * A "show" action, to display the form
+    * A "save" action, which deals with the form data (after a submit) and displays the result
+
+But in most cases, to respond properly to errors, in order to prevent the use of buttons "refresh" browsers which then execute same processing on forms datas ("save" action), etc. ..., it is better to have such action list:
+
+    * A "prepare" action that prepares data for a new form (in session initialization for example, with reading of the original data in a database, for example) and redirects to "show"
+    * A "show" action  that displays the form with data sessions, and displays any data entry errors.
+    * A "save" action which verifies the data entered. If there are errors, saves them in session and redirects to "show", or save the data (in a database for example) and redirects to "end"
+    * An "end" action, which cleans data in session, and displays a confirmation page, or redirects to another action whatsoever ...
+
+
+===== Creating a form =====
+
+You generally use a template in which you put your html tags forms. For example:
+
+<code html>
+  <form action="index.php" method="POST">
+  <fieldset> <legend>Indicate your identity</legend>
+     <input type="hidden" name="module" value="mymodule" />
+     <input type="hidden" name="action" value="default:save" />
+     <table>
+      <tr>
+        <td><label for="name-field">Your name</label></td>
+        <td><input type="text" name="name" id="name-field" /></td>
+      </tr>
+      <tr>
+        <td><label for="surname-field">Your surname</label></td>
+        <td><input type="text" name="surname" id="surname-field" /></td>
+      </tr>
+      </table>
+  </fieldset>
+  <p><input type="submit" value="Ok" />
+  </form>
+</code>
+
+Of course you can add javascript to check the data entered by the user and use all types of HTML fields.
+
+However, the example is not entirely correct, because the url is written entirely in the form. This is problematic when you change for example the url engine, or change the configuration of the significant url engine. Depending of how the url engine is configured, the number of hidden fields can change, the content of the action attribut on the form element can change too. 
+
+It is therefore preferable to use the template plugins  **formurl** and **formurlparam** , to which you specify the selector and parametres of the action which will process the form datas after the submition. The first is used to generate the url to put into action the attribute, and the other to generate hidden fields containing any additional parameters to the action. You should always use two sets. The form then becomes:
+
+<code html>
+  <form action="{formurl 'mymodule~default:save'}" method="POST">
+  <fieldset> <legend>Indicate your identity</legend>
+     {formurlparam 'mymodule~default:save'}
+     <table>
+      ...
+      </table>
+  </fieldset>
+  <p><input type="submit" value="Ok" />
+  </form>
+</code>
+
+The resulting form will be the same as the first example if the url engine is the "simple" url engine, but could become the following form if the engine is the significant url engine, with, for the example,  the url /user/save corresponding to the "mymodule~default:save" action :
+
+<code html>
+   <form action="/user/save" method="POST">
+   <fieldset> <legend> Indicate your identity </legend>
+      <table>
+       ...
+       </table>
+   </fieldset>
+   <p> <input type="submit" value="Ok" />
+   </form>
+</code>
+
+
+===== Data processing after a submit =====
+
+In the action used to process the data, you retrieve datas through **$this->param('a_field')** in your controller. You have other similar methods, like **$this->intParam('a_field')**, **$this->floatParam('a_field')** and **$this->boolParam('a_field')**, which can directly retrieve values from a particular type (see [[controllers|the page on controllers]]).
+
+You can use also jFilter, which is a class to verify the format of the data (it uses the filter extension under PHP 5.2). Example:
+
+<code php>
+    function save() {
+       $email = $this->param('email');
+       if ($email === null) {
+             //.. here error, the email is missing
+       }
+       if(!jFilter::isEmail($email)){
+             // error, the email is bad
+       }
+       //....
+    }
+</code>
+
+See [[http://jelix.org/reference/trunk/jelix/utils/jFilter.html|the documentation reference jFilter]]

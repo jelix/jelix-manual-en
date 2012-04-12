@@ -1,0 +1,326 @@
+
+There are two type of treatments: business processes, and those to generate the web content. For business processes, you create some classes, which use jDao, which work with a database. These classes can be used by all modules, so this is a way to execute some common processes. See [[business_classes]].
+
+For the generation of web content, this is a little more complex because there are several ways of doing things. In most of cases, we have several pages that have some parts in common. This may be a banner, a footer, a menu on the side etc. .. There may be some pages which have more than these common "zone". Here are some various solutions, depending on the context, to create some common processes
+
+   * Using private methods of controllers
+   * Creating some controllers which will be inherited by others
+   * Using a common response object
+   * Using "zones"
+
+===== Private methods of controllers =====
+
+If the similarity of pages can be summarized in a few actions that are in the same controller, then you can use a private or a protected method, which will do the common work of all these actions.
+
+<code php>
+
+class defaultCtrl extends jController {
+
+   protected function common(){
+      $rep = $this->getResponse('html');
+      $rep->title = 'Same title on every page';
+      $rep->body>assign('menu', '<ul><li>item 1</li><li>item 2</li></ul>');
+      return $rep;
+   }
+
+   function index(){
+      $rep = $this->common();
+      $rep->body->assign('MAIN','<p>Welcome on this application</p>');
+      return $rep;
+   }
+
+   function list(){
+      $rep = $this->common();
+      $rep->body->assign('MAIN','<ul><li>an other</li><li>list</li></ul>');
+      return $rep;
+   }
+}
+</code>
+
+In this instance, both actions //index// and //list// use a common method that will do the common job.
+
+
+===== base controllers=====
+
+If several actions of several controllers have some treatments in commons, then you can use the mechanism of object inheritance. This means you create a "base" controller, which will not be used directly, but other controllers will inherits from it.
+
+Here is an example of a base controller, in the file controllers/myBaseController.php:
+
+<code php>
+class myBaseController extends jController {
+
+   protected function common(){
+      $rep = $this->getResponse('html');
+      $rep->title = 'Same title on every page';
+      $rep->body>assign('menu', '<ul><li>item 1</li><li>item 2</li></ul>');
+      return $rep;
+   }
+}
+</code>
+
+And in your controllers:
+
+<code php>
+include $GLOBALS['gJCoord']->getModulePath('monModule').'controllers/myBaseController.php';
+
+class defaultCtrl extends myBaseController {
+
+   function index(){
+      $rep = $this->common();
+      $rep->body->assign('MAIN','<p>Welcome on this application</p>');
+      return $rep;
+   }
+
+   function list(){
+      $rep = $this->common();
+      $rep->body->assign('MAIN','<ul><li>an other</li><li>list</li></ul>');
+      return $rep;
+   }
+}
+
+</code>
+
+Note the include instruction and //extends myBaseController //;
+
+Of course, the controller may contain basic properties, other methods, and also some methods which can be overrided. 
+
+The inheritance can be used to create for example a CRUD controller which implements many methods to create an interface to manage some datas (CRUD), and then, you have just to inherit from this controller to create quickly a CRUD interface. In fact, Jelix have a such controller to create CRUD interface.
+
+
+===== Customizing common response =====
+
+Both previous solutions are attractive in some case. However, if you have things in common to the majority of actions, it is preferable to do otherwise: overloading a response object.
+
+You create a response object which will be used by all actions, transparently. Say, for instance, that all the HTML pages on your site have the same dynamic menu, the same style sheet etc. .. You therefore create a class response as indicated in [[creating-response|'creating response' page]].
+
+If you want to create reusable modules, creating your own response is a good thing since everything which is not specific to a module is done outside the module. So the module is more independent of the application, unlike the case where it manages himself the stylesheet declaration, the header of a page etc..
+
+
+Your own response classes can inherit from jResponseHtml for example. In this class, you can:
+
+  * redefine the constructor to do things before the call of the getResponse method of controllers
+  * redefine the //_commonProcess// method (which exists only in jResponseHtml). In this method, you can do all things you want, which will be executed **after** each actions, and just before the output.
+
+Let's see how the process is done precisely. 
+
+You have your HTML page which have the <head> part and the <body> part:
+
+{{jresponsehtml_step1.png|}}
+
+You will have a main template which contains the main content of the <body> part, and this template will be used by your custom response object. Here is an example of //responses/myHtmlResponse.class.php//:
+
+
+<code php>
+require_once (JELIX_LIB_RESPONSE_PATH.'jResponseHtml.class.php');
+
+class myHtmlResponse extends jResponseHtml {
+
+   public $bodyTpl = 'myapp~main';
+
+   protected function _commonProcess(){
+
+   }
+}
+</code>
+
+In the content of the web page, it can have several parts:
+
+
+{{jresponsehtml_step2.png|}}
+
+So your main template could be:
+
+
+<code html>
+<div id="header"> ...    {$date} </div>
+<div id="sidebar-left"> {$A}  {$B}  {$C} </div>
+<div id="sidebar-right"> {$D} </div>
+
+<div id="main-content"> {$MAIN} </div>
+
+<div id="footer"> ...</div>
+</code>
+
+This zones A, B, C, D and MAIN  can be generated by sub-templates or jZone objects:
+
+{{jresponsehtml_step3.png|}}
+
+In particulary, the MAIN part will be generated by each actions (with or without the help of a template, a zone..)
+
+So, your custome response object could support the A part (if this part is common to all pages), and the other parts will be filled by each action if needed. So in the custom response object, we have:
+
+
+<code php>
+require_once (JELIX_LIB_RESPONSE_PATH.'jResponseHtml.class.php');
+
+class myHtmlResponse extends jResponseHtml {
+
+   public $bodyTpl = 'myapp~main';
+
+   protected function _commonProcess(){
+        // all pages will have a login form
+        $this->body->assignZone("A", "auth~login");
+
+        // In the case where nothing is declared for each other parts,
+        // we set an empty content
+        $this->body->assignIfNone('B','');
+        $this->body->assignIfNone('C','');
+        $this->body->assignIfNone('D','');
+        $this->body->assignIfNone('MAIN','<p>No content</p>');
+
+        // we can set other template variables needed by the main template
+        $this->body->assign('date', date('Y-m-d'));
+   }
+}
+</code>
+
+In the controllers, we could do things like that:
+
+<code php>
+    function mon_action() {
+        $rep = $this->getResponse('html');
+        // we set the content for the B part
+        $rep->assign('B','<h2>Hello !</h2>');
+
+        //  we set the content for the D part
+        $rep->assignZone('D', 'ma_sidebar');
+
+        // No content for C in this action, so we do nothing for C
+
+        // Now, the main part. we use a sub-template
+        $tplMain = new jtpl();
+        $tplMain->assign(...); 
+        $rep->assign('MAIN', $tplMain->fetch('mymodule~mytpl'));
+        
+        return $rep;
+    }
+
+</code>
+
+Of course, the custom response can define other things than templates: CSS stylsheets, javascript links, default title etc. So you don't have to do it in controllers.
+
+
+
+
+<code php>
+class myHtmlResponse extends jResponseHtml {
+
+   public $bodyTpl = 'myapp~main';
+
+   // the constructor is called before any getResponse
+   public function __construct() {
+        parent::__construct();
+        $this->addCSSLink('design/screen.css');
+   }
+
+   protected function _commonProcess(){
+        $this->title .= ($this->title !=''?' - ':'').' My App';
+
+        // all pages will have a login form
+        $this->body->assignZone("A", "auth~login");
+
+        // In the case where nothing is declared for each other parts,
+        // we set an empty content
+        $this->body->assignIfNone('B','');
+        $this->body->assignIfNone('C','');
+        $this->body->assignIfNone('D','');
+        $this->body->assignIfNone('MAIN','<p>No content</p>');
+
+        // we can set other template variables needed by the main template
+        $this->body->assign('date', date('Y-m-d'));
+   }
+}
+</code>
+
+
+=== Declaring the custom response object ===
+
+The class of the custom response is declared in the configuration like that:
+
+<code ini>
+[responses]
+html=myHtmlResponse
+</code>
+
+So all actions which will then use the "html" response (by doing this, //$this->getResponse('html')//, will provide a page with a login form generated by the 'auth~login' zone, and a default content for all other parts.
+
+=== Useful tweaks ===
+
+Once you have defined a common response, it can be really useful to access some application parameters:
+
+  * theme: $GLOBALS['gJConfig']->theme   
+  * request params: $GLOBALS['gJCoord']->request->getParam(..) 
+
+Example:
+<code php>
+require_once (JELIX_LIB_RESPONSE_PATH.'jResponseHtml.class.php');
+
+class myHtmlResponse extends jResponseHtml {
+
+   public $bodyTpl = 'testapp~main';
+
+   public function __construct() {
+        parent::__construct();
+        $theme = $GLOBALS['gJConfig']->urlengine['basePath'].'themes/'.$GLOBALS['gJConfig']->theme.'/' ;
+        $this->addCSSLink($theme.'css/screen.css');
+   }
+
+
+   protected function _commonProcess(){
+        $this->title .= ($this->title !=''?' - ':'').' My App';
+
+        $param = $GLOBALS['gJCoord']->request->getParam('paramSommaire')
+
+        // all pages will have a login form
+        $this->body->assignZone("A", "auth~login", array( 'paramSommaire' => $param ));
+
+        // In the case where nothing is declared for each other parts,
+        // we set an empty content
+        $this->body->assignIfNone('B','');
+        $this->body->assignIfNone('C','');
+        $this->body->assignIfNone('D','');
+        $this->body->assignIfNone('MAIN','<p>No content</p>');
+
+        // we can set other template variables needed by the main template
+        $this->body->assign('date', date('Y-m-d'));
+   }
+}
+</code>
+
+
+=== Defining several responses ===
+
+Of course, you can define several html responses, in the case where your site has different type of pages. For example:
+
+<code ini>
+[responses]
+html=myHtmlResponse
+html2=myOtherHtmlResponse
+adm=adminHtmlresponse
+</code>
+
+Then you just have to indicate the right code to retrieve the response object you want:
+
+<code php>
+  $rep = $this->getResponse('html');
+  // or
+  $rep = $this->getResponse('html2');
+  // or
+  $rep = $this->getResponse('adm');
+</code>
+
+
+=== Retrieving the original response ===
+
+If in an action, you want to use the original class provided by Jelix for the "html" code, and not to use a redefined response, then you should use a second parameter in //getResponse// (the boolean true):
+
+<code php>
+ $rep = $this->getResponse('html', true);
+</code>
+
+In our example, $rep contains an object of type jResponseHtml, not myHtmlResponse.
+
+
+===== Using zones =====
+
+A web page can be construct with several parts, and this part can be reuse in many pages (but not all). So you can generate this parts throw [[zones|zones]].

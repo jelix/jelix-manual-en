@@ -1,0 +1,33 @@
+Although Ajax means an XML response (X in AJAX), it is commonly used with other formats. 
+
+Depending on the client waiting either responseText or responseXml of an XmlHttpRequest, you should use differents jelix response types. 
+
+  * for any generic XML content, you will use[[responsexml|jResponseXml]]
+  * for json encoded content, you will use[[responsejson|jResponseJson]]
+  * for html fragments, beware you must **NOT**  use jResponseHtml, but [[responsetext|jResponseText]] (see example below).
+  * Generally, jResponseText is the response of choice.
+
+
+==== Sending HTML fragments ====
+
+You can't use jResponseHtml as it always generates a full well-formed HTML with <html>,<head> and <body>... This is not what we want within an AJAX transaction.
+
+[[responsetext|jResponseText]] will serve your needs here :
+
+
+<code php>
+   $rep = $this->getResponse('text');
+   $rep->content = '<p>new data</p>';
+   return $rep;
+</code>
+
+
+=== Note about the use of jforms in an ajax response ===
+
+You can have some PHP errors in Jelix < 1.0.4 when you want to include a jforms form inside an ajax response, since jForms builders try to declare additionnal CSS stylesheets and javascript files to the response (and the text response don't have such features).
+
+In Jelix 1.0.4+, there aren't PHP errors, but there isn't any stylesheets and javascript added to the response. You have to add this links into the page which call ajax actions, in order to have a full functionnal jforms form.
+
+
+
+

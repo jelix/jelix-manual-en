@@ -1,0 +1,79 @@
+Jelix implements an inter-module communication system. It is based on **events**.
+
+Anywhere in code, it is possible to emit an event. Let the modules respond.
+
+On the one hand, jEvent class is used for emitting events and gathering responses. On the other hand, //listener// classes located in modules implement methods "treating" and "responding" to events. 
+
+
+===== Emit an event =====
+
+As said before, jEvent emits events and gather all responses.
+
+
+To emit an event use its static method **notify**:
+
+<code php>
+   $ev = jEvent::notify('event name', $eventParams);
+</code>
+
+//jEvent::notify// accepts two arguments. First one is an event name (alphanumeric characters only). Second one is an optional array of event parameters. One event shall require or not the latter. 
+
+//jEvent::notify// returns a jEvent object, containing all event responses. Responses are a mixed of values which structure and number depends on each event and on the numbers of modules that actually responded.
+
+
+Access to responses :
+
+<code php>
+  $reponses = $ev->getResponse();
+</code>
+
+===== Module response to an event =====
+
+A module has to create a listener and declare it in its events.xml file to respond to an event.
+
+==== Create a listener ====
+
+First, choose a name. 'Foo' as for example. Then create a fooListener class (note the class name is a concatenation of 'foo'+'Listener') in a classes/foo.listener.php file under your module folder. fooListener must inherits from jEventListener. 
+
+fooListener shall implements one method for each event it responds to. Those methods should be called : 'on' + 'event name'.  They accept as argument a jEvent object. 
+
+Example :
+
+<code php>
+class authListener extends jEventListener{
+
+   function onAuthCanLogin ($event) {
+        $user = $event->getParam('user');
+        $ok = true;
+        if(isset($user->active)){
+            $ok = ($user->active == '1');
+        }
+
+        $ok = $ok && ($user->password != '');
+
+        $event->Add(array('canlogin'=>$ok));
+   }
+}
+</code>
+
+This example demonstrates a listener responding to //AuthCanLogin// event. onAuthCanLogin method retrieves 'user' parameter of the event object. It adds some data to the response by calling $event->add. datas added as a response to an event depend of course on each event. Here, //AuthCanLogin//.
+
+
+
+==== Declare a listener ====
+
+The final step is to declare a listener attached to your module. This is done is events.xml file located in your module root folder.
+
+An example:
+<code xml>
+<events xmlns="http://jelix.org/ns/events/1.0">
+   <listener name="auth">
+       <event name="AuthCanLogin" />
+       <event name="FetchXulOverlay" />
+   </listener>
+</events>
+</code>
+
+You can declare as many listeners as nuber of listener files stored in classes directory. A listener can listen to more than one event. Thus you have to list all events treated by a listener. 
+
+

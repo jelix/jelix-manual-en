@@ -1,0 +1,68 @@
+Jelix offers a theme system.
+
+
+===== Theme and templates =====
+
+templates for theme must be located in var/themes application folder. each template related to a module must be under a sub-directory named like its module. 
+
+Say you want to adapt //main.tpl// template of //example// module for //web20// theme. You'll stored main.tpl in var/themes/web20/example. Note : original and theme template have the same name. 
+
+Default theme is originally named "default". If you want to just overload a template, you will store it under var/themes/default/module_name/template_name.tpl. 
+
+
+===== Theme and design files =====
+
+Here design files means CSS, graphics, JS files. Those files must be accessible from web request sand therefore shall be located in www/theme_name application folder.
+
+In your scripts, to retrieve your //theme// path, use:
+
+<code php>
+   $themePath = $gJConfig->urlengine['basePath'].'themes/'.$gJConfig->theme.'/';
+   $rep->addCssLink($themePath.'design.css');
+</code>
+
+In a template, to add a css ressource, use:
+
+<code html>
+{meta_html csstheme 'design.css'}
+</code>
+
+Other template plugins exists, such as IE conditional plugins:
+
+<code html>
+{meta_html cssthemeie 'design.css'} for ie
+{meta_html cssthemeie7 'design.css'} for ie7
+{meta_html cssthemeltie7 'design.css'} for ie < 7
+</code>
+
+Or more directly, //j_themepath// variable gives access to your theme path in a template : 
+
+<code html>
+  <img src="{$j_themepath}logo.png" alt="logo"/>
+</code>
+
+
+
+
+===== Selecting a default theme =====
+
+//theme// parameter of [[config#generic-section|configuration]] file fills this functionnality. 
+
+<code ini>
+theme = web20
+</code>
+
+
+
+
+===== Selecting theme dynamically =====
+
+A typical use case is to let the user select his theme in a list. Suppose there is a form with a list of theme and the user picks one of them then submit. Application stores its choice (using session or a specific cookie). 
+
+Each time the user will visit the application, it will select his theme like this :
+
+<code php>
+  $GLOBALS['gJConfig']->theme = $choosenTheme;
+</code>
+
+Off course the best place to do it is in a [[plugins/coord|coordinator plugin]] that must be coded and plugged. 

@@ -1,0 +1,182 @@
+===== Introduction =====
+
+On the server-side, an application needs every now and then to process some jobs silently and perhaps repeatedly. This is often done in shell or perl scripts using cron utility. As PHP is a scripting language, it would also be well suited for those jobs. Thanks to Jelix, you can develop actions specifically for the command line. As a result, all processings stay in the application model and you don't suffer from language switching. 
+
+===== Installation =====
+
+Three elements are required to execute an action on the command line:
+  * a specific entry point
+  * a cmdline controller
+  * a command line configuration file
+
+
+Jelix-scripts have some helper tools to create those.
+
+
+==== Entry point creation ====
+
+=== with jelix-scripts ===
+
+When you create your application, just add //-withcmdline// option :
+
+<code bash>
+$ php jelix.php createapp -withcmdline
+</code>
+
+//-withcmdline// option will tell //createapp// to create inside a classic application structure, a //scripts/// folder containing //cmdline.php// entry point. 
+
+=== Manually ===
+
+If your application already exists, just create //scripts/cmdline.php// at your application root folder. Below, its contents is detailed:
+
+<code php>
+<?php
+
+require_once ('../../lib/jelix/init.php');
+
+require_once ('.././application.init.php');
+
+require_once (JELIX_LIB_CORE_PATH.'request/jCmdLineRequest.class.php');
+
+$config_file = 'cmdline/config.ini.php';
+
+$jelix = new jCoordinator($config_file);
+$jelix->process(new jCmdLineRequest());
+
+?>
+</code>
+
+==== Controller creation ====
+
+You have to create a controller dedicated to command line processing.
+
+=== with jelix-scripts ===
+
+such a controller can be created using jelix-scripts :
+
+<code bash>
+$ php jelix.php createmodule -cmdline foo  // module foo creation, with a cmdline controller inside
+</code>
+
+or
+
+<code bash>
+$ php jelix.php -cmdline foo bar // create bar cmdline controller inside foo module
+</code>
+
+=== Manually ===
+
+To create a cmdline controller manually, it is required to inherit from //jControllerCmdline// instead of //jController//
+
+<code php>
+<?php
+
+class defaultCtrl extends jControllerCmdline {
+
+    function index() {
+        $rep = $this->getResponse(); // response text
+        $rep->content = "Hello, it works !";
+        return $rep;
+    }
+}
+
+?>
+</code>
+
+
+==== Configuration file creation ====
+
+If you used //createapp// jelix-script with //-withcmdline// option, cmdline configuration file has been generated and located here: //var/config/cmdline/config.ini.php//
+
+Otherwise, you must create one at the same location. Its content shall be similar to //var/config/config.ini.php//.
+
+
+
+
+===== Command line actions =====
+
+To call your cmdline actions, you'll certainly need to pass parameters and/or options
+
+=== Options ===
+
+== Declaration ==
+
+If your command accepts options, you should fill the $allowed_options class member, which is an associative array.
+
+<code php>
+protected $allowed_options = array(
+    'action_name' => array('-option_name' => true/false)
+    );
+</code>
+
+if an option name is set to //true// then the controller action will search a value after it.
+
+== Parsing ==
+
+In your cmdline controller actions, you'll want to parse options passed. Use //option('-option_name')// method. 
+
+Exemple :
+<code php>
+public function myaction_script() {
+    $myoption = $this->option('-nom_option');
+}
+</code>
+
+
+=== Parameters ===
+
+== Declaration ==
+
+Parameters are declared in a same way as options. Just use //$allowed_parameters//: 
+
+<code php>
+protected $allowed_parameters = array(
+    'action_name' => array('parameter_name' => true/false)
+    );
+</code>
+
+if a parameter name is set to //true//, then it is required otherwise not.
+
+== Parsing ==
+
+In your cmdline controller actions, you'll want to parse parameters. Use //param('-parameter_name')// method. 
+
+Exemple :
+<code php>
+public function myscript() {
+    $myparam = $this->param('parameter_name');
+}
+</code>
+
+
+
+=== Help message ===
+
+Usually a script can generate instructions or an help message for how to use it.   //$help// controller member is for this purpose:
+
+<code php>
+public $help = array(
+    'action name' => 'help message'
+);
+</code>
+
+Next section will describe how to call a cmdline action and thus how to display this help message.
+
+
+===== Cmdline action use =====
+
+To use your cmdline actions or shall we say scripts, open a console and navigate to your application //scripts/// directory.
+
+Then execute //cmdline.php// followed by an action selector and its relateds options/parameters
+
+Example :
+
+<code php>
+$ php cmdline.php module~controller:action -option_name optionval parameter_value
+</code>
+
+To display an help message :
+
+<code php>
+$ php cmdline.php jelix~help:index module~controller:action
+</code>

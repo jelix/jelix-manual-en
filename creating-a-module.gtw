@@ -1,0 +1,57 @@
+===== Declaring modules path =====
+
+A module is a directory with a precise file-system hierarchy.
+They are groupped in one or several directories called : "modules group".
+
+
+==== General configuration ====
+
+Module groups are declared in the configuration property **modulesPath**. It's possible to set a value of one or several relative or absolute paths separated by commas.
+It's possble to use directory codes with a particular notation :
+
+   directorycode:relative/path/
+
+The following directory codes are avalaible :
+| lib | répertoire lib/ de jelix |
+| app | répertoire de l'application |
+
+This prevents from having really relative paths and is easier to maintain.
+For example :
+<code ini>
+   modulesPath = lib:jelix-modules/,app:modules/
+</code>
+
+It declares two module groups :
+
+  * //jelix-modules//, subdirectory of jelix's //lib//;
+  * //modules//, subdirectory of your application path.
+
+Modules from both directories are usable and actions they declare will be executable from the client's browser.
+
+==== Restrictions ====
+
+Sometimes you would like to deactivate some modules. It can appear if you have a repository of module shared by several applications, but applications doesn't use all modules at the same time. Or for an application which have several entry points, you would like do disable some modules at some entry point.
+
+Two configuration options allow to set restrictions.
+<code ini>
+   checkTrustedModules = on
+   trustedModules = foo,bar,baz
+</code>
+Enabling **checkTrustedModules** activates the module restriction system.
+List of permitted modules should be a comma-separated list set to **trustedModules**.
+Other modules won't be accessible to the client; however it's still possible for other modules to access restricted modules ressources, such as classes, zones, persistent objects...
+
+
+===== Create a module =====
+
+It's as simple as creating a subdirectory of a modules group, and filling it with controllers, persistent objects ...
+
+It's simple with jelix's script's **createmodule** command :
+<code bash>
+   php jelix.php createmodule mymodule
+</code>
+This command creates the module "mymodule" in your application's sub-directory //modules//, some sub-directories as well as a default controller.
+
+
+
+**Important** : The name of modules are used in the name of some classes generated automatically by Jelix. So you mustn't use other characters than a-z, A-Z, 0-9 and '_'.

@@ -1,0 +1,36 @@
+
+Jelix offers a specific response jResponseLatexToPdf. It aims to convert a [[http://fr.wikipedia.org/wiki/LaTeX|latex]] document to PDF and send the result. Its alias is "ltx2pdf".
+
+<code php>
+ $rep = $this->getResponse("ltx2pdf");
+</code>
+
+
+**Note : jResponseLatexToPdf requires //pdflatex// program presence on the server!**
+
+If this program can not be found through a system environment variable (PATH under linux or Windows), you should assign its full path to //$pdflatexPath//. 
+
+<code php>
+ $rep->pdflatexPath = '/usr/bin/pdflatex';
+</code>
+
+jResponseLatexToPdf takes care of the latex header defining title and authors of the document. the latex content should be made available through a [[http://jelix.org/articles/fr/manuel-1.0/templates|template]]. You should tell jResponseLatexToPdf which template to use by assigning //$bodyTpl// property with an appropriated selector. You can pass variable to your template through //$body// property.
+
+More specifically, the //addCommand// method can generate some latex commands at the beginning of the document.
+
+Example :
+
+<code php>
+   $rep = $this->getResponse("ltx2pdf");
+
+   $rep->title = 'document title';
+   $rep->authors[] = 'Michel Dupont';
+   $rep->bodyTpl = 'myModule~doclatex';
+
+   $rep->addCommand('documentclass', 'article', array('a4', '14pt'));
+   $this->addCommand('geometry', 'hmargin=1cm, vmargin=2cm');
+
+   $rep->body->assign('texte', $unTexte);
+
+   return $rep;
+</code>
