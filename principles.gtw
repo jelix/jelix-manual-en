@@ -5,7 +5,6 @@ Here are some explanations on how the framework can work and on the main objects
 The framework is based on this principle: each url is corresponding to an action.
 
 
-
 ===== Executions steps =====
 
 {{schema_logic.png}}
