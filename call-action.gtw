@@ -26,7 +26,6 @@ Note that the name of the controller and the method should be separated by the "
    * If both url parameters are missing, jelix perform the action specified in the parameter @@V@startAction@@, from the module indicated in the @@V@startModule@@ parameter stored in the configuration of jelix.
    * with the "simple" url engine, in the action parameter, if we just indicate the name of the method, jelix execute the indicated method of the  controller //default//
 
-
 ===== Action selectors =====
 
 In your templates and in your code in general, you should never use "hard coded" url. Jelix includes a mechanism (the jUrl class) to generate the urls corresponding to actions. This allows to choose your preferred engine url (//single//, //significant// or other), and this allows to you to changes the mapping between significant urls and actions, all of this without touching templates or controllers.
