@@ -169,8 +169,7 @@ Other less important parameters:
 
 The jAuth module implements generic controllers. You can use them to control login, logout step. Alternatively, jAuth module offers also zones and templates. The latter is useful if you need to add login/logout option to one or more of your own controllers. 
 
-If you want other features, like registering and clearing account forms, changing passwords or lost password forms, you may use the jcommunity module. See http://bitbucket.org/laurentj/jcommunity/.
-
+If you want other features, like registering and clearing account forms, changing passwords or lost password forms, you may use the jcommunity module. See [[http://bitbucket.org/laurentj/jcommunity]].
 
 ==== Classic configuration ====
 
@@ -318,8 +317,6 @@ To retrieve a list of users, use @@M@jAuth::getUserList()@@:
 </code>
 
 The result is an iterator over a list of objects, each objects representing a user (like the object you retrieve with @@M@getUser()@@).
-
-
 
 
 ==== Events ====

@@ -217,12 +217,12 @@ Another way is to use @@formsubmit@@ multiple times indicating each submit name 
 <div> {formsubmit 'preview'} {formsubmit 'save'} </div>
 </code>
 
-**Beware** : @@{formsubmits}@@ loops over submit **controls**, not submit **items** ! It is not possible to loop over submit items (see [[http://dev.jelix.org/ticket/429|ticket #429]])
+**Beware** : @@{formsubmits}@@ loops over submit **controls**, not submit **items**! It is not possible to loop over submit items (see [[http://developer.jelix.org/ticket/429|ticket #429]])
 
 
 ===== Generator choice =====
 
-jForms template plugins relies on other plugins. Those are jForms plugins and generate effectively a form content (label and fields markup). These are called generators. Jelix 1.1 and 1.2 packages have two of them inside : @@L@htm@@ and @@L@htmllight@@. [[//plugins/jforms|See documentation to create your own]] if you need to display custom markup. If you need a generator supporting a javascript library as extjs, or an ajax form, or a XUL form... 
+jForms template plugins relies on other plugins. Those are jForms plugins and generate effectively a form content (label and fields markup). These are called generators. Jelix 1.1 and 1.2 packages have two of them inside : @@L@htm@@ and @@L@htmllight@@. [[/plugins/jforms|See documentation to create your own]] if you need to display custom markup. If you need a generator supporting a javascript library as extjs, or an ajax form, or a XUL form... 
 
 Jelix default generator is @@L@html@@. You can change this in your configuration file. Use @@V@defaultJformsBuild@@ variable and assign it your generator of choice :
 
@@ -252,5 +252,5 @@ More about generators :
 
 ===== Mixing jForms and AJAX response =====
 
-see [[//responseajax|ajax response documentation]].
+see [[/responseajax|ajax response documentation]].
 

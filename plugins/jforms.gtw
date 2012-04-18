@@ -1,6 +1,6 @@
 ~~LANG:FR@//fr/manuel-1.2/plugins/jforms~~
 
-As noted in [[//jforms/display|display jforms chapter]], you can select which plugin will generate forms content (in HTML, XUL, javascript and so on..) sent to clients. 
+As noted in [[/jforms/display|display jforms chapter]], you can select which plugin will generate forms content (in HTML, XUL, javascript and so on..) sent to clients. 
 
 Thoses plugins are called generators. You can of course create one and for any format. Pick a name, say "moreforms". Then :
 

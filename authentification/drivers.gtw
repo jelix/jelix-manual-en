@@ -59,7 +59,7 @@ password_crypt_function = "sha1"
 
 ===== LDS/MDS=====
 
-This driver relies on an MDS server (http://mds.mandriva.org/, its previous name was LDS), and call its  XML-RPC API. This driver authenticates through calls to this API. 
+This driver relies on an MDS server ([[http://mds.mandriva.org/]], its previous name was LDS), and call its  XML-RPC API. This driver authenticates through calls to this API. 
 
 @@F@auth.plugin.ini.php@@ for a MDS driver:
 
@@ -118,6 +118,6 @@ password_crypt_function = sha1
 
 If you have your own authentication system and you want to integrate it to Jelix, you will have to create your own driver.
 
-[[//plugins/auth|authentication drivers creation page]] will give you an overview.
+[[/plugins/auth|authentication drivers creation page]] will give you an overview.
 
 Once you are done, consider contributing it to Jelix. It will be gladly welcomed :-).

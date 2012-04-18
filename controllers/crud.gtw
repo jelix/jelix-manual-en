@@ -45,8 +45,9 @@ imagine this controller is in a "main" module, display the page:
 
 and you can now manage/administrate all your products.
 
+
 Essential : the CRUD controller uses the common "html" response. So, you have to create 
-[[//common-processes#customizing-common-response|a custom response object]]. If you don't do it, nothing will appear in your browser. If you don't want to create such a response, you have to redefine the _getResponse() method (see below).
+[[/common-processes#customizing-common-response|a custom response object]]. If you don't do it, nothing will appear in your browser. If you don't want to create such a response, you have to redefine the _getResponse() method (see below).
 
 
 Note : You can also use the command @@createdaocrud@@ which allows to create the controller, the dao and the form in the same time, just by indicating the table name.
@@ -136,7 +137,7 @@ Default templates used in actions of the controller are defined by this properti
     protected $viewTemplate = 'jelix~crud_view';
 </code>
 
-You can [[//themes|overload those templates in the default theme]], or you can change their values to select templates of your own.
+You can [[/themes|overload those templates in the default theme]], or you can change their values to select templates of your own.
 
 === Variables of template ===
 
