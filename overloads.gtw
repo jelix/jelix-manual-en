@@ -8,7 +8,7 @@ Module files you can overload :
    * templates through [[themes|theme]] system
    * [[locales|localization]] files
    * [[daos|Dao]] files
-   * [[http://jelix.org/articles/en/manual-1.1/forms|Form]] files
+   * [[/forms|Form]] files
 
 As for templates, see [[themes|theme system]] description. If you haven't configure your themes, then the default one is active. You only need to put your modified files in var/themes/default. 
 

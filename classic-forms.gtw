@@ -94,4 +94,4 @@ You can use also jFilter, which is a class to verify the format of the data (it 
     }
 </code>
 
-See [[http://jelix.org/reference/trunk/jelix/utils/jFilter.html|the documentation reference jFilter]]
+See [[http://jelix.org/reference/1.1.12/jelix/utils/jFilter.html|the documentation reference jFilter]]

@@ -10,7 +10,8 @@ If you intend to use the inline scripts that help for development (jelix-scripts
 
 
 ===== PHP configuration =====
-   * @@V@magic_quotes_gpc@@ and @@V@magic_quotes_runtime@@ must be set to off. If this is not the case, [[//plugins/coord|you have to activate the magicquotes plugin]] delivered with Jelix.
+
+   * @@V@magic_quotes_gpc@@ and @@V@magic_quotes_runtime@@ must be set to off. If this is not the case, [[/plugins/coord|you have to activate the magicquotes plugin]] delivered with Jelix.
    * @@V@session_auto_start@@ must be set to @@L@off@@.
    * @@V@safe_mode@@ must be set to @@L@off@@. (jelix not tested with @@L@on@@)
   

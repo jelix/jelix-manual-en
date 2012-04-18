@@ -13,8 +13,8 @@ Note : Coordinator plugins are commonly named //plugin coord// in Jelix.
 
 You need to modify entry point configuration file. for example /var/config/index/config.ini.php if it is for index.php entry point  :
 
-  * [[|add its repository]] e.g the parent directory of your plugin one to configuration. set //pluginsPath// option as this purpose.
-  * add your plugn name to [coordplugins] sections and assign it, its configuration file if any
+  * [[/plugins#adding-a-plugins-repository|add its repository]] e.g the parent directory of your plugin one to configuration. set //pluginsPath// option as this purpose.
+  * add your plugn name to @@[coordplugins]@@ sections and assign it, its configuration file if any
 
 
 Example : 
@@ -88,7 +88,7 @@ class constructor receive its plugin configuration.
 
 //afterProcess// method will be called at the end of coordinator processing, thus just before display.
 
-this class must be located in a  [[|plugins repository]].  //plugins/// application folder or a //plugins/// module folder are possible candidates. See [[|plugins]]. 
+this class must be located in a  [[/plugins#adding-a-plugins-repository|plugins repository]].  //plugins/// application folder or a //plugins/// module folder are possible candidates. See [[/plugins|page on plugins]]. 
 
 For an //example// plugin :
 

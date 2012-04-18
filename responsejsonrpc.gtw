@@ -22,7 +22,7 @@ $jelix->process(new jJsonRpcRequest());
 
 </code>
 
-Don't forget to add this entry point in urls engine configuration section. If you have selected [[urls|simple url engine]], in section //simple_urlengine_entrypoints// configuration file, just add: 
+Don't forget to add this entry point in urls engine configuration section. If you have selected [[/urls/simple|simple url engine]], in section //simple_urlengine_entrypoints// configuration file, just add: 
 
 <code ini>
 jsonrpc = "@jsonrpc"

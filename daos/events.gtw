@@ -1,6 +1,6 @@
 ~~LANG:FR@//fr/manuel-1.1/daos/evenements~~
 
-A DAO factory can automatically generate [[//events|events]] on methods call.  
+A DAO factory can automatically generate [[/events|events]] on methods call.  
 
 ===== Native methods events =====
 

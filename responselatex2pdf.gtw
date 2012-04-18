@@ -16,7 +16,7 @@ If this program can not be found through a system environment variable (PATH und
  $rep->pdflatexPath = '/usr/bin/pdflatex';
 </code>
 
-jResponseLatexToPdf takes care of the latex header defining title and authors of the document. the latex content should be made available through a [[http://jelix.org/articles/fr/manuel-1.0/templates|template]]. You should tell jResponseLatexToPdf which template to use by assigning //$bodyTpl// property with an appropriated selector. You can pass variable to your template through //$body// property.
+jResponseLatexToPdf takes care of the latex header defining title and authors of the document. the latex content should be made available through a [[/templates|template]]. You should tell jResponseLatexToPdf which template to use by assigning //$bodyTpl// property with an appropriated selector. You can pass variable to your template through //$body// property.
 
 More specifically, the //addCommand// method can generate some latex commands at the beginning of the document.
 

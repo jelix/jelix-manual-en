@@ -10,7 +10,7 @@ You should setup a database access and create the table in this database.
 
 === database access ===
 
-See [[//bd|the page on jDb]] to configure database access.
+See [[/bd|the page on jDb]] to configure database access.
 
 If you don't want to store jAcl.db tables in the default profile, you should create a new profile, and indicate it in the parameter "**jacl_profil**". Here is an example of the file dbprofils.ini.php :
 

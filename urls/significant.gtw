@@ -1,6 +1,6 @@
 ~~LANG:FR@//fr/manuel-1.1/urls/significant~~
 
-Here is how you can configure the significant engine for the [[|url system of Jelix]].
+Here is how you can configure the significant engine for the [[/urls|url system of Jelix]].
 
 The configuration principle of this engine is to indicate in a var/config/urls.xml file all the possible url forms in the application, and the actions that will be associated to them. Here is an example of file :
 

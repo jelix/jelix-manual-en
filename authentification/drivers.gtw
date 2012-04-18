@@ -136,7 +136,7 @@ password_crypt_function = "md5"
 
 ===== Class =====
 
-Clas driver is a more universal driver than Db driver. You just have to assign a class to it, in which you do... what you want! Except that it has to implement [[http://jelix.org/reference/trunk/jelix/auth/jIAuthDriverClass.html|jIAuthDriverClass interface]]. This class is considered as other business classes and therefore should be located in //classes// folder of one of your modules.
+Clas driver is a more universal driver than Db driver. You just have to assign a class to it, in which you do... what you want! Except that it has to implement [[http://jelix.org/reference/1.1.12/jelix/auth/jIAuthDriverClass.html|jIAuthDriverClass interface]]. This class is considered as other business classes and therefore should be located in //classes// folder of one of your modules.
 
 //auth.plugin.ini.php// would declare :
 
@@ -152,7 +152,7 @@ password_crypt_function = "md5"
 
 ===== LDS =====
 
-This driver relies on a LDS server (http://lds.linbox.org/). an LDS has an XML-RPC API. This driver authenticates through calls to this API. 
+This driver relies on a  [[http://www.linbox.com/ucome.rvt/any/en/Products/LDS|LDS server]]. An LDS has an XML-RPC API. This driver authenticates through calls to this API. 
 
 //auth.plugin.ini.php// for a LDS driver:
 
@@ -176,6 +176,6 @@ LDS driver will call **foo.com** through port **80**, with login **foo** and pas
 
 If you have your own authentication system and you want to integrate it to Jelix, you will have to create your own driver.
 
-[[//plugins/auth|authentication drivers creation page]] will give you an overview.
+[[/plugins/auth|authentication drivers creation page]] will give you an overview.
 
 Once you are done, consider contributing it to Jelix. It will be gladly welcomed :-).
