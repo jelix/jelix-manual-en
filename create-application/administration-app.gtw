@@ -1,6 +1,6 @@
 ~~LANG:FR@//fr/manuel-1.1/creer-application/creer-administration~~
 
-the @@initadmin@@ command adds an administration web interface to your application. It enables [[//ref-modules/master_admin|master_admin jelix module]], and can automatically configure authentification ([[//authentification|jAuth]]) and rights accesses ([[//rights2|jAcl2]]).
+the @@initadmin@@ command adds an administration web interface to your application. It enables [[/ref-modules/master_admin|master_admin jelix module]], and can automatically configure authentification ([[/authentification|jAuth]]) and rights accesses ([[/rights2|jAcl2]]).
 
 To create this administration interface, run:
 
@@ -17,12 +17,12 @@ Note that before running this command, you have to configure the database access
 
 After having created the admin interface (and configuring jAuth and jAcl2 correctly if you used  @@-noauthdb@@ and/or @@-noacl2db@@), you can run the application (example.com/admin.php for example).
 
-You will see a login form, displayed by the module jauth. By default, a user named "admin" with the password "admin" is created. After entering login and password, you will be redirected to the [[//ref-modules/master_admin|master_admin module]].
+You will see a login form, displayed by the module jauth. By default, a user named "admin" with the password "admin" is created. After entering login and password, you will be redirected to the [[/ref-modules/master_admin|master_admin module]].
 
 
 ===== Using the significant url engine =====
 
-Because of some constraints or because of some needs, you may want to use modules activated by init_admin, with the same configuration of the rest of the application, and perhaps with the [[//urls/significant|significant urls engine]]. By default it is not activated, and so you don't have to do any more to run the administration interface. 
+Because of some constraints or because of some needs, you may want to use modules activated by init_admin, with the same configuration of the rest of the application, and perhaps with the [[/urls/significant|significant urls engine]]. By default it is not activated, and so you don't have to do any more to run the administration interface. 
 
 But perhaps you activated it. In this case, you have to do modifications into the @@F@urls.xml@@ file, if you want to access to the admin modules through the web.
 
@@ -34,7 +34,7 @@ First, you have to declare the new entry point
  </classicentrypoint>
 </code>
 
-The administration use the auth system of jelix, [[//authentification|jAuth]]. You have then to define urls for the jauth module.
+The administration use the auth system of jelix, [[/authentification|jAuth]]. You have then to define urls for the jauth module.
 
 <code xml>
  <classicentrypoint name="admin">

@@ -323,7 +323,7 @@ smtpTimeout = 10
 
 
 ==== acl section ====
-Defines options of access control list (ACL) or rights management. See [[http://jelix.org/articles/en/manual-1.1/rights|rights management]]. You can use jAcl ou jAcl2, but not both at the same time. Indicate a driver to enable it.
+Defines options of access control list (ACL) or rights management. See [[/rights2|rights management]]. You can use jAcl ou jAcl2, but not both at the same time. Indicate a driver to enable it.
 
 <code ini>
 [acl]

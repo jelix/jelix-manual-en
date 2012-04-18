@@ -54,7 +54,7 @@ So the connection class should redefine some methods:
 
 If the driver doesn't support a feature, it should throw an exception.
 
-See [[http://jelix.org/reference/1.0.14/jelix/db/jDbConnection.html|jDbConnection reference]].
+See [[http://jelix.org/reference/1.1.12/jelix/db/jDbConnection.html|jDbConnection reference]].
 
 
 
@@ -69,7 +69,7 @@ You should redefine this methods:
   * rowCount, which returns the number of results
   * bindColumn, bindParam, bindValue, columnCount and execute, for prepared queries
 
-See [[http://jelix.org/reference/1.0.14/jelix/db/jDbResultSet.html|jDbResultSet reference]].
+See [[http://jelix.org/reference/1.1.12/jelix/db/jDbResultSet.html|jDbResultSet reference]].
 
 
 ==== Utility Class ====
@@ -84,7 +84,7 @@ You should redefine this methods:
   * execSQLScript(), if you want to redefine the way how a SQL script is parsed an executed.
 
 
-See [[http://jelix.org/reference/1.0.14/jelix/db/jDbTools.html|jDbTools reference]].
+See [[http://jelix.org/reference/1.1.12/jelix/db/jDbTools.html|jDbTools reference]].
 
 ==== SLQ Query builder class ====
 
@@ -99,7 +99,7 @@ It must inherit from @C@@jDaoGenerator@@ and overload one or more of its methods
   * $trueValue, $falseValue
   * _getAutoIncrementPKField()
 
-See details in [[http://jelix.org/reference/trunk/jelix/dao/jDaoGenerator.html|jDaoGenerator API reference]] .
+See details in [[http://jelix.org/reference/1.1.12/jelix/dao/jDaoGenerator.html|jDaoGenerator API reference]] .
 
 
 

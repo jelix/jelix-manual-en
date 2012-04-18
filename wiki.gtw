@@ -18,5 +18,5 @@ To use jWiki, just instantiate it with a //transform rules// name. If you want t
 
 If you store your own //transform rules// into @@F@your_app/plugins/wr_rules/@@, each //transform rules// should be in its own directory, like any jelix plugins. So, if you have a "superwiki_to_xhtml" rule, you have to store its source code into the file @@F@your_app/plugins/wr_rules/superwiki_to_xhtml/superwiki_to_xhtml.rule.php@@. In this file you should have a class @@C@superwiki_to_xhtml@@ inheriting from @@C@WikiRendererConfig@@ or the class of an other rule.
 
-For more informations, browse [[http://wikirenderer.jelix.org|Wikirenderer 3.0 Documentation]].
+For more informations, browse [[http://wikirenderer.jelix.org|Wikirenderer Documentation]].
 

@@ -22,7 +22,7 @@ Installation process is identical to your development environment, including for
 To have better performance and more safety, here are however some additional advices.
 
 ==== About the server configuration ====
-   * all directories, except the @@F@www@@ directory of your app, should be outside the document root of the web site. So you should set the root of your web site on this @@F@www@@ directory or move the content of www to the root of your web site. See the [[//application-configuration#server-configuration|chapter on the application configuration]] for examples of such configuration.
+   * all directories, except the @@F@www@@ directory of your app, should be outside the document root of the web site. So you should set the root of your web site on this @@F@www@@ directory or move the content of www to the root of your web site. See the [[/application-configuration#server-configuration|chapter on the application configuration]] for examples of such configuration.
    * To specify the rights well on the @@F@temp/your_app/@@ directory. For example, the user which runs Apache should have write rights an this directory. It is not recommended on linux, to chmod 0777 on the temp directory ;-)
 
 ==== About the application ====

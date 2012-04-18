@@ -10,7 +10,7 @@ jAcl2.db driver requires a database to work. You have to create it with the need
 
 === connection configuration ===
 
-See the documentation about [[//bd|jDb setup]]. 
+See the documentation about [[/bd|jDb setup]]. 
 
 If jAcl2 tables are not located in your default db profile, you should setup a profile pointing to them and indicate it to @@L@jacl_profile@@. An example @@F@dbprofils.ini.php@@ :
 

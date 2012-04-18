@@ -129,7 +129,7 @@ Default templates used in actions of the controller are defined by this properti
     protected $viewTemplate = 'jelix~crud_view';
 </code>
 
-You can [[//themes|overload those templates in the default theme]], or you can change their values to select templates of your own.
+You can [[/themes|overload those templates in the default theme]], or you can change their values to select templates of your own.
 
 === Variables of template ===
 
