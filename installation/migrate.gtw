@@ -21,7 +21,7 @@ A "migrate" command is provided, in order to do needed changes in configuration 
 
   * save your application files. If the migrate script failed, you should have to restore your previous configuration files and remove new files, before relaunching the migrate command.
   * replace the @@F@lib/@@ directory by the @@F@lib/@@ of Jelix 1.2
-  * verify that your project.xml is ok, that it contains a <jelix> tag with the max version to "1.1" and declares all entry points. See [[//config#project.xml|the chapter about this file]].
+  * verify that your project.xml is ok, that it contains a <jelix> tag with the max version to "1.1" and declares all entry points. See [[/config#project.xml|the chapter about this file]].
   * in your configuration files (defaultconfig.ini.php and other ini files):
      * set @@checkTrustedModules@@ to "on"
      * removed from @@modulesPath@@, directories where you don't use any modules

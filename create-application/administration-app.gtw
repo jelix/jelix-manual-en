@@ -4,7 +4,7 @@ the @@initadmin@@ command adds an administration web interface to your applicati
 
 **Warning:** for security reasons, and to ease the use of the framework, it is highly recommended to create a dedicated application for an an administration web interface.
 
-To create this administration interface, first, [[//db/configuration|you have to configure jDb]]. Then you can run:
+To create this administration interface, first, [[/db/configuration|you have to configure jDb]]. Then you can run:
 
 <code bash>
    php jelix.php --myapp initadmin admin

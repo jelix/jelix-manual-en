@@ -34,7 +34,7 @@ database="jelix"
 In a section, you have several parameters. Their number and name can be different according to the driver used, but some of them can be used in all profile
 
   * **driver**: it indicates the driver name
-  * **table_prefix**: allow to indicate a prefix for all table when [[//daos|using a DAO]] with a profile indicating a table prefix, this prefix is added automatically to the table names indicating in the dao files. When you construct your SQL queries, you should use the @@M@prefixTable()@@ method of the @@C@jDbConnection@@ object. This method takes one parameter: the table name.
+  * **table_prefix**: allow to indicate a prefix for all table when [[/daos|using a DAO]] with a profile indicating a table prefix, this prefix is added automatically to the table names indicating in the dao files. When you construct your SQL queries, you should use the @@M@prefixTable()@@ method of the @@C@jDbConnection@@ object. This method takes one parameter: the table name.
 
 ===== mysql profile =====
 

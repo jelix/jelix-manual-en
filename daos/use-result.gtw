@@ -82,7 +82,7 @@ The second one being @@M@fetchAll()@@ which returns an array containing an objec
     }
 </code>
 
-You can make other retrieving methods by specifying them in the xml file (see [[http://jelix.org/articles/en/manual-1.1/daos/xml_methods|Declaring methods in the XML file]] and [[http://jelix.org/articles/en/manual-1.1/daos/php_methods|Adding PHP methods to the factory]]) .
+You can make other retrieving methods by specifying them in the xml file (see [[/daos/xml_methods|Declaring methods in the XML file]] and [[/daos/php_methods|Adding PHP methods to the factory]]) .
 
 ===== Retrieve record(s) through criteria =====
 

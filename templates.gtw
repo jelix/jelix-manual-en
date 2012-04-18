@@ -373,7 +373,7 @@ There is some case where you would like shared contents of a template with other
 
 All template variables declared in the jtpl object will be accessibled into the included template.
 
-Before using the include tag, first consider using [[http://jelix.org/articles/en/manual-1.2|zones]], in many case, it is better.
+Before using the include tag, first consider using [[/zones|zones]], in many case, it is better.
 
 
 ===== Redefining a template =====
