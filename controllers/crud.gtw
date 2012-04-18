@@ -39,7 +39,7 @@ So, if this controller is in the "main" module, show the page:
 You can now manage all your products.
 
 Important: the CRUD controller use the "html" response. So, you have to create 
-[[//common-processes#customizing-common-response|a custom response object]]. If you don't do it, nothing will appear in your browser. If you don't want to create such object, you have to redefine the _getResponse() response method (see below).
+[[/common-processes#customizing-common-response|a custom response object]]. If you don't do it, nothing will appear in your browser. If you don't want to create such object, you have to redefine the _getResponse() response method (see below).
 
 ====== Customizing the CRUD controller ======
 

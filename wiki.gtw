@@ -1,4 +1,4 @@
-jWiki is a class transforming wiki text to other formats. XHTML for example. This class inherits from [[http://wikirenderer.berlios.de|Wikirenderer]] version 3.0.
+jWiki is a class transforming wiki text to other formats. XHTML for example. This class inherits from [[http://wikirenderer.jelix.org|Wikirenderer]] version 3.0.
 
 in order to transform, Wikirenderer needs some precise objects, which grouped together become the //transform rules// 
 
@@ -15,5 +15,5 @@ To use jWiki, just instantiate it with a //transform rules// name. If you want t
 
 //transform rules// delivered with Jelix are in lib/wikirenderer/rules, but you can add your own set in your_app/plugins/wr_rules/. Note: remember to activate app:plugins repository in your configuration, if you intend to do so.
 
-For more informations, browse [[http://wikirenderer.berlios.de|Wikirenderer 3.0 Documentation]].
+For more informations, browse [[http://wikirenderer.jelix.org|Wikirenderer 3.0 Documentation]].
 

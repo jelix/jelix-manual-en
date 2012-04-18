@@ -5,7 +5,7 @@ See the definition of unit-test on wikipedia: http://en.wikipedia.org/wiki/Unit-
 
 ===== Preparation =====
 
-Unit-testing is ready with Jelix developer edition : it contains the "junittests" module and a copy of [[http://www.lastcraft.com/simple_test.php|SimpleTest]]. Other distributions of Jelix require a copy of libs/simpletest and lib/jelix-modules/junittests.
+Unit-testing is ready with Jelix developer edition : it contains the "junittests" module and a copy of [[http://simpletest.org|SimpleTest]]. Other distributions of Jelix require a copy of libs/simpletest and lib/jelix-modules/junittests.
 
 For the test-runner to be avalaible, please add the following to your
 project's configuration :

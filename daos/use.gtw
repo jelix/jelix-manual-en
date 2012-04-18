@@ -13,7 +13,7 @@ To be able to retrieve these objects, you have to use the jDao object which prop
    * **createRecord** : allows to get an empty dao record object.
    * **createConditions** : allows to get a jDAOConditions object which is useful to specify some select conditions to retrieve a set of record objects.
 
-Get, create and createRecord all take a dao file selector as parameter and an optional parameter which is the name of the [[//bd|jDb profile]] to use (if this parameter is not specified, it will use the default one).    
+Get, create and createRecord all take a dao file selector as parameter and an optional parameter which is the name of the [[/bd|jDb profile]] to use (if this parameter is not specified, it will use the default one).    
 
 If the used jDb profile specifie a table prefix, then all used tables in the dao file will be prefixed.
 

@@ -1,7 +1,7 @@
 
 ===== What is XUL? =====
 
-XUL is a user interface description language. It is useful to develop rich web applications in the browser space, without dealing with complex javascript and dom manipulations. See [[http://developer.mozilla.org]]. 
+XUL is a user interface description language. It is useful to develop rich web applications in the browser space, without dealing with complex javascript and dom manipulations. See [[http://developer.mozilla.org/en/XUL]]. 
 
 Note : Only Gecko-based browser renders XUL (Firefox is the most famous one).
 

@@ -5,7 +5,7 @@ In your controller, you'll create, modify and destroy a //form object// with **j
 
 ===== Forms and actions =====
 
-As described in [[//classic-forms|Classic forms]], you are advised to create a set of actions to manage a form completely (name of actions below are not mandatory of course, you could use which ever you want):
+As described in [[/classic-forms|Classic forms]], you are advised to create a set of actions to manage a form completely (name of actions below are not mandatory of course, you could use which ever you want):
 
    * "prepare" action. its role is to create a //form object// with jForms, pre-fill the form if needed and redirect to "show" action.
    * "show" action. it will first get the //form object// and use it in a template to display its form and maybe user input errors of a preceding submit. Upon user submit, "save" action will be called.
