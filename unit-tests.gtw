@@ -21,7 +21,7 @@ You can use all others options of PHPUnit with runtests.php.
 
 Simpletests is the framework used in jelix since the begining. However, since Jelix 1.3, it is deprecated, although it is still provided with the Jelix developer edition.
 
-Jelix contains the "junittests" module and a copy of [[http://www.lastcraft.com/simple_test.php|SimpleTest]]. Other distributions of Jelix require a copy of libs/simpletest and lib/jelix-modules/junittests.
+Jelix contains the "junittests" module and a copy of [[http://simpletest.org|SimpleTest]]. Other distributions of Jelix require a copy of libs/simpletest and lib/jelix-modules/junittests.
 
 For the test-runner to be avalaible, please add the following to your
 project's configuration :

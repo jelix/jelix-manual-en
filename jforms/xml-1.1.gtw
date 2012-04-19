@@ -60,7 +60,7 @@ Most of form controls must have a label declared through @@E@<label>@@ element:
   </input>
 </code>
 
-You have the option of using a [[//locales|locale]] attribute instead of an hardcoded string :
+You have the option of using a [[/locales|locale]] attribute instead of an hardcoded string :
 
 <code xml>
   <input ref="name">
@@ -484,7 +484,7 @@ The use of the captcha element is very simple, an has no specific attributes.
 
 Questions and answers are stored in a locale file, in the module jelix. For example, for english questions, this is @@F@lib/jelix/core-modules/jelix/locales/en_EN/captcha.UTF-8.properties@@. This file contains a first locale, @@number@@, which contains the number of question. And it is followed by locales which contain the questions and the answers. You can redefine this file to add or modify questions/answers.
 
-See [[//overloads|the chapter on the redefinition of files]].
+See [[/overloads|the chapter on the redefinition of files]].
 
 ==== Submit button ====
 

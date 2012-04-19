@@ -51,7 +51,7 @@ Create the @@F@mysite/temp/testapp@@ directory. Perhaps your application contain
 
 You have to configure the web server (virtual host, with a document root..), and to configure certainly a SQL database.
 
-Read [[//server-configuration|the corresponding chapter]] before continuing.
+Read [[/server-configuration|the corresponding chapter]] before continuing.
 
 
 ===== Installing the application =====
@@ -70,7 +70,7 @@ If there is a @@F@testapp/install/installer.php@@ script, this is a script to ex
 
 ==== With the jelix installer ====
 
-If there isn't wizard or dedicated installation script, you have to configure @@F@profiles.ini.php@@ and in @@F@defaultconfig.ini.php@@, then, with a console, go into the @@F@testapp/@@ directory and type @@php.exe cmd.php installapp@@. Read [[//jelix-scripts|the chapter about jelix commands]] to have more informations about this command line.
+If there isn't wizard or dedicated installation script, you have to configure @@F@profiles.ini.php@@ and in @@F@defaultconfig.ini.php@@, then, with a console, go into the @@F@testapp/@@ directory and type @@php.exe cmd.php installapp@@. Read [[/jelix-scripts|the chapter about jelix commands]] to have more informations about this command line.
 
 ==== If the installation system is deactivated into the configuration ====
 

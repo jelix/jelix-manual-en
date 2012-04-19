@@ -46,7 +46,7 @@ Most of form control must have a label declared through **<label>** element:
   </input>
 </code>
 
-You have the option of using a [[http://jelix.org/articles/fr/manuel-1.0/locales|locale]] attribute instead of an hard-coded string :
+You have the option of using a [[/locales|locale]] attribute instead of an hard-coded string :
 
 <code xml>
   <input ref="name">
@@ -239,7 +239,7 @@ Check further section on datasource also but here is an example:
 
 With the control above, jForms will display a list of three checkboxes, labelled "sugar", "steack" and "orange juice". On submit, the value for "food" form variable will be a PHP array. This array will contain the values of all items checked. If user has checked "steack", you'll receive //array(27)//. If "sugar" is also checked, you'll receive //array(54, 27)//.
 
-(See [[usage|Using the form in a controller]])
+(See [[/jforms/usage|Using the form in a controller]])
 
 ==== Radio buttons ====
 
@@ -452,7 +452,7 @@ in jForms XML file :
 
 ==== Other data source ====
 
-If neither DAO, class or static data are of use, see "Defining choices on a multiple choice control" in [[usage|jForms usage]].
+If neither DAO, class or static data are of use, see "Defining choices on a multiple choice control" in [[/jforms/usage|jForms usage]].
 
 If you do so, don't declare <item> tag nor dao*/dsclass attributes.
 

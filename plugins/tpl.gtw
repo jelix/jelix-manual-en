@@ -17,7 +17,7 @@ Template plugins are stored in a folder having a precise sub-folder tree. In fac
 
 As a result, in a template plugins repository, you'll find //html//, //xul//, //text// and //common// directories. In //common// folder are stored plugins independent of any response type.
 
-lib/jelix/plugins/tpl/ is the default template plugins repository for Jelix. However, you'll more generally add your own plugins in your application //plugins/// folder, or another repository (remember to declare a specific repository as documented in [[|plugins doc]]). And as said before, locate your plugins files in either tpl/common/, tpl/html/, or tpl/text/ or else...
+lib/jelix/plugins/tpl/ is the default template plugins repository for Jelix. However, you'll more generally add your own plugins in your application //plugins/// folder, or another repository (remember to declare a specific repository as documented in [[/plugins#adding-a-plugins-repository|plugins doc]]). And as said before, locate your plugins files in either tpl/common/, tpl/html/, or tpl/text/ or else...
 
 ===== plugin type "function" =====
 

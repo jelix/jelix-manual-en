@@ -1,10 +1,10 @@
 ~~LANG:FR@//fr/manuel-1.3/creer-application/creer-administration~~
 
-the @@initadmin@@ command adds an administration web interface to your application. It enables [[//ref-modules/master_admin|master_admin jelix module]], and can automatically configure authentification ([[//authentification|jAuth]]) and rights accesses ([[//rights2|jAcl2]]).
+the @@initadmin@@ command adds an administration web interface to your application. It enables [[/ref-modules/master_admin|master_admin jelix module]], and can automatically configure authentification ([[/authentification|jAuth]]) and rights accesses ([[/rights2|jAcl2]]).
 
 **Warning:** for security reasons, and to ease the use of the framework, it is highly recommended to create a dedicated application for an an administration web interface.
 
-To create this administration interface, first, [[//db/configuration|you have to configure jDb]]. Then you can run in your application:
+To create this administration interface, first, [[/db/configuration|you have to configure jDb]]. Then you can run in your application:
 
 <code bash>
    php cmd.php initadmin index
@@ -18,7 +18,7 @@ Note that before running this command, you have to configure the database access
 
 After having created the admin interface (and configuring jAuth and jAcl2 correctly if you used  @@-noauthdb@@ and/or @@-noacl2db@@), you can run the application (example.com/admin.php for example).
 
-You will see a login form, displayed by the module jauth. By default, a user named "admin" with the password "admin" is created. After entering login and password, you will be redirected to the [[//ref-modules/master_admin|master_admin module]].
+You will see a login form, displayed by the module jauth. By default, a user named "admin" with the password "admin" is created. After entering login and password, you will be redirected to the [[/ref-modules/master_admin|master_admin module]].
 
 
 **Remember that you cannot use controllers of a module on two entry points at the same time.**. So if you already use controllers and zones of jauth in your application, for anything other than the admin interface, you'll have issues with urls and some "bizarre" behaviors, such as the login form of the admin which is submitted on the other entry point of your application, instead of the entry point of the administration. If you need to use jauth both for an admin and a public web site, you need to create two dedicated applications (they can share both modules code and databases of course).
@@ -26,7 +26,7 @@ You will see a login form, displayed by the module jauth. By default, a user nam
 
 ===== Using the significant url engine =====
 
-Because of some constraints or because of some needs, you may want to use modules activated by init_admin, with the same configuration of the rest of the application, and perhaps with the [[//urls/significant|significant urls engine]]. By default it is not activated, and so you don't have to do any more to run the administration interface. 
+Because of some constraints or because of some needs, you may want to use modules activated by init_admin, with the same configuration of the rest of the application, and perhaps with the [[/urls/significant|significant urls engine]]. By default it is not activated, and so you don't have to do any more to run the administration interface. 
 
 But perhaps you activated it. In this case, you have to do modifications into the @@F@urls.xml@@ file, if you want to access to the admin modules through the web.
 
@@ -38,7 +38,7 @@ First, you have to declare the new entry point
  </classicentrypoint>
 </code>
 
-The administration use the auth system of jelix, [[//authentification|jAuth]]. You have then to define urls for the jauth module, by including the @@F@urls.xml@@ file provided with the jauth module.
+The administration use the auth system of jelix, [[/authentification|jAuth]]. You have then to define urls for the jauth module, by including the @@F@urls.xml@@ file provided with the jauth module.
 
 <code xml>
  <classicentrypoint name="admin">

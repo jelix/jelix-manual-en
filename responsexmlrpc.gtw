@@ -1,6 +1,6 @@
 ~~LANG:FR@//fr/manuel-1.3/responsexmlrpc~~
 
-Jelix supports [[http://xmlrpc.com/spec/|xml-rpc]]. this a protocol specified for data exchange in XML format.A client send a request containing XML content, an action to execute and parameters. Server executes action indicated with its parameters and send back an XML result.
+Jelix supports [[http://xmlrpc.scripting.com/|xml-rpc]]. this a protocol specified for data exchange in XML format.A client send a request containing XML content, an action to execute and parameters. Server executes action indicated with its parameters and send back an XML result.
 
 RPC = remote procedure call 
 
@@ -70,7 +70,7 @@ class defaultCtrl extends jController {
 
 =====  Client request =====
 
-To send a XML-RPC request, as specified in [[http://xmlrpc.com/spec/|xml-rpc spec]], you have to use a specific XML string:
+To send a XML-RPC request, as specified in [[http://xmlrpc.scripting.com|xml-rpc spec]], you have to use a specific XML string:
 
 <code xml>
 <?xml version="1.0" ?>
