@@ -248,7 +248,7 @@ All handlers (and the data check) are executed, even if one handler or the data 
 
 ===== Generator choice =====
 
-jForms template plugins relies on other plugins. Those are jForms plugins and generate effectively a form content (label and fields markup). These are called generators. Jelix 1.1 and 1.2 packages have two of them inside : @@L@htm@@ and @@L@htmllight@@. [[/plugins/jforms|See documentation to create your own]] if you need to display custom markup. If you need a generator supporting a javascript library as extjs, or an ajax form, or a XUL form... 
+jForms template plugins relies on other plugins. Those are jForms plugins and generate effectively a form content (label and fields markup). These are called generators. Jelix have two of them inside : @@L@htm@@ and @@L@htmllight@@. [[/plugins/jforms|See documentation to create your own]] if you need to display custom markup. If you need a generator supporting a javascript library as extjs, or an ajax form, or a XUL form... 
 
 Jelix default generator is @@L@html@@. You can change this in your configuration file. Use @@V@defaultJformsBuild@@ variable and assign it your generator of choice :
 

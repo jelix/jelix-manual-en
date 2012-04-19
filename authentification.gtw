@@ -220,7 +220,7 @@ In this case, of course, you may not install the jauth module...
 
 ===== jAuth class =====
 
-@@C@jAuth@@ is the main class for authentication. All its methods are static. It manages users, connect or disconnect them. Its methods must be called to authenticate either by jAuth module or in your own controllers. Read [[http://jelix.org/reference/1.2.7/jelix/auth/jAuth.html|its reference description]].
+@@C@jAuth@@ is the main class for authentication. All its methods are static. It manages users, connect or disconnect them. Its methods must be called to authenticate either by jAuth module or in your own controllers. Read [[http://jelix.org/reference/1.3.1/jelix/auth/jAuth.html|its reference description]].
 
 Some methods needs a user object as an argument. @@C@jAuth@@ itself provides it to you. It contains user datas and has no defined class. Its type depends on the driver used. (In a Db driver, users object and datas will certainly be structured by a DAO). The only requirement on this user object is that it must have a @@P@login@@ and a @@P@password@@ field.
 

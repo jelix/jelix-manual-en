@@ -54,7 +54,7 @@ The element @@E@<directories>@@ should contain informations about dependencies o
 
 <code xml>
 <dependencies>
-     <jelix minversion="1.2.0" maxversion="1.2.*" />
+     <jelix minversion="1.3.0" maxversion="1.3.*" />
 </dependencies>
 </code>
 
@@ -105,7 +105,7 @@ A @@F@module.xml@@ file must be present in each directory of modules. It contain
         <description>unit tests for jelix</description>
     </info>
     <dependencies>
-        <jelix minversion="1.2" maxversion="1.2.*" />
+        <jelix minversion="1.3" maxversion="1.3.*" />
         <module name="testurls" minversion="1.0.2" maxversion="1.1b1" />
         <module name="jauthdb" />
         <module name="jacl2db" />
@@ -343,7 +343,7 @@ smtpTimeout = 10
 
 
 ==== acl section ====
-Defines options of access control list (ACL) or rights management. See [[http://jelix.org/articles/en/manual-1.3/rights|rights management]]. You can use jAcl ou jAcl2, but not both at the same time. Indicate a driver to enable it.
+Defines options of access control list (ACL) or rights management. See [[/rights2|rights management]]. You can use jAcl ou jAcl2, but not both at the same time. Indicate a driver to enable it.
 
 <code ini>
 [acl]
