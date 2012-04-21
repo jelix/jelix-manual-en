@@ -48,7 +48,7 @@ So the connection class should redefine some methods:
 
 If the driver don't support a feature, it should throw an exception.
 
-See [[http://jelix.org/reference/1.0.14/jelix/db/jDbConnection.html|jDbConnection reference]].
+See [[refclass:db/jDbConnection|jDbConnection reference]].
 
 
 
@@ -63,7 +63,7 @@ You should redefine this methods:
   * rowCount, which returns the number of results
   * bindColumn, bindParam, bindValue, columnCount and execute, for prepared queries
 
-See [[http://jelix.org/reference/1.0.14/jelix/db/jDbResultSet.html|jDbResultSet reference]].
+See [[refclass:db/jDbResultSet|jDbResultSet reference]].
 
 
 ==== Classe utilitaire ====
@@ -78,7 +78,7 @@ You should redefine this methods:
   * execSQLScript(), if you want to redefine the way how a SQL script is parsed an executed.
 
 
-See [[http://jelix.org/reference/1.0.14/jelix/db/jDbTools.html|jDbTools reference]].
+See [[refclass:db/jDbTools|jDbTools reference]].
 
 
 

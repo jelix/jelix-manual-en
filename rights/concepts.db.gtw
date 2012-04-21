@@ -22,5 +22,6 @@ So there are three kind of groups:
 
 There are two classes for jAcl.db, to manage groups, users and rights: jAclDbManager and jAclDbUserGroup.
 
-The use of these classes is similar to the commands in jelix-scripts to manage right (see next chapters..). So, just read  [[http://jelix.org/reference|API reference]].
+The use of these classes is similar to the commands in jelix-scripts to manage right (see next chapters..).
+So, just read  [[refapi:/|API reference]].
 

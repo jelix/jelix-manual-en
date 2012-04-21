@@ -199,7 +199,7 @@ The objects returned by the jDbResultSet object, are anonymous object (StdObject
   } 
 </code>
 
-For other methods of jDbResultSet, see the [[http://jelix.org/reference/|API reference]].
+For other methods of jDbResultSet, see the [[refclass:db/jDbResultSet|API reference]].
 
 
 ==== Using results in a template ====
@@ -263,5 +263,5 @@ jDbWidget is a class providing useful methods.
 
 </code>
 
-For other methods of jDbWidget, see the [[http://jelix.org/reference/|API reference]].
+For other methods of jDbWidget, see the [[refclass:db/jDbWidget|API reference]].
 
