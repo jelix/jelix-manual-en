@@ -145,7 +145,7 @@ Other less important parameters:
 
 jAuth module implements generic controllers. You can use them to control login, logout step. Alternatively, jAuth module offers also zones and templates. The latter is useful if you need to add login/logout option to one or more of your own controllers. 
 
-If you want other features, like registering and clearing account forms, changing passwords or lost password forms, you may use the jcommunity module. See http://forge.jelix.org/projects/jcommunity.
+If you want other features, like registering and clearing account forms, changing passwords or lost password forms, you may use the jcommunity module. See [[http://bitbucket.org/laurentj/jcommunity|jCommunity]].
 
 
 === Classic configuration ===

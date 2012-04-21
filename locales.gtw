@@ -128,7 +128,7 @@ And in the properties file, you have to put a "%s" where you want to insert this
    sentence = You will go on the %s web site and you will click on the '%s' category.
 </code>
 
-This string is parsed by the [[http://www.php.net/sprintf|sprintf]] function. So you should follow the syntax accepted by sprintf. For example, the order of the parameter is important.
+This string is parsed by the [[phpapi:sprintf]] function. So you should follow the syntax accepted by sprintf. For example, the order of the parameter is important.
 
 In particularly, in some language, perhaps the translation causes a change in the order of parameters. But you won't pass the parameters in a different order. So you will use the syntax %x$s where x is the order number. For example, you could have this sentence:
 

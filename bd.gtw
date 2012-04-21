@@ -77,7 +77,7 @@ Do not forget that the sqlite database files must be placed in the var/db/sqlite
 Possible parameters:
 
    * **driver** : should be "pdo"
-   * **dsn** : contains all parameters for the connectionas indicated in the [[http://www.php.net/pdo|PDO documentation on php.net]].
+   * **dsn** : contains all parameters for the connectionas indicated in the [[phpapi:pdo|PDO documentation on php.net]].
    * **user** et **password** : the login and the password to use for the connection, if needed.
    * **force_encoding** : says if the current charset should be specified during the connection. Try to set it to "on" if you have some encoding issues with your retrieved data.
 
