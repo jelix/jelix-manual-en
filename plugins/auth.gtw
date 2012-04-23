@@ -5,13 +5,14 @@ If [[/authentification/drivers|standard drivers]] for [[/authentification|jAuth]
 
 ===== Creation =====
 
-A jAuth driver must implements [[http://jelix.org/reference/1.1.12/jelix/auth/jIAuthDriver.html|jIAuthDriver interface]]. It is roughly equivalent to jAuth API (**but does not derive form it**).
+A jAuth driver must implements [[refclass:auth/jIAuthDriver|jIAuthDriver interface]].
+It is roughly equivalent to jAuth API (**but does not derive form it**).
 
 jAuth loads drivers and the drivers do all low level jobs (database access or ldap acces or text file access and so on)
 
 If //example// is your driver name:
 
-you create a classe //exempleAuthDriver//, in a file named //exemple.auth.php//, and locate it in //auth/example// directory of a [[|plugins repository]].
+you create a classe //exempleAuthDriver//, in a file named //exemple.auth.php//, and locate it in //auth/example// directory of a [[/plugins#adding-a-plugins-repository|plugins repository]].
 
 
 ===== Activation =====

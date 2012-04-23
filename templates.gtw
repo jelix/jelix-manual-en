@@ -226,7 +226,7 @@ Some modifiers, like those in the previous example, are simple aliases to some n
     * escurl (rawurlencode)
     * capitalize (ucwords)
 
-Many others are function defined in plugins for jTpl. See the list in the [[http://jelix.org/reference/|API reference]]
+Many others are function defined in plugins for jTpl. See the list in the [[refapi:/|API reference]]
 
 === Modifiers with parameters ===
 
