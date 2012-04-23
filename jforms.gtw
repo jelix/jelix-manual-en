@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.1/jforms~~
+~~LANG:FR@frman:jforms~~
 
 jForms is a form system which makes easier the creation of forms. Forms are described in an XML file, and used throughout an API and template-plugins. it allows you to automatically :
 

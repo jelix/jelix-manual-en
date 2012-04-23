@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.1/authentification~~
+~~LANG:FR@frman:authentification~~
 
 The Jelix authentication system handles only one thing : logins, passwords, and users.
 

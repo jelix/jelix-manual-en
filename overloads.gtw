@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.1/surcharge-de-fichiers~~
+~~LANG:FR@frman:surcharge-de-fichiers~~
 
 A Jelix application can make use of third-party module. But certainly, you will need to customize it more or less. Still, it would be a pain to modify its code directly. Jelix offers a way to overload the module files. As a result, any update of the module will be transparent and won't revert your modifications. 
 

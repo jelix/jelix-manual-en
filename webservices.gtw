@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.1/services-web~~
+~~LANG:FR@frman:services-web~~
 
 In addition to usual web contents (HTML, XML, and so on), Jelix also supports web services such as AJAX, with JSON or not, or more high level services such as XML-RPC or SOAP.
 

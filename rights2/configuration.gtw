@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.1/droits2/configuration~~
+~~LANG:FR@frman:droits2/configuration~~
 
 Before using jAcl2 API and its db driver, you have to setup a database and fill it with elements composing rights.
 

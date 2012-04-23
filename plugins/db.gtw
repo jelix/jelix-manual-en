@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.1/plugins/db~~
+~~LANG:FR@frman:plugins/db~~
 
 ===== Creating a jDb driver =====
 
@@ -99,7 +99,7 @@ It must inherit from @C@@jDaoGenerator@@ and overload one or more of its methods
   * $trueValue, $falseValue
   * _getAutoIncrementPKField()
 
-See details in [[http://jelix.org/reference/1.1.12/jelix/dao/jDaoGenerator.html|jDaoGenerator API reference]] .
+See details in [[refapi:dao/jDaoGenerator|jDaoGenerator API reference]] .
 
 
 

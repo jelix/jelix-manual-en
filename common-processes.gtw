@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.1/traitements_communs~~
+~~LANG:FR@frman:traitements_communs~~
 
 
 There are two type of treatments: business processes, and those to generate the web content. For business processes, you create some classes, which use jDao, which work with a database. These classes can be used by all modules, so this is a way to execute some common processes. See [[business_classes]].

@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.1/jforms/affichage/generateur-html~~
+~~LANG:FR@frman:jforms/affichage/generateur-html~~
 
 The @@L@html@@ generator relies on jquery. Specifically some fields and its javascipt depend heavily on it.  
  

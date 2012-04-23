@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.1/responseatom~~
+~~LANG:FR@frman:responseatom~~
 
 
 [[responserss|In addition to RSS feeds]], Jelix allows to generate an Atom 1.0 feed with jResponseAtom10 (alias : 'atom1.0'); which handles most of the [[http://tools.ietf.org/html/rfc4287|Atom 1.0 RFC]].

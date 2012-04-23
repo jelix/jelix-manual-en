@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.1/urls/simple~~
+~~LANG:FR@frman:urls/simple~~
 
 This engine is the one activated by default. All the urls will be like entrypoint.php?module=...&action=...&... . This is a very simple engine and it is very fast.
 

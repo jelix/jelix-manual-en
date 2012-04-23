@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.1/droits2/concepts~~
+~~LANG:FR@frman:droits2/concepts~~
 
 jAcl2 covers every feature about rights management or access control lists (ACL). Access control lists are a way to manage application permissions in a fine-grained, yet easily maintainable and manageable way. But what is a right ? a right in jAcl2 is a collection of elements.
 

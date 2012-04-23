@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.1/reponse-generale-personnalisee~~
+~~LANG:FR@frman:reponse-generale-personnalisee~~
 
 You certainly may have to initialize the same CSS stylesheet, the same zone of content, and other same personnalization stuff, on your response object in most of your controllers. Instead of repeating all this operations, you could create a response object which already do all this personnalization.
 

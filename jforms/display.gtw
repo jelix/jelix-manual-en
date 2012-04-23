@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.1/jforms/affichage~~
+~~LANG:FR@frman:jforms/affichage~~
 
 To display a form and its data, you could call //getAllData// on your form object and assign its returned array to a template. With it, you'll be able to generate your HTML form along with its data. if you want to display input errors, call //getErrors// to retrieve them and again display them as you like in your template.
 

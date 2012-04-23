@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.1/session~~
+~~LANG:FR@frman:session~~
 
 
 jSession provides alternative storage engines. Configuration is done in app/var/config/defaultconfig.ini.php :

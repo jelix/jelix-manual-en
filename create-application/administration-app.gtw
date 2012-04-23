@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.1/creer-application/creer-administration~~
+~~LANG:FR@frman:creer-application/creer-administration~~
 
 the @@initadmin@@ command adds an administration web interface to your application. It enables [[/ref-modules/master_admin|master_admin jelix module]], and can automatically configure authentification ([[/authentification|jAuth]]) and rights accesses ([[/rights2|jAcl2]]).
 

@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.1/responsexmlrpc~~
+~~LANG:FR@frman:responsexmlrpc~~
 
 Jelix supports [[http://xmlrpc.scripting.com/|xml-rpc]]. this a protocol specified for data exchange in XML format.A client send a request containing XML content, an action to execute and parameters. Server executes action indicated with its parameters and send back an XML result.
 

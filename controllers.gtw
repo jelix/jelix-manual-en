@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.1/controleurs~~
+~~LANG:FR@frman:controleurs~~
 
 Controller objects run actions corresponding to client-input. An action corresponds to a unique URL of your application.
 

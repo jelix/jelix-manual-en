@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.1/jforms/xml/datepicker~~
+~~LANG:FR@frman:jforms/xml/datepicker~~
 
 If you want to have a datepicker in your form, you should use the @@E@<date>@@ element (or @@E@<datetime>@@ for date + time).
 

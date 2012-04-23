@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.1/templates~~
+~~LANG:FR@frman:templates~~
 
 Jelix includes its own template engine: jTpl. Templates are files with the ".tpl" extension and located in the @@F@templates@@ directory of modules.
 

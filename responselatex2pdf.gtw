@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.1/responselatex2pdf~~
+~~LANG:FR@frman:responselatex2pdf~~
 
 
 Jelix offers a specific response jResponseLatexToPdf. It aims to convert a [[http://fr.wikipedia.org/wiki/LaTeX|latex]] document to PDF and send the result. Its alias is "ltx2pdf".

@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.1/jelix-scripts~~
+~~LANG:FR@frman:jelix-scripts~~
 ===== Using jelix.php =====
 
 Jelix provides a CLI script, @@F@lib/jelix-scripts/jelix.php@@. it allows you  to execute commands in your application context. Particularly, you are able to create and modify some files easily and automatically.

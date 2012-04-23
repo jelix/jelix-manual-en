@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.1/responsezip~~
+~~LANG:FR@frman:responsezip~~
 
 jResponseZip can generate zip file and send it for download to the client. its alias is "zip":
 

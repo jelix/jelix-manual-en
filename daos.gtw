@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.1/daos~~
+~~LANG:FR@frman:daos~~
 
 jDAO is the Object Relational Mapping system of Jelix. It is to provide an easy way to create an object couple, record and factory, using the DAO pattern.
 

@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.1/installation/production~~
+~~LANG:FR@frman:installation/production~~
 
 We call //production server//, the server on which you will install your finished application, therefore accessible to the end-users. By opposition, the server on which you develop your application is called the development server.
 
