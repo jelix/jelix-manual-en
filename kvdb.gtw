@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/kvdb~~
+~~LANG:FR@frman:kvdb~~
 
 Jelix has an abstract layer to access to key-value databases, less complex than SQL databases.
 

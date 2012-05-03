@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/bd/requetes~~
+~~LANG:FR@frman:bd/requetes~~
 
 Once the the config file is written, you can access the databases.
 
@@ -111,7 +111,7 @@ The objects returned by the jDbResultSet object, are anonymous object (StdObject
   } 
 </code>
 
-For other methods of jDbResultSet, see the [[http://jelix.org/reference/|API reference]].
+For other methods of jDbResultSet, see the [[refclass:db/jDbResultSet|API reference]].
 
 
 ==== Using results in a template ====

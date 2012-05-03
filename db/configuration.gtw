@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/bd/configuration~~
+~~LANG:FR@frman:bd/configuration~~
 
 To be able to access a database, you need of course to specify the connection parameters in a configuration file. This file is @@F@dbprofils.ini.php@@ by default in @@F@var/config/@@. You can have one with a different name, and you have then to specify this name in the main config file of your application.
 
@@ -79,7 +79,7 @@ Since Jelix 1.2, you can indicate into a mysql, postgresql or else, to use PDO f
 Or you can still use the deprecated way to use PDO, by creating a profile using these parameters:
 
    * **driver** : should be "pdo"
-   * **dsn** : contains all parameters for the connection as indicated in the [[http://www.php.net/pdo|PDO documentation on php.net]]. To indicate the path for a sqlite database, you can use shortcuts like "app:", "lib:" or "var:" to indicate path of the application, the lib directory or the var directory.
+   * **dsn** : contains all parameters for the connection as indicated in the [[phpapi:pdo|PDO documentation on php.net]]. To indicate the path for a sqlite database, you can use shortcuts like "app:", "lib:" or "var:" to indicate path of the application, the lib directory or the var directory.
    * **user** et **password** : the login and the password to use for the connection, if needed.
    * **force_encoding** : says if the current charset should be specified during the connection. Try to set it to "on" if you have some encoding issues with your retrieved data.
 

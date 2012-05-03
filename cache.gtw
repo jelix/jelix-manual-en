@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/cache~~
+~~LANG:FR@frman:cache~~
 
 jCache is a class to store any data in a cache system like memcache. It supports other kind of storage like files or a SQL database.
 
