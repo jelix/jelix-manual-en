@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/plugins/coord~~
+~~LANG:FR@frman:plugins/coord~~
 
 Adding coordinator (jelix core class) plugins allows you to customize different steps of the processing of any action.  
 

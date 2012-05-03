@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/daos/utilisation~~
+~~LANG:FR@frman:daos/utilisation~~
 
 You have seen how to describe a dao in a xml file (see [[file]]). You have to place this file in a @@F@daos/@@ directory of a module and name it like this : @@F@name.dao.xml@@ where //name// is the name of your dao.
 

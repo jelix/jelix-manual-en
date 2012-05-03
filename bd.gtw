@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/bd~~
+~~LANG:FR@frman:bd~~
 
 Jelix has an abstract database access system : jDb. jDb provides an API common to every databases. For the moment, featured drivers are those for :
   * mysql

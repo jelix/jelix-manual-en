@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/responseredirect~~
+~~LANG:FR@frman:responseredirect~~
 
 There are two types of redirection objects available:
   * @@C@jResponseRedirect@@: redirects to an action of the application with optional parameters

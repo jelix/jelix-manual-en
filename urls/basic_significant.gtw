@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/urls/basic_significant~~
+~~LANG:FR@frman:urls/basic_significant~~
 
 This is the default url engine since Jelix 1.1. This url engine is halfway between "simple" engine and "significant" . It allows to use a litle cleaner URLS, but you cannot choose exactly the URL you wish. Every URL will look like **pointentree.php/module/controller/method?param=1&...**. 
 

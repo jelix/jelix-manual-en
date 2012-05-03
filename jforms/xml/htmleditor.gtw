@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/jforms/xml/htmleditor~~
+~~LANG:FR@frman:jforms/xml/htmleditor~~
 
 To use a Wysiwyg HTML editor in your forms, you have to use the @@E@<htmleditor>@@ element.
 

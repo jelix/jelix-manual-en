@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/restfull~~
+~~LANG:FR@frman:restfull~~
 
 
 REST principles consist of using HTTP protocol features to access and manipulate a resource. It is true that POST and GET method are very-well known HTTP requests but HTTP also defines PUT and DELETE methods. Thus RESTful says a resource should be identified by a unique URI and the four HTTP methods should be used to create, modify, delete and display it. 

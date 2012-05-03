@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/authentification/drivers~~
+~~LANG:FR@frman:authentification/drivers~~
 
 List of authentication drivers delivered with Jelix
 
@@ -43,7 +43,7 @@ You can add any other properties and methods to the dao.
 
 ===== Class =====
 
-Clas driver is a more universal driver than Db driver. You just have to assign a class to it, in which you do... what you want! Except that it has to implement [[http://jelix.org/reference/1.2.7/jelix/auth_driver/jIAuthDriverClass.html|jIAuthDriverClass interface]]. This class is considered as other business classes and therefore should be located in @@F@classes/@@ folder of one of your modules.
+Clas driver is a more universal driver than Db driver. You just have to assign a class to it, in which you do... what you want! Except that it has to implement [[refclass:auth_driver/jIAuthDriverClass|jIAuthDriverClass interface]]. This class is considered as other business classes and therefore should be located in @@F@classes/@@ folder of one of your modules.
 
 @@F@auth.plugin.ini.php@@ would declare :
 

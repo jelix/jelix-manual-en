@@ -1,0 +1,58 @@
+~~LANG:FR@frman:droits/concepts~~
+
+jAcl provides features which respond to most of needs for rights managment. It contains several elements to define rights.
+
+===== Elements to define rights =====
+
+There are 4 kinds of informations which define a right:
+
+  * a subject
+  * a right value
+  * a user
+  * an optional resource
+
+The combination of this elements represents a right.
+
+==== Subject ====
+
+This is a label which represents a type of resources or a functionnality on which we want to set a right. For example, "**cms.articles**" could be the subject to define rights on articles of a cms.
+
+By convention, to avoid collisions between different modules, the name of the topic should start with the name of the module. But this is not an obligation.
+
+==== Right value ====
+
+This is a string, a value indicating precisely the right. For a given subject, there are some specific values. For example, for the subject "cms.articles", we could have the following values : "READ", "MODIFY", "CREATE", "PUBLISH", "DELETE". And for an other subject, "comments.management", we could just have "DELETE", and "MODIFY".
+
+Thus, the values of rights are divided into groups of values.
+
+Please note that the titles of the values of rights depends entirely on how the rights are stored in the system accessed by the driver.
+
+
+==== User ====
+
+A right is always on one or more users. But this concept is transparent from the point of vue of the jAcl API. It is the driver that recognize the current user (through jAuth in principle). Perhaps the driver is based on a system where users are in groups that the rights apply (as is the case of jAcl.db). But you do not have to worry about when using jAcl.
+
+==== Resource ====
+
+In most of cases, the association between subject+user+value is sufficient. But sometimes we want to have a finer granularity.
+	
+For example, in a CMS, we want to give the right to a user so he can modify his own articles, but not the others. Then we add the id of the article in the association. For example:
+
+   * "CREATE" on the subject "cms.articles" for the group "writers"
+   * "MODIFY" on the resource "myarticle" for the user Laurent (who is a writer).
+
+===== Principles =====
+
+The core of jAcl is a group of association between 3 or 4 type of data.
+
+An association defines a right. When a specific association doesn't exist, it means that there is no right.
+
+For example, is we define only this rights :
+
+   * "READ" on the subject "cms.articles" for the user "laurent"
+   * "CREATE" on the subject "cms.articles" for the user "laurent"
+   * "MODIFY" on the subject "cms.articles" for the user "laurent"
+
+The user //laurent// have the rights READ, CREATE, MODIFY on the subject "cms.articles". But he have no the right "DELETE" because the association doesn't exist.
+
+So, a CMS module which uses jAcl, should call jAcl to check specific rights. For example, it will ask to jAcl if the current user has the right MODIFY on "cms.articles". If yes, the module could display a button "modify". It should  verify this right before the save of an article, before the display of the form to modify an article etc.

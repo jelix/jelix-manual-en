@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/responsetcpdf~~
+~~LANG:FR@frman:responsetcpdf~~
 
 a @@C@jResponseTcpdf@@ object allows you to generate a PDF and is based on the [[http://tcpdf.sourceforge.net/|TCPDF class]] (which enhances the famous FPDF).
 

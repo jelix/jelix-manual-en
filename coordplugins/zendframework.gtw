@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/ref-plugins/coordplugins/zendframework~~
+~~LANG:FR@frman:coordplugins/zendframework~~
 
 
 Zendframework is a coordinator plugin. It allows to include the Zend_Loader class so that you can use it in your Jelix code to call Zend Framework libraries.

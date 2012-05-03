@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/installation/application~~
+~~LANG:FR@frman:installation/application~~
 
 This chapter explains how to install an existing application developed with Jelix. We're going to take the TestApp application availabled in the download section of jelix.org. It is an application which contains some examples and some unit tests for Jelix (It is useful for developers who modify jelix).
 

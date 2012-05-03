@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/responsezip~~
+~~LANG:FR@frman:responsezip~~
 
 jResponseZip can generate zip file and send it for download to the client. its alias is "zip":
 
@@ -12,7 +12,9 @@ You can now indicate $zipFilename property. it will be the zip name proposed to 
 $rep->zipFilename='myCrazyPackage.zip';
 </code>
 
-Then, you have to create the zip. //$content// property is a jZipCreator creator. all its methods can be used to add content to the zip result. (see [[http://jelix.org/reference/|reference documentation]] on jZipCreator).
+Then, you have to create the zip. //$content// property is a jZipCreator creator.
+All its methods can be used to add content to the zip result.
+See [[refclass:utils/jZipCreator|reference documentation of jZipCreator]].
 
 <code php>
 // add  data/truc.txt (stored on the server) content to zip, 

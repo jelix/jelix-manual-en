@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/formulaires-classique~~
+~~LANG:FR@frman:formulaires-classique~~
 
 Creating and managing forms manaully (ie without jForms) is not very different in Jelix than in a conventional PHP application. But some things (outside jForms) can facilitate your work.
 
@@ -95,4 +95,4 @@ You can use also @@C@jFilter@@, which is a class to verify the format of the dat
     }
 </code>
 
-See [[http://jelix.org/reference/1.2.7/jelix/utils/jFilter.html|the documentation reference jFilter]]
+See [[refclass:utils/jFilter|the documentation reference jFilter]].

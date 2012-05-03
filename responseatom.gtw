@@ -1,5 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/responseatom~~
-
+~~LANG:FR@frman:responseatom~~
 
 [[responserss|In addition to RSS feeds]], Jelix allows to generate an Atom 1.0 feed with @@C@jResponseAtom10@@ (alias : 'atom1.0'); which handles most of the [[http://tools.ietf.org/html/rfc4287|Atom 1.0 RFC]].
 
@@ -90,6 +89,7 @@ For example, with a news DAO:
 
 It's possible to explicitely specify more informations about the RSS food or about each item.
 
-Check [[http://jelix.org/reference/|the API documentation]] about @@C@jAtom10Info@@ and @@C@jAtom10Item@@ to go deeper.
+Check the API documentation about [[refclass:core_response/jAtom10Info|jAtom10Info]]
+and [[refclass:core_response/jAtom10Item|jAtom10Item]] to go deeper.
 
 

@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/responserdf~~
+~~LANG:FR@frman:responserdf~~
 
 jResponseRdf generates an RDF formatted document. There is a real world use case for it :-). It is useful for XUL application and specifically for XUL templates. the response alias is //rdf//.
 

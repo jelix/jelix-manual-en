@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/responsesoap~~
+~~LANG:FR@frman:responsesoap~~
 
 Jelix supports the SOAP protocol, which is a standard protocol for web services specified by W3C. Jelix use [[http://www.php.net/manual/fr/book.soap.php|the PHP SOAP API]], so you have to configure your web server to include this extension (verify with phpinfo() for example).
 

@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/plugins/tpl~~
+~~LANG:FR@frman:plugins/tpl~~
 
 You can extend tpl plugins functionalities by adding your own to [en:manual:templates|jTpl engine]. Just implement them in new template plugins.
 

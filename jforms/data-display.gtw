@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/jforms/affichage-donnees~~
+~~LANG:FR@frman:jforms/affichage-donnees~~
 
 With jForms, you can also display not the form but only its data. It can be useful as a reporting of input steps for example. 
 

@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/daos/evenements~~
+~~LANG:FR@frman:daos/evenements~~
 
 A DAO factory can automatically generate [[/events|events]] on methods call.  
 

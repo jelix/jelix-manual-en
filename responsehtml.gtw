@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/responsehtml~~
+~~LANG:FR@frman:responsehtml~~
 
 To create a jResponseHtml object, pass 'html' as argument to @@M@getResponse()@@ method in your controller's action. 
 

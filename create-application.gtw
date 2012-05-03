@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.2/creer-application~~
+~~LANG:FR@frman:creer-application~~
 
 The first thing before using Jelix is to create an application. You can create an application manually, but there is an easier way : use @@createapp@@ command.
 
