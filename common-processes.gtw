@@ -97,4 +97,4 @@ In Jelix, this is achieved with [[zones|zones]].
 ===== Customizing common response =====
 
 Of course, if you have common content included on every pages, previous tips or objects are not very purposeful. 
-You have to create a customized response by inheriting a default one. See chapter on the [[personnalized-common-response|creation of customized responses]].
+You have to create a customized response by inheriting a default one. See chapter on the [[/views/personnalized-common-response|creation of customized responses]].

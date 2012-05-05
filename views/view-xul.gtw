@@ -1,4 +1,4 @@
-~~LANG:FR@frman:responsexul~~
+~~LANG:FR@frman:vues/vue-xul~~
 
 
 ===== What is XUL? =====
@@ -76,7 +76,7 @@ $rep->addContent('XUL after template');
 $rep->addContent('XUL before template', true);
 </code>
 
-You can also use zones for content. See [[zones|zones documentation]].
+You can also use zones for content. See [[/zones|zones documentation]].
 
 
 ===== Overlays =====
@@ -85,7 +85,7 @@ An overlay is a XUL file. It is useful to modify a XUL page without modifying it
 
 ==== basics ====
 
-the basics are truely simple, it is based on jelix [[events|events system]]. jResponseXul and its derived class, emits an event before sending content. Modules can catch this event and respond to it with an overlay url. if so, a //<?xul-overlay>// tag will be added to the response. 
+the basics are truely simple, it is based on jelix [[/events|events system]]. jResponseXul and its derived class, emits an event before sending content. Modules can catch this event and respond to it with an overlay url. if so, a //<?xul-overlay>// tag will be added to the response. 
 
 the action using jResponseXul has to set //$fetchOverlays// to true :
 

@@ -1,6 +1,6 @@
-~~LANG:FR@frman:responseatom~~
+~~LANG:FR@frman:vues/vue-atom~~
 
-[[responserss|In addition to RSS feeds]], Jelix allows to generate an Atom 1.0 feed with @@C@jResponseAtom10@@ (alias : 'atom1.0'); which handles most of the [[http://tools.ietf.org/html/rfc4287|Atom 1.0 RFC]].
+[[view-rss|In addition to RSS feeds]], Jelix allows to generate an Atom 1.0 feed with @@C@jResponseAtom10@@ (alias : 'atom1.0'); which handles most of the [[http://tools.ietf.org/html/rfc4287|Atom 1.0 RFC]].
 
 <code php>
   $rep = $this->getResponse('atom1.0');

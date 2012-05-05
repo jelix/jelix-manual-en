@@ -4,10 +4,10 @@ Although Ajax means an XML response (X in AJAX), it is commonly used with other 
 
 Depending on the client waiting either @@P@responseText@@ or @@P@responseXml@@ of an @@C@XmlHttpRequest@@ object, you should use differents jelix response types. 
 
-  * for any generic XML content, you will use [[responsexml|jResponseXml]]
+  * for any generic XML content, you will use [[/views/view-xml|jResponseXml]]
   * for json encoded content, you will use [[json|jResponseJson]]
   * for html fragments, beware you must **NOT**  use @@C@jResponseHtml@@, but @@C@jResponseHtmlFragment@@ (see example below).
-  * Or, in other cases, you would use [[responsetext|jResponseText]].
+  * Or, in other cases, you would use [[/views/view-text|jResponseText]].
 
 
 In your controller, you can use @@$GLOBALS['gJCoord']->request->isAjax()@@ to verify that the request is a true AJAX request (eg, made with XMLHttpRequest).

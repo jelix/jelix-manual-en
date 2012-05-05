@@ -1,3 +1,3 @@
 ~~LANG:FR@frman:responses~~
 
-Jelix, contrary to most framework, isn't tied to the type of content that it produces. Basically, this means that you can create any type of content: html, xhtml, text, pdf, images, zip, xml, css, and more. You can also create your personal customized responses, either from an [[personnalized-common-response|existing response]] or [[creating-response|from scratch]].
+Jelix, contrary to most framework, isn't tied to the type of content that it produces. Basically, this means that you can create any type of content: html, xhtml, text, pdf, images, zip, xml, css, and more. You can also create your personal customized responses, either from an [[personnalized-common-response|existing response]] or [[/creating-response|from scratch]].

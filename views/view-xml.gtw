@@ -1,4 +1,4 @@
-~~LANG:FR@frman:responsexml~~
+~~LANG:FR@frman:vues/vue-xml~~
 
 jResponseXML allows to send an XML response to the client-browser. Its alias is "xml".
 

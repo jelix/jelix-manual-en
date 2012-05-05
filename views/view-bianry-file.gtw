@@ -1,4 +1,4 @@
-~~LANG:FR@frman:responsebinary~~
+~~LANG:FR@frman:vues/vue-binary~~
 
 To send binary content to the user (a graphic, a video, some sound, an archive, etc.), @@C@jResponseBinary@@ should be used. To use it, set 'binary' as the type of response used.
 

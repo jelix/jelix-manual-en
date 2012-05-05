@@ -1,4 +1,4 @@
-~~LANG:FR@frman:responserdf~~
+~~LANG:FR@frman:vues/vue-rdf~~
 
 jResponseRdf generates an RDF formatted document. There is a real world use case for it :-). It is useful for XUL application and specifically for XUL templates. the response alias is //rdf//.
 
