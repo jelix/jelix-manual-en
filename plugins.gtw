@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.3/plugins~~
+~~LANG:FR@frman:plugins~~
 
 Different types of plugins exists for Jelix. Each categories modify or add functionality to differents parts of Jelix. There are coordinator plugins, jDb drivers, jAuth drivers, jTpl plugins and url engines.
 

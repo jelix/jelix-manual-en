@@ -1,5 +1,4 @@
-~~LANG:FR@//fr/manuel-1.3/jelix-scripts~~
-
+~~LANG:FR@frman:jelix-scripts~~
 
 Jelix provides some CLI script, @@F@lib/jelix-scripts/createapp.php@@, allowing you to create a new application, and @@F@cmd.php@@ inside your application allowing to execute commands on your application. Particularly, you are able to create and modify some files easily and automatically.
 

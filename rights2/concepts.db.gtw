@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.3/droits2/concepts.db~~
+~~LANG:FR@frman:droits2/concepts.db~~
 
 jAcl2.db is a "db" or database driver of jAcl2. rights are stored in a database. It implements generic concepts fo jAcl2 and add one feature : support of user groups. Then, the basic elements defining a right are :
 
@@ -22,9 +22,9 @@ There are three group types :
 
 ===== class utilities =====
 
-Two class utilities come with jAcl2.db to manae groups, users and rights : jAcl2DbManager and jAcl2DbUserGroup.
+Two class utilities come with jAcl2.db to manage groups, users and rights : jAcl2DbManager and jAcl2DbUserGroup.
 
-Their use are similar theorically with jelix-scripts commands (described in [[configuration|Configure jAcl2.db]]), and you can also read the [[http://jelix.org/reference|reference documentation]].
+Their use are similar theorically with jelix-scripts commands (described in [[configuration|Configure jAcl2.db]]), and you can also read the [[refapi:|reference documentation]].
 
 ===== Schema of relationnal data of jAcl2.db =====
 

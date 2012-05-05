@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.3/events~~
+~~LANG:FR@frman:events~~
 
 Jelix implements a simple inter-module communication system. It is based on **events**, and is called jEvent.
 

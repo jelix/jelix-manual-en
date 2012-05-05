@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.3/jforms/xml~~
+~~LANG:FR@frman:jforms/xml~~
 
 jForms automatically generates forms described in an XML dialect. Every form is described in an XML file, using a simple grammar between say HTML and XForms. 
 

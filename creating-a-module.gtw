@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.3/creer-un-module~~
+~~LANG:FR@frman:creer-un-module~~
 
 
 A module is a directory with a precise file-system hierarchy. Modules are groupped in one or several directories called //modules group//, or repository of modules.

@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.3/daos/methodes_php~~
+~~LANG:FR@frman:daos/methodes_php~~
 
 [[xml_methods|XML methods]] are useful and pratical inlost of case. Anyhow, they have some limits and are useless for complex queries.
 
@@ -41,12 +41,13 @@ The first one performs a bit better and is simpler. But the latter is more maint
 Below is a list of properties and methods, you should use for the more maintanable way of coding PHP methods:
 
    * ''$this->_primaryTable'' : primary table alias,
-   * ''$this->_tables'' : table informations (see [[http://jelix.org/reference|reference documentation]]),
-   * ''$this->getProperties()'' : detailed record properties informations (see [[http://jelix.org/reference|reference documentation]]),
+   * ''$this->_tables'' : table informations,
+   * ''$this->getProperties()'' : detailed record properties informations,
    * ''$this->getPrimaryKeyNames()'' : primary key properties.
 
 On a record object, ''getProperties()'' and ''getPrimaryKeyNames()'' are also defined.
 
+For details, see [[refclass:db/jDaoFactoryBase|reference documentation]].
 
 ==== Prepare values ====
 

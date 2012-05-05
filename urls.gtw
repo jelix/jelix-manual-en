@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.3/urls~~
+~~LANG:FR@frman:urls~~
 
 Jelix has a mechanism allowing to avoid putting url concerning actions directly in the templates (or anywhere). For this, simply indicate the module, the action, the type of request and some other parameters if you need and jUrl handles the generation of the corresponding url. On the other hand, when a request occurs, jUrl analyzes the url to then deduce the module, the action, and the parameters, and this, whatever the type of request is. Mod_rewrite from apache is then not useful. 
 

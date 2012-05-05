@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.3/creer-wizard~~
+~~LANG:FR@frman:creer-wizard~~
 
 An application, "installWizard", is provided with Jelix. It allow to create a wizard, to install a jelix application easily, with a browser. It could be very useful to distribute a public application. For example, a forum...
 

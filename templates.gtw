@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.3/templates~~
+~~LANG:FR@frman:templates~~
 
 Jelix includes its own template engine: jTpl. Templates are files with the ".tpl" extension and located in the @@F@templates@@ directory of modules.
 
@@ -229,7 +229,7 @@ Some modifiers, like those in the previous example, are simple aliases to some n
     * stripslashes (stripslashes)
     * upperfirst (ucfirst)
 
-Many others are function defined in plugins for jTpl. See the list in the [[http://jelix.org/reference/|API reference]]
+Many others are function defined in plugins for jTpl. See the list in the [[refapi:/|API reference]]
 
 === Modifiers with parameters ===
 

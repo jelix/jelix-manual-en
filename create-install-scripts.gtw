@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.3/creer-script-installation~~
+~~LANG:FR@frman:creer-script-installation~~
 
 Since 1.2, Jelix provides an installation system, which allows to execute scripts when you want to install a module inside an application, or to install the whole application.
 

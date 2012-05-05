@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.3/jforms/security~~
+~~LANG:FR@frman:jforms/security~~
 
 By default, jForms has some security check. HTML Builders of jforms escape content during the display, to avoid some security issues like Cross Site scriptings.
 

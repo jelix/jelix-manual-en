@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.3/installer-un-module~~
+~~LANG:FR@frman:installer-un-module~~
 
 This section is not targeting new modules created with the @@c@createmodule@@ command, as this command activate and install the new module except if you want to change the access level.
 

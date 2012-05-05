@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.3/responserss~~
+~~LANG:FR@frman:responserss~~
 
 jResponseRss20 allows to generate an RSS feed. It's fully compliant with  [[http://cyber.law.harvard.edu/rss/rss.html|RSS 2.0 specifications]].
 
@@ -93,6 +93,6 @@ For example, with a news DAO:
 
 It's possible to explicitely specify more informations about the RSS food or about each item.
 
-Check [[http://jelix.org/reference/|the API documentation]] about @@C@jRSS20Info@@ and @@C@jRSSItem@@ to go deeper.
-
+Check the API documentation about [[refclass:core_response/jRSS20Info|jRSS20Info]]
+and [[refclass:core_response/jRSSItem|jRSSItem]] to go deeper.
 

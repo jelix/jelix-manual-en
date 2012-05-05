@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.3/installation/sources~~
+~~LANG:FR@frman:installation/sources~~
 
 Jelix is provided in the form of a tar.gz or zip file. This file contains a @@F@jelix/lib@@ directory which contains all the files of the framework and the dependent libraries, as well as a @@F@jelix/temp@@ directory. 
 

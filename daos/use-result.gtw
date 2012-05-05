@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.3/daos/recuperation-enregistrements~~
+~~LANG:FR@frman:recuperation-enregistrements~~
 
 Creating, modifying and deleting records in a database is very useful. However, it's not as useful as being able to fetch records and use them. The page on the [[use|use of a dao factory and record]] showed you the create, the delete and the update. This is the page on the fetch, or the "select data" part of jDao.
 

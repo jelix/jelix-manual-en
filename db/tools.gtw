@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.3/bd/outils~~
+~~LANG:FR@frman:bd/outils~~
 
 ===== Managing schemas =====
 
@@ -40,5 +40,5 @@ jDbWidget is a class providing useful methods.
 
 </code>
 
-For other methods of jDbWidget, see the [[http://jelix.org/reference/|API reference]].
+For other methods of jDbWidget, see the [[refclass:db/jDbWidget|API reference]].
 

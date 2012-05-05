@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.3/cmdline~~
+~~LANG:FR@frman:cmdline~~
 
 On the server-side, an application could need to process some jobs silently and perhaps repeatedly. This is often done in shell or perl scripts using cron utility. As PHP is a scripting language, it is also well suited for those jobs. 
 

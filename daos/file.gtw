@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.3/daos/fichier_de_base~~
+~~LANG:FR@frman:daos/fichier_de_base~~
 
 In order to use jDao, you have to write an XML file which describes the mapping, i.e, which properties of a jDao record correspond to which field in a SQL table.
 
