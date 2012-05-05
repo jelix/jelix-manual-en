@@ -1,4 +1,4 @@
-~~LANG:FR@//fr/manuel-1.3/japp~~
+~~LANG:FR@frman:japp~~
 
 jApp is a class to specify (in application.init.php) and to retrieve different path of the application. Since Jelix 1.3, it replaces JELIX_APP_* constants.
 
