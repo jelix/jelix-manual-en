@@ -1,8 +1,8 @@
-~~LANG:FR@frman:responsejsonrpc~~
+~~LANG:FR@frman:services-web/json-rpc~~
 
 Jelix supports [[http://json-rpc.org/|json-rpc]]. This is a similar protocol to XML-RPC. The main differences is that data are JSON formatted instead of XML. (RPC = Remote Procedure Call)
 
-See [[responsexmlrpc|Xml-rpc documentation]].
+See [[xml-rpc|Xml-rpc documentation]].
 
 ===== Specific entry point =====
 

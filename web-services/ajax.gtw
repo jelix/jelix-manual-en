@@ -1,11 +1,11 @@
-~~LANG:FR@frman:responseajax~~
+~~LANG:FR@frman:services-web/ajax~~
 
 Although Ajax means an XML response (X in AJAX), it is commonly used with other formats.
 
 Depending on the client waiting either @@P@responseText@@ or @@P@responseXml@@ of an @@C@XmlHttpRequest@@ object, you should use differents jelix response types. 
 
   * for any generic XML content, you will use [[responsexml|jResponseXml]]
-  * for json encoded content, you will use [[responsejson|jResponseJson]]
+  * for json encoded content, you will use [[json|jResponseJson]]
   * for html fragments, beware you must **NOT**  use @@C@jResponseHtml@@, but @@C@jResponseHtmlFragment@@ (see example below).
   * Or, in other cases, you would use [[responsetext|jResponseText]].
 

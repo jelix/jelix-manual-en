@@ -1,4 +1,4 @@
-~~LANG:FR@frman:responsejson~~
+~~LANG:FR@frman:services-web/json~~
 
 [[http://fr.wikipedia.org/wiki/JSON|JSON]] is a data format using javascript syntax. This ease greatly the use of JSON encoded data in HTML content. 
 
