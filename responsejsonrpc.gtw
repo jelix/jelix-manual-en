@@ -6,7 +6,7 @@ See [[responsexmlrpc|Xml-rpc documentation]].
 
 ===== Specific entry point =====
 
-A JSON-RPC request cannot be treated as a classic request, thus you can't use [[requests|"classic" request object]]. You have to create a specific entry point in @@F@www/@@ directory, @@F@jsonrpc.php@@. This entry point should instantiate a @@C@jJsonRpcRequest@@ instead of a @@C@jClassicRequest@@.
+A JSON-RPC request cannot be treated as a classic request, thus you can't use [[/core/request-object|"classic" request object]]. You have to create a specific entry point in @@F@www/@@ directory, @@F@jsonrpc.php@@. This entry point should instantiate a @@C@jJsonRpcRequest@@ instead of a @@C@jClassicRequest@@.
 
 The new entry point should look like:
 

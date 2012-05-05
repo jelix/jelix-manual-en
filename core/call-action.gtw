@@ -1,8 +1,8 @@
-~~LANG:FR@frman:appel-action~~
+~~LANG:FR@frman:concepts/appel-action~~
 
 ===== URLs: identifying an action =====
 
-Once you have created a [[controllers|controller]], you can call one of its public method. So you have to  indicate the necessary information in the urls.
+Once you have created a [[/controllers|controller]], you can call one of its public method. So you have to  indicate the necessary information in the urls.
 
 With the default jelix configuration (with the //basic_significant// url engine), you should add in the url:
 
@@ -71,4 +71,4 @@ Here we ask the url of the action "bar:man" in the module "foo", for queries of 
 
 For most of urls, and especially for all actions which are accessible from the index.php file, the type is "@classic."
 
-If in an action selector we just indicate the type of request, it refers to the default module and the default action indicated into startModule and startAction of the configuration. To know more, read [[urls|configuration and use of urls in Jelix]].
+If in an action selector we just indicate the type of request, it refers to the default module and the default action indicated into startModule and startAction of the configuration. To know more, read [[/urls|configuration and use of urls in Jelix]].

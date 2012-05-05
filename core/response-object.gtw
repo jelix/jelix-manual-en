@@ -1,4 +1,4 @@
-~~LANG:FR@frman:jresponse~~
+~~LANG:FR@frman:concepts/objets-response~~
 
 A jResponse object handles the control and the correct generation of the response, the output data. It represents the view in the MVC pattern. Every display command use this object.
 

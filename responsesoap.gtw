@@ -9,7 +9,7 @@ However, you have to create a specific entry poin, and to follow a specific synt
 
 ===== Create a specific entry point =====
 
-Since a SOAP http request is not as usual, you cannot use the "classic" [[requests|request object]]. You should create a specific entry point in the @@F@www/@@ directory, @@F@soap.php@@ for example. This entry point should use @@C@jSOAPRequest@@ instead of @@C@jClassicRequest@@, and a specific coordinator: @@C@jSoapCoordinator@@. The type of the request and of the entry point is then "soap".
+Since a SOAP http request is not as usual, you cannot use the "classic" [[/core/request-object|request object]]. You should create a specific entry point in the @@F@www/@@ directory, @@F@soap.php@@ for example. This entry point should use @@C@jSOAPRequest@@ instead of @@C@jClassicRequest@@, and a specific coordinator: @@C@jSoapCoordinator@@. The type of the request and of the entry point is then "soap".
 
 The entry point should then content:
 

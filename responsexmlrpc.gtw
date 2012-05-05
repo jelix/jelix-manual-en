@@ -7,7 +7,7 @@ RPC = remote procedure call
 
 ===== Entry point =====
 
-An XML-RPC request cannot be treated as a classic request, thus you can't use [[requests|"classic" request object]]. You have to create a specific entry point in //www/// directory, xmlrpc.php. This entry point will instantiate a jXmlRpcRequest instead of a jClassicRequest.
+An XML-RPC request cannot be treated as a classic request, thus you can't use [[/core/request-object|"classic" request object]]. You have to create a specific entry point in //www/// directory, xmlrpc.php. This entry point will instantiate a jXmlRpcRequest instead of a jClassicRequest.
 
 The new entry point should look like:
 
