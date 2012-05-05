@@ -1,4 +1,4 @@
-~~LANG:FR@frman:mail~~
+~~LANG:FR@frman:classes-utiles/jmailer~~
 
 
 jMailer is a useful class for sending emails in controllers or business classes. It is based on the famous  [[http://phpmailer.codeworxtech.com|PHPMailer]] class (version 2.3).

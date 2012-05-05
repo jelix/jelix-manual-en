@@ -1,4 +1,4 @@
-~~LANG:FR@frman:wiki~~
+~~LANG:FR@frman:classes-utiles/jwiki~~
 
 jWiki is a class transforming wiki text to other formats. XHTML for example. This class inherits from [[http://wikirenderer.jelix.org|Wikirenderer]] version 3.1.
 

@@ -357,7 +357,7 @@ driver =
 </code>
 
 ==== sessions section ====
-Determines how PHP sessions are stored (file or databse). Find more details in [[session|sessions]] documentation. 
+Determines how PHP sessions are stored (file or databse). Find more details in [[/classe-utilities/jsession|sessions]] documentation. 
 
 <code ini>
 [sessions]

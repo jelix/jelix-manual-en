@@ -1,4 +1,4 @@
-~~LANG:FR@frman:datetime~~
+~~LANG:FR@frman:classes-utiles/jdatetime~~
 
 jDateTime is a class encapsulating a date. It defines an API to convert date to different formats and do some time calculation.
 

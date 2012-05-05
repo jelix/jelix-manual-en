@@ -100,7 +100,7 @@ all of this will be returned to the Hook in the wanted template at the place you
 
 ===== jdatetime =====
 
-The jdatetime modifier permit to convert a date string in a format to another one. This modifier use the [[/datetime|jDateTime class]].
+The jdatetime modifier permit to convert a date string in a format to another one. This modifier use the [[/class-utilities/jdatetime|jDateTime class]].
 Without parameter, this modifier expect a database string format(jDateTime::BD_DTFORMAT) and return a date in selected language format (jDateTime::LANG_DTFORMAT).
 
 <code smarty>
