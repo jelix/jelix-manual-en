@@ -44,7 +44,7 @@ Download [[http://download.jelix.org/jelix/documentation/en/manual-jelix-1.3.pdf
      - section: [[controllers|Developing a controller]]
      - section: [[controllers/retrieving-http-parameters|Retrieving HTTP parameters]]
      - section: [[controllers/crud|Using the CRUD controller]]
-     - section: [[restfull|Developing a REST controller]]
+     - section: [[controllers/rest-full|Developing a REST controller]]
    - chapter: [[responses|Responses: generating content]]
      - section: [[responsehtml|Generating HTML content]]
      - section: [[responsetext|Generating plain text]]
