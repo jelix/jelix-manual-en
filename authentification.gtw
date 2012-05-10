@@ -92,6 +92,35 @@ In the configuration of the plugin:
  password_salt = "here_your_salt_value"
 </code>
 
+
+Here is an another example to use the @@bcrypt@@ php function with a salt value.
+Here is the function (this function is also, already available in jelix and declared with the plugin):
+
+<code php>
+function bcrypt($salt, $password, $iteration_count = 12) {
+    if (CRYPT_BLOWFISH != 1)
+        throw new jException('jelix~auth.error.bcrypt.inexistant');
+    if(empty($salt) || !ctype_alnum($salt) || strlen($salt) != 22)
+        throw new jException('jelix~auth.error.bcrypt.bad.salt');
+    $hash = crypt($password, '$2a$'.$iteration_count.'$'.$salt.'$');
+    return substr($hash, strrpos($hash, '$')+strlen($salt));
+}
+</code>
+
+
+
+In the configuration of the plugin:
+
+<code ini>
+ driver=Db
+   
+ [Db]
+ dao = "mon_dao"
+ password_crypt_function = "1:bcrypt"
+ password_salt = "salt_of_22_alphanumeric_characters_for_bcrypt_algo"
+</code>
+
+
 ==== Timeout ====
 
 @@timeout@@ option indicates inactivity duration to invalid authentication. Its unit is minutes. If you set it to @@L@0@@, there is no timeout. And the authentication session will live throughout the browser session.
