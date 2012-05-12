@@ -354,6 +354,36 @@ Example which uses the meta_html plugin. This plugin allows to modify the curren
   {meta_html bodyattr array('onload'=>'alert("charge")')}
 </code>
 
+===== Virtual Templates =====
+The virtual template are not files.. 
+They are dynamically made from the controller, and fetch by the $tpl object.
+
+a simple example :
+<code php>
+$template = ' hello 
+ 		{$value} 
+ 		world 
+ 		{for $i=1;$i<=5;$i++} 
+ 		  {$i} 
+ 		{/for}';
+$tpl = new jTpl();
+$tpl->assign('value', 'test'); 
+$tpl->fetchFromString($template, 'text');
+</code>
+will display
+<code html>
+ hello 
+ test 
+world 
+	  1 
+	  2 
+	  3 
+	  4 
+	  5 
+</code>
+here @@V@$template@ acts as the 'body' of an existing template file and all its content can 'host' like a 'normal' template file. 
+Thus when we assign to 'test' the @@V@value@ it will be replace as in a template file.
+
 ===== Templates dedicated to a locale =====
 
 In a template, we saw that we can use {@foo.bar@} to include localized string. However, you can have many localized string, and so the template is less readable, and performance are lower.
