@@ -1,13 +1,12 @@
 ~~LANG:FR@frman:nouveautes~~
 
-Main improvements provided by the version 1.3 are: 
+Main improvements provided by the version 1.4 are: 
 
-  * only one application.init.php and only one temp directory is needed now, for the www, cli and jelix scripts.
-  * a new cmd.php script, to replace @@F@lib/jelix-scripts/jelix.php@@, which is at the root of your application, to launch jelix-scripts commands for your application.
-  * jLog and jResponseHtml have now plugins
-  * new error managements. jLog is used to store errors, and errors are not displayed any more in responses.
-  * new error page (http code: 500), displayed when an error occured. you can redefine it to have the design you want.
-  *  all connection profiles (for jDb, jKVDb, jCache etc) are now stored in a single file @@F@profiles.ini.php@@. 
-  * a new nice debug bar, extensible, showing many informations (errors, sql queries...)
-  * JELIX_APP_* constants are now replaced by a new jApp class
-  * improvements in jAcl2: subjects groups, rights can be forbidden by a group.
+   * new @@M@jApp::config()@@ method, to retrieve the configuration. @@V@$gJConfig@@ is deprecated.
+   * new @@M@jApp::coord()@@ method, to retrieve the coordinator. @@V@$gJCoord@@ is deprecated.
+   * new autoload system. Classes to autoload can be indicated into module.xml file of your modules. the autoload system support the [[https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md|PSR0 specification]]
+   * virtual templates
+   * new API to support HTTP cache
+   * new classes to read Atom and RSS feeds
+   * new class, jPref, to set and get dynamic/functionnal configuration options. An interface is available to allow a webmaster to manage these preferences.
+   * modules can provide their own response object and indicate them directly into the configuration

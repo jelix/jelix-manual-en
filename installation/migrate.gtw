@@ -3,11 +3,15 @@
 When you migrate from an old version of jelix to a newer one, you always must do these tasks:
 
   * replace the @@F@lib/@@ directory by the one provided in the new version.
-  * don't forget to move your own libraries from the old @@F@lib/@@ directory to the new one
+  * If you put your own libraries into the @@F@lib/@@ directory, don't forget to move them from the old @@F@lib/@@ directory to the new one.
   * remove all the files in the @@F@temp/yourapp/@@ directory
   * update your code as specified hereafter.
 
-===== Upgrading from jelix 1.2 =====
+===== Updating from Jelix 1.2 or lower =====
+
+Read the upgrade instructions of all previous manuals and then follow instructions below.
+
+===== Upgrading from jelix 1.3 =====
 
 Here are all steps to follow to migrate your application.
 
@@ -15,61 +19,56 @@ Here are all steps to follow to migrate your application.
 
 First, do a backup of your databases, and of your application files (modules, configuration etc.).
 
-
 ==== Temp directories ====
 
-As usual, you must remove every files into the @@F@temp/yourapp/@@ directory. You have also to delete the @@F@temp/yourapp-cli/@@ directory and the @@F@temp/yourapp-scripts/@@ directory, they are not used anymore.
+As usual, you must remove every files into the @@F@temp/yourapp/@@ directory.
 
-==== Change your application.init.php ====
 
-This file should use now @@jApp::initPaths()@@ instead of defining JELIX_APP_* constants. You can access now to every path using the @@C@jApp@@ object. JELIX_APP_* constants are generated for you automatically, to keep compatibility with modules not fully compatible with Jelix 1.3. However, it is highly recommanded to replace these JELIX_APP_* constants in theses modules, because future version of Jelix won't support anymore these constants.
+==== Change your entry points ====
 
-Your @@F@application.init.php@@ should contain this kind of code:
+
+Your entrypoints should be changed:
+  * the coordinator should be set into the jApp object.
+  * the configuration file should be indicated to the jApp object too instead of the coordinator.
+  * See a template in lib/jelix-scripts/templates/www/index.php.tpl
+ 
+Here is an example:
 
 <code php>
-$appPath = dirname (__FILE__).'/';
-require ($appPath.'../lib/jelix/init.php');
+require ('../application.init.php');
+require (JELIX_LIB_CORE_PATH.'request/jClassicRequest.class.php');
 
-jApp::initPaths(
-    $appPath
-    //$appPath.'www/',
-    //$appPath.'var/',
-    //$appPath.'var/log/',
-    //$appPath.'var/config/',
-    //$appPath.'scripts/'
-);
-jApp::setTempBasePath(realpath($appPath.'../temp/testapp/').'/');
+checkAppOpened();
+
+// load configuration
+jApp::loadConfig('index/config.ini.php');
+
+// new coordinator, and set it into the Jelix environment
+jApp::setCoord(new jCoordinator());
+
+// new request object, and call the coordinator to execute the action corresponding to the URL
+jApp::coord()->process(new jClassicRequest());
+
 </code>
 
+  
 ==== Files removal ====
-
-You can remove @@F@application-cli.init.php@@ and @@F@jelix-scripts.init.php@@, they are useless now. If you have command line scripts into the @@F@scripts/@@ directory of your application, replace the include instruction for  @@F@application-cli.init.php@@, by an include instruction for @@F@application.init.php@@.
 
 ==== Other stuffs ====
 
-
-  * If you have activated minification of js and css files in your html responses, it won't work anymore because the configuration has changed. Some options have dispeared, the directory @@F@www/cache/minify@@ is not used anymore, and a @@F@minify.php@@ script should be installed into @@F@www/@@.
-  * you can add a @@F@tests/runtests.php@@ script into your app directory, copied from @@F@lib/jelix-scripts/templates/tests/@@. It allows you to develop and run tests using phpunit.
-
 ==== Upgrading modules ====
 
-  * update sources of vendor's modules that you have installed, with version compatible with Jelix 1.3.
+  * update sources of vendor's modules that you have installed, with version compatible with Jelix 1.4.
   * For your own modules:
-     * As indicated above, replace the use of JELIX_APP_* constants by the use of @@C@jApp@@.
-     * In module.xml files, indicate that the module is compatible with Jelix 1.3 (change the attributes maxversion). Example :
+      * the global variable @@V@$gJConfig@@ is now deprecated. You should use @@M@jApp::config()@@ instead, to retrieve the configuration.
+    * the global variable @@V@$gJCoord@@ is now deprecated. You should use @@M@jApp::coord()@@ instead, to retrieve the coordinator.
+     * In module.xml files, indicate that the module is compatible with Jelix 1.4 (change the attributes maxversion). Example :
 
-        <jelix minversion="1.2" maxversion="1.3.*"/>
+        <jelix minversion="1.3" maxversion="1.4b1"/>
 
 ==== Jelix update ====
 
-After all these modifications, you should run your installer.php script. The jelix module will change some things:
-  * in your configuration
-  * will create a new profiles.ini.php, storing content of dbprofils.ini.php, cache.ini.php, jkvdbprofiles.ini.php. Theses files will be removed.
-  * will create a new cmd.php in the root of your application, to launch commands of jelix-script
-
-The module jacl2db will update your database, if you use this module.
+After all these modifications, you should run your @@F@install/installer.php@@ script. The jelix module will change some things:
+  * TODO
 
 
-===== Updating from Jelix 1.1 or lower =====
-
-Read the upgrade instructions of all previous manuals and then follow instruction above.
