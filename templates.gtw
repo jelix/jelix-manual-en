@@ -355,10 +355,11 @@ Example which uses the meta_html plugin. This plugin allows to modify the curren
 </code>
 
 ===== Virtual Templates =====
-The virtual template are not files.. 
-They are dynamically made from the controller, and fetch by the $tpl object.
 
-a simple example :
+You can use templates that are not in files. These are called "virtual templates". Typically, you have a template in a string
+(retrieved from a database for example), and then you can generate the content into a string.
+
+A simple example :
 <code php>
 $template = ' hello 
  		{$value} 
@@ -368,9 +369,12 @@ $template = ' hello
  		{/for}';
 $tpl = new jTpl();
 $tpl->assign('value', 'test'); 
-$tpl->fetchFromString($template, 'text');
+$content = $tpl->fetchFromString($template, 'text');
 </code>
-will display
+
+As second argument, you can indicate the type of content (@@text@@, @@html@@...).
+
+@@$content@@ will be:
 <code html>
  hello 
  test 
@@ -381,8 +385,8 @@ world
 	  4 
 	  5 
 </code>
-here @@V@$template@ acts as the 'body' of an existing template file and all its content can 'host' like a 'normal' template file. 
-Thus when we assign to 'test' the @@V@value@ it will be replace as in a template file.
+
+You can then inject this content into an other template for example.
 
 ===== Templates dedicated to a locale =====
 
