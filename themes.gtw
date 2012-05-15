@@ -19,7 +19,7 @@ Here design files means CSS, graphics, JS files. Those files must be accessible 
 In your scripts, to retrieve your //theme// path, use:
 
 <code php>
-   $themePath = $gJConfig->urlengine['basePath'].'themes/'.$gJConfig->theme.'/';
+   $themePath = jApp::config()->urlengine['basePath'].'themes/'.jApp::config()->theme.'/';
    $rep->addCssLink($themePath.'design.css');
 </code>
 
@@ -64,7 +64,7 @@ A typical use case is to let the user select his theme in a list. Suppose there 
 Each time the user will visit the application, it will select his theme like this :
 
 <code php>
-  $GLOBALS['gJConfig']->theme = $choosenTheme;
+  jApp::config()->theme = $choosenTheme;
 </code>
 
 Off course the best place to do it is in a [[plugins/coord|coordinator plugin]] that must be coded and plugged. 

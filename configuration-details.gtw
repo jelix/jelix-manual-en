@@ -46,7 +46,7 @@ Only the @@E@<version>@@ element and attributes  @@A@id@@ and @@A@name@@ on @@E@
 
 The id attribute should be a unique identifiant. That's why it is recommanded to use an email as an identifiant (or a UUID but it is less readable).
 
-The attribute @@A@name@@ shoudl be a "technical" name (the name of the directory of the application or of the module for instance). The @@E@label@@ element can contain a displayable name. 
+The attribute @@A@name@@ should be a "technical" name (the name of the directory of the application or of the module for instance). The @@E@label@@ element can contain a displayable name. 
 
 ==== dependencies ====
 

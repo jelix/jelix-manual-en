@@ -64,7 +64,7 @@ Its name should be @@f@jelix_datepicker_xxx@@ where xxx is the type name. The fu
 
    * a javascript object (@@C@jFormsJQControlDate@@ or @@C@jFormsJQControlDatetime@@ with the default jforms builder) which contains some properties like the name of the field (@@P@name@@), the maximum date (@@P@maxDate@@) or the minimum date (@@P@minDate@@).
    * a javascript object containing this configuration parameters
-     * @@P@locale@@: the language code (valueof $gJConfig->locale)
+     * @@P@locale@@: the language code (valueof jApp::config()->locale)
      * @@P@basePath@@: the value of basePath
      * @@P@jqueryPath@@: The URL path to the jquery library
      * @@P@jelixWWWPath@@: The URL path to the jelix-www content.

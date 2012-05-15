@@ -103,7 +103,7 @@ The javascript function you must create should have a name which follows a speci
 
 This last parameter contains these properties :
 
-  * @@P@locale@@: the language code (valueof $gJConfig->locale)
+  * @@P@locale@@: the language code (valueof jApp::config()->locale)
   * @@P@basePath@@: the value of basePath
   * @@P@jqueryPath@@: The URL path to the jquery library
   * @@P@jelixWWWPath@@: The URL path to the jelix-www content.

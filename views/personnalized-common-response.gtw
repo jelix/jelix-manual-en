@@ -155,7 +155,7 @@ So all actions which will then use the "html" response (by doing this, @@$this->
 
 Once you have defined a common response, it can be really useful to access some application parameters:
 
-  * theme: <code php>$gJConfig->theme</code>
+  * theme: <code php>jApp::config()->theme</code>
   * request params: <code php>$gJCoord->request->getParam(..) </code>
 
 Example:
@@ -168,9 +168,8 @@ class myHtmlResponse extends jResponseHtml {
    public $bodyTpl = 'testapp~main';
 
    public function __construct() {
-        global $gJConfig;
         parent::__construct();
-        $theme = $gJConfig->urlengine['basePath'] . 'themes/' . $gJConfig->theme . '/';
+        $theme = jApp::config()->urlengine['basePath'] . 'themes/' . jApp::config()->theme . '/';
         $this->addCSSLink($theme . 'css/screen.css');
    }
 

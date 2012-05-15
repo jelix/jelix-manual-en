@@ -18,15 +18,15 @@ Use the controller response object to specify CSS stylesheets, javascript files 
 
 <code php>
    public function outputMetaContent($t) {
-        global $gJCoord, $gJConfig;
+        global $gJCoord;
         $resp= $gJCoord->response;
         if($resp === null){
             return;
         }
         // if files are located in jelix folder
-        $www = $gJConfig->urlengine['jelixWWWPath'];
+        $www = jApp::config()->urlengine['jelixWWWPath'];
         // or in your app www folder        
-        $www = $gJConfig->urlengine['basePath'];
+        $www = jApp::config()->urlengine['basePath'];
 
         $resp->addJSLink($www.'js/file.js');
         $resp->addCSSLink($www.'design/file.css');

@@ -3,7 +3,7 @@
 A Jelix application have several configuration files:
 
   * A project.xml file, describing general information about the application
-  * A module.xml  file in each module
+  * A module.xml file in each module, describing general information about the module
   * A defaultconfig.ini.php file for the global configuration, and a config.ini.php file for each entry points
   * A profiles.ini.php for connections profiles (database configuration for example).
 

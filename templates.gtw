@@ -198,7 +198,7 @@ Some variables are predefined so you have not to assign them:
    * @@V@$j_themepath@@: it contains the url path of the directory of the current theme in www
    * @@V@$j_datenow@@: current date (aaaa-mm-jj)
    * @@V@$j_timenow@@: current hour (hh:mm:ss)
-   * @@V@$j_locale@@: current locale code (the value of @@$gJConfig->locale@@)
+   * @@V@$j_locale@@: current locale code (the value of @@jApp::config()->locale@@)
 
 ==== Modifiers ====
 

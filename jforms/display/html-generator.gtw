@@ -142,5 +142,5 @@ Example in a common respsonse :
 
 
 <code>
-  $this->addJSLink($GLOBALS['gJConfig']->urlengine['jelixWWWPath'].'jquery/jquery.js');
+  $this->addJSLink(jApp::config()->urlengine['jelixWWWPath'].'jquery/jquery.js');
 </code>  

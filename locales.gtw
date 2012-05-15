@@ -8,17 +8,15 @@ Each text or string that you want to translate is associated to a key. These ass
 
 The following code will store the current locale in the lang variable.
 <code php>
-//use the following line if in an function context
-global $gJConfig;
 
-$lang = $gJConfig->locale;
+$lang = jApp::config()->locale;
 </code>
 
-To be able to retrieve a string in the current language, simply call //jLocale::get('LocaleSelector')//, or, in templates, use the @LocaleSelector@ syntax (see the [[templates|template page]]).
+To be able to retrieve a string in the current language, simply call @@jLocale::get('LocaleSelector')@@, or, in templates, use the @LocaleSelector@ syntax (see the [[templates|template page]]).
 
 ===== Property files =====
 
-Property files are files containing translations. They follow strict conventions. They are located in the //locales// directory of the modules. This directory has a specific organization. It has a sub-directories for each language. Example: @@F@locales/fr_FR/@@ for France's french, @@F@locales/en_US/@@ for United States' english, and so on. In each language directory there are many property files, corresponding to the same language but different character encoding.
+Property files are files containing translations. They follow strict conventions. They are located in the @@F@locales/@@ directory of the modules. This directory has a specific organization. It has a sub-directories for each language. Example: @@F@locales/fr_FR/@@ for France's french, @@F@locales/en_US/@@ for United States' english, and so on. In each language directory there are many property files, corresponding to the same language but different character encoding.
 
 ==== File name ====
 
@@ -29,9 +27,9 @@ If in the config file, the default language is en_US ("locale=en_US") and the de
 
 ==== File content ====
 
-The file content structure is quite simple. It's basically a //key=translated string// structure, with some improvements. There isn't real coding guidelines in the file, but you might organizing your locales using a 'generic.specific' scheme for the key names. You can't use double and single quotes to delimit your strings, new lines do this.
+The file content structure is quite simple. It's basically a @@key=translated string@@ structure, with some improvements. There isn't real coding guidelines in the file, but you might organizing your locales using a 'generic.specific' scheme for the key names. You can't use double and single quotes to delimit your strings, new lines do this.
 
-Here is an example for our english locale (@@F@en_US/generic.ISO-8859-1.properties@@) file :
+Here is an example for our english locale (@@F@en_US/generic.ISO-8859-1.properties@@) file:
 
 <code ini>
 title.offlineElements = elements to check
@@ -43,7 +41,7 @@ buttons.cancel=Cancel
 buttons.search=Search
 </code>
 
-And the equivalent in the french locale (@@F@fr_FR/generic.ISO-8859-1.properties@@) :
+And the equivalent in the french locale (@@F@fr_FR/generic.ISO-8859-1.properties@@):
 
 <code ini>
 title.offlineElements = éléments à traiter
@@ -167,10 +165,7 @@ The autolocale plugin scans urls looking for a specific parameter indicating a l
 
 Even though the autolocale modifies the locale setting, you still get the current locale as usual:
 <code php>
-//use the following line if in an function context
-global $gJConfig;
-
-$lang = $gJConfig->locale;
+$lang = jApp::config()->locale;
 </code>
 
 To use autolocale plugin, copy @@F@lib/jelix/plugins/coord/autolocale/autolocale.coord.ini.php.dist@@ into @@F@var/config/@@ and rename it @@F@autolocale.coord.ini.php@@.

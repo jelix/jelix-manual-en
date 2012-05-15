@@ -4,49 +4,8 @@ From your classes, you can access to some global variables created by Jelix.
 
 ===== $gJConfig =====
 
-This object allow you to access to the configuration of the application. Each of its properties correspond to a configuration parameter stored in the  @@F@defaultconfig.ini.php@@ or the ini file of the entry point.
-
-==== Calling gJConfig ====
-
-Here is an example in a function/method:
-
-<code php>
-function test()
-{
-   global $gJConfig;
-   $gJConfig->urlengine['basePath'];
-
-// or, without using the global keyword
-   $GLOBALS['gJConfig']->urlengine['basePath'];
-}
-</code>
-
-==== Accessing to parameters ====
-
-If the @@F@config.ini.php@@ file of the entry point has this content:
-<code ini>
-startModule = "testapp"
-startAction = "main:index"
- 
-[coordplugins]
-autolocale = index/autolocale.ini.php
- 
-[responses]
-html=myHtmlResponse
-</code>
-
-Then you can retrieve this parameters, by doing this:
-
-<code php>
-function test()
-{
-   global $gJConfig;
-
-   $a = $gJConfig->startModule; // "testapp"
-   $b = $gJConfig->coordplugins['autolocale']; // "index/autolocale.ini.php"
-}
-</code>
-
+In previous version of Jelix (<= 1.3), this object allowed you to access to the configuration of the application.
+You must now call @@jApp::config()@@ instead.
 
 ===== $gJCoord =====
 
