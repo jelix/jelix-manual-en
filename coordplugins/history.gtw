@@ -108,7 +108,7 @@ function index() {
     $rep = $this->getResponse('html');
     
     if( $this->param('var') !== null ) {
-        $GLOBALS['gJCoord']->getPlugin('history')->change('label', 'Page '.ucfirst($this->param('var')));
+        jApp::coord()->getPlugin('history')->change('label', 'Page '.ucfirst($this->param('var')));
     }
     
     $rep->body->assign('MAIN', $rep->body->fetch('myapp~page'));
@@ -122,14 +122,14 @@ One frequent case is: you want to execute an action (after a keystroke for examp
 
 To perform this, History plugin provides a simple command.
 <code php>
-$history = $GLOBALS['gJCoord']->getPlugin('history');
+$history = jApp::coord()->getPlugin('history');
 return $history->reload( $this->getResponse('redirect') );
 </code>
 
 If you would like to reload the page modifying one or two parameters, you have just to do this:
 
 <code php>
-$history = $GLOBALS['gJCoord']->getPlugin('history');
+$history = jApp::coord()->getPlugin('history');
 $ret = $history->reload( $this->getResponse('redirect') );
 
 $ret->params['foo'] = 'bar';
@@ -141,7 +141,7 @@ return $ret;
 
 Another frequent case is: get the link to come back to previous page.
 <code php>
-$history = $GLOBALS['gJCoord']->getPlugin('history');
+$history = jApp::coord()->getPlugin('history');
 return $history->back( $this->getResponse('redirect') );
 </code>
 
@@ -157,6 +157,6 @@ session_time_name = "HISTORYTIME"
 
 Then to catch the time spent on the site, you have just to do
 <code php>
-$history = $GLOBALS['gJCoord']->getPlugin('history');
+$history = jApp::coord()->getPlugin('history');
 $delais = $history->time();
 </code>

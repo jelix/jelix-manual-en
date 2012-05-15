@@ -15,7 +15,7 @@ $rep = $this->getResponse('html');
 Use this expression to retrieve current action in a controller, a zone, your common response.
 
 <code php>
-$GLOBALS['gJCoord']->action->toString();
+jApp::coord()->action->toString();
 </code>
 
 ==== Access user session variables ====
@@ -30,16 +30,16 @@ $_SESSION['JELIX_USER']->login
 
 This one applies to date fields having //datetime// or //date// as type. 
 
-Just add the following attributes to the property line associated with your date field and located in your DAO xml file :
+Just add the following attributes to the property line associated with your date field and located in your DAO xml file:
 
-<code php>
-inserpattern="NOW()"
+<code xml>
+<property inserpattern="NOW()" .../>
 </code>
 
 your date field will be set to current date on record insert.
 
-<code php>
-updatepattern="NOW()"
+<code xml>
+<property updatepattern="NOW()" .../>
 </code>
 
 your date field will be set to current date on record update.

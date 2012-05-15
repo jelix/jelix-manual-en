@@ -54,7 +54,7 @@ In your controller, you must indicate where can @@C@jResponseBasicHtml@@ find th
 
 <code php>
    $rep = $this->getResponse('basichtml');
-   $rep->htmlFile = $GLOBALS['gJCoord']->getModulePath('unModule'). 'static/hello.php';
+   $rep->htmlFile = jApp::coord()->getModulePath('unModule'). 'static/hello.php';
 </code>
 
 

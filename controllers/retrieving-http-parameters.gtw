@@ -21,7 +21,7 @@ This is why you have one unified way to retrieve a parameter: the method @@param
 HTTP client-request parameters are accessible through an instance of @@C@jRequest@@, which is accessible from @@C@jCoordinator@@. For example :
 
 <code php>
- $id = $GLOBALS['gJCoord']->request->getParam('id');
+ $id = jApp::coord()->request->getParam('id');
 </code>
 
 Although @@C@jController@@ provides the method @@M@param()@@:

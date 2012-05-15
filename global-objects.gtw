@@ -1,38 +1,12 @@
 ~~LANG:FR@frman:objets_globaux~~
 
-From your classes, you can access to some global variables created by Jelix.
+In previous version of Jelix (<= 1.3), there were some global variables created by Jelix.
 
 ===== $gJConfig =====
 
-In previous version of Jelix (<= 1.3), this object allowed you to access to the configuration of the application.
-You must now call @@jApp::config()@@ instead.
+This object allowed you to access to the configuration of the application. You must now call @@jApp::config()@@ instead.
 
 ===== $gJCoord =====
 
-The @@V@$gJCoord@@ object is the instance of a @@C@jCoordinator@@ class, created in the entry point. You can then access to its method and properties to retrieve some informations and objects : plugins list, the current @@C@jResponse@@ object, the current @@C@jRequest@@ object, the current module name and action name etc.
+The @@V@$gJCoord@@ was the instance of the @@C@jCoordinator@@ class, created in the entry point. You must now call @@jApp::coord()@@.
 
-==== Calling gJCoord ====
-
-<code php>
-function test()
-{
-   global $gJCoord;
-   $gJCoord->request->type;
-
-// or
-   $GLOBALS['gJCoord']->request->type; 
-}
-</code>
-
-==== Example ====
-
-If your entry point is called with the URL @@/index.php?test=1@@, here how to retrieve parameters and the script name:
-<code php>
-function test()
-{
-   global $gJCoord;
-
-   $a = $gJCoord->request->urlScriptName; // "index.php"
-   $b = $gJCoord->request->params['test']; // 1
-}
-</code>

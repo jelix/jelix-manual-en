@@ -10,7 +10,7 @@ Depending on the client waiting either @@P@responseText@@ or @@P@responseXml@@ o
   * Or, in other cases, you would use [[/views/view-text|jResponseText]].
 
 
-In your controller, you can use @@$GLOBALS['gJCoord']->request->isAjax()@@ to verify that the request is a true AJAX request (eg, made with XMLHttpRequest).
+In your controller, you can use @@jApp::coord()->request->isAjax()@@ to verify that the request is a true AJAX request (eg, made with XMLHttpRequest).
 
 ===== Sending HTML fragments =====
 

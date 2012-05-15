@@ -23,32 +23,31 @@ An entry point is a script which manage a part or all your application [[call-ac
 An entry point create a @@C@jCoordinator@@ object, a @@C@jRequest@@ object (to parse all request parameters) and indicates which configuration file to use. For the classic entry point (so index.php), it looks like this:
 
 <code php>
-// application initialisation file
+// application initialization file
 require_once ('../../testapp/application.init.php');
 
-// configuration file
-$config_file = 'index/config.ini.php';
+// load the configuration file
+jApp::loadConfig('index/config.ini.php');
 
-// jCoordinator object
-$jelix = new jCoordinator($config_file);
+// create the jCoordinator object and set it in the Jelix environment
+jApp::setCoord(new jCoordinator());
 
 // jRequest object
 require_once (JELIX_LIB_CORE_PATH.'request/jClassicRequest.class.php');
 $request = new jClassicRequest();
 
 // action processing
-$jelix->process($request);
-
+jApp::coord()->process($request);
 </code>
 
 
 ===== API =====
 
-During the action processing, the request object is accessible throw the //request// property of the jCoordinator object. This object is accessible throw a global variable //$gJCoord//.
+During the action processing, the request object is accessible through the @@P@request@@ property of the @@C@jCoordinator@@ object. This object is accessible through the @@C@jApp@@ object.
 
 <code php>
 // To retrieve a request parameter
-$myfooValue = $GLOBALS['gJCoord']->request->getParam('foo');
+$myfooValue = jApp::coord()->request->getParam('foo');
 </code>
 
 But in a controller, you have some method to do the same things shortly:

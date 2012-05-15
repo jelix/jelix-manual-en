@@ -18,9 +18,9 @@ Use the controller response object to specify CSS stylesheets, javascript files 
 
 <code php>
    public function outputMetaContent($t) {
-        global $gJCoord;
-        $resp= $gJCoord->response;
-        if($resp === null){
+
+        $resp = jApp::coord()->response;
+        if ($resp === null) {
             return;
         }
         // if files are located in jelix folder

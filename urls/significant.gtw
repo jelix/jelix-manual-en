@@ -244,7 +244,7 @@ You can specify several module like that on a same entry point.
 
 ==== Specify some secured urls (https) for specific actions====
 
-For some actions, you could want to access them throw an https access. So you should add a @@A@https@@ attribute (with "true" as a value) on the @@E@<url>@@ elements you want. If you want to specify https on all actions of an entrypoint, then you can put the @@A@https@@ attribute on the entrypoint element instead of each url element.
+For some actions, you could want to access them through an https access. So you should add a @@A@https@@ attribute (with "true" as a value) on the @@E@<url>@@ elements you want. If you want to specify https on all actions of an entrypoint, then you can put the @@A@https@@ attribute on the entrypoint element instead of each url element.
 
 ==== Including urls files of modules ====
 

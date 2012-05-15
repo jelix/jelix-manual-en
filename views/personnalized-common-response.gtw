@@ -155,8 +155,8 @@ So all actions which will then use the "html" response (by doing this, @@$this->
 
 Once you have defined a common response, it can be really useful to access some application parameters:
 
-  * theme: <code php>jApp::config()->theme</code>
-  * request params: <code php>$gJCoord->request->getParam(..) </code>
+  * theme: @@jApp::config()->theme@@
+  * request params: @@jApp::coord()->request->getParam(..)@@
 
 Example:
 
@@ -175,10 +175,9 @@ class myHtmlResponse extends jResponseHtml {
 
 
    protected function doAfterActions(){
-        global $gJCoord;
         $this->title .= ($this->title != '' ? ' - ' : '').' My App';
 
-        $param = $gJCoord->request->getParam('view')
+        $param = jApp::coord()->request->getParam('view')
 
         // all pages will have a login form
         $this->body->assignZone("A", "auth~login", array( 'view' => $param ));
