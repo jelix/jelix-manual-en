@@ -30,7 +30,7 @@ As usual, you must remove every files into the @@F@temp/yourapp/@@ directory.
 Your entrypoints should be changed:
   * the coordinator should be set into the jApp object.
   * the configuration file should be indicated to the jApp object too instead of the coordinator.
-  * See a template in lib/jelix-scripts/templates/www/index.php.tpl
+  * See a template in @@F@lib/jelix-scripts/templates/www/index.php.tpl@@.
  
 Here is an example:
 
@@ -60,11 +60,24 @@ jApp::coord()->process(new jClassicRequest());
 
   * update sources of vendor's modules that you have installed, with version compatible with Jelix 1.4.
   * For your own modules:
-      * the global variable @@V@$gJConfig@@ is now deprecated. You should use @@M@jApp::config()@@ instead, to retrieve the configuration.
-    * the global variable @@V@$gJCoord@@ is now deprecated. You should use @@M@jApp::coord()@@ instead, to retrieve the coordinator.
-     * In module.xml files, indicate that the module is compatible with Jelix 1.4 (change the attributes maxversion). Example :
+     * the global variable @@V@$gJConfig@@ is now deprecated. You should use @@M@jApp::config()@@ instead, to retrieve the configuration.
+     * the global variable @@V@$gJCoord@@ is now deprecated. You should use @@M@jApp::coord()@@ instead, to retrieve the coordinator.
+     * In @@F@module.xml@@ files, indicate that the module is compatible with Jelix 1.4 (change the attributes @@A@maxversion@@). Example:
 
-        <jelix minversion="1.3" maxversion="1.4b1"/>
+<code xml>
+        <jelix minversion="1.3" maxversion="1.4.*"/>
+</code>
+
+
+New API you can use:
+
+  * TODO
+
+
+Deprecated API you cannot use anymore:
+
+  * TODO
+
 
 ==== Jelix update ====
 
