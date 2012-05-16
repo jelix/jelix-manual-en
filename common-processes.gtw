@@ -1,7 +1,10 @@
 ~~LANG:FR@frman:traitements_communs~~
 
 
-There are two type of treatments: business processes, and those to generate the web content. For business processes, you create some classes, which use jDao, working with a database. These classes can be used by all modules, so this is a way to execute some common processes. See [[business_classes]].
+There are two type of treatments: business processes, and those to generate the
+web content. For business processes, you create some classes, which use jDao,
+working with a database. These classes can be used by all modules, so this is a
+way to execute some common processes. See [[using_classes]].
 
 For the generation of web content, this is a little more complex because there are several ways of doing things. In most of cases, we have several pages that have some parts in common. This may be a banner, a footer, a menu on the side etc. .. There may be some pages which have more than these common "zone". Here are some various solutions, depending on the context, to create some common processes
 
