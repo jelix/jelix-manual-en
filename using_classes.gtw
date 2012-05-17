@@ -153,3 +153,37 @@ loadClasses = "mymodule~bar,mymodule~subdir/foo, shop~shoesProduct"
 </code>
 
 Note: the module name is required.
+
+===== Autoload =====
+
+Description:
+
+The autoload system supports the [[https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md|PSR0 specification]]
+
+module.xml:
+
+The autoload can now be defined into the module.xml file of your modules, to automatically load classes for your own needs.
+
+Your @@F@module.xml@@ now could look like this :
+
+<code xml>
+<module xmlns="http://jelix.org/ns/module/1.0">
+    <info id="jelix_tests@testapp.jelix.org" name="jelix_tests">
+        <version>1.0</version>
+        <label>Jelix tests</label>
+        <description>unit tests for jelix</description>
+    </info>
+    <dependencies>
+        <jelix minversion="1.4" maxversion="1.4.*" />
+        <module name="testurls" minversion="1.0.2" maxversion="1.1b1" />
+        <module name="jauthdb" />
+        <module name="jacl2db" />
+        <module name="jacldb" />
+        <autoloader file="autoloadtest/myautoloader.php" />
+    </dependencies>
+</module>
+</code>
+
+
+Thus, the node that is important here, is @@autoloader@@, which will trigger the jelix autoloader to ask him to load the file myautoloader.php located in the autoloadtest directory.
+And in your myautoloader.php scritp you will then write the piece of code that will use [[http://php.net/spl_autoload_register|spl_autoload_register]] and its friends.
