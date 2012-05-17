@@ -88,3 +88,17 @@ Each response type is declared with a keyword. So, to retrieve a specific respon
 
 Notice that you can create your own response object. You can then support a new output format, or you can overload an existing response object to do some things shared between many actions. For example, you can create your own response HTML which generates dynamically a menu. Then, in all actions where you use this responses, you will have this menu. See [[creating-response|the page which explains how to do this]].
 
+==== Fetch a jResponse object provided by your module ====
+
+Module provides the ability to use its own response by creating it in the @@F@response@@ folder of your module.
+
+Then after you made it all you need to do is to declare it in the config file like follow :
+
+For example let's call the response "mySuperHtmlResp" and see how to do it:
+
+<code ini>
+[responses]
+html= "module:mymodule:mySuperHtmlResp" 
+</code>
+
+Then you will be able to use your response in your actions of your controller.

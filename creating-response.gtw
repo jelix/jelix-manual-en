@@ -4,7 +4,7 @@ If you have to deal with an unsupported format in Jelix, just create a new respo
 
 You have to follow these steps:
     - create a class inheriting from @@C@jResponse@@ (or another existing response), and implementing methods to support your specific format.
-    - save this class in a file located under the @@F@responses/@@ application folder.
+    - save this class in a file located under the @@F@responses/@@ application folder or also in the folder @@F@responses/@@  of your own module.
     - declare the new response type in configuration file and assign its alias.
 
 ===== Create a class =====
