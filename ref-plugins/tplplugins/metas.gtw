@@ -149,3 +149,18 @@ to add additionnal content in the header of your page, you just need to do as fo
 <code html>
 {meta_html others '<meta name="robots" content="index, follow" />'}
 </code>
+
+====== meta_htmlmodule ======
+
+this meta provides a shortcut to access to the own CSS, JS, and image content
+located in the www directory of the module.
+
+Like above you can use any combination of meta_htmlmodule with js, css or 
+others, example :
+
+<code html>
+{meta_htmlmodule css , 'mymodule', 'css/screen.css', array('media'=>'screen, projection')}
+</code>
+
+thus Jelix will go inside the directory 'mymodule'/www/css or
+'mymodule'/www/themes/'currenttheme'/css to find the file screen.css
