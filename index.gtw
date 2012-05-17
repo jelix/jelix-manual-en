@@ -45,7 +45,7 @@ Download [[http://download.jelix.org/jelix/documentation/en/manual-jelix-1.4b1.p
      - section: [[controllers/retrieving-http-parameters|Retrieving HTTP parameters]]
      - section: [[controllers/crud|Using the CRUD controller]]
      - section: [[controllers/rest-full|Developing a REST controller]]
-     - section: [[using-classes|Coding and using classes]]
+     - section: [[using_classes|Coding and using classes]]
    - chapter: [[views/|Responses: generating content]]
      - section: [[views/view-html|Generating HTML content]]
      - section: [[views/view-text|Generating plain text]]
