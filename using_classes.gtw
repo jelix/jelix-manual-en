@@ -179,11 +179,24 @@ Your @@F@module.xml@@ now could look like this :
         <module name="jauthdb" />
         <module name="jacl2db" />
         <module name="jacldb" />
-        <autoloader file="autoloadtest/myautoloader.php" />
+        <autoload>
+             <class name="myautoloadedclass" file="autoloadtest/autoloadtestclass.php" />
+             <classPattern pattern="/^myalclass/" dir="autoloadtest/withpattern/" suffix=".cl.php" />
+             <namespace name="jelixTests\foo" dir="autoloadtest" />
+             <namespacePathMap name="jelixTests\bar" dir="autoloadtest/barns" suffix=".class.php" />
+             <includePath dir="autoloadtest/incpath" suffix=".php" />
+             <autoloader file="autoloadtest/myautoloader.php" />
+        </autoload>
     </dependencies>
 </module>
 </code>
 
 
-Thus, the node that is important here, is @@autoloader@@, which will trigger the jelix autoloader to ask him to load the file myautoloader.php located in the autoloadtest directory.
-And in your myautoloader.php scritp you will then write the piece of code that will use [[http://php.net/spl_autoload_register|spl_autoload_register]] and its friends.
+Thus, the node that is important here, is @@autoload@@.
+As you can read from the children nodes, there are differents ways to load class :
+
+* a class
+* a set of class which match a given pattern
+* a namespace
+* a set of file to include from a path
+* a specific autoloader from where you will then write the piece of code that will use [[http://php.net/spl_autoload_register|spl_autoload_register]] and its friends.
