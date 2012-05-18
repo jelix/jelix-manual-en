@@ -11,5 +11,5 @@ Main improvements provided by the version 1.4 are:
    * new class, jPref, to set and get dynamic/functionnal configuration options. An interface is available to allow a webmaster to manage these preferences.
    * modules can provide their own response object and indicate them directly into the configuration
    * modules can provide their own CSS and JS file without copying them into the @@F@www@@ directory
-   * Jelix-scripts now searches a .jelix-scripts.ini in the current directory and its parent directories, before searching in the home directory
+   * [[/jelix-scripts#changing-the-default-configuration|Jelix-scripts now searches a .jelix-scripts.ini]] in the current directory and its parent directories, before searching in the home directory
    * New jDb driver using the mysqli API

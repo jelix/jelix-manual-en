@@ -99,15 +99,20 @@ The entry point should be declared in the project.xml file of the application.
 
 ===== Changing the default configuration =====
 
-Commands creating new files or directories follow a specific tree structure. Perhaps you may want to organize your files in a different manner. Also, there are some customizable infos stored in header comments of files, like your name, the project name and so on. 
+Commands creating new files or directories follow a specific tree structure. Perhaps you may want to organize your files in a different manner. Also, there are some customizable infos stored in header comments of files, like your name, the project name and so on. You can configure all of these informations.
 
-You can configure all of this by creating a configuration file, in your home directory.
+In @@F@lib/jelix-scripts/templates/@@, there is a file @@F@jelix-scripts.ini@@. You can copy it in two places, by renaming it to @@F@.jelix-scripts.ini@@.
 
-In @@F@lib/jelix-scripts/templates/@@, there is a file @@F@jelix-scripts.ini@@. Copy it to your home directory (@@F@/home/yourlogin/@@ for example in Linux), and rename it to @@F@.jelix-scripts.ini@@. You can then modify it by changing different values. If you want different values for each application, create section in the file, named with the name of the application, and set values in it.
+   * into one of the parent directory of the application
+   * into your home directory (@@F@/home/yourlogin/@@ for example in Linux or @@F@c:\Users\yourlogin\@@ with windows 7)
+
+Jelix-scripts searches a @@F@.jelix-scripts.ini@@ in the current directory and its parent directories, before searching in the home directory.
+
+You can then modify it by changing different values. If you want different values for each application, create section in the file, named with the name of the application, and set values in it.
 
 <code ini>
 [myapp]
-incofCopyright=2011 my company
+incofCopyright=2012 my company
 </code>
 
 
