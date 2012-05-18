@@ -195,8 +195,8 @@ Your @@F@module.xml@@ now could look like this :
 Thus, the node that is important here, is @@autoload@@.
 As you can read from the children nodes, there are differents ways to load class :
 
-* a class
-* a set of class which match a given pattern
-* a namespace
-* a set of file to include from a path
-* a specific autoloader from where you will then write the piece of code that will use [[http://php.net/spl_autoload_register|spl_autoload_register]] and its friends.
+  * a class
+  * a set of class which match a given pattern
+  * a namespace
+  * a set of file to include from a path
+  * a specific autoloader from where you will then write the piece of code that will use [[http://php.net/spl_autoload_register|spl_autoload_register]] and its friends.
