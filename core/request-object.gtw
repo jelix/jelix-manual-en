@@ -2,44 +2,21 @@
 
 ===== A jRequest object for each type of request =====
 
-A jRequest object handles the processing of the input data in order to make it easily available to the framework and especially to the actions. It allows, among other things, to determine the actions to execute.
+A jRequest object handles the processing of the input data in order to make it easily available to the framework and especially to the actions. It allows, among other things, to determine the name of the action to execute.
 
 There are several types of jRequest objects, processing different input data. Indeed, we don't retrieve the input data for a HTML page (in the url (get) or encoded in the body of the HTTP request (post) ), the same way as we would do for a SOAP request (data in the body of the HTTP request in XML).
 
 For each jRequest object, corresponds one or more authorized output format, then one or more authorized jResponse object.
 
-The available jRequest object are :
-  * classic: for the classical requests whose response type is not important (html, text, redirection ..)
+The available jRequest object are:
+  * classic: for "normal" requests whose response type is any content (html, text, redirection ..)
   * soap: for SOAP request, when you want implement some SOAP services. The response should be in SOAP format.
   * xmlrpc: for the XMLRPC requests. The response must be in XMLRPC
   * jsonrpc: for the JSONRPC requests. The response must be in jSONRPC
 
 Other requests types are possible of course.
 
-===== Entry points =====
-
-An entry point is a script which manage a part or all your application [[call-action|actions]]. Only entry points should be web accessible and therefore should lie in @@F@www/@@ directory of your application. It should exist an entry point for each type of request that you want to use. As a result, each entry point should also have its specific configuration file.
-
-An entry point create a @@C@jCoordinator@@ object, a @@C@jRequest@@ object (to parse all request parameters) and indicates which configuration file to use. For the classic entry point (so index.php), it looks like this:
-
-<code php>
-// application initialization file
-require_once ('../../testapp/application.init.php');
-
-// load the configuration file
-jApp::loadConfig('index/config.ini.php');
-
-// create the jCoordinator object and set it in the Jelix environment
-jApp::setCoord(new jCoordinator());
-
-// jRequest object
-require_once (JELIX_LIB_CORE_PATH.'request/jClassicRequest.class.php');
-$request = new jClassicRequest();
-
-// action processing
-jApp::coord()->process($request);
-</code>
-
+You'll have an entry points for each request type you want to support in your application.
 
 ===== API =====
 
@@ -50,7 +27,7 @@ During the action processing, the request object is accessible through the @@P@r
 $myfooValue = jApp::coord()->request->getParam('foo');
 </code>
 
-But in a controller, you have some method to do the same things shortly:
+But in a controller, you have some method on the @@C@jController@@ class, to do the same thing shortly:
 <code php>
  $myfooValue = $this->param('foo');
 </code>
