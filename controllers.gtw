@@ -87,4 +87,3 @@ Each response type is declared with a keyword. So, to retrieve a specific respon
 @@V@$resp@@ is now an instance of @@C@jResponseHtml@@ capable of generating HTML.
 
 Notice that you can create your own response object. You can then support a new output format, or you can overload an existing response object to do some things shared between many actions. For example, you can create your own response HTML which generates dynamically a menu. Then, in all actions where you use this responses, you will have this menu. See [[creating-response|the page which explains how to do this]].
-
