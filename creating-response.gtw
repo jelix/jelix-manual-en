@@ -4,7 +4,7 @@ If you have to deal with an unsupported format in Jelix, just create a new respo
 
 You have to follow these steps:
     - create a class inheriting from @@C@jResponse@@ (or another existing response), and implementing methods to support your specific format.
-    - save this class in a file located under the @@F@responses/@@ application folder.
+    - save this class in a file located under the @@F@responses/@@ application folder or also in the folder @@F@responses/@@  of your own module.
     - declare the new response type in configuration file and assign its alias.
 
 ===== Create a class =====
@@ -45,17 +45,23 @@ As shown above, you can added any new member properties and methods to your resp
 
 ===== Class location =====
 
-Tthere is no naming convention for your response class but it has to be repeated in class filename. In the example above, the class should live in a @@F@myFooResponse.class.php@@ file under @@F@responses/@@ folder of your application.
+There is no naming convention for your response class but it has to be repeated in class filename. In the example above, the class should live in a @@F@myFooResponse.class.php@@ file under @@F@responses/@@ folder of your application or module.
 
 
 ===== Declare a response =====
 
 Last step, your new response must be declared and given an alias in configuration file. Just add this line @@alias=class@@ in @@[responses]@@ section of config.ini.php.
 
-Example:
+Here is an example of a response for your application :
 <code ini>
 [responses]
 foo=myFooResponse
+</code>
+
+Here is an example of a response from your module :
+<code ini>
+[responses]
+foo="module:mymodule:myFooResponse" 
 </code>
 
 Then in a controller, you can use @@C@myFooResponse@@:

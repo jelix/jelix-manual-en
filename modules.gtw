@@ -10,6 +10,7 @@ A module is a directory which contains :
   * jdao files
   * jform files
   * localization files
+  * responses
 
 In an application, you should have at least one module which you should create. In general this module is the main module, which contains for example the home page of your application.
 
