@@ -117,7 +117,35 @@ The result of the second loop will be:
 </code>
 
 
+===== resurl =====
 
+Allow to use a resource form a module. File must be present in a www directory in the module.
+
+<code>
+    {resurl 'module', 'example.png'}
+</code>
+
+=== Parameters ===
+
+== Module ==
+
+This is the module where the resource is located
+
+== File ==
+
+The file, with it's path relative to the module's www directory
+
+== Additionnal parameters ==
+
+This function plugin take 2 additionnal parameters:
+
+= In Theme ? =
+
+Pass true, as third parameter to declare if the resource is in a theme (default to false)
+
+= Escape =
+
+Pass false as fourth parameter not to escape special characters (default to true)
 
 
 ===== Others =====
