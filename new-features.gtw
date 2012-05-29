@@ -2,14 +2,14 @@
 
 Main improvements provided by the version 1.4 are: 
 
-   * new @@M@jApp::config()@@ method, to retrieve the configuration and new method @@M@jApp::loadConfig()@@ to load the configuration. @@V@$gJConfig@@ is deprecated.
-   * new @@M@jApp::coord()@@ method, to retrieve the coordinator and new @@M@jApp::setCoord()@@ to set the coordinator into the Jelix environment. @@V@$gJCoord@@ is deprecated.
-   * new autoload system. Classes to autoload can be indicated into module.xml file of your modules. the autoload system support the [[https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md|PSR0 specification]]
-   * virtual templates
+   * new @@M@jApp::config()@@ method, to retrieve the configuration and new method @@M@jApp::loadConfig()@@ to load the configuration. @@V@$gJConfig@@ is deprecated. (see [[/core/entry-points#japp|jApp]]).
+   * new @@M@jApp::coord()@@ method, to retrieve the coordinator and new @@M@jApp::setCoord()@@ to set the coordinator into the Jelix environment. @@V@$gJCoord@@ is deprecated. (see [[/core/entry-points#japp|jApp]]).
+   * [[/using-classes#autoload|new autoload system]]. Classes to autoload can be indicated into module.xml file of your modules. the autoload system support the [[https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md|PSR0 specification]]
+   * [[/templates#virtual-templates|virtual templates]]: jTpl can now use templates that are not in files.
    * new API to support HTTP cache, on response object: @@M@cleanCacheHeaders()@@, @@M@setExpires()@@, @@M@setLifetime()@@, @@M@isValidCache()@@.
    * new classes to read Atom and RSS feeds
    * new class, jPref, to set and get dynamic/functionnal configuration options. An interface is available to allow a webmaster to manage these preferences.
-   * modules can provide their own response object and indicate them directly into the configuration
-   * modules can provide their own CSS and JS file without copying them into the @@F@www@@ directory
+   * modules can provide their own response object and [[/creating-response#declare-a-response|indicate them directly into the configuration]]
+   * [[/creating-response#declare-a-response|modules can provide their own CSS and JS file]] without copying them into the @@F@www@@ directory
    * [[/jelix-scripts#changing-the-default-configuration|Jelix-scripts now searches a .jelix-scripts.ini]] in the current directory and its parent directories, before searching in the home directory
    * New jDb driver using the mysqli API
