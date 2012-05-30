@@ -12,4 +12,5 @@ Main improvements provided by the version 1.4 are:
    * modules can provide their own response object and [[/creating-response#declare-a-response|indicate them directly into the configuration]]
    * [[/creating-response#declare-a-response|modules can provide their own CSS and JS file]] without copying them into the @@F@www@@ directory
    * [[/jelix-scripts#changing-the-default-configuration|Jelix-scripts now searches a .jelix-scripts.ini]] in the current directory and its parent directories, before searching in the home directory
-   * New jDb driver using the mysqli API
+   * [[/db/configuration#mysql-profile|New jDb driver "mysqli"]] using the mysqli API
+

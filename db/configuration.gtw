@@ -8,7 +8,7 @@ Here is an example in @@F@profiles.ini.php@@ file:
 
 <code ini>
 [jdb:default]
-driver="mysql"
+driver="mysqli"
 database="jelix"
 host= "localhost"
 user= "jelix"
@@ -27,7 +27,7 @@ In a section, you have several parameters. Their number and name can be differen
 ===== mysql profile =====
 
 Possible parameters:
-   * **driver** : should be "mysql"
+   * **driver** : should be "mysql" (using the old PHP API mysql) or "mysqli" (using the new PHP API mysqli)
    * **database** : the database name
    * **host** : the server name
    * **user** et **password** : the login and the password to use for the connection
@@ -62,14 +62,23 @@ Do not forget that the sqlite database files must be placed in the @@F@var/db/sq
 
 ===== PDO profile =====
 
-Since Jelix 1.2, you can indicate into a mysql, postgresql or else, to use PDO for the connection, by just adding the parameter @@usepdo=on@@.
+You can indicate to use PDO for the connection, by just adding the parameter @@usepdo=on@@. You should then have at least these parameters:
 
-Or you can still use the deprecated way to use PDO, by creating a profile using these parameters:
+   * **driver**: the PDO driver name
+   * **host**, **user**, **password** (except for sqlite of course)
+   * **database**: the database name. To indicate the path for a sqlite database, you can use shortcuts like "app:", "lib:" or "var:" to indicate path of the application, the lib directory or the var directory.
+   * **force_encoding**: says if the current charset should be specified during the connection. Try to set it to "on" if you have some encoding issues with your retrieved data.
 
-   * **driver** : should be "pdo"
-   * **dsn** : contains all parameters for the connection as indicated in the [[phpapi:pdo|PDO documentation on php.net]]. To indicate the path for a sqlite database, you can use shortcuts like "app:", "lib:" or "var:" to indicate path of the application, the lib directory or the var directory.
-   * **user** et **password** : the login and the password to use for the connection, if needed.
-   * **force_encoding** : says if the current charset should be specified during the connection. Try to set it to "on" if you have some encoding issues with your retrieved data.
+JDb will then build the corresponding DSN for PDO.
+
+If you need to specify specific parameters into the DSN, you should use an other notation, without using the parameter @@usepdo@@:
+
+   * **driver**: should be "pdo"
+   * **dsn**: contains all parameters for the connection as indicated in the [[phpapi:pdo|PDO documentation on php.net]]. 
+   * **user** et **password**: the login and the password to use for the connection, if needed.
+   * **force_encoding** 
+
+Example:
 
 <code ini>
 [jdb:bar]

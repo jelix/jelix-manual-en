@@ -146,7 +146,7 @@ Here is an example for a jDb connection (jDb allow to access to a SQL database):
 
 <code ini>
 [jdb:default]
-driver=mysql
+driver=mysqli
 host=localhost
 login= mylogin
 password=mypassword
@@ -164,7 +164,7 @@ Aliases are defined in a section whose name contains only the name of the connec
 jacl2_profile = default
 
 [jdb:default]
-driver=mysql
+driver=mysqli
 host=localhost
 login= mylogin
 password=mypassword
@@ -196,7 +196,7 @@ A virtual profile must be created before using your component. Use @@M@createVir
 Example
 <code php>
    $params = array(
-       'driver'=>'mysql',
+       'driver'=>'mysqli',
        'host'=>'localhost',
        'database'=>'jelix',
        'user'=>'toto',
