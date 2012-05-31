@@ -81,7 +81,7 @@ Here are some of methods or properties you can use:
 
 
   * @@$this->dbConnection()@@: it returns a @@C@jDbConnection@@ object. Don't call @@jDb::getConnection()@@, because you don't really know which is the profile used for the module.
-  * @@$this->execSQLScript()@@: it executes a SQL script stored into the @@F@install/@@ directory (or in one of its sub directory). Indicates a simple name, and it will load the script @@F@{name}.{dbtype}.sql@@. for example, if you call @@$this->execSQLScript('sql/install')@@ and if the database of the default profile is mysql,, it will load the file @@F@sql/install.mysql.sql@@. You can indicate the full name of the sql script, but it should be compatible to all databases supported by your application.
+  * @@$this->execSQLScript()@@: it executes a SQL script stored into the @@F@install/@@ directory (or in one of its sub directory). Indicates a simple name, and it will load the script @@F@{name}.{dbtype}.sql@@. for example, if you call @@$this->execSQLScript('sql/install')@@ and if the database of the default profile is mysql, it will load the file @@F@sql/install.mysql.sql@@. You can indicate the full name of the sql script, but it should be compatible to all databases supported by your application.
   * @@$this->copyDirectoryContent()@@ to copy some files, from the install directory to another place, typically to the @@F@www/@@ of the application
   * @@$this->config@@: the @@C@jIniMultifilesModifier@@ object corresponding to the configuration file of the current entry point. With this object, you can retrieve content of the configuration file or to set parameters.
 

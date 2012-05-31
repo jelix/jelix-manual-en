@@ -61,7 +61,9 @@ foo=myFooResponse
 Here is an example of a response from your module :
 <code ini>
 [responses]
-foo="module:mymodule:myFooResponse" 
+foo="module:mymodule~myFooResponse"
+; or without 'module:'
+foo="mymodule~myFooResponse"
 </code>
 
 Then in a controller, you can use @@C@myFooResponse@@:
