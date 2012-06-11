@@ -29,6 +29,11 @@ For example, with apache, you will indicate in the @@F@httpd.conf@@ file, someth
       ServerName www.mysite.com
       DocumentRoot /home/mysite/myapp/www/ 
    </VirtualHost>
+   <Directory "/home/mysite/myapp/www/">
+     AllowOverride None
+     Order allow,deny
+     Allow from all
+   </Directory>
 </code>
 
 You must also indicate an alias towards the @@F@lib/jelix-www@@ directory, by naming it to "jelix" : 
@@ -39,7 +44,11 @@ You must also indicate an alias towards the @@F@lib/jelix-www@@ directory, by na
       DocumentRoot /home/mysite/myapp/www/ 
       Alias /jelix/ "/home/mysite/lib/jelix-www/"
    </VirtualHost>
-   
+   <Directory "/home/mysite/myapp/www/">
+     AllowOverride None
+     Order allow,deny
+     Allow from all
+   </Directory>
    <Directory "/home/mysite/lib/jelix-www/">
      AllowOverride None
      Order allow,deny
