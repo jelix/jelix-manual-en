@@ -1,47 +1,75 @@
 ~~LANG:FR@frman:locales~~
 
-Jelix has its own localization/internationalization mechanism. The setLocale and gettext functions from php are not used because too much constraining to setup, and their configuration is chancy on servers.
+Jelix has its own localization/internationalization mechanism. The @@M@setLocale@@
+and @@M@gettext@@ functions from PHP are not used because of too much constraining
+to setup, and their configuration depends on how servers are configured.
 
 ===== Principles =====
 
-Each text or string that you want to translate is associated to a key. These associations are placed in "property files". Each property file is associated to a language and a character encoding. The default language and character encoding are configured in the config file of your application.
+Each text or string that you want to translate is associated to a key. These
+associations are placed in "property files". Each property file is associated to a
+language and a character encoding.
 
-The following code will store the current locale in the lang variable.
+The following code retrieves the current language code into the @@V@lang@@ variable.
+
 <code php>
-
 $lang = jApp::config()->locale;
 </code>
 
-To be able to retrieve a string in the current language, simply call @@jLocale::get('LocaleSelector')@@, or, in templates, use the @LocaleSelector@ syntax (see the [[templates|template page]]).
+To be able to retrieve a string in the current language, simply call
+@@jLocale::get('the.key.of.the.string')@@, or in templates, use the syntax dedicated
+to locales (see the [[templates|template page]]).
+
+===== Configuration =====
+
+In the configuration file of your application (@@F@defaultconfig.ini.php@@), you have
+several parameters to configure the language and charset used in your application:
+
+   * @@locale@@: indicates the language code of the lang to use in the application. It can be changed on the fly if needed. Values follow a specific syntax, similar to IETF language tags: a primary tag + "_" + a subtag. The primary tag is a lang code, and the subtag is the country code. By default, the locale is @@en_US@@.
+   * @@charset@@: indicates the charset to use. By default it is @@UTF-8@@.
+   * @@availableLocales@@: contains the list of language that your application supports.
+   * There is also a section @@[langToLocale]@@. See below.
 
 ===== Property files =====
 
-Property files are files containing translations. They follow strict conventions. They are located in the @@F@locales/@@ directory of the modules. This directory has a specific organization. It has a sub-directories for each language. Example: @@F@locales/fr_FR/@@ for France's french, @@F@locales/en_US/@@ for United States' english, and so on. In each language directory there are many property files, corresponding to the same language but different character encoding.
+Property files are files containing translations. They follow strict conventions.
+They are located in the @@F@locales/@@ directory of modules. This directory has a
+specific organization. It has a sub-directories for each language. Example:
+@@F@locales/fr_FR/@@ for France's french, @@F@locales/en_US/@@ for United States'
+english, and so on. In each language directory there are many property files,
+corresponding to the same language. However you can have different files containing
+same strings, but for different character encoding.
 
 ==== File name ====
 
-The name of the property files has the following structure :
-//codename.charset//.properties. The codename will be used in the locale selectors, and charset corresponds to a character encoding. The codename can only use alphanumeric characters. Example: @@F@generic.ISO-8859-1.properties@@, @@F@generic.UTF-8.properties@@, etc.
+The name of the property files has the following structure: @@F@NAME.CHARSET.properties@@.
+@@NAME@@ is a simple name which will be used in the locale selectors, and @@CHARSET@@
+corresponds to a character encoding. @@NAME@@ can only use alphanumeric characters.
+Example with @@generic@@ as @@NAME@@: @@F@generic.ISO-8859-1.properties@@,
+@@F@generic.UTF-8.properties@@, etc.
 
-If in the config file, the default language is en_US ("locale=en_US") and the default character encoding is UTF-8 ("charset=UTF-8"), then the @@F@en_US/*.UTF-8.properties@@ files will be used (where * represent a given codename).
+With the default configuration (@@locale=en_US@@ and @@charset=UTF-8@@),
+@@F@locales/en_US/*.UTF-8.properties@@ files will be used.
 
 ==== File content ====
 
-The file content structure is quite simple. It's basically a @@key=translated string@@ structure, with some improvements. There isn't real coding guidelines in the file, but you might organizing your locales using a 'generic.specific' scheme for the key names. You can't use double and single quotes to delimit your strings, new lines do this.
+The file content structure is quite simple. It's basically a @@key=translated string@@
+structure, with some improvements. There isn't real coding guidelines in the file, but
+you might organizing your locales using a 'generic.specific' scheme for the key names.
+You can't use double and single quotes to delimit your strings, new lines do this.
 
-Here is an example for our english locale (@@F@en_US/generic.ISO-8859-1.properties@@) file:
+Here is an example for our english locale (@@F@en_US/generic.UTF-8.properties@@) file:
 
 <code ini>
 title.offlineElements = elements to check
 title.onlineElements = online elements
-
 buttons.save = Save
 buttons.ok=Ok
 buttons.cancel=Cancel
 buttons.search=Search
 </code>
 
-And the equivalent in the french locale (@@F@fr_FR/generic.ISO-8859-1.properties@@):
+And the equivalent in the french locale (@@F@fr_FR/generic.UTF-8.properties@@):
 
 <code ini>
 title.offlineElements = éléments à traiter
@@ -54,7 +82,9 @@ buttons.search=Rechercher
 
 == Multi line ==
 
-If the text is long and you want to write it in several lines, you can type an anti-slash (\) at the end of each line (excepted the last one of the text), to tell the parser to continue reading the translated string.
+If the text is long and you want to write it in several lines, you can type an
+anti-slash (\) at the end of each line (excepted the last one of the text), to tell
+the parser to continue reading the translated string.
 
 <code ini>
 intro=this is a very very\
@@ -63,7 +93,8 @@ several lines
 message=this is a regular line
 </code>
 
-However, it doesn't insert a line break in the displayed string. If you want to insert a real line break, use \n or \r (\r\n on windows, \n on linux, \r on macs: \r\n should do the trick for everyone!):
+However, it doesn't insert a line break in the displayed string. If you want to
+insert a real line break, use \n or \r (\r\n on windows, \n on linux, \r on macs):
 
 <code ini>
 intro=this is a very very\nlong text in\nseveral lines, but in\n one line\nin the source
@@ -71,26 +102,39 @@ intro=this is a very very\nlong text in\nseveral lines, but in\n one line\nin th
 
 == Comments ==
 
-You can also put some comments. They have to begin with a #. When the parser sees and #, the rest of the line is ignored. A comment can be at the beginning of a line, or in the middle of a line, or at the end of the line. If you want to use a # in a value, you have to escape it with an anti-slash (\#).
+You can also put some comments. They have to begin with a #. When the parser sees
+and #, the rest of the line is ignored. A comment can be at the beginning of a line,
+or in the middle of a line, or at the end of the line. If you want to use a # in a
+value, you have to escape it with an anti-slash (\#).
 
 == Whitespaces ==
 
-Whitespaces before and after a value are ignored. If you want to put a value equal to a space, you have to use \w
+Whitespaces before and after a value are ignored. If you want to put a value equal
+to a space, you have to use \w
 
 <code ini>
 nospace= #this is using a regular space
 space= \w#this is using a \w space
 </code>
 
-The value of space will be ' ', and the value of nospace, ''.
+The value of @@space@@ will be ' ', and the value of @@nospace@@, an empty string.
 
 == HTML entities ==
 
-Localized strings shouldn't contain HTML entities. First because a localized string could be used for other content than HTML, and second because jelix escapes html characters for you when necessary (i.e. the title of a page). So if the given string contains entities, this entities will be escaped and the browser won't identify them. To summarize, &copy; will become &amp;copy;.
+Localized strings shouldn't contain HTML entities. First because a localized string
+could be used for other content than HTML, and second because jelix escapes html
+characters for you when necessary (i.e. the title of a page). So if the given string
+contains entities, this entities will be escaped and the browser won't identify them.
+To summarize, @@&copy;@@ will become @@&amp;copy;@@.
 
-If you want to use specific characters (&#126; or &copy; etc), choose the corresponding charset and directly use these characters. They will be escaped for you. This is why it is a good idea to use the UTF-8 character encoding in your application, since it includes every existing character in any language.
+If you want to use specific characters (~ or © etc), choose the corresponding charset
+and directly use these characters. They will be escaped for you. This is why it is a
+good idea to use the UTF-8 character encoding in your application, since it includes
+every existing character in any language.
 
-If you really want to put some html in a localized string, and to use it in a jtpl template with the @@{jlocale}@@ tag, a possibility is to put a ".html" at the end of the locale name as follow:
+If you really want to put some html in a localized string, and to use it in a jtpl
+template with the @@{jlocale}@@ tag, a possibility is to put a ".html" at the end
+of the locale name as follow:
 
 <code ini>
 my.nice.title.of.my.paragraph.html = <strong>My nice title of my paragraph</strong>
@@ -100,14 +144,20 @@ Then, the @@{jlocale}@@ tag won't escape the content of the locale.
 
 ===== Retrieving a localized string =====
 
-To retrieve a string, you have to use the **get** static method of jLocale. This method accepts a locale selector as the first argument, which has the following structure : //module~codename.keystring//. The "module~" part is optional if the requested property file is in the current module.
+To retrieve a string, you have to use the @@M@get@@ static method of jLocale. This
+method accepts a selector as the first argument, which has the following structure:
+@@MODULE~NAME.KEY@@. The "MODULE~" part is optional if the requested property file
+is in the current module.
 
-For example, to retrieve the value of buttons.save in generic.ISO-8859-1.properties in the "website" module:
+For example, to retrieve the value of "buttons.save" in @@F@generic.UTF-8.properties@@
+in the "website" module:
+
 <code php>
   $string = jLocale:get("website~generic.buttons.save");
 </code>
 
-In a template, use the @LocaleSelector@ notation:
+In a template, use this notation:
+
 <code html>
   <input type="button" value="{@website~generic.buttons.save@}" />
 </code>
@@ -116,22 +166,30 @@ In a template, use the @LocaleSelector@ notation:
 
 It could be useful to have localized string with dynamic parameters.
 For example, you want to write this string:
+
 <code>
    You will go on the http://www.jelix.org website and you will click on the 'documentation' section.
 </code>
 
-But you would like to use the same sentence with different websites or sections: you want to dynamically indicate the url of the web site and the name of the section. This is the purpose of parameters in the jLocale component.
+But you would like to use the same sentence with different websites or sections:
+you want to dynamically indicate the url of the web site and the name of the
+section. This is the purpose of parameters in the jLocale component.
 
 <code php>
   $string = jLocale::get("website~generic.sentence", array('http://www.jelix.org', 'documentation'));
 </code>
 
-And in the property file, you have to put a "%s" where you want to insert this dynamic values:
+And in the property file, you have to put a "%s" where you want to insert these
+dynamic values:
+
 <code>
    sentence = You will go on the %s web site and you will click on the '%s' category.
 </code>
 
-Since the translated string is parsed by the [[phpapi:sprintf]] php function, you should follow it's syntax. This means that you use %d for a number, %s for a string, and so on. The order of the parameters is extremely important.
+Since the translated string is parsed by the [[phpapi:sprintf]] php function, you
+should follow its syntax. This means that you use %d for a number, %s for a string,
+and so on. The order of the parameters is extremely important.
+
 <code php>
     $string = jLocale::get("website~generic.sentence", array('http://www.jelix.org', 'documentation'));
     //will give you You will go on the http://www.jelix.org website and you will click on the 'documentation' section.
@@ -140,54 +198,91 @@ Since the translated string is parsed by the [[phpapi:sprintf]] php function, yo
     //will give you You will go on the documentation website and you will click on the 'http://www.jelix.org' section.
 </code>
 
-It may happen in some language that the translation causes a change in the order of parameters. But since the code is language generic, you won't pass the parameters in a different order. So you will use the syntax %x$s where x is the order id. For example, you could have this sentence in english:
+It may happen in some language that the translation causes a change in the order
+of parameters. But since the code is language generic, you won't pass the parameters
+in a different order. So you will use the syntax %x$s where x is the order id. For
+example, you could have this sentence in english:
+
 <code>
    sentence = You will go on the %s web site and you will click on the '%s' section.
 </code>
 
-But in another language, the translator would like to change the order of the parameters: the first parameter in the sentence will be the section name, not the website url. So for example, in French, he could translate like this:
+But in another language, the translator would like to change the order of the
+parameters: the first parameter in the sentence will be the section name, not the
+website url. So for example, in French, it could be translated like this:
+
 <code>
    sentence = Cliquez sur la rubrique %2$s lorsque vous irez sur le site %1$s.
 </code>
 
-The first parameter will replace "%1$s", the second parameter will replace "%2$s", and so on. 
+The first parameter will replace "%1$s", the second parameter will replace "%2$s",
+and so on. 
 
-Note that in template, you can't use the "@localeSelector@" syntax to indicate parameters. The only option left is to use the jLocale plugin:
+Note that in template, you can't use the "@localeSelector@" syntax to indicate
+parameters. The only option left is to use the jLocale plugin:
+
 <code>
    <p>{jlocale "website~generic.sentence", array('http://www.jelix.org', 'documentation')}</p>
 </code>
 
 ===== Changing the language on the fly =====
 
-Jelix provides a coordinator plugin supporting dynamic switching of languages : //autolocale// (located in @@F@lib/jelix/plugins/coord/@@). (see the [[plugins/coord|documentation about coordinator plugins]]).
+Jelix provides a coordinator plugin supporting dynamic switching of languages:
+//autolocale// (located in @@F@lib/jelix/plugins/coord/@@). (see the
+[[plugins/coord|documentation about coordinator plugins]]).
 
-The autolocale plugin scans urls looking for a specific parameter indicating a language. If found, it switches your application and your user to this language by storing it in session. //locale// configuration option is re-written by autolocale after being loaded from the configuration, so the configuration file remains untouched.
+The autolocale plugin scans urls looking for a specific parameter indicating a
+language. If found, it switches your application and your user to this language
+by storing it in session. //locale// configuration option is re-written by
+autolocale after being loaded from the configuration, so the configuration file
+remains untouched.
 
-Even though the autolocale modifies the locale setting, you still get the current locale as usual:
+Even though the autolocale modifies the locale setting, you still get the current
+locale as usual:
+
 <code php>
 $lang = jApp::config()->locale;
 </code>
 
-To use autolocale plugin, copy @@F@lib/jelix/plugins/coord/autolocale/autolocale.coord.ini.php.dist@@ into @@F@var/config/@@ and rename it @@F@autolocale.coord.ini.php@@.
+To use autolocale plugin, copy @@F@lib/jelix/plugins/coord/autolocale/autolocale.coord.ini.php.dist@@
+into @@F@var/config/@@ and rename it @@F@autolocale.coord.ini.php@@.
 
-There are four important configuration options in this file :
+There are two configuration options in this file, to allow lang change:
+
 <code ini>
 enableUrlDetection = on
 urlParamNameLanguage = lang
-availableLanguageCode = en_US,fr_FR
 </code>
 
 
-//enableUrlDetection// activate url-scanning. //availableLanguageCode// lists all of your supported languages. Any other language code will be ignored. //urlParamNameLanguage// is the url parameter defining a language code. You can then add a parameter on your urls to switch to other languages:
+@@enableUrlDetection@@ activate url-scanning. @@urlParamNameLanguage@@ is the
+name of the url parameter defining a language code. You can then add a parameter
+on your urls to switch to other languages:
 
 <code html>
   <a href="?lang=fr_FR">français</a>
-  <a href="?lang=en_EN">english</a>
+  <a href="?lang=en_US">english</a>
 </code>
 
-Of course, if you use the //[[urls/significant|significant]]// url engine, you can still rewrite your urls specifically for each language.
+Since Jelix 1.4, you can also give values without the country part of the code:
 
-The last step is to activate the plugin. In Jelix configuration file, edit //[coordplugins]// section :
+<code html>
+  <a href="?lang=fr">français</a>
+  <a href="?lang=en">english</a>
+</code>
+
+
+Of course, if you use the //[[urls/significant|significant]]// url engine, you can
+still rewrite your urls specifically for each language. You can have also automatic
+parameters for language in significant urls.
+
+Note also that if the URL parameter does not contain a language code that is not
+listed into the @@availableLocales@@ parameter of the main configuration, jLocale
+tries first to use the available locale that is near the given locale, and if it
+doesn't find one, jLocale will use the default locale.
+
+The last step is to activate the plugin. In Jelix configuration file, edit
+@@[coordplugins]@@ section:
 
 <code ini>
 [coordplugins]
@@ -196,15 +291,40 @@ autolocale = autolocale.coord.ini.php
 
 ===== Auto detection of the language =====
 
-The autolocale plugin also allow to detect automatically the language of the user, by checking the http headers sent by the browser of the user when he visits your website for the first time.
+The autolocale plugin also allows to detect automatically the language of the user,
+by checking the HTTP headers sent by the browser of the user when he visits your
+website for the first time.
 
-If you want to enable this auto detection, you have to set the //useDefaultLanguageBrowser// parameter to @@on@@.
+If you want to enable this auto detection, you have to set the
+@@useDefaultLanguageBrowser@@ parameter to @@on@@ in the configuration of autolocale.
+It calls the method @@M@jLocale::getPreferedLocaleFromRequest()@@, that you can use
+of course in your own classes (controllers for example).
 
 ===== Localizing templates =====
 
-There are situations where it would be better to localize an entire template than to create lots of locale strings. 
+There are situations where it would be better to localize an entire template than
+to create lots of locale strings. 
 
-To achieve this, just move your template in a sub-folder of its @@F@templates@@ directory. As for [[locales#property-files|locale files]], there must be one sub-folder for each language (Example: @@F@templates/en_US/@@, @@F@templates/fr_FR/@@).
+To achieve this, just move your template in a sub-folder of its @@F@templates@@
+directory. As for [[locales#property-files|locale files]], there must be one sub-folder
+for each language (Example: @@F@templates/en_US/@@, @@F@templates/fr_FR/@@).
 
+===== Supporting unknown or non default language code =====
 
+With a lang code (like "en", "fr" etc..), Jelix can give the corresponding default
+language code ("en_US" for "en", "fr_FR" for "fr" etc). However it could not be the
+language code we want. For "en", you would want "en_GB" for example. Or you would
+want to support a language code that doesn't exist ("en_EN" for example, that is
+deprecated since Jelix 1.4), or to support a lang that Jelix doesn't know (all known
+lang code are in the file @@F@@lib/jelix/core/lang_to_locale.ini.php@@).
+
+To fix this problem, you have to fill the section @@[langToLocale]@@ into the main
+configuration. The parameter key is the lang code, and the value is the language code.
+
+<code ini>
+[langToLocale]
+en = en_GB
+; or to have compatibility with old modules:
+en = en_EN
+</code>
 

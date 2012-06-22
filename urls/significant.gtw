@@ -141,7 +141,7 @@ We can use this mechanism to support language, for instance:
 <code xml>
    <url pathinfo="/articles/en/:page" module="cms" action="page:view">
       <param name="page"/>
-      <static name="lang" value="en_EN" />re
+      <static name="lang" value="en_US" />
    </url>
    <url pathinfo="/articles/fr/:page" module="cms" action="page:view">
       <param name="page"/>

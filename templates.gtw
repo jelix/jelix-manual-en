@@ -394,7 +394,7 @@ In a template, we saw that we can use {@foo.bar@} to include localized string. H
 
 There is a solution: create templates for each language. Of course, it means that you duplicate the code of the template, and so it is less easy to maintain them. So you should think if you prefer performance or easy modifications...
 
-To create a template for each language, create sub-directories into the template directory. Their name should be the code of a lang. Example: @@F@templates/fr_FR@@, @@F@templates/en_EN@@ etc. And save in each of this sub-directories a copy of your translated template.
+To create a template for each language, create sub-directories into the template directory. Their name should be a language code. Example: @@F@templates/fr_FR@@, @@F@templates/en_US@@ etc. And save in each of this sub-directories a copy of your translated template.
 
 ===== Including a template into an other =====
 

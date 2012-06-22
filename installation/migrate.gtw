@@ -62,6 +62,9 @@ jApp::coord()->process(new jClassicRequest());
   * For your own modules:
      * the global variable @@V@$gJConfig@@ is now deprecated. You should use @@M@jApp::config()@@ instead, to retrieve the configuration.
      * the global variable @@V@$gJCoord@@ is now deprecated. You should use @@M@jApp::coord()@@ instead, to retrieve the coordinator.
+     * The locale code 'en_EN' is now deprecated. You have two solutions:
+        * a quick and temporary solution: add "en=en_EN" into the new section "[langToLocale]" section in the main configuration
+        * a better solution: rename your directories locales/en_EN to locales/en_US, use en_US as default locale, and perhaps change "en_EN" in your data. This is the prefered solution since the en_EN code will not be supported anymore in future versions.
      * In @@F@module.xml@@ files, indicate that the module is compatible with Jelix 1.4 (change the attributes @@A@maxversion@@). Example:
 
 <code xml>
@@ -82,6 +85,6 @@ Deprecated API you cannot use anymore:
 ==== Jelix update ====
 
 After all these modifications, you should run your @@F@install/installer.php@@ script. The jelix module will change some things:
-  * TODO
+  * The configuration parameter @@availableLanguageCode@@ of the @@autolocale@@ plugin, if you use it, is moved to the main configuration and renamed to @@availableLocales@@.
 
 
