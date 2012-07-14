@@ -255,7 +255,8 @@ You can know if a user is connected with the method @@M@isConnected()@@:
   }
 </code>
 
-To login the user in a persistant manner (he will be recognized automatically when he go on your application, even if his session has been destroyed), uou have to add the @@true@@ value as third parameter, when calling the @@M@login()@@ method.
+To login the user in a persistant manner (he will be recognized automatically when he go on your application, even if his session has been destroyed),
+you have to add the @@true@@ value as third parameter, when calling the @@M@login()@@ method.
 
 You can also just verify a login/password, without "connecting" a user :
 
@@ -263,6 +264,7 @@ You can also just verify a login/password, without "connecting" a user :
   $ok = jAuth::verifyPassword('the_login', 'the_password');
 </code>
 
+Read [[refclass:auth/jAuth|the reference documentation of jAuth]] to know about other methods.
 
 ==== Creating a user ====
 
