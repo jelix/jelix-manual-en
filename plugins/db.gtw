@@ -107,7 +107,7 @@ It must inherit from @C@@jDaoGenerator@@ and overload one or more of its methods
   * $trueValue, $falseValue
   * _getAutoIncrementPKField()
 
-See details in [[refapi:dao/jDaoGenerator|jDaoGenerator API reference]] .
+See details in [[refclass:dao/jDaoGenerator|jDaoGenerator API reference]] .
 
 
 
