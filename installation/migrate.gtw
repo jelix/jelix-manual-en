@@ -7,11 +7,11 @@ When you migrate from an old version of jelix to a newer one, you always must do
   * remove all the files in the @@F@temp/yourapp/@@ directory
   * update your code as specified hereafter.
 
-===== Updating from Jelix 1.2 or lower =====
+===== Updating from Jelix 1.3 or lower =====
 
 Read the upgrade instructions of all previous manuals and then follow instructions below.
 
-===== Upgrading from jelix 1.3 =====
+===== Upgrading from jelix 1.4 =====
 
 Here are all steps to follow to migrate your application.
 
@@ -22,35 +22,6 @@ First, do a backup of your databases, and of your application files (modules, co
 ==== Temp directories ====
 
 As usual, you must remove every files into the @@F@temp/yourapp/@@ directory.
-
-
-==== Change your entry points ====
-
-
-Your entrypoints should be changed:
-  * the coordinator should be set into the jApp object.
-  * the configuration file should be indicated to the jApp object too instead of the coordinator.
-  * See a template in @@F@lib/jelix-scripts/templates/www/index.php.tpl@@.
- 
-Here is an example:
-
-<code php>
-require ('../application.init.php');
-require (JELIX_LIB_CORE_PATH.'request/jClassicRequest.class.php');
-
-checkAppOpened();
-
-// load configuration
-jApp::loadConfig('index/config.ini.php');
-
-// new coordinator, and set it into the Jelix environment
-jApp::setCoord(new jCoordinator());
-
-// new request object, and call the coordinator to execute the action corresponding to the URL
-jApp::coord()->process(new jClassicRequest());
-
-</code>
-
   
 ==== Files removal ====
 
@@ -58,17 +29,12 @@ jApp::coord()->process(new jClassicRequest());
 
 ==== Upgrading modules ====
 
-  * update sources of vendor's modules that you have installed, with version compatible with Jelix 1.4.
+  * update sources of vendor's modules that you have installed, with version compatible with Jelix 1.5.
   * For your own modules:
-     * the global variable @@V@$gJConfig@@ is now deprecated. You should use @@M@jApp::config()@@ instead, to retrieve the configuration.
-     * the global variable @@V@$gJCoord@@ is now deprecated. You should use @@M@jApp::coord()@@ instead, to retrieve the coordinator.
-     * The locale code 'en_EN' is now deprecated. You have two solutions:
-        * a quick and temporary solution: add "en=en_EN" into the new section "[langToLocale]" section in the main configuration
-        * a better solution: rename your directories locales/en_EN to locales/en_US, use en_US as default locale, and perhaps change "en_EN" in your data. This is the prefered solution since the en_EN code will not be supported anymore in future versions.
-     * In @@F@module.xml@@ files, indicate that the module is compatible with Jelix 1.4 (change the attributes @@A@maxversion@@). Example:
+     * In @@F@module.xml@@ files, indicate that the module is compatible with Jelix 1.5 (change the attributes @@A@maxversion@@). Example:
 
 <code xml>
-        <jelix minversion="1.3" maxversion="1.4.*"/>
+        <jelix minversion="1.4" maxversion="1.5.*"/>
 </code>
 
 
@@ -85,6 +51,6 @@ Deprecated API you cannot use anymore:
 ==== Jelix update ====
 
 After all these modifications, you should run your @@F@install/installer.php@@ script. The jelix module will change some things:
-  * The configuration parameter @@availableLanguageCode@@ of the @@autolocale@@ plugin, if you use it, is moved to the main configuration and renamed to @@availableLocales@@.
+  * nothing for the moment
 
 
