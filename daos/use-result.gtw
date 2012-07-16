@@ -1,14 +1,20 @@
 ~~LANG:FR@frman:recuperation-enregistrements~~
 
-Creating, modifying and deleting records in a database is very useful. However, it's not as useful as being able to fetch records and use them. The page on the [[use|use of a dao factory and record]] showed you the create, the delete and the update. This is the page on the fetch, or the "select data" part of jDao.
+Creating, modifying and deleting records in a database is very useful. However,
+it's not as useful as being able to fetch records and use them. The page on the
+[[use|use of a dao factory and record]] showed you the create, the delete and the
+update. This is the page on the fetch, or the "select data" part of jDao.
 
 Depending on how and how much results are needed, the method is somewhat different.
 
 ===== Retrieve a single record =====
 
-To retrieve a single record by specifying it's key (the primary key in the database), the method to use is called @@M@get()@@.
+To retrieve a single record by specifying it's key (the primary key in the database),
+the method to use is called @@M@get()@@.
 
-There is no need to further parse the return value of the @@M@get()@@ function since it will fetch the specified record and return it as an object. The object is design so that each column name is the name of a variable, and the column value, the variable value.
+There is no need to further parse the return value of the @@M@get()@@ function since
+it will fetch the specified record and return it as an object. The object is design
+so that each column name is the name of a variable, and the column value, the variable value.
 
 <code php>
     // instantiation of the factory
@@ -22,7 +28,8 @@ There is no need to further parse the return value of the @@M@get()@@ function s
     echo $baz->id;
 </code>
 
-In the case where the primary key is several fields, declared like this in your xml file, @@A@primarykey="key1,key2"@@, you have to give all key values at te same time:
+In the case where the primary key is several fields, declared like this in your
+xml file, @@A@primarykey="key1,key2"@@, you have to give all key values at te same time:
 
 <code php>
   $myFactory = jDao::get("foo");
@@ -38,13 +45,19 @@ or
   $baz = $myFactory->get(array(3, 4));
 </code>
 
-Careful: the order of the value should be the same as the order of the declaration of keys in the primarykey attribute. Eg, @@$myFactory->get(4, 3)@@ is different from @@$myFactory->get(3, 4)@@.
+Careful: the order of the value should be the same as the order of the declaration
+of keys in the primarykey attribute. Eg, @@$myFactory->get(4, 3)@@ is different
+from @@$myFactory->get(3, 4)@@.
 
 The @@M@delete()@@ method works in the same way.
 
 ===== Retrieving several records =====
 
-When all the records are needed, the @@M@findAll()@@ method is used. This method will return a result set, (@@C@jDbResultSet@@ class) containing all the results from the database in the order they where added to the database. Remember that this class implements the @@C@Iterator@@ interface, so it can be used into a foreach statement.
+When all the records are needed, the @@M@findAll()@@ method is used. This method
+will return a result set, (@@C@jDbResultSet@@ class) containing all the results
+from the database in the order they where added to the database. Remember that
+this class implements the @@C@Iterator@@ interface, so it can be used into a
+foreach statement.
 
 <code php>
     // instantiation of the factory
@@ -61,7 +74,9 @@ When all the records are needed, the @@M@findAll()@@ method is used. This method
 
 
 
-You can use also two other methods to retrieve records. The first one being @@M@fetch()@@ which fetches one row from the result set as an object and advances the internal pointer one step. 
+You can use also two other methods to retrieve records. The first one being @@M@fetch()@@
+which fetches one row from the result set as an object and advances the internal
+pointer one step. 
 
 <code php>  
     // fetch the records one at the time
@@ -71,7 +86,8 @@ You can use also two other methods to retrieve records. The first one being @@M@
     }
 </code>
 
-The second one being @@M@fetchAll()@@ which returns an array containing an object for each row in the result set.
+The second one being @@M@fetchAll()@@ which returns an array containing an object
+for each row in the result set.
 <code php>
     // fetch all the records as an array of objects
     $rows = $list->fetchAll();
@@ -82,11 +98,14 @@ The second one being @@M@fetchAll()@@ which returns an array containing an objec
     }
 </code>
 
-You can make other retrieving methods by specifying them in the xml file (see [[/daos/xml_methods|Declaring methods in the XML file]] and [[/daos/php_methods|Adding PHP methods to the factory]]) .
+You can make other retrieving methods by specifying them in the xml file (see
+[[/daos/xml_methods|Declaring methods in the XML file]] and [[/daos/php_methods|Adding PHP methods to the factory]]) .
 
 ===== Retrieve record(s) through criteria =====
 
-To retrieve record(s) through criteria, there are three simple methods available, @@M@findBy()@@, @@M@countBy()@@ and @@M@deleteBy()@@. These methods have one required parameter, a @@jDaoConditions@@ object, which contains all the conditions.
+To retrieve record(s) through criteria, there are three simple methods available,
+@@M@findBy()@@, @@M@countBy()@@ and @@M@deleteBy()@@. These methods have one
+required parameter, a @@jDaoConditions@@ object, which contains all the conditions.
 
 <code php>
    $a_name = "something";
@@ -100,11 +119,15 @@ To retrieve record(s) through criteria, there are three simple methods available
    $count = $myFactory->countBy($conditions);
 </code>
 
-In the same way as the @@M@findAll()@@ method, @@M@findBy()@@ returns a @@C@jDbResultSet@@ object, which gives you  the list of records corresponding to indicated criteria.
+In the same way as the @@M@findAll()@@ method, @@M@findBy()@@ returns a
+@@C@jDbResultSet@@ object, which gives you  the list of records corresponding
+to indicated criteria.
 
-The @@M@addCondition()@@ method take as parameter a property name, an operator (SQL), and a value.
+The @@M@addCondition()@@ method take as parameter a property name, an operator
+(SQL), and a value.
 
-You can specify an order of select with the method @@M@addItemOrder()@@, and group various criterion together with @@M@startGroup()@@ and @@M@endGroup()@@:
+You can specify an order of select with the method @@M@addItemOrder()@@, and group
+various criterion together with @@M@startGroup()@@ and @@M@endGroup()@@:
 
 <code php>   
    $conditions = jDao::createConditions();
@@ -120,53 +143,65 @@ You can specify an order of select with the method @@M@addItemOrder()@@, and gro
    $list = $myFactory->findBy($conditions);
 </code>
 
-To add a limit, you can specify additional parameters to the @@M@findBy()@@ method: the offset and the number of records to fetch.
+To add a limit, you can specify additional parameters to the @@M@findBy()@@ method:
+the offset and the number of records to fetch.
 
 <code php>
 $list = $myFactory->findBy($conditions, 0, 15);
 </code>
 
-As for the @@M@countBy()@@ method it takes one additional parameter: the property name that we want to apply a DISTINCT clause.
+As for the @@M@countBy()@@ method it takes one additional parameter: the property
+name that we want to apply a DISTINCT clause.
 <code php>
 // SELECT COUNT(DISTINCT table.label)...
 $count = $myFactory->countBy($conditions, 'label');
 </code>
 
-Lastly, the @@M@deleteBy()@@ method allow to delete records corresponding to indicated criteria, it returns the number of deleted records:
+Lastly, the @@M@deleteBy()@@ method allow to delete records corresponding to indicated
+criteria, it returns the number of deleted records:
 <code php>
 $nb_deleted = $myFactory->deleteBy($conditions);
 </code>
 
-You will see that you can get the same result by defining methods in the xml file. However, you will choose @@M@findBy()@@ or a xml-defined method, depending of the context.
+You will see that you can get the same result by defining methods in the xml file.
+However, you will choose @@M@findBy()@@ or a xml-defined method, depending of the context.
 
-Criteria-based retrieving is best used when you don't know the number of criterion and their type. This includes things such as a complex search form, where the user can choose which criterion are applied. Criteria-based retrieving is also best used when the query is used only one time or very rarely. This is because the xml-defined methods are compiled to PHP, and thus are included each time you call the factory. It may not be useful to always include some code which is seldomly used. Using criteria-based retrieving will improve the global performances in that case.
+Criteria-based retrieving is best used when you don't know the number of criterion
+and their type. This includes things such as a complex search form, where the user
+can choose which criterion are applied. Criteria-based retrieving is also best used
+when the query is used only one time or very rarely. This is because the xml-defined
+methods are compiled to PHP, and thus are included each time you call the factory.
+It may not be useful to always include some code which is seldomly used. Using
+criteria-based retrieving will improve the global performances in that case.
 
-In the other cases, it is recommended to use xml methods, especially when you know the criteria by advance (without forcibly knowing their value of course), and when it is an often used research. jDao generates SQL queries during the generation of the PHP file, so this is a process it has not to do when executing the page. 
+In the other cases, it is recommended to use xml methods, especially when you know
+the criteria by advance (without forcibly knowing their value of course), and when
+it is an often used research. jDao generates SQL queries during the generation of
+the PHP file, so this is a process it has not to do when executing the page. 
 
-For example, we often redefine the @@M@findAll@@ method in XML, to be able to specify a retrieving order...
+For example, we often redefine the @@M@findAll@@ method in XML, to be able to specify
+a retrieving order...
 
 === SQL operators ===
 
-As explained before, @@M@addCondition()@@ tak a sql operator as a second parameter. Here are the operators supported:
+As explained before, @@M@addCondition()@@ tak a sql operator as a second parameter.
+Here are the operators supported:
 
   * LIKE, NOT LIKE, ILIKE,
   * IN, NOT IN,
   * IS, IS NOT,
   * IS NULL, IS NOT NULL,
   * MATCH, REGEXP, NOT REGEXP, RLIKE, SOUNDS LIKE
+  * @@~@@, @@!~@@, @@~*@@, @@!~*@@  (operators for regular expression for postgresql)
 
 == Special case with NULL ==
 
-As of version 1.1.3, to test a (non) NULL value, you have to use the operator "=" or "!=".
-
-In next versions, you can use any supported operators. Don't forget to pass the php @@V@null@@, not the string @@V@"NULL"@@.
+To test a (non) NULL value, you can use any supported operators, even "=" or "!=".
+Don't forget to pass the php @@V@null@@, not the string @@V@"NULL"@@.
 
 <code php>
-    # version 1.1.3
-    $conditions->addCondition('status','=', null);
-    $conditions->addCondition('status','!=', null);
-
-    # version 1.1.4 and above
+    $conditions->addCondition('status','=', null); // equivalent to IS NULL
+    $conditions->addCondition('status','!=', null);  // equivalent to IS NOT NULL
     $conditions->addCondition('status','IS', null);
     $conditions->addCondition('status','IS NOT', null);
     $conditions->addCondition('status','IS NULL', null);
@@ -176,15 +211,16 @@ In next versions, you can use any supported operators. Don't forget to pass the 
     ...
 </code>
 
-== Other operators ==
+== Regular expressions ==
 
-Some databases like Postgresql support regular expression. You can then use keywords @@REGEXP@@ or @@NOT REGEXP@@:
+Some databases like Postgresql support regular expressions. For postgresql you can then use keywords @@~@@, @@!~@@, @@~*@@, @@!~*@@.
 
 <code php>
-    $conditions->addCondition('status','REGEXP', '^test');
+    $conditions->addCondition('status','~', '^test');
     ...
 </code>
 
+Other operator like @@REGEXP@@, @@NOT REGEXP@@ are also supported. Verify first if it is compatible with your database.
 
 
 === Doing a GroupBy ===
