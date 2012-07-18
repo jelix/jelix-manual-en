@@ -17,7 +17,7 @@ You get the following directories :
         jelix-modules/  standard modules delivered with Jelix
         jelix-plugins/  standard plugins delivered with Jelix
         jelix-scripts/  command-line scripts that can help developer
-        jelix-www/      web resources: javascript files, css, xul...
+        jelix-www/      web resources: javascript files, css...
      temp/              Temporary files of Jelix applications.
 
 There are other folders in @@F@lib/@@ (not listed here), which are additional libs, external to the jelix project and used by jelix : wikirenderer, JSON, difflib, phpMailer, etc.

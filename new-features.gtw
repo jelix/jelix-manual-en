@@ -2,5 +2,23 @@
 
 Main improvements provided by the version 1.5 are: 
 
-   * TODO
+   * PHP 5.3 and higher is required. No more support for PHP 5.2.
 
+Removed components:
+
+   * The XUL support has been moved to an independant module,
+     [[https://github.com/jelix/jelix-contrib/tree/master/modules/jelix/xul/|in the jelix-contrib repository]]
+   * The magicquotes plugin has been removed, since it is useless with PHP 5.3
+   * Removed deprecated methods:
+      * @@M@jAcl2Db::getProfile()@@
+      * @@M@jAclDb::getProfile()@@ et @@M@jAclDb::getProfil()@@
+      * @@M@jControllerDaoCrud::_checkDatas()@@
+      * @@M@jCoordinator::initDefaultResponseOfRequest()@@, @@M@jCoordinator::isModuleEnabled@@,
+        @@M@jCoordinator::getModulePath@@
+      * @@M@jDb::getTools()@@, @@M@jDb::getProfile()@@, @@M@jDb::createVirtualProfile()@@, @@M@jDb::clearProfiles()@@
+      * @@M@jDbConnection::encloseFieldName()@@
+      * @@M@jFormsBase::resetModifiedControlsList()@@
+      * @@M@jKvDb::getProfile()@@
+      * @@M@jZone::getParam()@@
+   * Removed the support of deprecated variables @@$gJCoord@@ and
+     @@$gJConfig@@, and removed @@M@jApp::initLegacy()@@.

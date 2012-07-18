@@ -67,7 +67,7 @@ basePath="/"
 This setting is optional since Jelix try to discover the base path. But on complex configuration (for example, you have many entry points in different sub directories), it could not work correctly, so you have to setup this option.
 
 
-Thus, by typing http://www.mysite.com you reach your site, and http://www.mysite.com/jelix/, the contents of @@F@jelix-www@@, which contains a number of useful Javascript scripts, XUL resources etc.
+Thus, by typing http://www.mysite.com you reach your site, and http://www.mysite.com/jelix/, the contents of @@F@jelix-www@@, which contains a number of useful Javascript scripts etc.
 
 ==== If you can't change the document root ====
 

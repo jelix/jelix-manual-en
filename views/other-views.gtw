@@ -1,0 +1,5 @@
+~~LANG:EN@frman:autres-vues~~
+
+Some external modules can provide other type of views.
+
+  * To generate XUL content, there is [[https://github.com/jelix/jelix-contrib/tree/master/modules/jelix/xul/|the XUL module]].

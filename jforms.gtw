@@ -11,7 +11,7 @@ jForms is a form system which makes easier the creation of forms. Forms are desc
    * initialize a form from one or several DAO's data (with inputs, listbox, radios etc ...),
    * save data with DAOs,
    * save uploaded files.
-   * generate other types of forms (with ajax, XUL, XForms etc ...) using some jforms plugins
+   * generate other types of forms (with ajax, XForms etc ...) using some jforms plugins
    * support complex field like native captcha-fields, Wysiwyg editing field, groups, complex choices and so on..
    * modify dynamically the form (add, remove, modify some controls)
 

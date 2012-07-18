@@ -76,7 +76,7 @@ class defaultCtrl extends jController {
 
 ==== Fetch a jResponse object ====
 
-Actions should always return @@C@jResponse@@ objects which implements the "View" of the MVC pattern. Jelix supplies several response objects, which allow to generate easily some HTML pages, XUL pages, JSON, text, XML, Zip, redirections etc, and you can make your own inheriting from @@C@jResponse@@.
+Actions should always return @@C@jResponse@@ objects which implements the "View" of the MVC pattern. Jelix supplies several response objects, which allow to generate easily some HTML pages, JSON, text, XML, Zip, redirections etc, and you can make your own inheriting from @@C@jResponse@@.
 
 Each response type is declared with a keyword. So, to retrieve a specific response object, you call the method @@M@getResponse()@@ by indicating the keyword corresponding to the response type:
 

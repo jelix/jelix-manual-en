@@ -85,7 +85,7 @@ It generates the content and ouput it directly.
 
 ===== Template files =====
 
-A template file is made of HTML, XUL or whatever you want if it corresponds to the type of the response. It contains also some instructions to incorporate values that you will define, instructions to repeat the generation of parts of HTML, XUL, etc.
+A template file is made of HTML, XML or whatever you want if it corresponds to the type of the response. It contains also some instructions to incorporate values that you will define, instructions to repeat the generation of parts of HTML, etc.
 
 The syntax used in jTpl is in the middle of the one used in smarty and the one of PHP. The goal is to have templates readable enough, easy to modify and not forcing a syntax that is too different from PHP. All this proposing features that PHP doesn't have and adapted to Jelix.
 
