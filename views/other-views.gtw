@@ -3,3 +3,4 @@
 Some external modules can provide other type of views.
 
   * To generate XUL content, there is [[https://github.com/jelix/jelix-contrib/tree/master/modules/jelix/xul/|the XUL module]].
+  * To generate RDF content, there is [[https://github.com/jelix/jelix-contrib/tree/master/modules/jelix/rdf/|the RDF module]].

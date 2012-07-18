@@ -56,7 +56,6 @@ Download [[http://download.jelix.org/jelix/documentation/en/jelix-manual-1.5.pdf
      - section: [[views/view-tcpdf|Generating PDF with TCPDF]]
      - section: [[views/view-binary|Sending a binary file]]
      - section: [[views/view-zip|Generating a ZIP file]]
-     - section: [[views/view-rdf|Generating RDF content]]
      - section: [[views/view-sitemap|Generating a sitemap]]
      - section: [[views/other-views|Other views]]
    - chapter: [[views/personnalized-common-response|Define a customized response]]
