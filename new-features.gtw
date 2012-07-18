@@ -10,6 +10,8 @@ Removed components:
      [[https://github.com/jelix/jelix-contrib/tree/master/modules/jelix/xul/|in the jelix-contrib repository]]
    * The RDF support has been moved to an independant module,
      [[https://github.com/jelix/jelix-contrib/tree/master/modules/jelix/rdf/|in the jelix-contrib repository]]
+   * The "latex to PDF" support has been moved to an independant module,
+     [[https://github.com/jelix/jelix-contrib/tree/master/modules/jelix/latex2pdf/|in the jelix-contrib repository]]
    * The magicquotes plugin has been removed, since it is useless with PHP 5.3
    * Removed deprecated methods:
       * @@M@jAcl2Db::getProfile()@@

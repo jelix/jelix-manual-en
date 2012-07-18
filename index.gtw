@@ -52,7 +52,6 @@ Download [[http://download.jelix.org/jelix/documentation/en/jelix-manual-1.5.pdf
      - section: [[views/view-xml|Generating XML content]]
      - section: [[views/view-rss|Generating a RSS feed]]
      - section: [[views/view-atom|Generating an ATOM feed]]
-     - section: [[views/view-latex2pdf|Generating PDF from latex content]]
      - section: [[views/view-tcpdf|Generating PDF with TCPDF]]
      - section: [[views/view-binary|Sending a binary file]]
      - section: [[views/view-zip|Generating a ZIP file]]
