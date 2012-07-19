@@ -62,10 +62,6 @@ If you leave basePath empty, Jelix will try to guess its value.
 
 Default entry point of the application. ''index'' by default. You must not indicate the suffix (.php).
 
-=== ''entrypointExtension'' ===
-
-Extension of the entry points. It's .php by default, but it may be .php5.
-
 === ''notfoundAct'' ===
 
 The action to do when a url do not correspond to anything. Indicate it under the form of a selector : "module~action". This action should display an error message, and return a 404 http code.

@@ -136,38 +136,6 @@ jApp::initPaths(
 
 You can then enter the address of your site (http://www.mysite.com for example, or http://localhost/)
 
-==== Specify an extension other than .php ====
-
-On some old servers, PHP4 and PHP5 are both proposed at the same time. In general, .php are PHP4 files and .php5 are PHP5 files. You then have to make modifications for your Jelix application to be able to use PHP5. Two ways with Apache, depending of the possibilities you have.
-
-=== With .htaccess ===
-
-In the www directory of your application, add @@F@.htaccess@@ file with :
-
-<code htaccess>
-  AddHandler php5-script .php
-</code>
-
-And that's all. If this doesn't work, se the following point.
-
-With some Hosting Provider, we can also setting an environnement variable in the @@F@.htaccess@@, for example:
-
-<code htaccess>
-  SetEnv PHP_VER 5
-</code>
-
-If it doesn't work, read the instructions of your provider to configure PHP5, or try the following solution.
-
-=== By renaming the extension ===
-
-You have to rename the @@F@index.php@@ file in @@F@index.php5@@. But **you don't have to rename the php files from the other directories** !
-
-In the config file @@F@var/config/defaultconfig.ini.php@@, put the extension in the @@urlengine@@ section :
-
-<code ini>
-  entrypointExtension = .php5
-</code>
-
 ==== Configuration for "cools" urls ====
 
 In order to use significants URLS with the urls automatic system of jelix, you have to activate in Apache (in its configuration file or in the @@F@.htaccess@@):
