@@ -228,7 +228,7 @@ parameters. The only option left is to use the jLocale plugin:
 ===== Changing the language on the fly =====
 
 Jelix provides a coordinator plugin supporting dynamic switching of languages:
-//autolocale// (located in @@F@lib/jelix/plugins/coord/@@). (see the
+//autolocale//, located in @@F@lib/jelix/plugins/coord/@@. (see the
 [[plugins/coord|documentation about coordinator plugins]]).
 
 The autolocale plugin scans urls looking for a specific parameter indicating a
@@ -245,7 +245,7 @@ $lang = jApp::config()->locale;
 </code>
 
 To use autolocale plugin, copy @@F@lib/jelix/plugins/coord/autolocale/autolocale.coord.ini.php.dist@@
-into @@F@var/config/@@ and rename it @@F@autolocale.coord.ini.php@@.
+into @@F@var/config/@@ and rename it to @@F@autolocale.coord.ini.php@@.
 
 There are two configuration options in this file, to allow lang change:
 
@@ -274,12 +274,12 @@ Since Jelix 1.4, you can also give values without the country part of the code:
 
 Of course, if you use the //[[urls/significant|significant]]// url engine, you can
 still rewrite your urls specifically for each language. You can have also automatic
-parameters for language in significant urls.
+parameters for language in significant urls. See the [[urls/significant|corresponding documentation]].
 
 Note also that if the URL parameter does not contain a language code that is not
 listed into the @@availableLocales@@ parameter of the main configuration, jLocale
 tries first to use the available locale that is near the given locale, and if it
-doesn't find one, jLocale will use the default locale.
+doesn't find one, jLocale will use the default locale of the application.
 
 The last step is to activate the plugin. In Jelix configuration file, edit
 @@[coordplugins]@@ section:
