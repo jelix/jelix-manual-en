@@ -194,6 +194,93 @@ We can use this mechanism to support language, for instance:
 
 You should not forget to give the @@lang@@ parameter to jUrl.
 
+==== Automatic parameters for language ====
+
+=== with static parameters ===
+
+We saw that we could declare static parameters containing the code of the language,
+to have different URLs pointing to the same action. However, it causes some issues:
+
+   - you have to give the parameter to @@jUrl::get()@@, and in most of case, you use the current language code (@@jApp::config()->locale@@).
+   - in the action you have to set yourself the language code in the configuration, with the given value in the parameter.
+
+Jelix 1.4 brings some improvements about these issues. You just have to add the attribute @@A@type="locale"@@
+or  @@A@type="lang"@@, and then, everything is automatic. You can define for example:
+
+<code xml>
+   <url pathinfo="/articles/english/:page" module="cms" action="page:view">
+      <param name="page"/>
+      <static name="lang" value="en_US" type="locale"/>
+   </url>
+   <url pathinfo="/articles/francais/:page" module="cms" action="page:view">
+      <param name="page"/>
+      <static name="lang" value="fr_FR" type="locale" />
+   </url>
+</code>
+
+If you call simply @@jUrl::get('cms~page:view', array('page'=>'foo'))@@, then jUrl
+will generate @@/articles/english/foo@@ if the current language is "en_US", or
+@@/articles/francais/foo@@ if it is "fr_FR". You don't have to indicate the language code
+as before: @@jUrl::get('cms~page:view', array('page'=>'foo', 'lang'=>jApp::config()->locale))@@.
+However, you can still give it if you want to force the language code (one code different from the default one).
+
+During the call of the page @@/articles/english/foo@@ or @@/articles/francais/foo@@,
+Jelix will configure automatically the locale. So when the user call the page
+@@/articles/english/foo@@, the current language will be "en_US".
+
+You can also use @@A@type="lang"@@. In this case, you just have to indicate the lang code ('en', 'fr'...),
+either in the attribute @@A@value@@, or to @@jUrl::get()@@.
+
+<code xml>
+    <static name="lang" value="fr" type="lang" />
+</code>
+
+=== With dynamic parameters ===
+
+Since Jelix 1.4, you can have parameters with the type "locale" or "lang".
+
+<code>
+   <param name="lg" type="lang"/>
+   <!-- or -->
+   <param name="lg" type="locale"/>
+</code>
+
+It allows you to have a language code into the "pathinfo" of the URL, without indicating
+it to @@jUrl::get()@@, but alos to configure automatically the current language during the
+execution of the action.
+
+Then, the previous example: 
+<code xml>
+   <url pathinfo="/articles/en/:page" module="cms" action="page:view">
+      <param name="page"/>
+      <static name="lang" value="en_US" />
+   </url>
+   <url pathinfo="/articles/fr/:page" module="cms" action="page:view">
+      <param name="page"/>
+      <static name="lang" value="fr_FR" />
+   </url>
+</code>
+
+becomes:
+
+<code xml>
+   <url pathinfo="/articles/:lang/:page" module="cms" action="page:view">
+      <param name="page"/>
+      <param name="lang" type="lang" />
+   </url>
+</code>
+
+If you just call @@jUrl::get('cms~page:view', array('page'=>'foo'))@@,
+then jUrl will generate @@/articles/en/foo@@ if the locale is "en_US",
+or @@/articles/fr/foo@@ if the locale is "fr_FR".
+
+And if a browser calls @@/articles/en/foo@@, the current locale will be
+automatically "en_US".
+
+Contrary to Jelix 1.3 and lower, you then don't have to duplicate
+URL declaration for each lang.
+
+Same principle with @@A@type="locale"@@, except that jUrl will generate @@/articles/en_US/foo@@.
 
 
 ==== Using an handler ====

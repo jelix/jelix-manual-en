@@ -13,7 +13,7 @@ Main improvements provided by the version 1.4 are:
      the [[https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md|PSR0 specification]]
    * [[/templates#virtual-templates|Virtual templates]]: jTpl can now use
      templates that are not in files.
-   * Support of automatic language parameter in URLS
+   * Support of [[/urls/significant#automatic-parameters-for-language|automatic language parameter]] in URLS
    * Improved support of locale and lang code. Jelix does not support any more,
      by default, locales that are not a real code (en_EN for example). Except if
      [[/locales#supporting-unknown-or-non-default-language-code|you force to use them]],
