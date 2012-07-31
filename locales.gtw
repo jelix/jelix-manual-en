@@ -110,7 +110,7 @@ value, you have to escape it with an anti-slash (\#).
 == Whitespaces ==
 
 Whitespaces before and after a value are ignored. If you want to put a value equal
-to a space, you have to use \w
+to a space, you have to use @@\w@@
 
 <code ini>
 nospace= #this is using a regular space
@@ -179,15 +179,15 @@ section. This is the purpose of parameters in the jLocale component.
   $string = jLocale::get("website~generic.sentence", array('http://www.jelix.org', 'documentation'));
 </code>
 
-And in the property file, you have to put a "%s" where you want to insert these
+And in the property file, you have to put a @@%s@@ where you want to insert these
 dynamic values:
 
-<code>
+<code ini>
    sentence = You will go on the %s web site and you will click on the '%s' category.
 </code>
 
 Since the translated string is parsed by the [[phpapi:sprintf]] php function, you
-should follow its syntax. This means that you use %d for a number, %s for a string,
+should follow its syntax. This means that you use @@%d@@ for a number, @@%s@@ for a string,
 and so on. The order of the parameters is extremely important.
 
 <code php>
@@ -200,10 +200,10 @@ and so on. The order of the parameters is extremely important.
 
 It may happen in some language that the translation causes a change in the order
 of parameters. But since the code is language generic, you won't pass the parameters
-in a different order. So you will use the syntax %x$s where x is the order id. For
+in a different order. So you will use the syntax @@%x$s@@ where x is the order id. For
 example, you could have this sentence in english:
 
-<code>
+<code ini>
    sentence = You will go on the %s web site and you will click on the '%s' section.
 </code>
 
@@ -211,17 +211,17 @@ But in another language, the translator would like to change the order of the
 parameters: the first parameter in the sentence will be the section name, not the
 website url. So for example, in French, it could be translated like this:
 
-<code>
+<code ini>
    sentence = Cliquez sur la rubrique %2$s lorsque vous irez sur le site %1$s.
 </code>
 
-The first parameter will replace "%1$s", the second parameter will replace "%2$s",
+The first parameter will replace @@%1$s@@, the second parameter will replace @@%2$s@@,
 and so on. 
 
 Note that in template, you can't use the "@localeSelector@" syntax to indicate
 parameters. The only option left is to use the jLocale plugin:
 
-<code>
+<code html>
    <p>{jlocale "website~generic.sentence", array('http://www.jelix.org', 'documentation')}</p>
 </code>
 
@@ -233,7 +233,7 @@ Jelix provides a coordinator plugin supporting dynamic switching of languages:
 
 The autolocale plugin scans urls looking for a specific parameter indicating a
 language. If found, it switches your application and your user to this language
-by storing it in session. //locale// configuration option is re-written by
+by storing it in session. @@locale@@ configuration option is re-written by
 autolocale after being loaded from the configuration, so the configuration file
 remains untouched.
 
@@ -275,6 +275,8 @@ Since Jelix 1.4, you can also give values without the country part of the code:
 Of course, if you use the //[[urls/significant|significant]]// url engine, you can
 still rewrite your urls specifically for each language. You can have also automatic
 parameters for language in significant urls. See the [[urls/significant|corresponding documentation]].
+In this case, and if all URLs have a "lang" or "locale" part, probably you don't
+need the autolocale plugin.
 
 Note also that if the URL parameter does not contain a language code that is not
 listed into the @@availableLocales@@ parameter of the main configuration, jLocale

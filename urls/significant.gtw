@@ -194,6 +194,17 @@ We can use this mechanism to support language, for instance:
 
 You should not forget to give the @@lang@@ parameter to jUrl.
 
+<code php>
+jUrl::get('cms~page:view', array('page'=>'foo', 'lang'=>jApp::config()->locale));
+// or
+jUrl::get('cms~page:view', array('page'=>'foo', 'lang'=>"en_US"));
+</code>
+
+<code html>
+<a href="{jurl 'cms~page:view', array('page'=>'foo', 'lang'=>$j_locale}">my link</a>
+<a href="{jurl 'cms~page:view', array('page'=>'foo', 'lang'=>'fr_FR'}">my link</a>
+</code>
+
 ==== Automatic parameters for language ====
 
 === with static parameters ===
