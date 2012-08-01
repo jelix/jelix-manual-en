@@ -2,25 +2,39 @@
 
 Features of your application should be grouped by module. 
 
-A module is a directory which contains :
+A module is a directory which contains:
 
   * controllers
-  * business classes
+  * response objects (views)
   * templates
-  * jdao files
-  * jform files
+  * business classes
+  * ORM files (jDao)
+  * form files (jForm)
   * localization files
-  * responses
+  * CSS, JS, images files...
 
-In an application, you should have at least one module which you should create. In general this module is the main module, which contains for example the home page of your application.
+In an application, you should have at least one module which you should create.
+In general this module is the main module, which contains for example the home
+page of your application.
 
-Note that there is implicitly another declared module  in your application: the "jelix" module, located in @@F@lib/jelix/core modules/jelix@@.
+Note that there is implicitly another declared module in your application: the
+"jelix" module, located in @@F@lib/jelix/core modules/jelix@@.
 
-You can create as many modules as you want. Of course, files in a module have relations between them. For example, you can create a module by functional area. A module "news" will contain all the files you need to view and / or manage the news.
+You can create as many modules as you want. Of course, files in a module have
+relations between them. For example, you can create a module by functional area.
+A module "news" will contain all the files you need to view and/or manage the
+news.
 
-How you cut your code into modules is closely related to the degree of complexity of your application, and what you want to do in your application. For example, if some features could be shared with other applications, it is natural to have one or more modules dedicated to these needs. As a result, it will be easier to reuse the code. On the contrary, if your application has only 3 pages, it is not necessary to create 3 modules.
+How you cut your code into modules is closely related to the degree of
+complexity of your application, and what you want to do in your application. For
+example, if some features could be shared with other applications, it is natural
+to have one or more modules dedicated to these needs. As a result, it will be
+easier to reuse the code. On the contrary, if your application has only 3 pages,
+it is not necessary to create 3 modules.
 
-In short, cutting into modules depends upon your organization and your work habits. It is up to you to build an architecture that will leverage your ability to maintain and develop your application. Therefore there is no recipe.
+In short, cutting into modules depends upon your organization and your work
+habits. It is up to you to build an architecture that will leverage your ability
+to maintain and develop your application. Therefore there is no recipe.
 
 Now, let's see how we create a module and a controller.
 
