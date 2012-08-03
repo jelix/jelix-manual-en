@@ -1,15 +1,19 @@
 ~~LANG:FR@frman:vues/vue-html~~
 
 
-To generate HTML/XHTML, you indicate the alias "html" or "basichtml" to the @@M@getResponse()@@ method in your controller's action. Then you retrieve respectively an instance of @@C@jResponseHtml@@ or @@C@jResponseBasicHtml@@. Here is an example:
+To generate HTML/XHTML, you indicate the alias "html" or "basichtml" to the
+@@M@getResponse()@@ method in your controller's action. Then you retrieve
+respectively an instance of @@C@jResponseHtml@@ or @@C@jResponseBasicHtml@@.
+Here is an example:
 
 <code php>
    $resp = $this->getResponse('html')
 </code>
 
-==== XTHML or HTML ====
+===== XTHML or HTML =====
 
-jResponseHtml or jResponseBasicHtml is set to return XHTML output by default. You can enable, disable or fetch this setting:
+jResponseHtml or jResponseBasicHtml is set to return XHTML output by default.
+You can enable, disable or fetch this setting:
 
 <code php>
 $rep->setXhtmlOutput( true ); // XHTML output
@@ -19,19 +23,26 @@ $rep->setXhtmlOutput( false ); // HTML output
 $outputXhtml = $this->isXhtml();
 </code>
 
-Going further, you can specify your own DOCTYPE by overloading @@M@outputDocType()@@ (using jResponseHtml, not jResponseBasicHtml). This method should echo a valid DOCTYPE.
+Going further, you can specify your own DOCTYPE by overloading
+@@M@outputDocType()@@ (using jResponseHtml, not jResponseBasicHtml). This method
+should echo a valid DOCTYPE.
 
 ===== Returning the content of a static page =====
 
-Since Jelix 1.3,  a new response object is available: @@C@jResponseBasicHtml@@. It allows to return simply a static page stored in a file. This file should be a simple PHP file, and not a template for jTpl.
-
-It should contain all the HTML code of a page, and three instructions to display these variables:
+@@C@jResponseBasicHtml@@ allows to return simply a static page stored in a file.
+This file should be a simple PHP file, and not a template for jTpl. It should
+contain all the HTML code of a page, and three instructions to display these
+variables:
 
     * @@V@$HEADBOTTOM@@ : before the end tag @@E@</head>@@
     * @@V@$BODYTOP@@ : after the begin tag @@E@<body>@@
     * @@V@$BODYBOTTOM@@ : before the end tag @@E@</body>@@
 
-These variables contain HTML code given by the call of methods @@M@addHeadContent()@@ and @@M@addContent()@@ of the object @@C@jResponseBasicHtml@@. These calls may be made by some components like controllers, classes, plugins... So you really should include these instructions. Here is an example of a such static file: 
+These variables contain HTML code given by the call of methods
+@@M@addHeadContent()@@ and @@M@addContent()@@ of the object
+@@C@jResponseBasicHtml@@. These calls may be made by some components like
+controllers, classes, plugins... So you really should include these
+instructions. Here is an example of a such static file: 
 
 <code html>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -50,7 +61,10 @@ These variables contain HTML code given by the call of methods @@M@addHeadConten
 </html>
 </code>
 
-In your controller, you must indicate where can @@C@jResponseBasicHtml@@ find this file, by giving its full path in the property @@P@$htmlFile@@. Note that the object @@C@jCoordinator@@ owns a method allowing to retrieve the path of a module. So it is easy to give the path of a file stored in a module.
+In your controller, you must indicate where can @@C@jResponseBasicHtml@@ find
+this file, by giving its full path in the property @@P@$htmlFile@@. Note that
+the object @@C@jCoordinator@@ owns a method allowing to retrieve the path of a
+module. So it is easy to give the path of a file stored in a module.
 
 <code php>
    $rep = $this->getResponse('basichtml');
@@ -60,34 +74,41 @@ In your controller, you must indicate where can @@C@jResponseBasicHtml@@ find th
 
 ===== Generating dynamic contents =====
 
-To return dynamic content, you have to use the class  @@C@jResponseHtml@@, corresponding to the response type "html". This class implements additionnal methods and properties to manipulate the HTML/XHTML content. So it is more flexible for all consumers components (zones, templates, controllers..).
+To return dynamic content, you have to use the class @@C@jResponseHtml@@,
+corresponding to the response type "html". This class implements additionnal
+methods and properties to manipulate the HTML/XHTML content. So it is more
+flexible for all consumers components (zones, templates, controllers..).
 
-The source of an HTML page is split into two parts: the @@E@<head>@@ part, and the @@E@<body>@@ part.
+The source of an HTML page is split into two parts: the @@E@<head>@@ part, and
+the @@E@<body>@@ part.
 
 {{jresponsehtml_step1.png|}}
 
-jResponseHTML generates itself the content of the @@E@<head>@@ element, from data you give to the jResponseHTML via its dedicated methods. However, you are responsible of the generation of the content of the @@E@<body>@@ element.
-
-Let's see all these things.
+jResponseHTML generates itself the content of the @@E@<head>@@ element, from
+data you give to the jResponseHTML via its dedicated methods. However, you are
+responsible of the generation of the content of the @@E@<body>@@ element. Let's
+see all of these things.
 
 
 ==== Generating (X)HTML headers ====
 
-jResponseHtml provides features to change document's title, favicon, links to style sheets or JS scripts, meta tags...
+jResponseHtml provides features to change document's title, favicon, links to
+style sheets or JS scripts, meta tags...
 
 Features tour:
+
 <code php>
 
 $resp->title = 'Document Title';
 
 // generate a script tag
-$resp->addJSLink( 'lib.js' );
+$resp->addJSLink( '/lib.js' );
 
 // generate a script tag with inline code :
 $resp->addJSCode( 'alert( "Hello world" ) )' );
 
 // generate a <link>
-$resp->addCSSLink('style.css');
+$resp->addCSSLink('/style.css');
 
 // generate a <style>
 $resp->addStyle('span', 'font-weight:bold;');
@@ -106,37 +127,22 @@ $resp->addMetaGenerator('My Super App 1.0');
 
 </code>
 
-Note that @@M@addCSSLink()@@ and @@M@addJSLink()@@ can use an associative array argument specifying custom (X)HTML tag properties, for example:
-<code php>
-$resp->addCSSLink( 
-    'stylesheet.css', 
-    array( 
-        'title' => 'blue design',
-        'rel'   => 'alternate stylesheet',
-    )
-);
-</code>
-
 If you want to add custom content in the @@E@<head>@@ element, use @@M@addHeadContent()@@:
 
 <code php>
 $resp->addHeadContent('<link rel="alternate" type="application/rss+xml" title="Recent Changes" href="/feed.php" />')
 </code>
 
+It happens to require removal of parts of the generated headers (if you refuse
+to take the hand on third-party-module). You should use method
+@@M@clearHtmlHeader()@@ for this:
 
-It happens to require removal of parts of the generated headers (if you refuse to take the hand on third-party-module).
-You should use method @@M@clearHtmlHeader()@@ for this:
 <code php>
 // remove links to stylesheets done with addCSSLink(), and style tags from addStyle()
 $resp->clearHtmlHeader( array( 'CSSLink', 'Styles' ) );
 </code>
 
-Acceptable array values are strings:
-  * CSSLink,
-  * Styles,
-  * JSLink,
-  * JSCode,
-  * Other.
+Acceptable array values are strings @@'CSSLink'@@, @@'Styles'@@, @@'JSLink'@@, @@'JSCode'@@, @@'Other'@@.
 
 ==== Generate (X)HTML body ====
 
@@ -194,33 +200,131 @@ $resp->addContent( jZone::get( 'aModule~aZone'));
 
 === Using a main template and some "sub-templates" ===
 
-We often have a common template for all pages, and only few things change inside this common template, depending of the page. So you will have a first template for the common things, and all pages will define an other "sub-template" to generate specific things for the page. The result of this sub-template will be inserted into the main template.
+We often have a common template for all pages, and only few things change inside
+this common template, depending of the page. So you will have a first template
+for the common things, and all pages will define an other "sub-template" to
+generate specific things for the page. The result of this sub-template will be
+inserted into the main template.
 
 You can do this work directly into all your controllers, with zones. 
 
-But there is a more convenient way to do it: you can define an object which inherits from jResponseHtml. In this object, you will define all common things. And then you declare this object as the default HTML view for all your actions.
+But there is a more convenient way to do it: you can define an object which
+inherits from jResponseHtml. In this object, you will define all common things.
+And then you declare this object as the default HTML view for all your actions.
 
 Read the section: [[/common-processes#customizing-common-response|how to create a custom common response]].
 
 
 === Not using templates ===
 
-Let @@P@bodyTpl@@ empty if you don't want to use a template for the (X)HTML body of the response, and use @@M@addContents()@@ as described in the previous paragraph of the documentation.
+Let @@P@bodyTpl@@ empty if you don't want to use a template for the (X)HTML body
+of the response, and use @@M@addContents()@@ as described in the previous
+paragraph of the documentation.
 
 <code php>
 $rep->addContent('<p>content for my body</p>');
 </code>
 
+
+==== Adding CSS style sheets, javascript files, images... ====
+
+You probably saw above an example about the use of @@M@addJSLink()@@ and
+@@M@addCSSLink()@@. These methods allow you to link some CSS style sheets and
+javascript files to your HTML page.
+
+@@M@addJSLink()@@ and @@M@addCSSLink()@@ accept as first argument the URL of a
+JS file or CSS file. Since most of URL of your application are "virtual" (the URL of
+"actions" do not corresponds to a static file), you cannot indicate an URL for your CSS/JS
+files,  relative to the URL page (except if you really know what you do,
+but it will not be very easy). You should then indicate an absolute URL (most of
+time without the domain name).
+
+Your CSS/JS files can be stored into the www/ directory of your application or in the www/ directory of a module.
+
+If it is stored into the www/ directory of your application, and if this directory
+in the "documentRoot" of the application, then just indicate its path with a leading @@/@@.
+For instance, if you want to link to @@F@yourapp/www/css/mystyles.css@@, then you should do:
+
+<code php>
+  $resp->addCSSLink('/css/mystyles.css');
+</code>
+
+However, if @@F@www/@@ is not the document root, or if your module is supposed to be
+used by other applications, or if the application can be installed in some different
+configuration, it is better to add the "base path" of the web site:
+
+<code php>
+  $resp->addCSSLink(jApp::config()->urlengine['basepath'].'css/mystyles.css');
+</code>
+
+If you want a link to a CSS/JS file of the @@F@lib/jelix-www/@@ directory, you can use the @@jelixWWWPath@@
+property:
+
+<code php>
+  $resp->addJSLink(jApp::config()->urlengine['jelixWWWPath'].'js/tooltip.js');
+</code>
+
+If the CSS/JS file is stored into a module, then you cannot use a direct URL, but
+have to indicate the URL of a specific action of the module Jelix, which is @@jelix~www:getfile@@.
+You should give two parameters, @@targetmodule@@ and @@file@@. The first one indicate the module where
+CSS/JS files are stored, and the second one the path to the file inside the @@F@www/@@
+directory of the module. For example, if you want a link to the file @@F@mymodule/www/css/mystyles.css@@:
+
+<code php>
+  $resp->addCSSLink(jUrl::get('jelix~www:getfile', array('targetmodule=>'mymodule', 'file'=>'css/mystyles.css')));
+</code>
+
+
+Note that @@M@addCSSLink()@@ and @@M@addJSLink()@@ can use an associative array
+argument specifying custom (X)HTML tag properties, for example:
+
+<code php>
+$resp->addCSSLink( 
+    '/stylesheet.css', 
+    array( 
+        'title' => 'blue design',
+        'rel'   => 'alternate stylesheet',
+    )
+);
+</code>
+
+All previous example about the retrieval of URLs of CSS files, work with JS files, images files
+and any other ressources stored into the @@F@www/@@ directory of an application, a module or into
+the jelix-www directory.
+
+You can also use same principle directly in a template:
+
+<code smarty>
+  {* in the www/ of the application *}
+  {meta_html css '/css/mystyles.css'}
+  {meta_html css $j_basepath.'css/mystyles.css'}
+  
+  {* in the jelix-www/ *}
+  {meta_html js  $j_jelixwww.'js/tooltip.js'}
+
+  {* in the www/ of a module *}
+  {meta_htmlmodule css , 'mymodule', 'css/mystyles.css'}
+
+  {* link to an image *}  
+  <img src="{jurl 'jelix~www:getfile', array('targetmodule=>'mymodule', 'file'=>'img/mypicture.png')}" />
+</code>
+
+See chapter about templates to know more about these features.
+
 ===== Other response parameters =====
 
-It's possible to control HTTP headers since jResponseHtml and jResponseBasicHtml inherit from jResponse, for the status code as well as for miscellaneous properties.
+It's possible to control HTTP headers since jResponseHtml and jResponseBasicHtml
+inherit from jResponse, for the status code as well as for miscellaneous
+properties.
 
 <code php>
 $resp->setHttpStatus( '404', 'Not Found' );
 $resp->addHttpHeader( 'Date-modified', '...' );
 </code>
 
-If jResponseHtml's property @@P@$xhtmlContentType@@ is true : HTTP response's "Content-Type" will be @@application/xhtml+xml@@. Note that the client-browser must support xHTML, or Content-Type @@text/html@@ is sent.
+If jResponseHtml's property @@P@$xhtmlContentType@@ is true: HTTP response's
+"Content-Type" will be @@application/xhtml+xml@@. Note that the client-browser
+must support xHTML, or Content-Type @@text/html@@ is sent.
 
 <code php>
 $resp->xhtmlContentType = true ;
@@ -228,10 +332,15 @@ $resp->xhtmlContentType = true ;
 
 ===== Using plugins =====
 
-Since Jelix 1.3, @@C@jResponseHtml@@ and @@C@jResponseBasicHtml@@ have a plugin system. These plugins allow to add content or modify the response content automatically, on all HTML pages generated with these classes. Thus there is such plugins to show a debug bar, or to "minify" css style sheets or javascript files.
+@@C@jResponseHtml@@ and @@C@jResponseBasicHtml@@ have a plugin system. These
+plugins allow to add content or modify the response content automatically, on
+all HTML pages generated with these classes. Thus there is such plugins to show
+a debug bar, or to "minify" css style sheets or javascript files.
 
-These plugins have the plugin type "htmlresponse", so they have to be stored in a @@F@htmlresponse/@@ directory inside a plugins repository. To activate them, you need to specify their name in the option @@plugins@@ in the section @@jResponseHtml@@ of the main configuration. Example:
-
+These plugins have the plugin type "htmlresponse", so they have to be stored in
+a @@F@htmlresponse/@@ directory inside a plugins repository. To activate them,
+you need to specify their name in the option @@plugins@@ in the section
+@@jResponseHtml@@ of the main configuration. Example:
 
 <code ini>
 [jResponseHtml]
@@ -240,11 +349,12 @@ plugins = debugbar, minify
 
 ==== Minifying css and javascript files ====
 
-Jelix provides [[http://code.google.com/p/minify/|Minify]], which allow to concatenate and minify CSS and JS files. It improves performance during the load of the page.
+Jelix provides [[http://code.google.com/p/minify/|Minify]], which allow to
+concatenate and minify CSS and JS files. It improves performance during the load
+of the page.
 
-In Jelix 1.2, this feature was natively implemented into the @@C@jResponseHtml@@ class, however, since Jelix 1.3, it is a plugin, and its configuration is a bit different.
-
-To activate the plugin "minify", put its name into the @@plugins@@ option as indicated in the previous section. You have then some configuration options.
+To activate the plugin "minify", put its name into the @@plugins@@ option as
+indicated in the previous section. You have then some configuration options.
 
 <code ini>
 [jResponseHtml]
@@ -261,7 +371,15 @@ minifyExcludeJS = "jquery.wymeditor.js"
 minifyEntryPoint = minify.php
 </code>
 
-First, with @@minifyCSS@@ and @@minifyJS@@ you activate the "minification". You can indicate files to **NOT** minify in @@minifyExcludeCSS@@ and @@minifyExcludeJS@@. Keep the file name "jquery.wymeditor.js" in @@minifyExcludeJS@@. Wymeditor doesn't like to be concatenated with other files.
+First, with @@minifyCSS@@ and @@minifyJS@@ you activate the "minification". You
+can indicate files to **NOT** minify in @@minifyExcludeCSS@@ and
+@@minifyExcludeJS@@. Keep the file name @@F@jquery.wymeditor.js@@ in
+@@minifyExcludeJS@@. Wymeditor doesn't like to be concatenated with other files.
 
-Second, you have to install a script  @@F@minify.php@@ in @@F@www/@@. Simply copy the file @@F@lib/jelix-scripts/templates/www/minify.php.tpl@@ into @@F@votre_appli/www/minify.php@@. There are some options in this file you can set to configure Minify (read the documentation of Minify). If you want to choose an other name for this script, indicate its name into the option @@minifyEntryPoint@@.
+Second, you have to install a script @@F@minify.php@@ in @@F@www/@@. Simply copy
+the file @@F@lib/jelix-scripts/templates/www/minify.php.tpl@@ into
+@@F@votre_appli/www/minify.php@@. There are some options in this file you can
+set to configure Minify (read the documentation of Minify). If you want to
+choose an other name for this script, indicate its name into the option
+@@minifyEntryPoint@@.
 

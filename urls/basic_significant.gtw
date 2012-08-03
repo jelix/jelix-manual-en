@@ -1,12 +1,26 @@
 ~~LANG:FR@frman:urls/basic_significant~~
 
-This is the default url engine since Jelix 1.1. This url engine is halfway between "simple" engine and "significant" . It allows to use a litle cleaner URLS, but you cannot choose exactly the URL you wish. Every URL will look like **pointentree.php/module/controller/method?param=1&...**. 
+This is the default url engine since Jelix 1.1. This url engine is halfway
+between "simple" engine and "significant" . It allows to use a little cleaner
+URLS, but you cannot choose exactly the URL you wish. Every URL will look like
+@@pointentree.php/module/controller/method?param=1&...@@. 
 
-So the URLS use the name of modules, controllers and methods to build the path, and the extra parameters are in the query part.
+So the URLS use the name of modules, controllers and methods to build the path,
+and the extra parameters are in the query part.
 
-If you use standard entry points, you have nothing to configure. But if you add some of them, you must mention them in the **simple_urlengine_entrypoints** section to declare them, and tell which module and query type they are related to. For they configuration, see the documentation for [[simple|Simple url engine]]. Just the same to configure urls with https.
+If you use standard entry points, you have nothing to configure. But if you add
+some of them, you must mention them in the @@simple_urlengine_entrypoints@@
+section to declare them, and tell which module and query type they are related
+to. For they configuration, see the documentation for
+[[simple|Simple url engine]]. Just the same to configure urls with https.
 
-You must also declare every entry point in the //basic_significant_urlengine_entrypoints// section of general configuration. For each of them, you must tell if you wish the entry point to appear (on) or not (off) in the generated urls for these entry points. If you do not document an entry point, its  default value will be "off".
+You must also declare every entry point in the
+@@basic_significant_urlengine_entrypoints@@ section of general configuration.
+For each of them, you must tell if you wish the entry point to appear (on) or
+not (off) in the generated urls for these entry points. If you do not document
+an entry point, its default value will be "off".
 
-Obviously, entry points that do not appear in their related URLS must be configured with mod rewrite Apache rules [[significant#mod_rewrite-and-just-removing-the-name-of-the-entry-point-in-the-url|as mentioned in the section of the documentation dedicated to significant url engines]]
+Obviously, entry points that do not appear in their related URLS must be
+configured with mod rewrite Apache rules as mentioned in the section of the
+[[significant#mod_rewrite-and-just-removing-the-name-of-the-entry-point-in-the-url|documentation dedicated to significant url engines]].
 

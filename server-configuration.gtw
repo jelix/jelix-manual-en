@@ -120,6 +120,12 @@ It is finally necessary to move the @@F@lib/jelix-www@@ directory to the root an
 
 Note: you can choose another name for the @@F@jelix-www@@ directory. If you do this, you have to change the @@V@jelixWWWPath@@ option in the configuration file of the application (@@F@myapp/var/config/defaultconfig.ini.php@@)
 
+
+**WARNING: it highly recommanded to not store your own scripts/CSS/whatever in this directory or in jelix-www.**
+Else futur update will be difficult, because other colleague will be confused, and may have difficult to know
+what it comes from Jelix, and what it comes from your application. So don't modify the content of jelix-www or
+of its copies, and store your own script in an other directory, for instance, @@F@mysite/js/@@.
+
 Finally, in the file @@F@myapp/application.ini.php@@, you must change the path (second parameter to jApp::initPaths):
 
 <code php>
