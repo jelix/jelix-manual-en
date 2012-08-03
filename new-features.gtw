@@ -27,7 +27,7 @@ Main improvements provided by the version 1.4 are:
      An interface is available to allow a webmaster to manage these preferences.
    * Modules can provide their own response object and
      [[/creating-response#declare-a-response|indicate them directly into the configuration]]
-   * Modules can provide [[/creating-response#declare-a-response|their own CSS and JS file]]
+   * Modules can provide [[/views/view-html#adding-css-style-sheets-javascript-files-images|their own CSS and JS file]]
      without copying them into the @@F@www@@ directory
    * The plugins directories of modules are now automatically registered
    * [[/jelix-scripts#changing-the-default-configuration|Jelix-scripts now searches a .jelix-scripts.ini]]
