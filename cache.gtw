@@ -145,7 +145,7 @@ This type of cache is a cache that will be kept valid until a specific date.
 Before this date, the browser will not ask the page to the server and will display
 the version stored in its cache. However, after this date, the browser will request
 the page to the server. You can specify the expiration date, by indicating the
-date, (method @@M@setExpires@@), or by indicating an mount of time (method @@MsetLifeTime@@).
+date, (method @@M@setExpires@@), or by indicating an mount of time (method @@M@setLifeTime@@).
 
 === setExpires ===
 
