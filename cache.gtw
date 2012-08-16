@@ -1,26 +1,53 @@
 ~~LANG:FR@frman:cache~~
 
-jCache is a class to store any data in a cache system like memcache. It supports other kind of storage like files or a SQL database.
+Caching data or parts of an HTML page allows to increase performance of your
+web site, and even to avoid to send data to the browser in some case.
+
+You probably saw [[/zones#using the cache|how to put zone content in cache]]. You will see
+here how to put any data in a cache system, and how to use HTTP cache.
+
+
+===== jCache =====
+
+jCache is a class to store any data in a cache system like memcache. It supports
+other kind of storage like files or a SQL database.
 
 Note that jCache doesn't use jKVDb as a backend, but it could use it in next versions.
 
-===== Configuration =====
+==== Configuration ====
 
-You should declare storages in a @@F@var/config/profiles.ini.php@@ file. See [[config#the-profiles.ini.php-file|the corresponding chapter]] to know how to use this file. It may contain some section, corresponding to a "profile", like for jDb or jKVDb.
+You should declare storages in a @@F@var/config/profiles.ini.php@@ file. See
+[[config#the-profiles.ini.php-file|the corresponding chapter]] to know how to
+use this file. It may contain some section, corresponding to a "profile", like
+for jDb or jKVDb.
 
 The connection type to indicate in profile names is @@jcache@@.
 
 Each profile must declare these properties:
 
    * @@driver@@: the driver name for the storage backend
-   * @@enabled@@: to enable or disable the cache for this profile (@@1@@ or @@0@@). You can then disable the cache without modifying your classes, when you develop or want to debug something.
+   * @@enabled@@: to enable or disable the cache for this profile (@@1@@ or
+     @@0@@). You can then disable the cache without modifying your classes, when
+     you develop or want to debug something.
    * @@ttl@@: the default time to live of data, in seconds. 0 means no timeout.
 
 Depending of the driver, you may have additional parameters.
 
-==== memcache backend ====
+Here is an example in the @@F@profiles.ini.php@@ file:
 
-It is a driver for memcache, using the memcache API of PHP (not memcached API).
+<code ini>
+[jcache]
+default = foo
+
+[jcache:foo]
+enabled = 1
+driver = file
+;  other parameters....
+</code>
+
+=== memcache backend ===
+
+It is a driver for memcache, using the memcache API of PHP (not **memcached** API).
 
 The configuration parameter is @@server@@, containing a list of host and port.
 
@@ -33,21 +60,27 @@ servers = memcache_host1:11211,memcache_host2:11211,memcache_host3:11211
 </code>
 
 
-==== file backend ====
+=== file backend ===
 
 It is similar to the file driver of jKVDb. Here are its configuration parameters:
 
   * @@driver=file@@
   * @@cache_dir@@: the directory where to store the files. by default: @@F@temp/yourapp/cache/@@. 
   * @@file_locking=1@@ to disable or enable file locking (keep to 1 is better)
-  * @@directory level@@: Set the directory structure level. 0 means "no directory structure", 1 means "one level of directory", 2 means "two levels"...
+  * @@directory level@@: Set the directory structure level. 0 means "no
+    directory structure", 1 means "one level of directory", 2 means "two
+    levels"...
   * @@directory_umask@@: umask for directory structure (default '0700') 
   * @@file_name_prefix@@: prefix for cache files (default 'jelix_cache')
   * @@cache_file_umask@@: umask for cache files (default '0600')
 
-==== sql backend ====
+=== sql backend ===
 
-This driver uses a sql table to store cache values. The installer of jelix creates the needed table if you use this backend. If it is already installed, during developpement, use one of the @@F@lib/jelix/core-modules/jelix/install/sql/install_jcache.schema.*@@ files to create the table.
+This driver uses a sql table to store cache values. The installer of jelix
+creates the needed table if you use this backend. If it is already installed,
+during developpement, use one of the
+@@F@lib/jelix/core-modules/jelix/install/sql/install_jcache.schema.*@@ files to
+create the table.
 
 Configuration parameters:
 
@@ -55,7 +88,7 @@ Configuration parameters:
   * @@dbprofile@@: the jDb profile to use.
 
 
-===== Using jCache =====
+==== Using jCache ====
 
 
 To store and read from the cache system, call one of the static methods of jCache.
@@ -66,9 +99,130 @@ To store and read from the cache system, call one of the static methods of jCach
    * @@M@jCache::increment($key)@@: increment the value. You can indicate also the value of the incrementation
    * @@M@jCache::decrement($key)@@: decrement the value. You can indicate also the value of the decrementation
    * @@M@jCache::add($key, $value)@@: to store a new value. return false if the key already exists
-   * @@M@jCache::replace($key,$value, $ttl)@@: to change the value of the corresponding key. If the key doesn't exist, it returns false. $ttl is optional.
+   * @@M@jCache::replace($key,$value, $ttl)@@: to change the value of the
+     corresponding key. If the key doesn't exist, it returns false. $ttl is
+     optional.
    * @@M@jCache::garbage()@@: delete all expired keys
    * @@M@jCache::flush()@@: delete all keys
-   * @@M@jCache::call($fn, $fnargs, $ttl)@@: get the value corresponding to the function name/args. If it is not set, call the function $fn with arguments $fnargs, which should return a value. This value is then put into the cache.
+   * @@M@jCache::call($fn, $fnargs, $ttl)@@: get the value corresponding to the
+     function name/args. If it is not set, call the function $fn with arguments
+     $fnargs, which should return a value. This value is then put into the
+     cache.
 
 All this static methods accept as last argument a profile. By default, the "default" profile will be used.
+
+
+
+
+===== jResponse and HTTP cache =====
+
+The HTTP protocol defines some headers for the browser to say how to store
+the resource (the web page), if the browser can use its local cache system or not.
+So the browser can know if it should do a request, or, if it have to do a request,
+it can indicate to the server informations about the cache status.
+In the server side, we can then know if we have to regenerate the resource, or if
+we can say that the browser must use the content in its cache. It then saves
+bytes and bandwidth.
+
+Jelix 1.4 integrate some new methods in the class @@C@jResponse@@ to manage easily
+the HTTP cache. These methods are available for all responses, so you can activate
+HTTP cache for HTML page, images, JSON content etc. Don't forget that the cache is
+client side, not server side.
+
+There are two ways to manage the browser cache: cache by expiration and cache by
+validation.
+
+
+Warning: in most of cases, except if you use the method @@M@setLifeTime@@ with a private cache,
+the HTTP cache should be used only for content that is not personnalized. The content
+should not include private data for example. It may be stored by some proxies, and then
+served to all users, because proxies don't use cookies (session cookies) as discriminant
+characteristics to store cache.
+
+==== Cache by expiration ====
+
+This type of cache is a cache that will be kept valid until a specific date.
+Before this date, the browser will not ask the page to the server and will display
+the version stored in its cache. However, after this date, the browser will request
+the page to the server. You can specify the expiration date, by indicating the
+date, (method @@M@setExpires@@), or by indicating an mount of time (method @@MsetLifeTime@@).
+
+=== setExpires ===
+
+The method @@M@setExpires@@ allows to specify the date of the end of the validity of the cache.
+It adds an "Expires" HTTP header.
+
+In the controller:
+<code php>
+$rep->setExpires($date);
+
+// or
+
+$rep->setExpires(“+1 days”);
+</code>
+
+The parameter expected by @@M@setExpires@@ is a date, representing by a 
+@@C@jDateTime@@ or @@C@DateTime@@ object, or a string compatible with 
+[[phpapi:strtotime|@@f@strtotime@@]].
+
+=== setLifeTime ===
+
+The method @@M@setLifeTime@@ allows to specify the life time (in seconds)
+of the cache. You have the possibility to specify if the resource can be cached
+by any cache system on the network (proxies for example) or if this resource is private
+and can be cached only by the browser of the user. By default, it is private.
+
+This method adds a "Cache-Control" HTTP header.
+
+In the controller:
+
+<code php>
+$rep->setLifeTime(3600); //1 hour in private cache
+
+//or 
+
+$rep->setLifeTime(600, true);// 10 minutes in shared cache
+</code>
+
+==== Cache par validation ====
+
+The cache by validation allows to use a more complex cache politic. The browser
+always ask the page to the server, but the server can decide to return the whole
+content of the resource, or to say to the browser that it can use its cache
+content.
+
+So you have to decide in your controller, if you should return or not the
+content of the resource. To help you, there is a method, @@M@isValidCache@@,
+that will return you @@true@@ if the cache stored in the browser is still valid.
+Give to this method, the date of the last modification of the resource
+("Last-modified" HTTP header), or a token corresponding to the state of the
+resource ("Etag" HTTP header). So you have to retrieve this date or to calculate
+this token (a token can be any string, a md5 hash for example).
+
+In the controller:
+
+<code php>
+$dateLastModified = $foo->updated_at; // date of the last modification
+
+if ($rep->isValidCache($dateLastModified)) {
+   // the cache is ok, we stop here.
+   return $rep;
+}
+
+// example with "Etag"
+$etag = ... ; // generate the etag, corresponding to the state of the resource
+
+if ($rep->isValidCache(null, $etag)) {
+    // the cache has the same etag, we stop here
+   return $rep;
+}
+
+// cache is not valid.
+// generate the content here
+
+</code>
+
+
+The parameter expected by @@M@isValidCache@@ is a date, representing by a 
+@@C@jDateTime@@ or @@C@DateTime@@ object, or a string compatible with 
+[[phpapi:strtotime|@@f@strtotime@@]].

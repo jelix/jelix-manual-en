@@ -19,7 +19,7 @@ Main improvements provided by the version 1.4 are:
      [[/locales#supporting-unknown-or-non-default-language-code|you force to use them]],
      for compatibility.
    * en_US becomes the default locale of Jelix. en_EN is now deprecated, since it is not a valid language code
-   * New API to support HTTP cache, on response object:
+   * [[/cache#jresponse-and-http-cache|New API to support HTTP cache]], on response object:
      @@M@cleanCacheHeaders()@@, @@M@setExpires()@@, @@M@setLifetime()@@,
      @@M@isValidCache()@@.
    * New classes to read Atom and RSS feeds
