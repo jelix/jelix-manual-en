@@ -19,14 +19,16 @@ Example:
 [modules]
 testapp.access = 2
 junittests.access = 2
-jWSDL.access = 2
 jacldb.access = 0
 jacl2db.access = 1
 jauthdb.access = 1
 jauth.access = 2
 </code>
 
-Modules testapp, junittessts, jWSDL and jauth are activated normally. jacl2db and jauthdb are activated, but only their resources (forms, daos, business classes...) are usable, and you cannot access to it from the web. jacldb is not used at all and is "invisible".
+In this example, modules testapp, junittessts and jauth are activated normally.
+jacl2db and jauthdb are activated, but only their resources (forms, daos,
+business classes...) are usable, and you cannot access to it from the web.
+jacldb is not used at all and is "invisible".
 
 Of course, if you have several entry points, some modules could be activated for some entry points and not for others. So you have to create a "modules" section in configuration files of each entry points. Values in defaultconfig.ini.php are considered as default values, if there are not defined in configuration files of entry points.
 

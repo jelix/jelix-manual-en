@@ -3,6 +3,9 @@
 Main improvements provided by the version 1.5 are: 
 
    * PHP 5.3 and higher is required. No more support for PHP 5.2.
+   * All about Soap has been moved into a new module jSoap. It contains also
+     all classes from the jWSDL module which is deleted. Soap entry points
+     should be changed.
 
 Removed components:
 
@@ -12,6 +15,7 @@ Removed components:
      [[https://github.com/jelix/jelix-contrib/tree/master/modules/jelix/rdf/|in the jelix-contrib repository]]
    * The "latex to PDF" support has been moved to an independant module,
      [[https://github.com/jelix/jelix-contrib/tree/master/modules/jelix/latex2pdf/|in the jelix-contrib repository]]
+   * The jWSDL moduel has been renamed to jsoap
    * The magicquotes plugin has been removed, since it is useless with PHP 5.3
    * Removed deprecated methods:
       * @@M@jAcl2Db::getProfile()@@

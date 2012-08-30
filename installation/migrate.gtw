@@ -27,6 +27,46 @@ As usual, you must remove every files into the @@F@temp/yourapp/@@ directory.
 
 ==== Other stuffs ====
 
+==== SOAP support ====
+
+If you are using SOAP features (soap entry points, use of jWSDL..), you have to
+make this change:
+
+  * In the configuration you have to remove the activation of the jWSDL module,
+  since it doesn't exists anymore, and you have to activate the jsoap module.
+  
+<code ini>
+   [modules]
+   jWSDL.access=2  ; <- remove this line
+   jsoap.access=2 ; <- add this line
+</code>
+
+  * In your soap.php (or other entrypoints for soap), you have to change the content
+   like this:
+
+<code php>
+require_once ('../application.init.php');
+
+checkAppOpened();
+
+jApp::loadConfig('soap/config.ini');
+ini_set("soap.wsdl_cache_enabled", "0");
+
+jClasses::inc('jsoap~jSoapCoordinator');
+jClasses::inc('jsoap~jSoapRequest');
+
+$jelix = new jSoapCoordinator();
+jApp::setCoord($jelix);
+$jelix->request = new jSoapRequest();
+$jelix->request->initService();
+$jelix->processSoap();
+</code>
+
+   * If you generate link for the jWSDL, change them by indicating the jsoap module
+   * Modify the configuration of your SOAP clients that are using your soap
+    services, by indicating the new URL of WSDLs.
+
+
 ==== Upgrading modules ====
 
   * update sources of vendor's modules that you have installed, with version compatible with Jelix 1.5.
