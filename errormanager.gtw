@@ -26,17 +26,37 @@ The error message stored in files, syslog or mail, contains the error message it
 
 ==== The error page ====
 
-Since Jelix 1.3, details of error messages are never displayed in the browser (except in the debug bar if you activate it). When an error occured, Jelix displays an error page with the HTTP code 500.
+Since Jelix 1.3, details of error messages are never displayed in the browser
+(except in the debug bar if you activate it). When an error occured, Jelix
+displays an error page with the HTTP code 500.
 
-By default, it shows the page stored in @@F@lib/jelix/core/response/error.en_US.php@@. You can provide your own page by copying this file into the @@F@yourapp/responses/@@ directory. Modify then this page to customize it with your own design.
+By default, it shows the page stored in
+@@F@lib/jelix/core/response/error.en_US.php@@. You can provide your own page by
+copying this file into the @@F@yourapp/responses/@@ directory. Modify then this
+page to customize it with your own design.
 
-Notice that @@error.en_US.php@@ is a simple php script. You can write any PHP instructions. However, don't call any Jelix objects. The occured error may not appear in a "safe" context (some object may not be present, configured etc). And don't try to display the true error, for security reasons and for better usability. In fact, this page should be almost a static page. Just keep existing @@echo@@ instructions.
+Notice that @@error.en_US.php@@ is a simple php script. You can write any PHP
+instructions. However, don't call any Jelix objects. The occured error may not
+appear in a "safe" context (some object may not be present, configured etc). And
+don't try to display the true error, for security reasons and for better
+usability. In fact, this page should be almost a static page. Just keep existing
+@@echo@@ instructions.
+
+Variables @@V@$HEADBOTTOM@@ et @@V@$BODYTOP@@ are not used for the moment (it is
+just to be compatible with static pages returned by jResponseBasicHtml).
+@@V@$BODYBOTTOM@@ contains the error message, without details. And since Jelix 1.4.1,
+@@V@$BASEPATH@@ is available, containing the base path of the application, for
+stylesheets etc. However, this variable may be empty in some case, depending of the
+origin of the error (an error appearing before or during the load of the configuration).
 
 The error page may not be used in some case:
-  * when an error occured before or during the reading of the configuration file
+  * when there are fatal PHP errors
+  * when an error occured during the initialization of the configuration file
   * when the browser doesn't accept html
 
-In this case, Jelix returns a simple text content. This text content can be configured into the option @@errorMessage@@ inside the @@[error_handling]@@ section of the configuration.
+In this last case, Jelix returns a simple text content. This text content can be
+configured into the option @@errorMessage@@ inside the @@[error_handling]@@
+section of the configuration.
 
 
 ===== Errors code =====
