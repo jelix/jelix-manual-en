@@ -27,6 +27,17 @@ As usual, you must remove every files into the @@F@temp/yourapp/@@ directory.
 
 ==== Other stuffs ====
 
+
+
+==== TCPDF Support ====
+
+TCPDF, its fonts, the  response object @@C@jResponseTcpdf@@, and the class @@C@jTcpdf@@ have been
+included into a new module, jtcpdf. If your application uses these objects, you have to download
+this module (not available in the standard archive of Jelix) and you must install it.
+You don't have to modify something else, except if you made some classes inheriting from
+@@C@jResponseTcpdf@@ or @@C@jTcpdf@@. You probably have to change some path in @@require@@ or
+@@include@@ instructions.
+
 ==== SOAP support ====
 
 If you are using SOAP features (soap entry points, use of jWSDL..), you have to

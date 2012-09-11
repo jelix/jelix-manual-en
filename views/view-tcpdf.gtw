@@ -1,12 +1,16 @@
 ~~LANG:FR@frman:vues/vue-tcpdf~~
 
-a @@C@jResponseTcpdf@@ object allows you to generate a PDF and is based on the [[http://tcpdf.sourceforge.net/|TCPDF class]] (which enhances the famous FPDF).
+A @@C@jResponseTcpdf@@ object allows you to generate a PDF and is based on the
+[[http://tcpdf.sourceforge.net/|TCPDF class]] (which enhances the famous FPDF).
 
 ==== Download and Install ====
 
-@@C@jResponseTcpdf@@ requires fonts to work. Those are downloadable from jelix.org website [[http://jelix.org/articles/en/download/stable|here]] (As the fonts package weighs big, it is not bundled with jelix package). Download and install them in @@F@lib/pdf-fonts/@@.
+@@C@jResponseTcpdf@@ is available in a separated module since Jelix 1.5.
+It is not included in the main package of Jelix, because of its high weight (fonts).
 
-==== Use it in an action ====
+You have to download the module jtcpdf and you have to install it like any other module.
+
+==== Use it in a controller ====
 
 <code php>
   $resp = $this->getResponse('tcpdf');
@@ -23,7 +27,9 @@ a @@C@jResponseTcpdf@@ object allows you to generate a PDF and is based on the [
   return $resp;
 </code>
 
-@@P@tcpdf@@ member of the response is simply a @@C@TCPDF@@ object (or an object which inherits from @@C@TCPDF@@). See TCPDF documentation about its use and its API.
+@@P@tcpdf@@ member of the response is simply a @@C@TCPDF@@ object (or an object
+which inherits from @@C@TCPDF@@). See TCPDF documentation about its use and its
+API.
 
 If you want to override some tcpdf methods, you can use your own object. 
 Example:

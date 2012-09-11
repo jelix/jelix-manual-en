@@ -6,6 +6,8 @@ Main improvements provided by the version 1.5 are:
    * All about Soap has been moved into a new module jSoap. It contains also
      all classes from the jWSDL module which is deleted. Soap entry points
      should be changed.
+   * The TCPDF library, its fonts and the response object jResponseTcpdf have been
+     included in a new module, available in a separated archive.
 
 Removed components:
 
