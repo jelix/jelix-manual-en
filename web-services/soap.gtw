@@ -323,3 +323,31 @@ classmap = '{"soaptype":"myclass", "soaptype2":"myclass2"}'
 </code>
 
 The classes you indicate should be loaded before calling @@jSoapClient::get()@@. 
+
+Since Jelix 1.5, you can declare this mapping into a separate ini file. You should
+indicate this file into a @@classmap_file@@ property in the profile.
+
+<code ini>
+[jsoapclient:default]
+wsdl= "http://example.com/books.wsdl"
+soap_version = SOAP_1_1
+classmap_file = soap_classmap.ini.php
+</code>
+
+In the ini file, you should have section corresponding with declared profiles, with
+the same name (without the "jsoapclient:" prefix). In these sections, you have list
+of "key=value". Keys are soap types, values are class names.
+
+<code ini>
+[default]
+soaptype=myclass
+soaptype2=myclass2
+</code>
+
+You can also declare a  @@__common__@@ section, containing mapping applicable for all
+jsoapclient profiles.
+
+So, the classmap of a profile, contains the classmap of @@__common__@@, the classmap
+of the section corresponding to the profile, and the classmap declared into the
+profile in the "classmap" property.
+

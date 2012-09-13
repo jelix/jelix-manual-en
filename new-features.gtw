@@ -8,6 +8,8 @@ Main improvements provided by the version 1.5 are:
      should be changed.
    * The TCPDF library, its fonts and the response object jResponseTcpdf have been
      included in a new module, available in a separated archive.
+   * It is now possible [[web-services/soap#calling-a-soap-service-with-jelix|to declare the class map]]
+     for @@C@jSoapClient@@, into an other file than profiles.ini.php.
 
 Removed components:
 
