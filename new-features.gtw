@@ -24,7 +24,7 @@ Main improvements provided by the version 1.4 are:
      @@M@cleanCacheHeaders()@@, @@M@setExpires()@@, @@M@setLifetime()@@,
      @@M@isValidCache()@@.
    * New classes to read Atom and RSS feeds
-   * New class, jPref, to set and get dynamic/functionnal configuration options.
+   * [[/class-utilities/jpref|New class, jPref]], to set and get dynamic/functionnal configuration options.
      An interface is available to allow a webmaster to manage these preferences.
    * Modules can provide their own response object and
      [[/creating-response#declare-a-response|indicate them directly into the configuration]]
