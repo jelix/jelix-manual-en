@@ -42,7 +42,13 @@ These variables contain HTML code given by the call of methods
 @@M@addHeadContent()@@ and @@M@addContent()@@ of the object
 @@C@jResponseBasicHtml@@. These calls may be made by some components like
 controllers, classes, plugins... So you really should include these
-instructions. Here is an example of a such static file: 
+instructions.
+
+There is also an other variable,  @@V@$BASEPATH@@ (since Jelix 1.4.1), containing
+the base path of the application, and that could be useful for your style sheets
+or other static resources.
+
+Here is an example of a such static file: 
 
 <code html>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -50,6 +56,7 @@ instructions. Here is an example of a such static file:
   <head>
      <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
       <title>Hello From Jelix !</title>
+      <link type="text/css" href="<?php echo $BASEPATH; ?>mystyles.css" rel="stylesheet" />
       <?php echo $HEADBOTTOM; ?>
   </head>
   <body>

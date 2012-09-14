@@ -157,6 +157,7 @@ Download [[http://download.jelix.org/jelix/documentation/en/jelix-manual-1.5.pdf
       - section: [[class-utilities/jsession|jSession: managing sessions]]
       - section: [[class-utilities/jmessage|jMessage: short messages between actions]]
       - section: [[class-utilities/jfile|jFile: file processing]]
+      - section: [[class-utilities/jpref|jPref: using application preferences]]
    - chapter: [[ref-plugins/tplplugins|Template plugins]]
         - section: [[ref-plugins/tplplugins/modifiers|Modifiers]]
         - section: [[ref-plugins/tplplugins/functions|Miscellaneous]]

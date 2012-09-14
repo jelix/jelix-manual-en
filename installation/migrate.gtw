@@ -88,6 +88,8 @@ $jelix->processSoap();
         <jelix minversion="1.4" maxversion="1.5.*"/>
 </code>
 
+  * In your static HTML pages (via jResponseBasicHtml) and error page (error.en_US.php etc),
+    the @@V@$basePath@@ variable should be renamed to @@V@$BASEPATH@@ (jelix 1.4.1)
 
 New API you can use:
 
