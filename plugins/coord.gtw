@@ -4,22 +4,24 @@ Adding coordinator (jelix core class) plugins allows you to customize different 
 
 You can execute some code, at process start, before action execution, after action execution (but before display), at process end. 
 
-Note : Coordinator plugins are commonly named //plugin coord// in Jelix.
+Note: Coordinator plugins are commonly named //plugin coord// in Jelix.
 
 
 
 
 ===== Activate a coord. plugin =====
 
-You need to modify entry point configuration file. for example /var/config/index/config.ini.php if it is for index.php entry point  :
+You need to modify entry point configuration file. It could be
+@@F@var/config/index/config.ini.php@@ if it is for index.php.
 
-  * [[/plugins#adding-a-plugins-repository|add its repository]] e.g the parent directory of your plugin one to configuration. set //pluginsPath// option as this purpose.
-  * add your plugn name to @@[coordplugins]@@ sections and assign it, its configuration file if any
+  * [[/plugins#adding-a-plugins-repository|add its repository]] e.g the parent
+    directory of your plugin one to configuration. Set //pluginsPath// option as
+    this purpose.
+  * Add the plugin name to @@[coordplugins]@@ sections and set it ot "1" or
+    to the configuration file name if needed.
 
-
-Example : 
-your plugin is located in //foo// folder of <application name>/plugins/coord/ 
- your config file should look like :
+Example: your plugin is located in //foo// folder of @@F@<application name>/plugins/coord/@@.
+Your config file should look like:
 
 <code ini>
 pluginsPath = app:plugins/
@@ -29,50 +31,62 @@ foo = foo.plugin.ini.php
 </code>
 
 
-//foo.plugin.ini.php// is a dedicated config file. Its content and structure depends only on the plugin. Having a plugin configuration file is not required. In that case, you should assign //1// to your plugin name :
+@@F@foo.plugin.ini.php@@ is a dedicated config file. Its content and structure
+depends only on the plugin. Having a plugin configuration file is not required.
+In that case, you should assign //1// to your plugin name:
 
 <code ini>
 [coordplugins]
 foo = 1
 </code>
 
-If you use several plugins for the coordinator, the order in wich they appear in //coordplugins// configuration section is important: jelix will follow this order to instantiate and call the plugins. So be careful about this order, and read the documentation of the plugins you use.
+Since Jelix 1.3, @@"1"@@ means also that the configuration of the plugin can be inside
+the configuration file of the entry point. It should be into a @@[coordplugin_XXX]@@
+section (where XXX is the name of the plugin, like @@[coordplugin_foo]@@).
 
+**Important**: if you use several plugins for the coordinator, the order in wich they appear in
+//coordplugins// configuration section is important: jelix will follow this
+order to instantiate and call the plugins. So be careful about this order, and
+read the documentation of the plugins you use.
 
 ===== Plugin configuration =====
 
-In order to configure a plugin, you might have declared a specific configuration file (see above). It is an //ini// file, located in //var/config///. Its content will be passed as argument to your plugin constructor as an array.
-
-
-
+In order to configure a plugin, you might have declared a specific configuration
+file (see above). It is an //ini// file, located in @@F@var/config/@@. Its content
+will be passed as argument to your plugin constructor as an array.
 
 ==== Plugin parameters ====
 
-As said before, your plugin might need some options or parameters. Those can be set in a config file but also within controllers. Indeed, your plugin might do different treatments for each controller actions. 
+As said before, your plugin might need some options or parameters. Those can be
+set in a config file but also within controllers. Indeed, your plugin might do
+different treatments for each controller actions. 
 
-As an example, jAuth plugin checks if an action needs authentication or not. Each controller will set  a parameter for each action indicating wether authentication is needed. 
+As an example, jAuth plugin checks if an action needs authentication or not.
+Each controller will set a parameter for each action indicating wether
+authentication is needed. 
 
-There is a member of controller to serve this purpose : //pluginParams//. It is an associative array. its keys are method names (or actions names) and its value s are arrays setting all plugins parameters. ***** key covers all methods or actions.
+There is a member of the controller to serve this purpose: @@P@pluginParams@@. It is
+an associative array. Its keys are method names (actions names) and its values
+are arrays setting all plugins parameters. The key @@*@@ covers all methods or
+actions.
 
-Code Example :
+Code Example:
 
 <code php>
 
 public $pluginParams = array(
       '*'=>array('auth.required'=>false)
     );
-
 </code>
 
-Result : every actions has a parameter //auth.required// set to false.
-
-
+Result: the plugin parameter //auth.required// is set to false for all methods.
 
 
 ===== Plugin development =====
 
-Concretely a plugin must implement //jICoordPlugin// interface.
-And so declare the following methods :
+Concretely a plugin must implement @@jICoordPlugin@@ interface.
+And so declare the following methods:
+
 <code php>
     public function __construct($config);
     public function beforeAction($params);
@@ -80,19 +94,24 @@ And so declare the following methods :
     public function afterProcess ();
 </code>
 
-class constructor receive its plugin configuration.
+Class constructor receive its plugin configuration.
 
-//beforeAction// method received plugin parameters set by controllers. It can return //null// if all is ok or an action selector, //jSelectorAct//, if another action must be executed (sort of redirection). 
+@@M@beforeAction@@ method received plugin parameters set by controllers. It can
+return @@null@@ if all is ok, or an object @@C@jSelectorAct@@ (action selector) if
+another action must be executed (sort of redirection).
 
-//beforeOutput// will be called after action execution.
+@@M@beforeOutput@@ will be called after action execution.
 
-//afterProcess// method will be called at the end of coordinator processing, thus just before display.
+@@M@afterProcess@@ method will be called at the end of coordinator processing,
+thus just before display.
 
-this class must be located in a  [[/plugins#adding-a-plugins-repository|plugins repository]].  //plugins/// application folder or a //plugins/// module folder are possible candidates. See [[/plugins|page on plugins]]. 
+The class must be located in a [[/plugins#adding-a-plugins-repository|plugins repository]]:
+@@F@plugins/@@ application folder or a @@F@plugins/@@ module folder
+are possible candidates. See [[/plugins|page on plugins]].
 
-For an //example// plugin :
+For an //example// plugin:
 
-   * plugin folder will be **plugins/coord/example/**
-   * its file will be **plugins/coord/example/example.coord.php**
-   * its class will be **exampleCoordPlugin** and will implement //jICoordPlugin// interface
+   * plugin folder will be @@F@plugins/coord/example/@@.
+   * its file will be @@F@plugins/coord/example/example.coord.php@@
+   * its class will be @@CexampleCoordPlugin@@ and will implement @@C@jICoordPlugin@@ interface.
 
