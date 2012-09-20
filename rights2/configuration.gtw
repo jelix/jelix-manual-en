@@ -10,7 +10,9 @@ jAcl2.db driver requires a database to work. You have to create it with the need
 
 See the documentation about [[/bd|jDb setup]]. 
 
-If jAcl2 tables are not located in your default db profile, you should setup a profile called @@L@jacl2_profile@@, or an alias @@L@jacl2_profile@@ to an existing profile. An example @@F@profiles.ini.php@@ :
+If jAcl2 tables are not located in your default db profile, you should setup a
+profile called @@L@jacl2_profile@@, or an alias @@L@jacl2_profile@@ to an
+existing profile. An example @@F@profiles.ini.php@@:
 
 <code ini>
 [jdb:default]
@@ -51,17 +53,23 @@ Once created, you can start configuring rights.
 
 ===== Rights configuration =====
 
-Now you configure jacl2db with its two dedicated commands: @@c@acl2group@@ and @@c@acl2right@@. Each one take a subcommand argument and following subcommand parameters.
+Now you configure jacl2db with its two dedicated commands: @@c@acl2group@@ and
+@@c@acl2right@@. Each one take a subcommand argument and following subcommand
+parameters.
 
-In the following examples, with take "myapp" as the name of the application. Change it of course by the name of your application.
+In the following examples, with take "myapp" as the name of the application.
+Change it of course by the name of your application.
 
-Note that you have a module, jacl2db_admin, which allow you to do everything described below with an interface, except the creation of subjects.
+Note that you have a module, jacl2db_admin, which allow you to do everything
+described below with an interface, except the creation of subjects.
 
 ==== Subjects creation ====
 
-In jAcl2 rights, you define subjects symbolizing a right value or concretely an operation.  
+In jAcl2 rights, you define subjects symbolizing a right value or concretely an
+operation. 
 
-Imagine a CMS where you want to define rights about articles. You could define right subjects for READ, LIST, CREATE, DELETE, UPDATE. Concretely :
+Imagine a CMS where you want to define rights about articles. You could define
+right subjects for READ, LIST, CREATE, DELETE, UPDATE. Concretely:
   * "cms.articles.read",
   * "cms.articles.list",
   * "cms.articles.create",
@@ -221,7 +229,9 @@ $ php cmd.php acl2group alluserslist
 
 You have every needed elements to create a right. Let's go and execute @@c@acl2right@@ command.
 
-You want to add readers the right to read and list articles. Let's associate readers group to @@L@cms.articles.list@@ and @@L@cms.articles.read@@ to readers group whose id is 2:
+You want to add readers the right to read and list articles. Let's associate
+readers group to @@L@cms.articles.list@@ and @@L@cms.articles.read@@ to readers
+group whose id is 2:
 
 <code bash>
 $ php cmd.php acl2right add  2 "cms.articles.list"
@@ -273,7 +283,9 @@ group   subject value           resource
 	cms.articles.update
 </code>
 
-However in your CMS you have an "opinions" article which you want your readers to edit. you should add the right to update this specific article to readers group. Let's create a right on the resource "opinions" with @@c@add@ subcommand:
+However in your CMS you have an "opinions" article which you want your readers
+to edit. you should add the right to update this specific article to readers
+group. Let's create a right on the resource "opinions" with @@c@add@ subcommand:
 
 <code bash>
 $ php cmd.php acl2right add  2 "cms.articles.update" "opinions"
@@ -299,7 +311,8 @@ group   subject value           resource
 	cms.articles.update
 </code>
 
-You can also @@c@remove@@ a right, by passing a user group and a subject similarly to @@c@create@@ (and optionally a resource if one is involved).
+You can also @@c@remove@@ a right, by passing a user group and a subject
+similarly to @@c@create@@ (and optionally a resource if one is involved).
 
 Say you change your mind over "opinions" article, because there is too much crap ;-) :
 <code bash>

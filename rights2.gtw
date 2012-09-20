@@ -7,6 +7,10 @@ In Jelix 1.1, you have two systems:
  
 jAcl probably won't be supported on future releases, you are strongly advised to use jAcl2.
 
-jAcl2 is structured around drivers. Default driver is a "db" driver (called jAcl.db in following documentation). As you have guessed, jAcl2.db stores rights informations in database.
+jAcl2 is structured around drivers. Default driver is a "db" driver (called
+jAcl2.db in following documentation). As you have guessed, jAcl2.db stores rights
+informations in database.
 
-Notice that jAcl2 is not mandatory for an application. Thus, jAcl2 is not activated by default in a Jelix application. You have to activate it if one module needs it.
+Notice that jAcl2 is not mandatory for an application. Thus, jAcl2 is not
+activated by default in a Jelix application. You have to activate it if one
+module needs it.
