@@ -27,7 +27,16 @@ As usual, you must remove every files into the @@F@temp/yourapp/@@ directory.
 
 ==== Other stuffs ====
 
+==== about jAcl2 ====
 
+jAcl2 class has been moved to a new module named jacl2. You should enable this module into the configuration:
+
+<code ini>
+   [modules]
+   jacl2.access=1
+</code>
+
+The jelix updater will change other things automatically.
 
 ==== TCPDF Support ====
 
@@ -78,7 +87,7 @@ $jelix->processSoap();
     services, by indicating the new URL of WSDLs.
 
 
-==== Upgrading modules ====
+==== Upgrading your modules ====
 
   * update sources of vendor's modules that you have installed, with version compatible with Jelix 1.5.
   * For your own modules:
@@ -93,17 +102,19 @@ $jelix->processSoap();
 
 New API you can use:
 
-  * TODO
+  * @@M@jApp::pushCurrentModule()@@, @@M@jApp::popCurrentModule@@, @@M@jApp::getCurrentModule@@ instead of @@C@jContext@@.
 
 
 Deprecated API you cannot use anymore:
 
-  * TODO
+  * @@C@jContext@@
 
 
 ==== Jelix update ====
 
 After all these modifications, you should run your @@F@install/installer.php@@ script. The jelix module will change some things:
-  * nothing for the moment
+
+  * the configuration of the plugin jacl2 (and jacl if you still use it), is migrated into the configuration of the entry point.
+    You don't need anymore to have a file like @@F@jacl2.coord.ini.php@@.
 
 

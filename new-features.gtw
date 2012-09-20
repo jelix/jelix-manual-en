@@ -10,6 +10,7 @@ Main improvements provided by the version 1.5 are:
      included in a new module, available in a separated archive.
    * It is now possible [[web-services/soap#calling-a-soap-service-with-jelix|to declare the class map]]
      for @@C@jSoapClient@@, into an other file than profiles.ini.php.
+   * All resources of jAcl2 (classes, properties file...) have been moved to a new module jacl2
 
 Removed components:
 
@@ -19,7 +20,7 @@ Removed components:
      [[https://github.com/jelix/jelix-contrib/tree/master/modules/jelix/rdf/|in the jelix-contrib repository]]
    * The "latex to PDF" support has been moved to an independant module,
      [[https://github.com/jelix/jelix-contrib/tree/master/modules/jelix/latex2pdf/|in the jelix-contrib repository]]
-   * The jWSDL moduel has been renamed to jsoap
+   * The jWSDL module has been renamed to jsoap
    * The magicquotes plugin has been removed, since it is useless with PHP 5.3
    * Removed deprecated methods:
       * @@M@jAcl2Db::getProfile()@@
@@ -34,3 +35,4 @@ Removed components:
       * @@M@jZone::getParam()@@
    * Removed the support of deprecated variables @@$gJCoord@@ and
      @@$gJConfig@@, and removed @@M@jApp::initLegacy()@@.
+   * @@C@jContext@@ class has been replaced by methods into @@C@jApp@@.
