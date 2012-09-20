@@ -13,8 +13,13 @@ authentication system.
 
 ===== Configuration =====
 
-First step of jAcl2 use: you must set a driver to use with jAcl2. 
+First step: you must install the jacl2 module.
 
+<code php>
+php cmd.php installmodule jacl2
+</code>
+
+You must also indicate the driver to use.
 Drivers are plugins in jAcl2 system. They are stored in @@V@acl2@@ folder of a
 plugins repository. A jAcl2 plugin is a class @@C@fooAcl2Driver@@ (@@foo@@ being
 the plugin name) implementing @@I@jIAcl2Driver@@ interface and located in
@@ -66,19 +71,20 @@ if( jAcl2::check("cms.articles.update", $article_id)){
 
 ==== Automatic checking ====
 
-The installer of the jacl2db module, setup a coordinator plugin for jAcl2. This plugin
+The installer of the jacl2 module, setup a coordinator plugin for jAcl2. This plugin
 check rights automatically before calling a controller.
 
 You should have this configuration:
 
 <code ini>
 [coordplugins]
-jacl2 = "index/jacl2.coord.ini.php"
+jacl2 = "1"
 </code>
 
-And have a new file @@F@var/config/index/jacl2.coord.ini.php@@. This file contains configuration parameters for the plugin.
+The plugin have a configuration in a @@coordplugin_jacl2@@ section (it was in a separate file before Jelix 1.5):
 
 <code ini>
+[coordplugin_jacl2]
 on_error=2
 error_message="jacl2~errors.action.right.needed"
 on_error_action="jelix~error:badright"
