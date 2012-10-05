@@ -10,3 +10,7 @@ Main improvements provided by the version 1.2 are:
   * support of nosql database with jKVDb
   * possibility to minify css and javscript files on the fly
   * a new response jResponseSitemap, to generate a sitemap.
+
+
+Improvement provided by 1.2.10/1.3.4/1.4.1:
+  * [[authentication#new-hashing-system|new hashing system in jAuth]], to have a better secured password storage.
