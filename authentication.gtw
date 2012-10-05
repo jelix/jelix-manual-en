@@ -11,7 +11,7 @@ The authentication system relies on several things :
    * a @@jauth@@ module offering a controller and some default templates. It is not mandatory and you can define your own authentication module.
    * a session object, containing information about the user. It is provided by the driver. This can be a DAO object, a simple class, and so on.
 
-To use the authentification system, you must install at least the plugin for the jelix coordinator, and configure it.
+To use the authentication system, you must install at least the plugin for the jelix coordinator, and configure it.
 
 The role of the Auth plugin:
 
@@ -60,7 +60,7 @@ To configure the authentication system, edit the file @@F@var/config/index/auth.
 
 You must assign the @@driver@@ option with a driver name and fill a section containing the driver parameters. 
 
-Read the [[authentification/drivers|jAuth drivers documentation]] to know which driver you can use and how to activate it.
+Read the [[authentication/drivers|jAuth drivers documentation]] to know which driver you can use and how to activate it.
 
 ==== Function of encryption Password ====
 
