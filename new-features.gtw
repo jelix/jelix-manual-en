@@ -11,3 +11,7 @@ Main improvements provided by the version 1.3 are:
   * a new nice debug bar, extensible, showing many informations (errors, sql queries...)
   * JELIX_APP_* constants are now replaced by a new jApp class
   * improvements in jAcl2: subjects groups, rights can be forbidden by a group.
+
+Improvement provided by 1.2.10/1.3.4/1.4.1:
+  * [[authentication#new-hashing-system|new hashing system in jAuth]], to have a better secured password storage.
+
