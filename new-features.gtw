@@ -36,3 +36,6 @@ Main improvements provided by the version 1.4 are:
    * [[/db/configuration#mysql-profile|New jDb driver "mysqli"]] using the mysqli API
    * jDb: experimental driver for sqlite3
    * jDb: removed Intuition plugin. not maintened anymore.
+
+Improvement provided by 1.2.10/1.3.4/1.4.1:
+  * [[authentication#new-hashing-system|new hashing system in jAuth]], to have a better secured password storage.
