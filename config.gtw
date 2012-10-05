@@ -260,7 +260,7 @@ Contains the list of all used modules, and their access level
 List all coordinator plugins Jelix has to activate. They will be loaded from the list of path defined by the pluginsPath option.
 
 
-The example below demonstrates the activation of an authentication plugin. Its own set of options are defined in @@F@auth.coord.ini.php@@ file. Learn more about [[authentification|authentication]].
+The example below demonstrates the activation of an authentication plugin. Its own set of options are defined in @@F@auth.coord.ini.php@@ file. Learn more about [[authentication|authentication]].
 
 <code ini>
 [coordplugins]

@@ -4,6 +4,6 @@ Jelix is a framework for PHP 5.2, which allows you to develop quickly huge or ti
 
 This is a framework which enforce to organize files within specific directories, offering an easier way to maintain applications.
 
-This architecture is designed to be modular. Files of an application, like controllers, templates, business classes, can be grouped by fonctional area, called modules, so it can be reused easily into other applications. Thus Jelix provides modules for authentification, credentials, administration interfaces etc. Many other modules have been developped for some projects, and you can reuse them: modules for a forum, a blog, e-commerce etc.
+This architecture is designed to be modular. Files of an application, like controllers, templates, business classes, can be grouped by fonctional area, called modules, so it can be reused easily into other applications. Thus Jelix provides modules for authentication, credentials, administration interfaces etc. Many other modules have been developped for some projects, and you can reuse them: modules for a forum, a blog, e-commerce etc.
 
 This manual content all informations to learn to use and develop such modules to build tiny or huge applications, and to use tens components of Jelix.
