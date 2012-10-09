@@ -505,6 +505,18 @@ To display a reset button, use @@E@<reset>@@ tag.
   </reset>
 </code>
 
+==== Simple button ====
+
+You can display a simple button, with the element @@E@<button>@@:
+
+<code xml>
+  <button ref="calc">
+    <label>Calculate</label>
+  </button>
+</code>
+
+It's up to you to add the javascript code in your template, to launch an
+action on the click event of the button.
 
 ==== Output values ====
 
