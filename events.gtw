@@ -1,20 +1,33 @@
 ~~LANG:FR@frman:events~~
 
-Jelix implements a simple inter-module communication system. It is based on **events**, and is called jEvent.
+Jelix implements a simple inter-module communication system. It is based on
+**events**, and is called jEvent.
 
-Anywhere in the code, it's possible to emit an event, let the modules respond, and use the response.
+Anywhere in the code, it's possible to emit an event, to let the modules respond, and to use the response.
 
-The @@C@jEvent@@ component is similar to the client-server scheme. The client (your code) emits a request (an event). The server (the listeners in the modules) waits for a request, treats it, and returns something (a response).
+The @@C@jEvent@@ component is similar to the client-server scheme. The client
+(your code) emits a request (an event). The server (the listeners in the
+modules) waits for a request, treats it, and returns something (a response).
 
-So basically we have, on the one hand, the @@C@jEvent@@ class that emits events and that gathers and return the responses, and on the other hand, some //Listener// classes, located in modules, that treat and respond to events. 
+So basically we have, on the one hand, the @@C@jEvent@@ class that emits events
+and that gathers and return the responses, and on the other hand, some
+//Listener// classes, located in modules, that treat and respond to events. 
 
 ===== Emiting an event =====
 
 To emit an event, we use jEvent's static method @@M@notify()@@.
 
-@@M@jEvent::notify@@ accepts two arguments. The first one is the name of the event you want to send (alphanumeric characters only), and the second one is an array of event parameters. As with most functions accepting parameters, the second argument is optional.
+@@M@jEvent::notify@@ accepts two arguments. The first one is the name of the
+event you want to send (alphanumeric characters only), and the second one is an
+array of event parameters. As with most functions accepting parameters, the
+second argument is optional.
 
-@@M@jEvent::notify@@ returns a @@C@jEvent@@ object, containing all the related responses. Responses are some data returned by the listeners (don't confuse with the @@C@jResponse@@ objects returned by controllers). The structure and value of responses depend solely on each event, the number of modules that responded and how the data is structured in the listeners.
+@@M@jEvent::notify@@ returns a @@C@jEvent@@ object, containing all the related
+responses. Responses are some data returned by the listeners (don't confuse with
+the @@C@jResponse@@ objects returned by controllers). The structure and value of
+responses depend solely on each event, the number of modules that responded and
+how the data is structured in the listeners.
+
 For example:
 <code php>
    //first way
@@ -25,7 +38,10 @@ For example:
    $authCL2Event = jEvent::notify('authCanLogin2');
 </code>
 
-To get access to the responses returned by the modules, use the @@M@getResponse@@ method of the jEvent object that was returned after the emission.
+To get access to the responses returned by the modules, use the
+@@M@getResponse@@ method of the jEvent object that was returned after the
+emission.
+
 <code php>
   $reponses = $authCLEvent->getResponse();
 </code>
@@ -34,13 +50,24 @@ The result is an array containing all data returned by listeners.
 
 ===== Responding to an event =====
 
-Since there is no default listener in the modules, each module that wants to respond to events need to create a listener and declare it in the @@F@events.xml@@ file of the same module. There is no limit in the number of listeners. The creation of the listener is broken down in two parts: the creation of the listener and the declaration of the listener.
+Since there is no default listener in the modules, each module that wants to
+respond to events need to create a listener and declare it in the
+@@F@events.xml@@ file of the same module. There is no limit in the number of
+listeners. The creation of the listener is broken down in two parts: the
+creation of the listener and the declaration of the listener.
 
 ==== Create a listener ====
 
-First, choose a name. We will use 'auth' as an example. Then create a listener class. Note that the class name is a concatenation of the name and of 'Listener', so in our case, 'authListener'. Put that class in a file called @@F@{name}.listener.php@@, so @@F@auth.listener.php@@ for us, in the @@F@classes@@ folder of your module. Remember, your listener class must inherit from @@C@jEventListener@@. 
+First, choose a name. We will use 'auth' as an example. Then create a listener
+class. Note that the class name is a concatenation of the name and of
+'Listener', so in our case, 'authListener'. Put that class in a file called
+@@F@{name}.listener.php@@, so @@F@auth.listener.php@@ for us, in the
+@@F@classes@@ folder of your module. Remember, your listener class must inherit
+from @@C@jEventListener@@. 
 
-The listener needs to implement one method for each event it is supposed to respond to. Those methods should follow this convertion : 'on' + 'event name'.  They need to accept as single argument a @@C@jEvent@@ object. 
+The listener needs to implement one method for each event it is supposed to
+respond to. Those methods should follow this convertion : 'on' + 'event name'.
+They need to accept as single argument a @@C@jEvent@@ object. 
 
 Example:
 <code php>
@@ -65,14 +92,21 @@ class authListener extends jEventListener{
 }
 </code>
 
-This example demonstrates a listener responding to the @@AuthCanLogin@@ event. First, the @@M@onAuthCanLogin@@ method retrieves an 'user' parameter from the event object. Next, it does it's internal processing, and finally, it adds some data to the response by calling @@M@$event->Add@@.
+This example demonstrates a listener responding to the @@AuthCanLogin@@ event.
+First, the @@M@onAuthCanLogin@@ method retrieves an 'user' parameter from the
+event object. Next, it does it's internal processing, and finally, it adds some
+data to the response by calling @@M@$event->Add@@.
 
-Note: the convention of the name of methods and the calling of methods corresponding to events can be changed by redefining the method @@M@performEvent@@.
+Note: the convention of the name of methods and the calling of methods
+corresponding to events can be changed by redefining the method
+@@M@performEvent@@.
 
 
 ==== Declare a listener ====
 
-The final step to setup a listener is to declare it. This is done through the @@F@events.xml@@ file located in your module root folder. For example:
+The final step to setup a listener is to declare it. This is done through the
+@@F@events.xml@@ file located in your module root folder. For example:
+
 <code xml>
 <events xmlns="http://jelix.org/ns/events/1.0">
    <!-- We have 2 listeners each listening for some events. However, both of them will respond to the AuthCanViewUser event. -->
@@ -87,4 +121,40 @@ The final step to setup a listener is to declare it. This is done through the @@
 </events>
 </code>
 
-A listener can listen to more than one event. Since it would take too much resources to load all the listeners one by one and check what events do they respond to, you also need to list all the events that you want a listener to listen to. Remember that two listener can also respond to the same event, and that there isn't a conventional structure for the responses.
+A listener can listen to more than one event. Since it would take too much
+resources to load all the listeners one by one and check what events do they
+respond to, you also need to list all the events that you want a listener to
+listen to. Remember that two listener can also respond to the same event, and
+that there isn't a conventional structure for the responses.
+
+===== Disabling listeners =====
+
+When we use a vendor module, for any reason, we could want to deactivate
+one of its listener about a specific events.
+
+It is possible by indicating them into the @@[disabledListeners]@@ section in
+the main configuration. Keys are event name, values are selector of listeners.
+
+<code ini>
+[disabledListeners]
+authLogin="aModule~theListener"
+</code>
+
+In this example, the listener @@theListener@@ of the module "aModule" won't
+be called when the event @@authLogin@@ will be emited.
+
+If you deactivate several listeners for a same event, just use @@[]@@ to
+indicate an array:
+
+<code ini>
+[disabledListeners]
+authLogin[]="aModule~theListener"
+authLogin[]="otherModule~otherListener"
+</code>
+
+
+
+
+
+
+
