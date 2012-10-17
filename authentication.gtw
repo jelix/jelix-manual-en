@@ -108,7 +108,7 @@ In the configuration of the plugin:
 
 === New hashing system ===
 
-This system is provided since Jelix 1.2.10/1.3.4/1.4.1 and use a new PHP 5.5 API. It use
+This system is provided since Jelix 1.2.10/1.3.4/1.4.1 and use a new PHP 5.5 API. It uses
 by default the bcrypt method. A similar API is provided by Jelix to use it in
 PHP 5.4 or PHP 5.3. Since it uses the @@M@crypt@@ function with bcrypt, you
 should use at least PHP 5.3.7 (or PHP 5.3.3 on an updated Debian Squeeze box).
@@ -144,6 +144,11 @@ hashing system will be replaced by a new hash. This is why you should
 keep the values of @@password_crypt_function@@ and @@password_salt@@,
 else users couldn't authenticate themselves.
 
+**Warning: Do not do this migration with a shared database**, used by several application in wich
+the migration has not been done. Users could not be authenticated, since new hash password
+are not compatible with the old hashing system (and vice-versa). And you could not
+return to the old hashing system, unless you made database backup.
+**Do a backup of the user table before the migration**.
 
 ==== Timeout ====
 

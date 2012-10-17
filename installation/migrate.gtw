@@ -7,6 +7,13 @@ When you migrate from an old version of jelix to a newer one, you always must do
   * remove all the files in the @@F@temp/yourapp/@@ directory
   * update your code as specified hereafter.
 
+
+===== Updating from jelix 1.2.9 =====
+
+  * If you want to use the [[authentication#new-hashing-system|new hashing system in jAuth]],
+    provided by Jelix 1.2.10, be sure to follow [[authentication#migration|the migration instructions]].
+
+
 ===== Updating from jelix 1.1 =====
 
 ==== What you have to know before the migrating ====
