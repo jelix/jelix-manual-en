@@ -1,8 +1,8 @@
 ~~LANG:FR@frman:creer-application/creer-administration~~
 
-the @@initadmin@@ command adds an administration web interface to your application. It enables [[/ref-modules/master_admin|master_admin jelix module]], and can automatically configure authentication ([[/authentication|jAuth]]) and rights accesses ([[/rights2|jAcl2]]).
+The @@initadmin@@ command adds an administration web interface to your application. It enables [[/ref-modules/master_admin|master_admin jelix module]], and can automatically configure authentication ([[/authentication|jAuth]]) and rights accesses ([[/rights2|jAcl2]]).
 
-**Warning:** for security reasons, and to ease the use of the framework, it is highly recommended to create a dedicated application for an an administration web interface.
+**Warning:** for security reasons, and to ease the use of the framework, it is highly recommended to create a dedicated application for an administration web interface.
 
 To create this administration interface, first, [[/db/configuration|you have to configure jDb]]. Then you can run in your application:
 

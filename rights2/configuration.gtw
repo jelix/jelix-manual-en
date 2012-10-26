@@ -69,7 +69,9 @@ In jAcl2 rights, you define subjects symbolizing a right value or concretely an
 operation. 
 
 Imagine a CMS where you want to define rights about articles. You could define
-right subjects for READ, LIST, CREATE, DELETE, UPDATE. Concretely:
+right subjects for some actions like reading, listing, creating, deleting, updating.
+Concretely, you defines this topics:
+
   * "cms.articles.read",
   * "cms.articles.list",
   * "cms.articles.create",
@@ -83,7 +85,7 @@ Let's start by listing aleady existing subjects:
 $ php cmd.php acl2right subject_list
 </code>
 
-You should start with an empty list:
+You should have an empty list:
 
 <code>
 ----Subject list
@@ -314,5 +316,3 @@ $ php cmd.php acl2right remove  readers "cms.articles.update" "advices"
 
 Once all rights are injected, your application is able to work following your rights rules.
 
-Note that you have a module, jacl2db_admin, which allow you to manage rights with a web interface.
-But you'll still have to add subjects with the command line or a sql script.
