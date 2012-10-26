@@ -20,7 +20,7 @@ Download [[http://download.jelix.org/jelix/documentation/en/jelix-manual-1.5.pdf
 <bookcontents>
 - part: [[introduction|Introduction]]
   - chapter: [[new-features|New features]]
-  - chapter: [[installation/migrate|Migrating to Jelix 1.5]]
+  - chapter: [[installation/migrate|Migrating from a previous version]]
 
 - part: [[getting-started|Getting started]]
   - chapter: [[installation/requirements|Install requirements]]

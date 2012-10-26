@@ -11,7 +11,7 @@ When you migrate from an old version of jelix to a newer one, you always must do
 
 Read the upgrade instructions of all previous manuals and then follow instructions below.
 
-===== Upgrading from jelix 1.4 =====
+===== Upgrading from jelix 1.4.x =====
 
 Here are all steps to follow to migrate your application.
 
