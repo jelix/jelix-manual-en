@@ -78,6 +78,10 @@ Concretely, you defines this topics:
   * "cms.articles.delete",
   * "cms.articles.update"
 
+Note that topic id begin with a prefix, allowing to identify precisely what
+about it is. Using only "read" is not really explicit. So always add
+in the id, a name indicating what it is about precisely. Your code is then
+more readable.
 
 Let's start by listing aleady existing subjects:
 
@@ -245,10 +249,13 @@ group	subject		resource
 
 - group readers
 	cms.articles.list
+		-
 	cms.articles.read
-
-
+		-
 </code>
+
+Since Jelix 1.4.1, "-" for a resource means "no resource". So the indicated right is a right that is not applied on a resource.
+Before Jelix 1.4.1, the resource field was empty for this case.
 
 Now, you want to deal with writers and give them all rights on @@L@cms.articles@@.
 
@@ -269,12 +276,18 @@ group   subject value           resource
 ---------------------------------------------------------------
 - group readers
 	cms.articles.list
+		-
 	cms.articles.read
+		-
 - group writers
 	cms.articles.create
+		-
 	cms.articles.delete
+		-
 	cms.articles.list
+		-
 	cms.articles.read
+		-
 	cms.articles.update
 </code>
 
@@ -295,15 +308,25 @@ group   subject value           resource
 ---------------------------------------------------------------
 - group readers
 	cms.articles.list
+		-
 	cms.articles.read
-	cms.articles.update     advices
+		-
+	cms.articles.update 
+		-
+		advices
+
 
 - group writers
 	cms.articles.create
+		-
 	cms.articles.delete
+		-
 	cms.articles.list
+		-
 	cms.articles.read
+		-
 	cms.articles.update
+		-
 </code>
 
 You can also @@c@remove@@ a right, by passing a user group and a subject

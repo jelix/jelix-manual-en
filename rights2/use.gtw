@@ -64,6 +64,9 @@ if( jAcl2::check("cms.articles.update", $article_id)){
 }
 </code>
 
+If the value of the resource is empty or equal to "-", it means "every resources".
+Before Jelix 1.4.1, "-" could be a resource id but this is not the case anymore.
+
 ==== Automatic checking ====
 
 The installer of the jacl2db module, setup a coordinator plugin for jAcl2. This plugin

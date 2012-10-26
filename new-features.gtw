@@ -39,3 +39,7 @@ Main improvements provided by the version 1.4 are:
 
 Improvement provided by 1.2.10/1.3.4/1.4.1:
   * [[authentication#new-hashing-system|new hashing system in jAuth]], to have a better secured password storage.
+
+Change provided by 1.4.1:
+  * in jacl2_rights table, null values for id_aclres have been changed to "-", in order to have consistant
+    primary keys with some RDBMS

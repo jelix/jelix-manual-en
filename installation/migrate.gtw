@@ -15,6 +15,9 @@ Read the upgrade instructions of all previous manuals and then follow instructio
 
   * If you want to use the [[authentication#new-hashing-system|new hashing system in jAuth]],
     provided by Jelix 1.4.1 (and 1.3.4, 1.2.10), be sure to follow [[authentication#migration|the migration instructions]].
+  * The update script of jacl2db replace in the table jacl2_rights, all null resource id by "-",
+    which is the new value to indicate "all resources". It has been changed to allow to set
+    a primary key with this field on some RDBMS like Oracle.
 
 ===== Upgrading from jelix 1.3 =====
 
