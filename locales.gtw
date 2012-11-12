@@ -58,6 +58,9 @@ structure, with some improvements. There isn't real coding guidelines in the fil
 you might organizing your locales using a 'generic.specific' scheme for the key names.
 You can't use double and single quotes to delimit your strings, new lines do this.
 
+Keys can contain characters "a" to "z" (lowwercase/uppercase),
+and characters "_", "-", ".".
+
 Here is an example for our english locale (@@F@en_US/generic.UTF-8.properties@@) file:
 
 <code ini>

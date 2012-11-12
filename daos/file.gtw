@@ -82,19 +82,25 @@ The @@E@<record>@@ section  must contain one or more @@E@<property>@@ element. H
       datatype="" required="true/false" minlength="" maxlength="" regexp="" 
       sequence="sequence name" autoincrement="true/false"
       updatepattern="" insertpattern="" selectpattern=""
-      default="" 
+      default="" comment=""
    />
 </code>
 
 The attribute @@A@name@@ is the name of the property of the object.
 
-The attribute @@A@fieldname@@ is the field name on which the property is mapped. If @@A@name@@ and @@A@fieldname@@ are equals, we can leave @@A@fieldname@@.
+The attribute @@A@fieldname@@ is the field name on which the property is mapped.
+If @@A@name@@ and @@A@fieldname@@ are equals, we can leave @@A@fieldname@@.
 
-The attributes @@A@datatype@@, @@A@required@@, @@A@minlength@@, @@A@maxlength@@ and @@A@regexp@@ are constraints. This allows the @@M@check()@@ method to verify the values of properties (before storage for instance).
+The attributes @@A@datatype@@, @@A@required@@, @@A@minlength@@, @@A@maxlength@@
+and @@A@regexp@@ are constraints. This allows the @@M@check()@@ method to verify
+the values of properties (before storage for instance).
 
-The attribute @@A@default@@ allows you to specify a default value which will be stored in the property.
+The attribute @@A@default@@ allows you to specify a default value which will be
+stored in the property.
 
-The attribute @@A@datatype@@ indicates the type of the field. Here is the list of recognized types. You can see that there are many more types than in previous jelix version:
+The attribute @@A@datatype@@ indicates the type of the field. Here is the list
+of recognized types. You can see that there are many more types than in previous
+jelix version:
 
   * @@varchar@@, @@varchar2@@, @@nvarchar2@@, @@character@@, @@character varying@@, @@char@@, @@nchar@@, @@name@@, @@longvarchar@@, @@string@@ (deprecated),
   * @@int@@, @@integer@@, @@tinyint@@, @@smallint@@, @@mediumint@@, @@bigint@@, 
@@ -108,13 +114,30 @@ The attribute @@A@datatype@@ indicates the type of the field. Here is the list o
   * @@varbinary@@, @@bytea@@, @@binary@@, @@raw@@, @@long raw@@
   * @@enum@@, @@set@@, @@xmltype@@, @@point@@, @@line@@, @@lsed@@, @@box@@, @@path@@, @@polygon@@, @@circle@@, @@cidr@@, @@inet@@, @@macaddr@@, @@bit varyong@@, @@arrays@@, @@complex types@@
 
-Of course, some database doesn't recognize all of these types. Don't worry, jDao will use the corresponding type in the selected database. For example, @@bytea@@ is a postgresql type. If you use a mysql database, jDao will use @@longblob@@.
+Of course, some database doesn't recognize all of these types. Don't worry, jDao
+will use the corresponding type in the selected database. For example, @@bytea@@
+is a postgresql type. If you use a mysql database, jDao will use @@longblob@@.
 
-Values of fields will be converted in the corresponding PHP type, most of time, in a string.
+Values of fields will be converted in the corresponding PHP type, most of time,
+in a string.
 
-For autoincremented fields, you can indicate @@serial@@ or @@autoincrement@@ as a type. But for some case, it is better to indicate one of integer types, and to set a @@A@autoincrement@@ attribute to @@true@@. On some databases, an auto incremented field can be associated with a sequence. Then the attribute @@A@sequence@@ should contain the sequence name.
+For autoincremented fields, you can indicate @@serial@@ or @@autoincrement@@ as
+a type. But for some case, it is better to indicate one of integer types, and to
+set a @@A@autoincrement@@ attribute to @@true@@. On some databases, an auto
+incremented field can be associated with a sequence. Then the attribute
+@@A@sequence@@ should contain the sequence name.
 
-The attributes @@A@updatepattern@@, @@A@insertpattern@@ and @@A@selectpattern@@ lets you specify a pattern to be applied during the update, the insert or the read of the field value. This pattern should really be a SQL expression, and can contain the string "%s", which will be replaced by the value or the name of the field. Default values of patterns is "%s". If it indicates an empty value, this corresponds to a null operation (so the field is not readed, inserted or updated). On primary keys you can use @@A@insertpattern@@ and @@A@selectpattern@@ , but not @@A@updatepattern@@.
+The attribute @@A@comment@@ allow to indicate a comment on the property. This comment
+can be used as label for form field, with the createform command.
+
+The attributes @@A@updatepattern@@, @@A@insertpattern@@ and @@A@selectpattern@@
+lets you specify a pattern to be applied during the update, the insert or the
+read of the field value. This pattern should really be a SQL expression, and can
+contain the string "%s", which will be replaced by the value or the name of the
+field. Default values of patterns is "%s". If it indicates an empty value, this
+corresponds to a null operation (so the field is not readed, inserted or
+updated). On primary keys you can use @@A@insertpattern@@ and
+@@A@selectpattern@@ , but not @@A@updatepattern@@.
 
 === Example 1 ===
 
