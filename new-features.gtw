@@ -18,6 +18,7 @@ Main improvements provided by the version 1.5 are:
    * Debugbar: new configuration option, @@defaultPosition@@, allowing to set the debug bar at the left of the web page by default
    * Moved locales of jacl2db from the jelix module to the jacl2db module
    * Moved locales of jacldb from the jelix module to the jacldb module
+   * jPref classes have been moved into a new module jPref
 
 Removed components:
 

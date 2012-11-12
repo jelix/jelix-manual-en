@@ -10,6 +10,16 @@ and other are technical preferences that don't supposed to change.
 
 ==== Configuration ====
 
+@@C@jPref@@ is a class provided by the "jpref" module. Activate it
+in your configuration:
+
+<code ini>
+[modules]
+jpref.access = 1
+</code>
+
+And run the application installer.
+
 @@C@jPref@@ is a class that use @@C@jKVDb@@. So to use jPref, you just
 have to define a profile for @@jkvdb@@, having "jpref" as name.
 

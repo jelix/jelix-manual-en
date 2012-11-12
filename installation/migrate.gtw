@@ -3,7 +3,8 @@
 When you migrate from an old version of jelix to a newer one, you always must do these tasks:
 
   * replace the @@F@lib/@@ directory by the one provided in the new version.
-  * If you put your own libraries into the @@F@lib/@@ directory, don't forget to move them from the old @@F@lib/@@ directory to the new one.
+  * If you put your own libraries into the @@F@lib/@@ directory, don't forget to
+    move them from the old @@F@lib/@@ directory to the new one.
   * remove all the files in the @@F@temp/yourapp/@@ directory
   * update your code as specified hereafter.
 
@@ -27,7 +28,7 @@ As usual, you must remove every files into the @@F@temp/yourapp/@@ directory.
 
 ==== Other stuffs ====
 
-==== about jAcl2 ====
+==== About jAcl2 ====
 
 jAcl2 class has been moved to a new module named jacl2. You should enable this module into the configuration:
 
@@ -37,6 +38,19 @@ jAcl2 class has been moved to a new module named jacl2. You should enable this m
 </code>
 
 The jelix updater will change other things automatically.
+Don't hesitate to declare the dependency with this module in your modules that use it.
+
+==== About jPref ====
+
+jPref classes have been moved to a new module named jpref. You should enable
+this module into the configuration if you use this feature.
+
+<code ini>
+   [modules]
+   jpref.access=1
+</code>
+
+Don't hesitate to declare the dependency with this module in your modules that use it.
 
 ==== TCPDF Support ====
 
