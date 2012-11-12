@@ -19,6 +19,10 @@ Main improvements provided by the version 1.5 are:
    * Moved locales of jacl2db from the jelix module to the jacl2db module
    * Moved locales of jacldb from the jelix module to the jacldb module
    * jPref classes have been moved into a new module jPref
+   * jConfigCompiler is now extensible with plugins, so components can precalculate config parameters that will be stored in the configuration cache
+   * jDao: [[/daos/file#using-a-php-class-for-records|you can provide your own record class]] that will be used as a base
+     class for generated record dao class. New “extends” attribute on the
+     “record” element that indicates the class to use
 
 Removed components:
 
