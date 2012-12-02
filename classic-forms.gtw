@@ -80,7 +80,7 @@ Please do notice that before Jelix 1.2, you needed to specify the parameters in 
 
 In the action used to process the data, you retrieve datas through @@$this->param('a_field')@@ in your controller. You have other similar methods, like @@$this->intParam('a_field')@@, @@$this->floatParam('a_field')@@ and @@$this->boolParam('a_field')@@, which can directly retrieve values from a particular type (see [[controllers|the page on controllers]]).
 
-You can use also @@C@jFilter@@, which is a class to verify the format of the data (it uses the filter extension with PHP 5.2+). Example:
+You can use also @@C@jFilter@@, which is a class to verify the format of the data (it uses PHP's filter extension). Example:
 
 <code php>
     function save() {
