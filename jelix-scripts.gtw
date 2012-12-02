@@ -37,7 +37,7 @@ You have also to add the path to the php-cli binary in the PATH variable of your
    * right click on the icon of computer, then choose properties
    * In the system properties dialog, click on the tab "advanced", then on the button to see the environment variables.
    * In "system variable", click on the PATH variable
-   * Change the value of the PATH variable, by adding the path to the directory of the binary of php.exe. With WAMP for example, add @@F@c:\wamp\bin\php\php5.2.6\@@. Don't forget to add a ";" to separate all pathes.
+   * Change the value of the PATH variable, by adding the path to the directory of the binary of php.exe. With WAMP for example, add @@F@c:\wamp\bin\php\php5.3.13\@@. Don't forget to add a ";" to separate all pathes.
    * validate and close the dialog
    * reboot
 
