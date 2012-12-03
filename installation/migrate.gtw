@@ -10,8 +10,8 @@ When you migrate from an old version of jelix to a newer one, you always must do
 
 ===== Updating from jelix 1.2.9 =====
 
-  * If you want to use the [[authentication#new-hashing-system|new hashing system in jAuth]],
-    provided by Jelix 1.2.10, be sure to follow [[authentication#migration|the migration instructions]].
+  * If you want to use the [[/authentication#new-hashing-system|new hashing system in jAuth]],
+    provided by Jelix 1.2.10, be sure to follow [[/authentication#migration|the migration instructions]].
 
 
 ===== Updating from jelix 1.1 =====
