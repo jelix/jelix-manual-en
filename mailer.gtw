@@ -141,7 +141,7 @@ You can add attachment easily in your email, by giving the path of the file stor
 
 <code php>
 $mail = new jMailer();
-$mail->AddAttachment(JELIX_APP_VAR_PATH.'original_filename.pdf', 'new_filename.pdf');
+$mail->AddAttachment(jApp::varPath('original_filename.pdf'), 'new_filename.pdf');
 ...
 $mail->Send();
 </code>
