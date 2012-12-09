@@ -31,7 +31,7 @@ For the content itself, you have to define either @@filename@@ or @@content@@ pr
 If it is an existing file, just use @@P@filename@@:
      
 <code php>
-   $resp->fileName = JELIX_APP_VAR_PATH . 'file_to_send.gif';
+   $resp->fileName = jApp::varPath('file_to_send.gif');
 </code>
 
 Otherwise, if your content is generated or comes from your database, use @@P@content@@:

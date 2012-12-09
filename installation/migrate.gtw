@@ -113,16 +113,17 @@ $jelix->processSoap();
 
   * In your static HTML pages (via jResponseBasicHtml) and error page (error.en_US.php etc),
     the @@V@$basePath@@ variable should be renamed to @@V@$BASEPATH@@ (jelix 1.4.1)
+  * Methods @@M@jCoordinator::isModuleEnabled()@@ and @@M@jCoordinator::getModulePath()@@ are now deprecated,
+    they have been copied into @@jApp@@, you should then use jApp.
 
 New API you can use:
 
   * @@M@jApp::pushCurrentModule()@@, @@M@jApp::popCurrentModule@@, @@M@jApp::getCurrentModule@@ instead of @@C@jContext@@.
-
+  * See [[http://jelix.org/articles/en/changelog/1.5|the detailed changelog]] to know what are the new classes and methods you can use.
 
 Deprecated API you cannot use anymore:
 
   * @@C@jContext@@
-
 
 ==== Jelix update ====
 
