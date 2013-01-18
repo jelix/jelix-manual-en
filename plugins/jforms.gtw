@@ -1,20 +1,97 @@
 ~~LANG:FR@frman:plugins/jforms~~
 
-As noted in [[/jforms/display|display jforms chapter]], you can select which plugin will generate forms content (in HTML, javascript and so on..) sent to clients. 
+As noted in [[/jforms/display|display jforms chapter]], you can select which
+plugin will generate forms content (in HTML, javascript and so on..) sent to
+clients. 
 
-Thoses plugins are called generators. You can of course create one and for any format. Pick a name, say "moreforms". Then :
+Note: here we talk about new type of plugins of Jelix 1.5. Read the manual of
+Jelix 1.4 to know about older plugins.
+
+You have two kind of plugins: those that build a whole form, generators, and the plugins
+for the 'html' generator, to generate only a control.
+
+==== widget plugin ====
+
+The generator provided by Jelix is a plugin, that is itself extensible and use other type of plugins,
+"formwidget", to generate controls.
+
+A "formwidget" plugin generates the code of a specific control. You can provide your own formwidget plugin
+and use it for a particular control, if you want to have a different HTML construction.
+
+A "formwidget" should follow the @@jelix\forms\HtmlWidget\WidgetInterface@@ interface, and so,
+it should provide these methods:
+
+   * @@M@getId()@@: return the id of the HTML element
+   * @@M@getName()@@: return the name of the HTML element
+   * @@M@getValue()@@: return the value of the HTML field
+   * @@M@outputMetaContent($resp)@@: add the CSS and javascript link
+   * @@M@outputHelp()@@: displays the help of the form field
+   * @@M@outputLabel()@@: displays the form field label
+   * @@M@outputControl()@@: displays the form field itself
+   * @@M@setAttributes($attributes)@@: set attributes to add on the HTML element
+
+The plugin could inherits from the @@jelix\forms\HtmlWidget\WidgetBase@@ class so only few
+methods are needed to be implemented.
+
+The plugin should have a name. It should be stored into a file @@F@plugins/formwidget/{name}/{name}.formwidget.php@@.
+
+See all existing plugins into @@F@lib/jelix/plugins/formwidget/@@ to know more about how
+it should be implemented.
+
+==== generators plugin ====
+
+To create a such plugin, you should of course pick a name, say "moreforms". Then:
 
   * Create a @@F@moreforms@@ directory  in a **jforms**  plugins repository.
   * Create a @@F@moreforms.jformsbuilder.php@@
   * In it, declare a @@C@moreformsJformsBuilder@@ class inheriting from jFormsBuilderBase
 
-@@C@moreformsJformsBuilder@@ should implement following list of methods. Those display form parts and don't return any value. They are called through jForms template plugins.
+@@C@moreformsJformsBuilder@@ should implement following list of methods. Those
+display form parts and don't return any value. They are called through jForms
+template plugins.
 
-After each modification of your generator, **don't forget to clear your temp directory** (by using the command @@cleartemp@@ for example).
+After each modification of your generator, **don't forget to clear your temp directory**
+(by using the command @@cleartemp@@ for example).
 
-==== outputMetaContent ====
 
-Use the controller response object to specify CSS stylesheets, javascript files to be included in the final response. Example :
+
+<code php>
+    /**
+     * output the header content of the form
+     */
+    abstract public function outputHeader();
+
+    /**
+     * output the footer content of the form
+     */
+    abstract public function outputFooter();
+
+    /**
+     * displays all the form. outputMetaContent, outputHeader and outputFooters are also called 
+     * @since 1.1
+     */
+    abstract public function outputAllControls();
+
+    /**
+     * displays the content corresponding of the given control
+     * @param jFormsControl $ctrl the control to display
+     * @param array $attributes  attribute to add on the generated code (html attributes for example)
+     */
+    abstract public function outputControl($ctrl, $attributes=array());
+
+    /**
+     * displays the label corresponding of the given control
+     * @param jFormsControl $ctrl the control to display
+     */
+    abstract public function outputControlLabel($ctrl);
+
+</code>
+
+
+=== outputMetaContent() ===
+
+Use the controller response object to specify CSS stylesheets, javascript files
+to be included in the final response. Example:
 
 <code php>
    public function outputMetaContent($t) {
@@ -35,26 +112,29 @@ Use the controller response object to specify CSS stylesheets, javascript files 
 
 This method is the first called.
 
-==== outputHeader ====
+=== outputHeader() ===
 
-This one generates tags declaring your form and other useful form contents. @@M@OutputHeader@@ opens a @@E@<form>@@ tag, optionally displays error messages, generates hidden fields and adds some javascript. 
+This one generates tags declaring your form and other useful form contents.
+@@M@OutputHeader@@ opens a @@E@<form>@@ tag, optionally displays error messages,
+generates hidden fields and adds some javascript. 
 
-==== outputFooter ====
+=== outputFooter() ===
 
-This is the last method called by template plugins. As for HTML, @@M@outputFooter@@ closes the form tags @@E@</form>@@ and adds some javascript.
+This is the last method called by template plugins. As for HTML,
+@@M@outputFooter@@ closes the form tags @@E@</form>@@ and adds some javascript.
 
-==== outputAllControls() ====
+=== outputAllControls() ===
 
-This one is called by **formfull** template plugin. It has to generate all controls (apart of those generated by outputHeader and outputFooter).
+This one is called by **formfull** template plugin. It has to generate all
+controls (apart of those generated by outputHeader and outputFooter).
 
-==== outputControlLabel ====
+=== outputControlLabel() ===
 
 Called in {form} template block for fields labels, it generates labels tags. 
 
 As argument, it receives a @@C@jFormsControl@@ object defining the control associated.
 
-==== outputControl ====
-
+=== outputControl() ===
 
 Called in {form} template block for controls, it generates control tags.
 
