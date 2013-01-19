@@ -112,7 +112,6 @@ to enhance the debugbar.
 The debugbar is a plugin itself for jResponseHtml. So to activate it:
 
   * You must declare the "debugbar" plugin in the list of plugins of jResponseHtml
-  * You must activate the "memory" logger for each type of messages needed by the debugbar and its plugins.
   * you need to indicate the list of plugins you want to use for the debugbar
     (by default : "sqllog, sessiondata, defaultlog").
 
@@ -121,14 +120,6 @@ Here is a typical example:
 <code ini>
 [jResponseHtml]
 plugins = debugbar
-
-[logger]
-default=file,memory
-error=file,memory
-warning=file,memory
-notice=file,memory
-sql = memory
-debug=memory
 
 [debugbar]
 plugins = sqllog,sessiondata,defaultlog
