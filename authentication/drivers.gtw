@@ -27,7 +27,9 @@ dao = "jauthdb~jelixuser"
 password_crypt_function = "sha1"
 </code>
 
-@@dao@@ option value must be a dao selector. You can indicate any dao you want. But if you select one of your dao, be aware:  **it must have at least the same properties and methods defined into the jelixuser dao**.
+@@dao@@ option value must be a dao selector. You can indicate any dao you want.
+But if you select one of your dao, be aware: **it must have at least the same**
+**properties and methods defined into the jelixuser dao**.
 
    * @@P@login@@ and @@P@password@@
    * @@M@getByLoginPassword (login, password)@@
@@ -38,6 +40,7 @@ password_crypt_function = "sha1"
 
 Mandatory: database table associated with the dao must have "login" field as primary key or as a "UNIQUE" key.
 
+You can [[../daos/file#importing-an-other-dao|import the dao]] of jauthdb into your own dao to avoid to rewrite everything.
 You can add any other properties and methods to the dao.
 
 ===== Class =====
