@@ -34,8 +34,9 @@ This file should be a simple PHP file, and not a template for jTpl. It should
 contain all the HTML code of a page, and three instructions to display these
 variables:
 
+    * @@V@$HEADTOP@@ : after the opening tag @@E@<head>@@
     * @@V@$HEADBOTTOM@@ : before the end tag @@E@</head>@@
-    * @@V@$BODYTOP@@ : after the begin tag @@E@<body>@@
+    * @@V@$BODYTOP@@ : after the opening tag @@E@<body>@@
     * @@V@$BODYBOTTOM@@ : before the end tag @@E@</body>@@
 
 These variables contain HTML code given by the call of methods
@@ -54,6 +55,7 @@ Here is an example of a such static file:
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en_US" lang="en_US">
   <head>
+     <?php echo $HEADTOP; ?>
      <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
       <title>Hello From Jelix !</title>
       <link type="text/css" href="<?php echo $BASEPATH; ?>mystyles.css" rel="stylesheet" />

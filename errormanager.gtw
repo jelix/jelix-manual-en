@@ -42,12 +42,13 @@ don't try to display the true error, for security reasons and for better
 usability. In fact, this page should be almost a static page. Just keep existing
 @@echo@@ instructions.
 
-Variables @@V@$HEADBOTTOM@@ et @@V@$BODYTOP@@ are not used for the moment (it is
-just to be compatible with static pages returned by jResponseBasicHtml).
-@@V@$BODYBOTTOM@@ contains the error message, without details. And since Jelix 1.4.1,
-@@V@$BASEPATH@@ is available, containing the base path of the application, for
-stylesheets etc. However, this variable may be empty in some case, depending of the
-origin of the error (an error appearing before or during the load of the configuration).
+Variables @@V@$HEADTOP@@, @@V@$HEADBOTTOM@@ and @@V@$BODYTOP@@ are not used for
+the moment (it is just to be compatible with static pages returned by
+jResponseBasicHtml). @@V@$BODYBOTTOM@@ contains the error message, without
+details. A variable @@V@$BASEPATH@@ is available, containing the
+base path of the application, for stylesheets etc. However, this variable may be
+empty in some case, depending of the origin of the error (an error appearing
+before or during the load of the configuration).
 
 The error page may not be used in some case:
   * when there are fatal PHP errors
