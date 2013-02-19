@@ -159,7 +159,7 @@ Like above you can use any combination of meta_htmlmodule with js, css or
 others, example :
 
 <code html>
-{meta_htmlmodule css , 'mymodule', 'css/screen.css', array('media'=>'screen, projection')}
+{meta_htmlmodule css 'mymodule', 'css/screen.css', array('media'=>'screen, projection')}
 </code>
 
 thus Jelix will go inside the directory 'mymodule'/www/css or
