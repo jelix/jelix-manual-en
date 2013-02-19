@@ -47,7 +47,7 @@ Download [[http://download.jelix.org/jelix/nightly/1.5.x/jelix-manual-1.5.pdf|th
      - section: [[controllers/rest-full|Developing a REST controller]]
      - section: [[using-classes|Coding and using classes]]
    - chapter: [[views/|Responses: generating content]]
-     - section: [[views/view-html|Generating HTML content]]
+     - section: [[views/view-html|Generating HTML5 content]]
      - section: [[views/view-text|Generating plain text]]
      - section: [[views/view-xml|Generating XML content]]
      - section: [[views/view-rss|Generating a RSS feed]]
