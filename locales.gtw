@@ -25,7 +25,10 @@ to locales (see the [[templates|template page]]).
 In the configuration file of your application (@@F@defaultconfig.ini.php@@), you have
 several parameters to configure the language and charset used in your application:
 
-   * @@locale@@: indicates the language code of the lang to use in the application. It can be changed on the fly if needed. Values follow a specific syntax, similar to IETF language tags: a primary tag + "_" + a subtag. The primary tag is a lang code, and the subtag is the country code. By default, the locale is @@en_US@@.
+   * @@locale@@: indicates the language code of the lang to use in the application.
+     It can be changed on the fly if needed. Values follow a specific syntax, similar
+     to IETF language tags: a primary tag + "_" + a subtag. The primary tag is a
+     lang code, and the subtag is the country code. By default, the locale is @@en_US@@.
    * @@charset@@: indicates the charset to use. By default it is @@UTF-8@@.
    * @@availableLocales@@: contains the list of language that your application supports.
    * There is also a section @@[langToLocale]@@. See below.
@@ -39,6 +42,19 @@ specific organization. It has a sub-directories for each language. Example:
 english, and so on. In each language directory there are many property files,
 corresponding to the same language. However you can have different files containing
 same strings, but for different character encoding.
+
+You can also store all properties files of all modules in a same main directory
+outside modules. It's then easy for people who translate to find files.
+The directory @@F@<yourapp>/var/locales/@@ should content one folder for each
+lang, and in these foldes, one folder for each module, following this scheme:
+@@F@<yourapp>/var/locales/<lang>/<modules>/locales/<file.properties>@@. For
+example: @@F@myapp/var/locales/fr_FR/my_module/locales/example.properties@@.
+
+You can then copy easily all files of @@F@<yourapp>/var/locales/<lang>/@@
+in a new lang directory to translate to a new language.
+
+There is also the possibility to redefine properties file by copying them into
+the @@F@<yourapp>/var/overloads/@@ directory. See [overloads|the corresponding chapter].
 
 ==== File name ====
 
