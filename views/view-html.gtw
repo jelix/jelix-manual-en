@@ -372,7 +372,7 @@ minifyJS = off # [on|off] : concatenate/minify JS files
 
 ; list of filenames (no path) which shouldn't be minified - coma separated :
 minifyExcludeCSS = "file1.css,file2.css"
-minifyExcludeJS = "jquery.wymeditor.js"
+minifyExcludeJS = "jelix/wymeditor/jquery.wymeditor.js"
 
 ; bootstrap file for Minify. indicate a relative path to the basePath.
 minifyEntryPoint = minify.php
@@ -380,8 +380,14 @@ minifyEntryPoint = minify.php
 
 First, with @@minifyCSS@@ and @@minifyJS@@ you activate the "minification". You
 can indicate files to **NOT** minify in @@minifyExcludeCSS@@ and
-@@minifyExcludeJS@@. Keep the file name @@F@jquery.wymeditor.js@@ in
+@@minifyExcludeJS@@. Keep the file name @@F@jelix/wymeditor/jquery.wymeditor.js@@ in
 @@minifyExcludeJS@@. Wymeditor doesn't like to be concatenated with other files.
+
+Indicated path should be
+    * relative to the base path of the application (without a leading /)
+    * or relative to the domain name (with a leading /)
+
+Don't indicate full URL (with @@http://@@...), they are automatically excluded.
 
 Second, you have to install a script @@F@minify.php@@ in @@F@www/@@. Simply copy
 the file @@F@lib/jelix-scripts/templates/www/minify.php.tpl@@ into
@@ -389,4 +395,16 @@ the file @@F@lib/jelix-scripts/templates/www/minify.php.tpl@@ into
 set to configure Minify (read the documentation of Minify). If you want to
 choose an other name for this script, indicate its name into the option
 @@minifyEntryPoint@@.
+
+
+
+ ; list of filenames (no path) which shouldn't be minified - coma separated :
+ minifyExcludeCSS = "file1.css,file2.css"
+-minifyExcludeJS = "jquery.wymeditor.js"
++minifyExcludeJS = "jelix/wymeditor/jquery.wymeditor.js"
+ 
+ ; bootstrap file for Minify. indicate a relative path to the basePath.
+ minifyEntryPoint = minify.php
+ </code>
+ 
 
