@@ -32,7 +32,7 @@ require_once ('../application.init.php');
 
 checkAppOpened();
 
-jApp::loadConfig('soap/config.ini');
+jApp::loadConfig('soap/config.ini.php');
 ini_set("soap.wsdl_cache_enabled", "0");
 
 jClasses::inc('jsoap~jSoapCoordinator');
@@ -80,7 +80,7 @@ module. It is provided by Jelix. You should activate it:
   php.exe cmd.php installmodule jsoap
 </code>
 
-(see the chapter about [[installing-a-module|installing a module]])
+(see the chapter about [[/installing-a-module|installing a module]])
 
 This module includes also all what you need to generate WSDL content. (see below)
 
