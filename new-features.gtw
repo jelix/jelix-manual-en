@@ -5,12 +5,15 @@ Main improvements provided by the version 1.6 are:
   * @@F@defaultconfig.ini.php@@ is renamed to @@F@mainconfig.ini.php@@. @@F@defaultconfig.ini.php@@ is still supported but is now deprecated. (Olivier Demah)
     **WARNING**: documentation is not yet updated
   * New @@M@jApp::mainConfigFile()@@ method to retrieve the path of the main configuration file
+  * Full support of OCI in the oci driver for jDb (Philippe Villiers)
   * jDbTools for Oracle: use comment on columns to get form labels (Philippe Villiers)
   * jDao: Add pattern in jDaoConditions, like in the (select|insert|update)pattern attributes (Philippe Villiers).
+  * New methods @@M@addJSLinkModule()@@ or @@M@addCSSLinkModule@@ on the html response object, to add easily links to
+    JS and CSS files stored in modules. (Eric D.)
+  * jEvent objects have now setters/getters: it is possible to do @@$event->something@@ instead of @@$event->getParam('something')@@.
+  * @@jDateTime::toString()@@ accepts now a formated string as parameter, compatible with @@mktime()@@.
   * TCPDF update
 
 Development is not finished, other improvements will be added ;-)
 
-
-Main contributors of Jelix 1.6:  Olivier Demah, Philippe Villiers
-
+Main contributors of Jelix 1.6:  Olivier Demah, Philippe Villiers, Eric D.
