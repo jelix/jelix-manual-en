@@ -184,7 +184,7 @@ class myHandlerUrlsHandler implements jIUrlSignificantHandler {
 }
 </code>
 
-The class name should end by "UrlsHandler", and the name of the handler is the prefix (here "myHandler"). Then the class should be stored in the @@F@classes/@@ directory of a module. The file should be named like ''prefix''.urlhandler.php. In our example, it should be @@F@myhandler.urlhandler.php@@.
+The class name should end by "UrlsHandler", and the name of the handler is the prefix (here "myHandler"). Then the class should be stored in the @@F@classes/@@ directory of a module. The file should be named like ''prefix''.urlhandler.php. In our example, it should be @@F@myHandler.urlhandler.php@@.
 
 The method @@M@parse()@@ should parse the url given as argument (a @@C@jUrl@@ object). If your handler recognize the url, it should return a @@C@jUrlAction@@ object, else it should return false.
 
