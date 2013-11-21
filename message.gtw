@@ -41,11 +41,11 @@ Example :
 </code>
 
 code above will result in the html fragment below:
-<html>
+<code html>
   <ul class="jelix-msg">
    <li class="jelix-msg-item-default">login failed : incorrect password</li>
   </ul>
-</html>
+</code html>
 
 Or alternatively use @@M@jMessage::get@@ static method to retrieve a message in a controller.
 
