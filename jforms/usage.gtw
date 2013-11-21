@@ -126,9 +126,13 @@ Those could still be unsufficient. In that situation, declare neither @@E@<item>
 <code php>
    // retrieve your choices in an associative array,
    $data = array(...);
-
-   // get your control and affect its data
-   $form->getControl('nom_du_control')->datasource->data = $data;
+   
+   // create an object that implement jIFormsDatasource2
+   $datasource = new jFormsStaticDatasource();
+   $datasource->data = $data
+   
+   // retrieve the control and assign data
+   $form->getControl('control_name')->datasource = $datasource;
 </code>
 
 In @@V@$data@@, keys should be **value** of choices and values should be **label** of  choices.
