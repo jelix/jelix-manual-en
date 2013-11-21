@@ -45,7 +45,7 @@ code above will result in the html fragment below:
   <ul class="jelix-msg">
    <li class="jelix-msg-item-default">login failed : incorrect password</li>
   </ul>
-</code html>
+</code>
 
 Or alternatively use @@M@jMessage::get@@ static method to retrieve a message in a controller.
 
