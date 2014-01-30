@@ -62,12 +62,16 @@ You can redefine the methods @@M@preInstall@@ and @@M@postInstall@@, which are e
 <?php
 class newsModuleInstaller extends jInstallerModule {
 
-    function install() {
-       if ($this->firstDbExec()) {
-           $db = $this->dbConnection();
-           $db->exec('CREATE TABLE...');
-       }
+    function preInstall() {
     }
+
+    function install() {
+    }
+
+    function postInstall() {
+
+    }
+
 } 
 
 </code>
