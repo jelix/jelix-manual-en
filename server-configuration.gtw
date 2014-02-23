@@ -58,7 +58,8 @@ You must also indicate an alias towards the @@F@lib/jelix-www@@ directory, by na
 
 Note : you can choose an other name for the alias of @@F@jelix-www@@. If you do this, you have to change the @@V@jelixWWWPath@@ option in the configuration file of the application.
 
-In the file @@F@myapp/var/config/defaultconfig.ini.php@@, you can adjust the @@V@basePath@@ option, by specifying the path to the @@F@index.php@@ file (here : /).
+In the file @@F@myapp/var/config/mainconfig.ini.php@@, you can adjust the @@V@basePath@@
+option, by specifying the path to the @@F@index.php@@ file (here : /).
 
 <code ini>
 basePath="/"
@@ -118,7 +119,9 @@ It is finally necessary to move the @@F@lib/jelix-www@@ directory to the root an
     temp/
     index.php
 
-Note: you can choose another name for the @@F@jelix-www@@ directory. If you do this, you have to change the @@V@jelixWWWPath@@ option in the configuration file of the application (@@F@myapp/var/config/defaultconfig.ini.php@@)
+Note: you can choose another name for the @@F@jelix-www@@ directory. If you do this, you
+have to change the @@V@jelixWWWPath@@ option in the configuration file of the application
+(@@F@myapp/var/config/mainconfig.ini.php@@)
 
 
 **WARNING: it highly recommanded to not store your own scripts/CSS/whatever in this directory or in jelix-www.**

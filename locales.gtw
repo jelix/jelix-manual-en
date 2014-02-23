@@ -22,7 +22,7 @@ to locales (see the [[templates|template page]]).
 
 ===== Configuration =====
 
-In the configuration file of your application (@@F@defaultconfig.ini.php@@), you have
+In the configuration file of your application (@@F@mainconfig.ini.php@@), you have
 several parameters to configure the language and charset used in your application:
 
    * @@locale@@: indicates the language code of the lang to use in the application.

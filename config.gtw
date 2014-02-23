@@ -2,10 +2,10 @@
 
 A Jelix application have several configuration files:
 
-  * A project.xml file, describing general information about the application
-  * A module.xml file in each module, describing general information about the module
-  * A defaultconfig.ini.php file for the global configuration, and a config.ini.php file for each entry points
-  * A profiles.ini.php for connections profiles (database configuration for example).
+  * A @@F@project.xml@@ file, describing general information about the application
+  * A @@F@module.xml@@ file in each module, describing general information about the module
+  * A @@F@defaultconfig.ini.php@@ file for the global configuration, and a @@F@config.ini.php@@ file for each entry points
+  * A @@F@profiles.ini.php@@ for connections profiles (database configuration for example).
 
 All are automatically generated when you create an application or a module.
 However, you have to modify them to bring additionnal information or to change
@@ -84,14 +84,14 @@ Configuration files are stored in @@F@var/config@@.
 
 As said before, each entry point may have its specific config file. Although in
 practice, many parameters can be shared between them. To prevent wasteful
-repeats defines a common config file : @@F@defaultconfig.ini.php@@. Jelix
-automatically read its entries in addition to each config file related to an
-entry point. No need to tell jelix about it in an entry point.
+repeats defines a common config file : @@F@mainconfig.ini.php@@ (called @@defaultconfig.ini.php@@
+as of Jelix 1.5). Jelix automatically read its entries in addition to each config file
+related to an entry point. No need to tell jelix about it in an entry point.
 
 Then, should lay in an entry point related config file, only specific parameters
-or overloaded parameters already defined in @@F@defaultconfig.ini.php@@. 
+or overloaded parameters already defined in @@F@mainconfig.ini.php@@. 
 
-A glimpse at @@F@defaultconfig.ini.php@@ (abstract): 
+A glimpse at @@F@mainconfig.ini.php@@ (abstract): 
 
 <code ini>
 locale = "fr_FR"
@@ -143,9 +143,9 @@ take xmlrpc.php entry point, its config file could be :
 
 And so on for others entry points.
 
-You have to know that a second @@F@defaultconfig.ini.php@@ exists into the
+You have to know that an other configuration file @@F@defaultconfig.ini.php@@ exists into the
 @@F@lib/jelix/core/@@ directory. It contains all possible parameters and some
-comments. Jelix reads it first, then it read the @@F@defaultconfig.ini.php@@ of
+comments. Jelix reads it first, then it read the @@F@mainconfig.ini.php@@ of
 your application, and then it reads the configuration file of the entry point.
 Values of a configuration file override values of the previous configuration
 file.
@@ -154,9 +154,7 @@ file.
 ===== The profiles.ini.php file =====
 
 This file contains all connections parameters of some Jelix Components: SQL and
-NoSQL databases, SOAP web services, cache etc. In Jelix 1.2 and lower, these
-parameters were stored in several files (dbProfils.ini.php, cache.ini.php...).
-Since Jelix 1.3, all is stored in an unique file.
+NoSQL databases, SOAP web services, cache etc.
 
 This is an ini file. Each section correspond to a profile. A profile is a set of
 parameters of a single connection. Sections names are composed of two names,

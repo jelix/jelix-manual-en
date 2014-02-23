@@ -201,7 +201,7 @@ Configuration parameters:
 
 === confmail ===
 
-This page allows to configure the mailer. It then will modify the @@F@defaultconfig.ini.php@@ file of the application.
+This page allows to configure the mailer. It then will modify the @@F@mainconfig.ini.php@@ file of the application.
 
 No configuration parameters.
 

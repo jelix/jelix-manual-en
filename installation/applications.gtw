@@ -8,9 +8,6 @@ The explanations are of course valid for any application based on Jelix.
 
 Depending of the project, you may have an archive (zip or tar.gz) which contains all files. Or you may have to retrieve files from a source code repository (based an subversion, mercurial, git). The second solution is pretty good, because updates are easiers.
 
-
-
-
 When the archive is decompressed, or source code retrieved from the repository, you get the following directories:
 
   testapp/          application directory
@@ -66,11 +63,19 @@ It is recommended to remove the @@F@install.php@@ file (save it in a protected f
 
 ==== With the application installer ====
 
-If there is a @@F@testapp/install/installer.php@@ script, this is a script to execute in a console. So first fill all needed parameters in @@F@profiles.ini.php@@ and in @@F@defaultconfig.ini.php@@ (read the documentation of the application to know what exactly change). Then open a console, go into the @@F@testapp/install/@@ directory, and then type @@php.exe installer.php@@.
+If there is a @@F@testapp/install/installer.php@@ script, this is a script to execute in a
+console. So first fill all needed parameters in @@F@profiles.ini.php@@ and in
+@@F@mainconfig.ini.php@@ (read the documentation of the application to know what exactly
+change). Then open a console, go into the @@F@testapp/install/@@ directory, and then type
+@@php.exe installer.php@@.
 
 ==== With the jelix installer ====
 
-If there isn't wizard or dedicated installation script, you have to configure @@F@profiles.ini.php@@ and in @@F@defaultconfig.ini.php@@, then, with a console, go into the @@F@testapp/@@ directory and type @@php.exe cmd.php installapp@@. Read [[/jelix-scripts|the chapter about jelix commands]] to have more informations about this command line.
+If there isn't wizard or dedicated installation script, you have to configure
+@@F@profiles.ini.php@@ and in @@F@mainconfig.ini.php@@, then, with a console, go into the
+@@F@testapp/@@ directory and type @@php.exe cmd.php installapp@@. Read
+[[/jelix-scripts|the chapter about jelix commands]] to have more informations about this
+command line.
 
 ==== If the installation system is deactivated into the configuration ====
 

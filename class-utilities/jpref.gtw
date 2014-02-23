@@ -5,7 +5,7 @@
 jPref is a simple class allowing to save and retrieve some
 preferences by your application. By "preferences", we mean some
 options that can be changed by the user or that can be change
-during the life of the application. Options of defaultconfig.ini.php
+during the life of the application. Options of mainconfig.ini.php
 and other are technical preferences that don't supposed to change.
 
 ==== Configuration ====
@@ -64,7 +64,7 @@ rights to read and modify...
 
 You need to declare the preference only if you want to manage it from
 jpref_admin (it is the case most of time, or consider to put the
-parameter into defaultconfig.ini.php).
+parameter into mainconfig.ini.php).
 
 In the @@preferences.ini.php@@, you have a section for each
 preferences, with the prefix "pref:" :

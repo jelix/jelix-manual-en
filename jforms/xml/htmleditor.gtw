@@ -144,7 +144,8 @@ So you just have to download CKEditor (it is a huge archive, so it is not includ
 
 Of course, if you want to customize CKEditor, you can do it. Example:
  
-In the file @@F@defaultconfig.ini.php@@ :
+In the file @@F@mainconfig.ini.php@@:
+
 <code ini>
 [htmleditors]
 ckmyconf.engine.name = ckeditor
@@ -152,7 +153,8 @@ ckmyconf.engine.file[] = jelix/ckeditor/ckeditor.js
 ckmyconf.config = js/ckeditor_myconf.js
 </code>
 
-in @@F@js/ckeditor_myconf.js@@
+in @@F@js/ckeditor_myconf.js@@:
+
 <code js>
 function jelix_ckeditor_ckmyconf(textarea_id, form_id, skin, config) {
     var conf = {toolbar:[ /* here the configuration of toolbars */],

@@ -118,7 +118,8 @@ A @@F@module.xml@@ file must be present in each directory of modules. It contain
 
 ===== configuration ini files=====
 
-See @@F@lib/jelix/core/defaultconfig.ini.php@@ for the whole list of parameters. This file is the "source" of the identically-named file you find in @@F@var/config@@ of your application.
+See @@F@lib/jelix/core/defaultconfig.ini.php@@ for the whole list of parameters.
+This file is the "source" of the @@F@var/config/mainconfig.ini.php@@ file of your application.
 
 Below is a tour of all configuration sections.
 

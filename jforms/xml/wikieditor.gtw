@@ -5,7 +5,9 @@ The wiki editor provides a toolbar for easy formatting of the text.
 for this, [[http://markitup.jaysalvat.com/home/|MarkItUp]] has been integrated.
 
 ===== Editor Configuration =====
-in the file defaultconfig.ini.php we will add  :
+
+In the file @@F@mainconfig.ini.php@@ we will add:
+
 <code>
 [wikieditors]
 default.engine.name = wr3
@@ -28,11 +30,15 @@ where :
   * **default.image.path** is the path to the images of the buttons
   * **default.skin** is the path to the CSS which handles the layout of the textarea
 
-**default.config.path**  could have the value of any //sets// supported by MarkitUp, like bbcode, dotclear etc...  to use it you will add this set in the path of your choice and put this path in the defaultconfig.ini.php file
+**default.config.path** could have the value of any //sets// supported by MarkitUp, like
+bbcode, dotclear etc... to use it you will add this set in the path of your choice and put
+this path in the @@F@mainconfig.ini.php@@ file.
 
-Here is an example (a little bit creazy, because the rules of transformation  bbcode_to_xhtml does not exist, but you could create it ) :
+Here is an example (a little bit creazy, because the rules of transformation
+bbcode_to_xhtml does not exist, but you could create it ).
 
-You just need to download the "set" bbcode from the markitup website and install it and set the path as below 
+You just need to download the "set" bbcode from the markitup website and install it and
+set the path as below:
 
 <code>
 [wikieditors]
@@ -52,12 +58,12 @@ default.skin = jelix/markitup/skins/simple/style.css
 ===== Configuration jForms =====
 
 
-So to add a wiki editor to a form, we will writte in the .form.xml file :
+So to add a wiki editor to a form, we will writte in the @@F@*.form.xml@@ file:
 
 <code xml>
 <wikieditor ref="message" config="default" required="true">
 </code>
 where : 
   * **ref** is the name of the textarea, here //message//
-  * **config** is the config name used in the file  defaultconfig.ini.php
+  * **config** is the config name used in the file @@F@mainconfig.ini.php@@
   * **required** if you want this textarea is mandatory

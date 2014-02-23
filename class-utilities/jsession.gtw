@@ -2,7 +2,7 @@
 
 jSession is the object used by Jelix to initialize the storage engine. It is not used to read or store variables in session. **Use $_SESSION as usual** to do this task.
 
-Configuration of the session storage is done in @@F@app/var/config/defaultconfig.ini.php@@, in a @@sessions@@ section.
+Configuration of the session storage is done in @@F@app/var/config/mainconfig.ini.php@@, in a @@sessions@@ section.
 
 ===== Session name =====
 

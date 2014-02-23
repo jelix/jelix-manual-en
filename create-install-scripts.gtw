@@ -94,15 +94,29 @@ Don't hesitate to read the reference API of @@C@jInstallerModule@@ and @@C@jInst
 
 ==== To not execute some part of your script ====
 
-You notice that in the example, we call the method @@M@firstDbExec@@. It tells you if this is the first time that you want to access to the database, for the current database profile (some entry points can share the same database profile). Remember that your installation script is called for each entry points (read above).
+You notice that in the example, we call the method @@M@firstDbExec@@. It tells you if this
+is the first time that you want to access to the database, for the current database
+profile (some entry points can share the same database profile). Remember that your
+installation script is called for each entry points (read above).
 
-You have also the method @@M@firstConfExec@@ to know if you did already have some changes to the current configuration file (some entry points can share the same configuration file, other than @@defaultconfig.ini.php@@). If it returns true, you can then access to the configuration file, by retrieving the @@P@config@@ property, which is a @@C@jIniMultifilesModifier@@ object.
+You have also the method @@M@firstConfExec@@ to know if you did already have some changes
+to the current configuration file (some entry points can share the same configuration
+file, other than @@mainconfig.ini.php@@). If it returns true, you can then access to
+the configuration file, by retrieving the @@P@config@@ property, which is a
+@@C@jIniMultifilesModifier@@ object.
 
-Then you have the method @@M@firstExec@@. You pass a keyword to this method. And it tells you if you already call this method with this keyword (false) or not (true). You call this method to determine yourself, in some conditions, if you want to execut severalt time a part of your installation script.
+Then you have the method @@M@firstExec@@. You pass a keyword to this method. And it tells
+you if you already call this method with this keyword (false) or not (true). You call this
+method to determine yourself, in some conditions, if you want to execut severalt time a
+part of your installation script.
 
 ==== Database profile used for the installation ====
 
-If your installation script interacts with a database (creating a table, modifying records in some tables etc), you have to use the method @@M@dbConnection()@@ or @@M@execSQLScript@@ to exécute queries. By default, it uses the "default" profile. An alternate profile can be indicated in several places (listed by priority, the first has the higher priority):
+If your installation script interacts with a database (creating a table, modifying records
+in some tables etc), you have to use the method @@M@dbConnection()@@ or
+@@M@execSQLScript@@ to exécute queries. By default, it uses the "default" profile. An
+alternate profile can be indicated in several places (listed by priority, the first has
+the higher priority):
 
     * In your install class, you call @@M@useDbProfile@@, by given the profile you want to use.
     * In the property @@P@defaultDbProfile@@ of your install class, you can indicate the default profile to use for the installation of the module
