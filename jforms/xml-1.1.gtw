@@ -53,6 +53,15 @@ You have the option of using a [[/locales|locale]] attribute instead of an hardc
   </input>
 </code>
 
+It is possible to indicate an alternate label wehn the value of the control is empty. This
+is useful when we use the form only to display data:
+
+<code xml>
+  <input ref="nom">
+    <label>Your name</label>
+    <emptyvaluelabel>No name<emptyvaluelabel>
+  </input>
+</code>
 
 ==== Required controls ====
 
@@ -269,7 +278,9 @@ Your html form will likely be:
 
 ==== Checkbox (one and only) ====
 
-To display a checkbox, declare a @@E@<checkbox>@@ tag. Set its @@A@ref@@ attribute, its @@E@<label>@@ element, and optionally @@E@<hint>@@, @@E@<alert>@@, @@E@<help>@@ tags as well as  @@A@readonly@@ and @@A@required@@ attributes.
+To display a checkbox, declare a @@E@<checkbox>@@ tag. Set its @@A@ref@@ attribute, its
+@@E@<label>@@ element, and optionally @@E@<hint>@@, @@E@<alert>@@, @@E@<help>@@ tags as
+well as @@A@readonly@@ and @@A@required@@ attributes.
 
 <code xml>
   <checkbox ref="remember">
@@ -280,8 +291,9 @@ To display a checkbox, declare a @@E@<checkbox>@@ tag. Set its @@A@ref@@ attribu
 
 Default values for a checkbox are @@L@"0"@@ if it was checked, or @@L@1@@ on the contrary.
 
-You can override those default values. Just add
-@@A@valueoncheck@@ and @@A@valueonuncheck@@ attributes (those equal respectively to 1 and 0 by default, if you follow). Example :
+You can override those default values. Just add @@A@valueoncheck@@ and
+@@A@valueonuncheck@@ attributes (those equal respectively to 1 and 0 by default, if you
+follow). Example:
 
 <code xml>
   <checkbox ref="remember" valueoncheck="Y" valueonuncheck="N">
@@ -290,7 +302,22 @@ You can override those default values. Just add
   </checkbox>
 </code>
 
-Keep in mind that when you'll display a pre-filled form, your checkbox will be checked or not, on a comparison between its initial value and @@A@valueoncheck@@ or @@A@valueonuncheck@@.
+Keep in mind that when you'll display a pre-filled form, your checkbox will be checked or
+not, on a comparison between its initial value and @@A@valueoncheck@@ or
+@@A@valueonuncheck@@.
+
+During the display the form data (without controls), it is better to display a specific
+label instead of values. You can then indicate labels corresponding to values. Use element
+@@E@<oncheckvalue>@@ and @@E@<onuncheckvalue>@@.
+
+<code xml>
+  <checkbox ref="remember" valueoncheck="Y" valueonuncheck="N">
+     <label>Remember me</label>
+     <help>Check this box to log in automatically next time</help>
+     <oncheckvalue label="yes" />
+     <onuncheckvalue label="no" />
+  </checkbox>
+</code>
 
 ==== Checkboxes list ====
 

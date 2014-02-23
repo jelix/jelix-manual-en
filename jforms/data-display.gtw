@@ -29,9 +29,11 @@ Form labels and values are displayed in a table.
 
 ===== Customized display =====
 
-As for [[display|form display]], you can control how your form data are displayed and precisely in which markup labels and values are wrapped.
+As for [[display|form display]], you can control how your form data are displayed and
+precisely in which markup labels and values are wrapped.
 
-Use {formcontrols} and {ctrl_label} plugins similarly to form display and also {ctrl_value} :
+Use @@{formcontrols}@@ and @@{ctrl_label}@@ plugins similarly to form display and also @@{ctrl_value}@@
+instead of @@{ctrl_control}@@:
 
 <code html>
    <h1>Your form</h1>
@@ -47,9 +49,12 @@ Use {formcontrols} and {ctrl_label} plugins similarly to form display and also {
     </table>
 </code>
 
-Note: //{form}// is not needed here as oppposed to complete form display .
+Note: @@{form}@@ is not needed here as opposed to complete form display.
 
-You are also free to not use {formcontrols} loops, and display only your labels and values of choice, in which ever order. To achieve this, use //{ctrl_label}// and //{ctrl_value}// and call them with your selected control names. But they msut be used inside a {formdata} plugin:
+You are also free to not use @@{formcontrols}@@ loops, and display only your labels and values
+of choice, in which ever order. To achieve this, use @@{ctrl_label}@@ and @@{ctrl_value}@@
+and call them with your selected control names. But they must be used inside a @@{formdata}@@
+plugin:
 
 <code html>
    <h1>Your form</h1>
@@ -69,3 +74,5 @@ You are also free to not use {formcontrols} loops, and display only your labels 
     </table>
 </code>
 
+@@{ctrl_value}@@ accepts an additionnal parameter which should be a string to format
+the value. The formatting is done by @@sprintf()@@.
