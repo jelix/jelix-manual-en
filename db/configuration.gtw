@@ -1,8 +1,13 @@
 ~~LANG:FR@frman:bd/configuration~~
 
-To be able to access a database, you need of course to specify the connection parameters in a configuration file. This file is @@F@profiles.ini.php@@ in @@F@var/config/@@. See [[/config#the-profiles.ini.php-file|the corresponding chapter]] to know how to use this file.
+To be able to access a database, you need of course to specify the connection parameters
+in a configuration file. This file is @@F@profiles.ini.php@@ in @@F@var/config/@@. See
+[[/config#the-profiles.ini.php-file|the corresponding chapter]] to know how to use this
+file.
 
-You can define several connections named profiles. Thus, you can define connection for the production database, development database, or also the different bases on which lies your application. 
+You can define several connections named profiles. Thus, you can define connection for the
+production database, development database, or also the different bases on which lies your
+application. 
 
 Here is an example in @@F@profiles.ini.php@@ file:
 
@@ -19,10 +24,15 @@ force_encoding=true
 
 The connection type to indicate in profile names is @@jdb@@.
 
-In a section, you have several parameters. Their number and name can be different according to the driver used, but some of them can be used in all profiles.
+In a section, you have several parameters. Their number and name can be different
+according to the driver used, but some of them can be used in all profiles.
 
   * **driver**: it indicates the driver name
-  * **table_prefix**: allow to indicate a prefix for all table when [[/daos|using a DAO]] with a profile indicating a table prefix, this prefix is added automatically to the table names indicating in the dao files. When you construct your SQL queries, you should use the @@M@prefixTable()@@ method of the @@C@jDbConnection@@ object. This method takes one parameter: the table name.
+  * **table_prefix**: allow to indicate a prefix for all table when [[/daos|using a DAO]]
+    with a profile indicating a table prefix, this prefix is added automatically to the
+    table names indicating in the dao files. When you construct your SQL queries, you
+    should use the @@M@prefixTable()@@ method of the @@C@jDbConnection@@ object. This
+    method takes one parameter: the table name.
 
 ===== mysql profile =====
 

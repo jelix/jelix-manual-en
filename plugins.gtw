@@ -1,25 +1,38 @@
 ~~LANG:FR@frman:plugins~~
 
-Different types of plugins exists for Jelix. Each categories modify or add functionality to differents parts of Jelix. There are coordinator plugins, jDb drivers, jAuth drivers, jTpl plugins and url engines.
+Different types of plugins exists for Jelix. Each categories modify or add functionality
+to differents parts of Jelix. There are coordinator plugins, jDb drivers, jAuth drivers,
+jTpl plugins and url engines.
 
-All plugins are located in plugins //repository//.
+All plugins are located in plugins //repositories//.
 
 
 ===== Adding a plugins repository =====
 
-You can add one or more plugins repositories. It consists of a directory with a strict subtree structure. Each plugins repository must be added to @@pluginsPath@@ of your application [[config|configuration]]. Its default value is :
+You can add one or more plugins repositories. It consists of a directory with a strict
+subtree structure. Each plugins repository must be added to @@pluginsPath@@ of your
+application [[config|configuration]]. Its default value is:
 
 <code ini>
 pluginsPath = lib:jelix-plugins/,app:plugins/
 </code>
 
-Different repositories are divided by a comma. Default value indicate two repositories : @@F@/lib/jelix-plugins@@ directory and your plugins application directory. Jelix also load an implicit repository @@F@lib/jelix/plugins@@. the latter contains all plugins bundled with Jelix. 
+Different repositories are divided by a comma. Default value indicate two repositories :
+@@F@/lib/jelix-plugins@@ directory and your plugins application directory.
 
-Note : @@lib:@@ is a shortcut indicating base @@F@lib/@@ directory and @@app:@@ is a shortcut for your application directory. You can also use an absolute path but beware to check if you migrate your application from one host to another. A relative path is also permitted. it has to be relative to your entry point script (@@F@/var/www/index.php@@ for example).
+Jelix also loads an implicit repository @@F@lib/jelix/plugins@@: it contains all plugins
+bundled with Jelix. It also loads all @@F@plugins/@@ directories found into modules. 
+
+Note : @@lib:@@ is a shortcut indicating base @@F@lib/@@ directory and @@app:@@ is a
+shortcut for your application directory. You can also use an absolute path but beware to
+check if you migrate your application from one host to another. A relative path is also
+permitted. it has to be relative to your entry point script (@@F@/var/www/index.php@@ for
+example).
 
 ===== Repository structure and plugins creation =====
 
-Such a repository has one sub-directory for each plugin type. And within each sub-directory, each plugin has its own folder. 
+Such a repository has one sub-directory for each plugin type. And within each
+sub-directory, each plugin has its own folder. 
 
 Below is the list of plugins type and their respective directory:
 
@@ -38,4 +51,7 @@ Below is the list of plugins type and their respective directory:
 
 ===== Plugins development =====
 
-Jelix comes with a bunch of plugins within the standard package. They are located in @@F@lib/jelix/plugins/@@. However, it is often useful to create your own plugins to fulfill specific needs. And If your plugin is generic or useful enough, you're likely to push it to the developers team :-).
+Jelix comes with a bunch of plugins within the standard package. They are located in
+@@F@lib/jelix/plugins/@@. However, it is often useful to create your own plugins to
+fulfill specific needs. And If your plugin is generic or useful enough, you're likely to
+push it to the developers team :-).

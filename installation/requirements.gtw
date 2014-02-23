@@ -1,11 +1,24 @@
 ~~LANG:FR@frman:installation/prerequis~~
 
-You must install the 5.3 version of PHP at least ([[http://jelix.org/en/news/post/jelix-supports-gophp5|Jelix project supports gophp5 campaign]]). The **dom**, **simplexml**, **pcre**, **session**, **tokenizer** and **spl** extensions are required (they are generally turned on in a standard PHP 5.3 installation).
+You must install the 5.3 version of PHP at least
+([[http://jelix.org/en/news/post/jelix-supports-gophp5|Jelix project supports gophp5
+campaign]]). The **dom**, **simplexml**, **pcre**, **session**, **tokenizer** and **spl**
+extensions are required (they are generally turned on in a standard PHP 5.3 installation).
 
-Note about DOM and XML: verify that the [[http://www.php.net/manual/en/intro.dom.php|DOM extension]] is installed and the [[http://www.php.net/manual/en/intro.domxml.php|DOM-XML extension]] is **not** installed. Some distribution includes both (or only DOM-XML), and then there are some PHP errors within Jelix.
+Note about DOM and XML: verify that the [[http://www.php.net/manual/en/intro.dom.php|DOM extension]]
+is installed and the [[http://www.php.net/manual/en/intro.domxml.php|DOM-XML extension]]
+is **not** installed. Some distribution includes both (or only DOM-XML), and
+then there are some PHP errors within Jelix.
 
-You can install a database connector too. For the moment, Jelix deals with mysql 4.1+, postgresql 8.0+, sqlite and PDO.
+You can install a database connector too. Jelix deals with mysql 4.1+, postgresql 8.0+,
+sqlite, Oracle (oci) and PDO.
 
-**To test the compatibility of your server** with Jelix, install the file @@F@lib/jelix_check_server.php@@ provided into the jelix archive, on your web hosting (without jelix, the framework is not needed), and call this page with your browser (example : http://example.com/jelix_check_server.php). The page displays all missing PHP extensions, if the PHP version is ok etc.
+**To test the compatibility of your server** with Jelix, install the file
+@@F@lib/jelix_check_server.php@@ provided into the jelix archive, on your web hosting
+(without jelix, the framework is not needed), and call this page with your browser
+(example : http://example.com/jelix_check_server.php). The page displays all missing PHP
+extensions, if the PHP version is ok etc.
 
-Jelix provides scripts to use in the command line, @@F@createapp.php@@ and @@F@cmd.php@@ (in the application), which help you to develop a Jelix application. So you also should install the command line version of PHP (CLI, php.exe under windows).
+Jelix provides scripts to use in the command line, @@F@createapp.php@@ and @@F@cmd.php@@
+(in the application), which help you to develop a Jelix application. So you also should
+install the command line version of PHP (CLI, php.exe under windows).

@@ -312,20 +312,21 @@ can use the @@jelixWWWPath@@ property:
   $resp->addJSLink(jApp::config()->urlengine['jelixWWWPath'].'js/tooltip.js');
 </code>
 
-If the CSS/JS file is stored into a module, then you cannot use a direct URL, but
-have to indicate the URL of a specific action of the module Jelix, which is
-@@jelix~www:getfile@@. You should give two parameters, @@targetmodule@@ and
-@@file@@. The first one indicate the module where CSS/JS files are stored, and
-the second one the path to the file inside the @@F@www/@@ directory of the
-module. For example, if you want a link to the file @@F@mymodule/www/css/mystyles.css@@:
+If the CSS/JS file is stored into a module, then you should use
+@@M@addJSLinkModule()@@ or @@M@addCSSLinkModule()@@. Arguments to these methods
+are the module name, the path of the resource inside the www/ directory of the module.
+
+
+For example, if you want a link to the file @@F@mymodule/www/css/mystyles.css@@:
 
 <code php>
-  $resp->addCSSLink(jUrl::get('jelix~www:getfile', array('targetmodule=>'mymodule', 'file'=>'css/mystyles.css')));
+  $resp->addCSSLinkModule('mymodule', 'css/mystyles.css');
 </code>
 
 
-Note that @@M@addCSSLink()@@ and @@M@addJSLink()@@ can use an associative array
-argument specifying custom (X)HTML tag properties, for example:
+Note that @@M@addCSSLink()@@, @@M@addJSLink()@@, @@M@addJSLinkModule()@@ and
+@@M@addCSSLinkModule()@@ can use an associative array argument specifying custom
+(X)HTML tag properties, for example:
 
 <code php>
 $resp->addCSSLink( 
@@ -354,7 +355,7 @@ You can also use same principle directly in a template:
   {* in the www/ of a module *}
   {meta_htmlmodule css 'mymodule', 'css/mystyles.css'}
 
-  {* link to an image *}  
+  {* link to an image into myapp/mymodule/www/img/mypicture.png *}  
   <img src="{jurl 'jelix~www:getfile', array('targetmodule=>'mymodule', 'file'=>'img/mypicture.png')}" />
 </code>
 
