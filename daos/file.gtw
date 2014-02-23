@@ -212,7 +212,7 @@ To declare such foreign tables, which are logically related to the main table by
    * @@E@<foreigntable>@@ to indicate a foreign table  linked by a normal join.
    * @@E@<optionalforeigntable>@@ to indicate a foreign table linked by an outer join.
 
-=== Example ===
+Example:
 
 <code xml>
    <primarytable name="p" realname="products" primarykey="id_product" />
@@ -306,7 +306,7 @@ an attribute @@A@import@@ on the @@E@dao@@ element.
 
 Note that an import is **not** an inheriting.
 
-==== Example ====
+Example:
 
 A good is example is jauthdb: if you need to define your own DAO, documentation says
 that //"it must have at least the same properties and methods defined into the jelixuser dao"//.
