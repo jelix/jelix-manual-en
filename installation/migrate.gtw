@@ -8,11 +8,11 @@ When you migrate from an old version of jelix to a newer one, you always must do
   * remove all the files in the @@F@temp/yourapp/@@ directory
   * update your code as specified hereafter.
 
-===== Updating from Jelix 1.4 or lower =====
+===== Updating from Jelix 1.5 or lower =====
 
 Read the upgrade instructions of all previous manuals and then follow instructions below.
 
-===== Upgrading from jelix 1.5.x =====
+===== Upgrading from jelix 1.6.x =====
 
 Here are all steps to follow to migrate your application.
 
@@ -24,42 +24,23 @@ First, do a backup of your databases, and of your application files (modules, co
 
 As usual, you must remove every files into the @@F@temp/yourapp/@@ directory.
   
-==== Files rename/removal ====
-
-You must rename your @@F@var/config/defaultconfig.ini.php@@ to @@F@var/config/mainconfig.ini.php@@.
 
 ==== Other stuffs ====
 
-==== About jForms ====
-
-If you built some widget or builder plugins for jForms, you should verify your implementation
-to match API changes:
-
-* New boolean in parameters of @@\jelix\forms\Builder\BuilderBase::outputControlLabel()@@
-* New boolean in parameters of @@\jelix\forms\HtmlWidget\WidgetInterface::outputLabel()@@
-
-Many improvements have been made on the display of data of jforms (with @@ctrl_value@@ or @@formdatafull@@ plugins).
-You should verify that your pages showing form contents are still good.
 
 ==== Upgrading your modules ====
 
-  * update sources of vendor's modules that you have installed, with version compatible with Jelix 1.6.
+  * update sources of vendor's modules that you have installed, with version compatible with Jelix 1.7.
   * For your own modules:
-     * In @@F@module.xml@@ files, indicate that the module is compatible with Jelix 1.6 (change the attributes @@A@maxversion@@). Example:
+     * In @@F@module.xml@@ files, indicate that the module is compatible with Jelix 1.7 (change the attributes @@A@maxversion@@). Example:
 
 <code xml>
-        <jelix minversion="1.4" maxversion="1.6.*"/>
+        <jelix minversion="1.4" maxversion="1.7.*"/>
 </code>
 
 
-New API you can use:
+See [[/new-features|the detailed changelog]] to know what are the new classes and methods you can use, deprecated components etc...
 
-  * @@M@jResponseHtml::addJSLinkModule()@@ or @@M@jResponseHtml::addCSSLinkModule@@
-  * See [[http://jelix.org/articles/en/changelog/1.6|the detailed changelog]] to know what are the new classes and methods you can use.
-
-Deprecated API you cannot use anymore:
-
-  * none
 
 ==== Jelix update ====
 
