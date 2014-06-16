@@ -4,9 +4,10 @@ Main improvements provided by the version 1.6 are:
 
   * @@F@defaultconfig.ini.php@@ is renamed to @@F@mainconfig.ini.php@@.
     @@F@defaultconfig.ini.php@@ is still supported but is now deprecated. (Olivier Demah)
+  * a new @@F@localconfig.ini.php@@ to store configuration specific to an environment (dev, prod...)
+  * New @@M@jApp::mainConfigFile()@@ method to retrieve the path of the main configuration file
   * Plugins for templates provided by your application are now the priority over those provided by the framework.
     So you can "override" existing template plugins now.
-  * New @@M@jApp::mainConfigFile()@@ method to retrieve the path of the main configuration file
   * jDb/jDao:
      * Full support of OCI in the oci driver for jDb (Philippe Villiers)
      * jDbTools for Oracle: use comment on columns to get form labels (Philippe Villiers)
@@ -30,6 +31,7 @@ Main improvements provided by the version 1.6 are:
   * jEvent objects have now setters/getters: it is possible to do @@$event->something@@ instead of @@$event->getParam('something')@@.
   * @@jDateTime::toString()@@ accepts now a formated string as parameter, compatible with @@mktime()@@.
   * new property @@jResponseJSON::$options@@ which contains options for @@json_encode@@ (Couac)
+  * New class @@jSoapObject@@  
   * Internal: new method @@jFile::parseJelixPath()@@ to translate shortcut jelix path to real path (Brice)
   * Significant urls: we can have a character ":" in your custom url. 
   * TCPDF update
