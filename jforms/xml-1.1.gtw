@@ -127,7 +127,12 @@ To declare an input field, use @@E@<input>@@ tag. Set its @@A@ref@@ attribute, a
 
 @@A@size@@ defines field length in terms of number of chars.
 
-@@A@maxlength@@ and @@A@minlength@@ declare a constraint on the input value: input value length shall be over minlength and under maxlength. Those attributes are only valid with @@A@type="string"@@.
+@@A@maxlength@@ and @@A@minlength@@ declare a constraint on the input value:
+input value length shall be over minlength and under maxlength. Those attributes
+are only valid with @@A@type="string"@@.
+
+@@A@maxvalue@@ and @@A@minvalue@@ declare a constraint on the input value. Those attributes
+are only valid with @@A@type="integer"@@ and @@A@type="decimal"@@.
 
 @@A@pattern@@: It should contain a regular expression, compatible with PHP and JS. This attribute is allowed only when @@A@type="string"@@.
 

@@ -24,6 +24,7 @@ Main improvements provided by the version 1.6 are:
         * added a boolean in parameters of @@\jelix\forms\HtmlWidget\WidgetInterface::outputLabel()@@
         * the formdatafull template plugin accepts now a builder type and some builder options
      * possibility to have a specific label when the value of a control is empty (@@emptyvaluelabel@@)
+     * new attributes @@minvalue@@ and @@maxvalue@@ on @@<input>@@ of type "integer" or "decimal"
      * The plugin @@formdata@@ accepts now a builder type and some builder options
      * It is possible to indicates label for each possible value of a checkbox
         ex: @@<oncheckvalue label="yes" />@@ and @@<onuncheckvalue label="no" />@@
