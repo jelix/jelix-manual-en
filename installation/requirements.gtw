@@ -1,9 +1,8 @@
 ~~LANG:FR@frman:installation/prerequis~~
 
-You must install the 5.3 version of PHP at least
-([[http://jelix.org/en/news/post/jelix-supports-gophp5|Jelix project supports gophp5
-campaign]]). The **dom**, **simplexml**, **pcre**, **session**, **tokenizer** and **spl**
-extensions are required (they are generally turned on in a standard PHP 5.3 installation).
+You must install at least the 5.3 version of PHP. The **dom**, **simplexml**,
+**pcre**, **session**, **tokenizer** and **spl** extensions are required (they
+are generally turned on in a standard PHP 5.3 installation).
 
 Note about DOM and XML: verify that the [[http://www.php.net/manual/en/intro.dom.php|DOM extension]]
 is installed and the [[http://www.php.net/manual/en/intro.domxml.php|DOM-XML extension]]
