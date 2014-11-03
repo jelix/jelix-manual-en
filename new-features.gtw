@@ -40,4 +40,12 @@ Main improvements provided by the version 1.6 are:
 
 Note also that there isn't anymore Gold edition of the framework (with the binary PHP extension).
 
+Improvements provided by 1.6.1 and 1.6.2:
+
+  * Support of busytimeout and sqlite extensions in the sqlite3 jDb plugin
+  * jForms: choice items (li elements)  have now an id and a class (jforms-selected and jforms-notselected)
+  * jForms: group control can now have a checkbox
+  * Use the latest PHPUnit version from Composer.
+  * For contributors: a vagrant configuration is provided in the source code repository to allow to launch tests without configuration on the developer's machine.
+
 Main contributors of Jelix 1.6:  Olivier Demah, Philippe Villiers, Eric D., Couac, Brice Tence, Khena.

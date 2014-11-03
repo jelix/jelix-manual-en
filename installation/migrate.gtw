@@ -53,11 +53,67 @@ You should verify that your pages showing form contents are still good.
 
 See [[/new-features|the detailed changelog]] to know what are the new classes and methods you can use.
 
+If your module contains tests for Simpletest, migrate them to use PHPUnit. Simpletest will not
+be available in next version of Jelix.
 
 ==== Jelix update ====
 
-After all these modifications, you should run your @@F@install/installer.php@@ script. The jelix module will change some things:
+After all these modifications, you should run your @@F@install/installer.php@@ script. 
 
-  * nothing for the moment
+===== Upgrading from jelix 1.6.1 =====
 
+Until 1.6.1, The PHPunit wrapper of Jelix (lib/jelix-tests/) required to install PHPUnit by Pear.
+With 1.6.2, PHPunit should be installed with Composer.
+
+==== If you want to keep PHPUnit installed by Pear ====
+
+You have to modify your tests/runtests.php script, by adding this line: @@require_once 'PHPUnit/Autoload.php';@@
+
+<code php>
+require(__DIR__.'/../application.init.php');
+
+require_once 'PHPUnit/Autoload.php';
+
+require(LIB_PATH.'jelix-tests/phpunit.inc.php');
+</code>
+
+==== If you want to use PHPUnit installed by composer ====
+
+Install [Composer](http://getcomposer.org). Then create a composer.json file
+into your app (at the same level of your project.xml).
+
+<code json>
+{
+    "name": "mycompany/myapp",
+    "type": "application",
+    "description": "",
+    "keywords": [],
+    "require": {
+        "php": ">=5.3.3"
+    },
+    "require-dev" : {
+        "phpunit/phpunit": "4.3.*"
+    },
+    "autoload": {
+        "files": [ "../lib/jelix/init.php"  ]
+    },
+    "minimum-stability": "stable"
+}
+</code>
+
+Then run composer in the directory:
+
+<code>
+composer install
+</code>
+
+Your tests/runtests.php should include @@../vendor/autoload.php@@:
+
+<code>
+require(__DIR__.'/../application.init.php');
+
+require(__DIR__.'/../vendor/autoload.php';
+
+require(LIB_PATH.'jelix-tests/phpunit.inc.php');
+</code>
 

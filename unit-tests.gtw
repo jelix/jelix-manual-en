@@ -5,9 +5,18 @@ See the definition of unit-test on wikipedia: http://en.wikipedia.org/wiki/Unit-
 
 ===== Creating tests with PHPUnit =====
 
-Using PHPUnit to create tests is the prefered method in jelix 1.3 and higher. See [[https://github.com/sebastianbergmann/phpunit/|the manual of PHPUnit]] to know how to use it. You must install PHPUnit, it is not provided in the Jelix package.
+Using PHPUnit to create tests is the prefered method in jelix 1.3 and higher.
+See [[https://github.com/sebastianbergmann/phpunit/|the manual of PHPUnit]] to
+know how to use it. You must install PHPUnit, it is not provided in the Jelix
+package.
 
-Jelix brings some helpers. The @@createapp@@ command has created a @@F@tests/runtests.php@@ in your application (or copy the file @@F@lib/jelix-scripts/templates/tests/runtests.php@@). You will launch this file instead of PHPUnit. It then allows you to not fill a @@F@phpunit.xml@@ with all your tests stored in your modules. To do so:
+Jelix brings some helpers. The @@createapp@@ command has created a
+@@F@tests/runtests.php@@ in your application (or copy the file
+@@F@lib/jelix-scripts/templates/tests/runtests.php@@). You will launch this file
+instead of PHPUnit. It then discover your tests files in all modules. It avoids
+to not fill a @@F@phpunit.xml@@ with all your tests stored in your modules.
+
+To do so:
 
    * create your tests in the @@tests/@@ directory of your modules
    * store them in files with the suffix @@.pu.php@@ (and not @@Tests.php@@ as usual with PHPUnit)
@@ -19,7 +28,8 @@ You can use all others options of PHPUnit with runtests.php.
 
 ===== Creating tests with Simpletest =====
 
-Simpletests is the framework used in jelix since the begining. However, since Jelix 1.3, it is deprecated, although it is still provided with the Jelix developer edition.
+Simpletests is the framework used in jelix since the begining. However, it is deprecated since Jelix 1.3, and will be removed in futur version after Jelix 1.6.
+It is still provided with the Jelix developer edition.
 
 Jelix contains the "junittests" module and a copy of [[http://simpletest.org|SimpleTest]]. Other distributions of Jelix require a copy of libs/simpletest and lib/jelix-modules/junittests.
 
