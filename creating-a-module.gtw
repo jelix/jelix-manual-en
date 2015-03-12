@@ -55,7 +55,7 @@ containing specific files:
 ; @@F@scripts/@@ : scripts for the command line
 ; @@F@plugins/@@ : plugins for various components (jDb, jTpl...)
 ; @@F@www/@@ : CSS, JS, images files. There are accessible from a browser, by calling a specific controller of the "jelix" module
-; @@F@tests/@@ : files doing unit tests for PHPUnit or Simpletest
+; @@F@tests/@@ : files doing unit tests for PHPUnit
 
 
 ===== Create a module =====

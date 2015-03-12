@@ -2,6 +2,23 @@
 
 Main improvements provided by the version 1.7 are: 
 
-   * nothing for the moment
+  * [[https://packagist.org/packages/jelix/jelix|Jelix is now installable with Composer]]
+  * A new project can be started by using the package jelix/jelix-skeleton-app
+    installable via Composer
+  * No need anymore to "build" Jelix from the git repository: it is more easy to contribute ;-)
+  * In new application created with createapp.php, the temp directory is now in the application
+    directory
+  * The Vagrant configuration for contributors is now in testapp
+
+  * new method @@M@jApp::version()@@
+  * new object @@C@jFramework@@ allowing to access to some informations about the framework (version...)
+  * Jelix-scripts createapp: new option -modulename to indicate the name of the newly created module.
+  * CRUD controller: the records list can be ordered
+  * jauthdb_admin: Users list can be filtered and ordered
+  * jacl2db_admin: Users list can be filtered 
+
+  * Simpletests and the junittests module has been removed. If you need them, you can
+    still installed separately (with Composer for example).
+  * FakeServerConf is now installed with Composer
 
 Main contributors of Jelix 1.7:  ....
