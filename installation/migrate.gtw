@@ -38,14 +38,8 @@ As usual, you must remove every files into the @@F@temp/yourapp/@@ directory.
         <jelix minversion="1.4" maxversion="1.7.*"/>
 </code>
 
-
 See [[/new-features|the detailed changelog]] to know what are the new classes and methods you can use, deprecated components etc...
-
 
 ==== Jelix update ====
 
-After all these modifications, you should run your @@F@install/installer.php@@ script. The jelix module will change some things:
-
-  * nothing for the moment
-
-
+After all these modifications, you should run your @@F@install/installer.php@@ script. 

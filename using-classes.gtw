@@ -1,13 +1,25 @@
 ~~LANG:FR@frman:utilisation-classes~~
 
-To respect the MVC pattern, it is recommended to do all business processing and services in classes dedicated to it instead of in controllers.
+To respect the MVC pattern, it is recommended to do all business processing and
+services in classes dedicated to it instead of in controllers.
 
-In this kind of classes, you will manipulate, for example, daos, data from daos or others, do all the processing other than display. The methods of your controllers will thus be lighter and the business processing will be reusable in other actions.
+In this kind of classes, you will manipulate, for example, daos, data from daos
+or others, do all the processing other than display. The methods of your
+controllers will thus be lighter and the business processing will be reusable in
+other actions.
+
+Classes can be instanciated with jClasses (a kind of class loader), or
+instanciated as you do in any PHP script, using the autoloading mecanism of PHP.
 
 
-===== Creating a class =====
+===== Using classes with jClasses =====
 
-Business classes and services in Jelix are classic PHP classes which have nothing specific. The only thing that you have to respect is to specify it in a file named @@F@name_of_class.class.php@@ in the @@F@classes/@@ directory of the module, so it can be loaded by @@C@jClasses@@:
+==== Creating a class for jClasses ====
+
+Business classes and services in Jelix are classic PHP classes which have
+nothing specific. The only thing that you have to respect is to specify it in a
+file named @@F@name_of_class.class.php@@ in the @@F@classes/@@ directory of the
+module, so it can be loaded by @@C@jClasses@@:
 
 <code php>  
    class StockService {
@@ -25,42 +37,56 @@ Business classes and services in Jelix are classic PHP classes which have nothin
 
 This class must be placed in @@F@classes/StockService.class.php@@.
 
-The difference between a service class and the other classes is that a service class gives... a service. It doesn't need to be instanciated each time we use it because it doesn't have "discriminating" property. Only one instance is enough for all the application.
+The difference between a service class and the other classes is that a service
+class gives... a service. It doesn't need to be instanciated each time we use it
+because it doesn't have "discriminating" property. Only one instance is enough
+for all the application.
 
-For example, a "factory" type class, which retrieves sets of data, is a service class. On the other hand, a class representing a product, which thus has identifying fields, is a non service class.
+For example, a "factory" type class, which retrieves sets of data, is a service
+class. On the other hand, a class representing a product, which thus has
+identifying fields, is a non service class.
 
 
-===== Instantiation with jClasses =====
+==== Instantiation with jClasses ====
 
-Jelix proposes the @@C@jClasses@@ class, which avoids to do an include and instantiate yourself.
+Jelix proposes the @@C@jClasses@@ class, which avoids to do an include and
+instantiate yourself.
 
 @@C@jClasses@@ gives two static methods, to which you give a selector:
 
     * @@M@createInstance($ClassSelector)@@ (or @@M@create($ClassSelector)@@ )
     * @@M@getService($ClassSelector)@@
 
-The first will, for each call, give a new instance. The second will allways give the same instance of the class. @@M@getService@@ will thus be used for the service classes, and @@M@createInstance@@ for the others.
+The first will, for each call, give a new instance. The second will allways give
+the same instance of the class. @@M@getService@@ will thus be used for the
+service classes, and @@M@createInstance@@ for the others.
 
-If our @@C@StockService@@ class is in the "shop" module, here is an example in a controller:
+If our @@C@StockService@@ class is in the "shop" module, here is an example in a
+controller:
 
 <code php>
     $stocksrv = jClasses::getService("shop~stockservice");
     $rep->body->assign('product_list', $stocksrv->getProductList());
 </code>
 
-Notice that you can put classes in sub-directories of the @@F@classes/@@ directory. For example, you can store the @@C@StockService@@ file into @@F@classes/stocks/@@. Then, to call it:
+Notice that you can put classes in sub-directories of the @@F@classes/@@
+directory. For example, you can store the @@C@StockService@@ file into
+@@F@classes/stocks/@@. Then, to call it:
 
 <code php>
    $stocksrv = jClasses::getService("shop~stocks/stockservice");
 </code>
 
-===== Including classes =====
+==== Including classes with jClasses ====
 
-In some cases, like when the constructor needs parameters, you have to include the class and then instantiate it "manually".
+In some cases, like when the constructor needs parameters, you have to include
+the class and then instantiate it "manually".
 
-In this case the jClasses class has a static method @@M@inc($ClassSelector)@@. It includes (require_once) the class specified by the selector.
+In this case the jClasses class has a static method @@M@inc($ClassSelector)@@.
+It includes (require_once) the class specified by the selector.
 
 Example:
+
 <code php>
     jClasses::inc('shop~shoesProduct');
     $shoe = new shoesProduct('43', 'black');
@@ -68,65 +94,38 @@ Example:
 
 You can also use the autoload system of PHP, see below.
 
-===== Including interfaces =====
+==== Including interfaces with jClasses ====
 
-@@C@jClasses@@ provides the static methods @@M@incIFace@@ to include PHP interfaces stored in a @@F@classes@@ directory of a module.
+@@C@jClasses@@ provides the static methods @@M@incIFace@@ to include PHP
+interfaces stored in a @@F@classes@@ directory of a module.
 
-An interface should be store in a @@F@*.iface.php@@ file. To declare a @@C@IStockUtils@@ interface, store this content into the file @@F@classes/interfaces/IStockUtils.iface.php@@:
+An interface should be store in a @@F@*.iface.php@@ file. To declare a
+@@C@IStockUtils@@ interface, store this content into the file
+@@F@classes/interfaces/IStockUtils.iface.php@@:
 
-<code php><?php
+<code php>
 interface IStockUtils {
     […]
 }
-?></code>
+</code>
 
-Then to include this interface, stored in the module @@commons@@, into file that need it:
+Then to include this interface, stored in the module @@commons@@, into file that
+need it:
 
-<code php><?php
+<code php>
 jClasses::inIface('commons~interfaces/IStockUtils');
 
 class stockUtils implements IStockUtils {
     […]
 }
-?></code>
-
-
-===== Installing and using vendor classes =====
-
-You have often to use some classes provided by other projects. Of course, you can use it into a Jelix application.
-
-Although you can store this classes where you want (because the require or include statement are not restricted), it's better to store them:
-
-  * into the @@F@lib/@@ directory
-  * or into the @@F@classes/@@ directory of a module
-
-It is interesting to store a set of classes into the @@F@lib/@@ directory, because it's easier to share this classes between projects, and perhaps it will be easier to update them. To include them, you have to use the @@LIB_PATH@@ constant. For example, if you want to include the @@F@lib/foo/bar.php@@, do this into your controller or other files of a module:
-
-<code php>
-   require(LIB_PATH.'foo/bar.php');
-   $myclass = new bar();
 </code>
 
-You can store the class in a module if it is used only by this module. You can put it into the classes directory:
 
-<code php>
-   require(jApp::getModulePath('main') . 'classes/bar.php');
-   $myclass = new bar();
-</code>
+==== Loading classes before the session_start for jClasses ====
 
-If the name of the class and the name of the file follow the coding style of jelix (a "bar" class into a bar.class.php file), you can use jClasses of course:
-
-<code php>
-   $myclass = jClasses::create('bar');
-
-   // or if the constructor need arguments
-   jClasses::inc('bar');
-   $myclass = new bar('bla');
-</code>
-
-===== Loading classes before the session_start =====
-
-Sometimes, you may want to store some of your business object in sessions. But then your classes should be loaded before the @@f@session_start()@@ call, so PHP can unserialize this objects.
+Sometimes, you may want to store some of your business object in sessions. But
+then your classes should be loaded before the @@f@session_start()@@ call, so PHP
+can unserialize this objects.
 
 Before the autoload system (see below), Jelix provided a way to indicates which
 classes to load before the @@f@session_start()@@. In the configuration, in the
@@ -144,11 +143,16 @@ The module name is required in selectors.
 **your classes in module.xml files, so they will be auto-loaded.** See below.
 
 
-===== Autoload =====
+===== Autoloading =====
 
-Since Jelix 1.4, it is possible to use an autoload system, based on the autoload function of PHP (the class file is loading automatically when the class is used). It avoids to use @@C@jClasses@@. The autoload system of Jelix supports the [[https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md|spécification PSR0]].
+Since Jelix 1.4, it is possible to use an autoload system, based on the autoload
+function of PHP (the class file is loading automatically when the class is
+used). It avoids to use @@C@jClasses@@. The autoload system of Jelix supports
+the [[http://www.php-fig.org/psr/psr-0/|PSR0 specification]] and the
+[[http://www.php-fig.org/psr/psr-4/|PSR-4 specification]].
 
-Simply declares, in the @@F@module.xml@@ file, the classes that will be loaded automatically, with specific tags in the @@E@<autoload>@@ element.
+Simply declares, in the @@F@module.xml@@ file, the classes that will be loaded
+automatically, with specific tags in the @@E@<autoload>@@ element.
 
 Here is an example:
 
@@ -167,7 +171,8 @@ Here is an example:
 </module>
 </code>
 
-As you can see, there are different way to declare a class. Path of file or directory indicated in tags should be relative to the module directory.
+As you can see, there are different way to declare a class. Path of file or
+directory indicated in tags should be relative to the module directory.
 
 To load a specific class, just indicate its name and its file:
 
@@ -175,31 +180,53 @@ To load a specific class, just indicate its name and its file:
    <class name="myautoloadedclass" file="autoloadtest/autoloadtestclass.php" />
 </code>
 
-To declare several classes that have similar name, you can use a regular expression and indicate the directory where files are. You can indicate also a suffix for the filename:
+To declare several classes that have similar name, you can use a regular
+expression and indicate the directory where files are. You can indicate also a
+suffix for the filename:
+
 <code xml>
    <!-- load automatically classes that have names beginning by myalclasse -->
   <classPattern pattern="/^myalclass/" dir="autoloadtest/withpattern/" suffix=".cl.php" />
 </code>
 
-To declare a set of classes that have a specific namespace, indicate the namespace and a directory:
+To declare a set of classes that have a specific namespace, indicate the
+namespace and a directory:
+
 <code xml>
   <namespace name="jelixTests\foo" dir="autoloadtest" />
 </code>
-This behavior follows the PSR0 specification. So the namespace should correspond to a path in the indicated directory.
-For example, if Jelix should load the class @@C@jelixTests\foo\bar\baz@@, it will include the file @@F@autoloadtest/jelixTests/foo/bar/baz.php@@.
 
-Jelix have an other namespace support:
+This behavior follows the PSR0 specification. So the namespace should correspond
+to a path in the indicated directory. For example, if Jelix should load the
+class @@C@jelixTests\foo\bar\baz@@, it will include the file
+@@F@autoloadtest/jelixTests/foo/bar/baz.php@@.
+
+Jelix have an other namespace support, which follow PSR-4 specification
+(implemented before the release of PSR-4, this is why the tag name is not
+really good):
+
 <code xml>
    <namespacePathMap name="jelixTests\bar" dir="autoloadtest/barns" suffix=".class.php" />
 </code>
-The class path does not correspond to the name of the namespace. It indicates that all classes which have the indicated namespace are directly in the given directory. So the class @@C@jelixTests\foo\bar\baz@@ is not in the file @@F@autoloadtest/jelixTests/foo/bar/baz.class.php@@ but in @@F@autoloadtest/bar/baz.class.php@@.
 
-It is possible to indicate a classical include path (like the includePath of PHP): Jelix will search a file which have the same name of the class in this directory.
+The class path does not correspond to the name of the namespace. It indicates
+that all classes which have the indicated namespace are directly in the given
+directory. So the class @@C@jelixTests\foo\bar\baz@@ is not in the file
+@@F@autoloadtest/jelixTests/foo/bar/baz.class.php@@ but in
+@@F@autoloadtest/bar/baz.class.php@@.
+
+It is possible to indicate a classical include path (like the includePath of
+PHP): Jelix will search a file which have the same name of the class in this
+directory.
+
 <code xml>
    <includePath dir="autoloadtest/incpath" suffix=".php" />
 </code>
 
-Last possibility: it is possible to indicate a file that initialize an other autoloader. It can be useful when you use a vendor libraries which have its own autoloader. This autoloader should use the function [[phpapi:spl_autoload_register|spl_autoload_register]] and its parents.
+Last possibility: it is possible to indicate a file that initialize an other
+autoloader. It can be useful when you use a vendor libraries which have its own
+autoloader. This autoloader should use the function
+[[phpapi:spl_autoload_register|spl_autoload_register]] and its parents.
 
 <code xml>
    <autoloader file="autoloadtest/myautoloader.php" />
@@ -207,5 +234,89 @@ Last possibility: it is possible to indicate a file that initialize an other aut
 
 ==== Note ====
 
-Use the autoload system only for classes that are often used. Declaring all classes does not have a sens. The autoload system could be slow if all modules declares dozen of classes, because it should verify then many name and path. So prefer to use jClasses, for classes used only by the module or used only few times.
+Use the autoload system only for classes that are often used, or that
+share a common namespace. Declaring dozen classes that does not share
+a namespace, does not have a sens, and will slow the autoload system of PHP,
+because it should verify then many name and path.
+So prefer to use jClasses, for classes used only by the module or used only few
+times, or create classes which share same root namespace.
 
+===== Installing and using vendor classes =====
+
+You have often to use some classes provided by other projects. Of course, you
+can use it into a Jelix application.
+
+==== with Composer ====
+
+[[http://getcomposer.org|Composer]] is a package manager for PHP. You can install
+easily many vendors libraries. We recommand to use this tool (Next version of
+Jelix 1.6+ will be installable with Composer ;-)).
+
+To integrate Composer packages into your Jelix application, it is very simple:
+
+  * create your composer.json file into your application (see Composer documentation)
+  * install packages indicated into your composer.json: @@php composer.phar install@@.
+    It generates a @@F@vendor/@@ directory into your application
+  * Include the file @@F@vendor/autoload.php@@ into @@F@application.init.php@@
+
+<code php>
+require (__DIR__.'/vendor/autoload.php');
+require (__DIR__.'/../lib/jelix/init.php');
+jApp::initPaths( /* ... */ );
+jApp::setTempBasePath( /* ... */ );
+</code>
+
+
+==== Legacy practice ====
+
+If you don't want to use Composer, here is an other way to integrate vendor
+libraries in your application.
+
+Although you can store this classes where you want (because the require or
+include statement are not restricted), it's better to store them:
+
+  * into the @@F@lib/@@ directory
+  * or into the @@F@classes/@@ directory of a module
+  * or into the @@F@lib/@@ directory of a module
+
+
+=== Global installation ===
+
+It is interesting to store a set of classes into the @@F@lib/@@ directory,
+because it's easier to share this classes between projects, and perhaps it will
+be easier to update them. To include them, you have to use the @@LIB_PATH@@
+constant. For example, if you want to include the @@F@lib/foo/bar.php@@, do this
+into your controller or other files of a module:
+
+<code php>
+   require(LIB_PATH.'foo/bar.php');
+   $myclass = new bar();
+</code>
+
+If the library provides an autoloader, you can use initialize it into your
+@@F@application.init.php@@ file (see the documentation of the library to know
+how to use it). So the @@require@@ will be useless.
+
+=== Installation in a module ===
+
+You can store the library in a module if it is used only by this module.
+You can put it into the @@F@classes@@ or @@F@lib/@@ directory of the module:
+
+<code php>
+   require(jApp::getModulePath('main') . 'classes/bar.php');
+   $myclass = new bar();
+</code>
+
+If the library has an autoloader, you can declare it in the module.xml file
+(see the autoloading section above). The @@require@@ will be useless.
+
+If the name of the class and the name of the file follow the coding style of
+jelix (a "bar" class into a bar.class.php file), you can use jClasses of course:
+
+<code php>
+   $myclass = jClasses::create('bar');
+
+   // or if the constructor need arguments
+   jClasses::inc('bar');
+   $myclass = new bar('bla');
+</code>

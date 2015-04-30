@@ -127,7 +127,12 @@ To declare an input field, use @@E@<input>@@ tag. Set its @@A@ref@@ attribute, a
 
 @@A@size@@ defines field length in terms of number of chars.
 
-@@A@maxlength@@ and @@A@minlength@@ declare a constraint on the input value: input value length shall be over minlength and under maxlength. Those attributes are only valid with @@A@type="string"@@.
+@@A@maxlength@@ and @@A@minlength@@ declare a constraint on the input value:
+input value length shall be over minlength and under maxlength. Those attributes
+are only valid with @@A@type="string"@@.
+
+@@A@maxvalue@@ and @@A@minvalue@@ declare a constraint on the input value. Those attributes
+are only valid with @@A@type="integer"@@ and @@A@type="decimal"@@.
 
 @@A@pattern@@: It should contain a regular expression, compatible with PHP and JS. This attribute is allowed only when @@A@type="string"@@.
 
@@ -319,6 +324,11 @@ label instead of values. You can then indicate labels corresponding to values. U
   </checkbox>
 </code>
 
+@@E@<oncheckvalue>@@ and @@E@<onuncheckvalue>@@ support also the attribute @@locale@@
+instead of @@label@@. And you can use the @@value@@ attribute on it instead of using
+@@valueoncheck@@ or @@valueonuncheck@@.
+
+
 ==== Checkboxes list ====
 
 You could have to display a series of checkboxes to reflect multiple choices. For example, you want your user to select a list of articles to search or buy. Use @@E@<checkboxes>@@ tag (with a terminal **S**).
@@ -439,7 +449,12 @@ Upon receiving file, jForms will check its type and its size. You'll see later t
 
 ==== Grouping some controls ====
 
-It can be useful to group some control, for presentation reasons or to facilitate the management of this controls with the jForms API. To do so, put all controls you want into a @@E@<group>@@ element. This element should have a @@A@ref@@ attribute, but can have also a @@A@readonly@@ attribute to turn all child controls into readonly mode. Most of actions on the group control with the PHP API change properties of child controls.
+It can be useful to group some control, for presentation reasons or to
+facilitate the management of this controls with the jForms API. To do so, put
+all controls you want into a @@E@<group>@@ element. This element should have a
+@@A@ref@@ attribute, but can have also a @@A@readonly@@ attribute to turn all
+child controls into readonly mode. Most of actions on the group control with the
+PHP API change properties of child controls.
 
 <code xml>
   <group ref="a_group">
@@ -448,6 +463,37 @@ It can be useful to group some control, for presentation reasons or to facilitat
      <input ref="lastname"><label>Last name</label></input>
   </group>
 </code>
+
+
+
+Since Jelix 1.6.2, it is possible to add a checkbox which appears near the label of the fieldset.
+It allows to the user to enable or disable all controls in the group. Use the attribute @@withcheckbox@@.
+
+<code xml>
+  <group ref="a_group" withcheckbox="true">
+     <label>identity</label>
+     <input ref="name"><label>Name</label></input>
+     <input ref="lastname"><label>Last name</label></input>
+  </group>
+</code>
+
+Then it could be necessary, as on a @@<checkbox>@@, to:
+
+  - specify values of the control when the checkbox is checked or unchecked.
+  - specify the default value.
+
+<code xml>
+  <group ref="identity" withcheckbox="true" defaultvalue="ok">
+     <oncheckvalue label="" value="ok"/>
+     <onuncheckvalue label="No identity" value="no" />
+     <label>identity</label>
+     <input ref="name"><label>Name</label></input>
+     <input ref="lastname"><label>Last name</label></input>
+  </group>
+</code>
+
+@@E@<oncheckvalue>@@ and @@E@<onuncheckvalue>@@ support also the attribute @@locale@@
+instead of @@label@@.
 
 ==== Extended choice ====
 
