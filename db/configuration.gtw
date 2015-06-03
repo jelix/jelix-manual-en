@@ -34,15 +34,17 @@ according to the driver used, but some of them can be used in all profiles.
     should use the @@M@prefixTable()@@ method of the @@C@jDbConnection@@ object. This
     method takes one parameter: the table name.
 
-===== mysql profile =====
+===== mysql and mysqli profile =====
 
 Possible parameters:
-   * **driver** : should be "mysql" (using the old PHP API mysql) or "mysqli" (using the new PHP API mysqli)
+   * **driver** : should be "mysqli" (using the new PHP API mysqli) or  "mysql" (using the old PHP API mysql, not recommended)
    * **database** : the database name
    * **host** : the server name
    * **user** et **password** : the login and the password to use for the connection
    * **persistent** : says if the connection should be persistent ("on") or not ("off")
-   * **force_encoding** : says if the current charset should be specified during the connection. Try to set it to "on" if you have some encoding issues with your retrieved data.
+   * **force_encoding** : says if the current charset should be specified during the
+     connection. Try to set it to "on" if you have some encoding issues with your
+     retrieved data.
 
 
 ===== postgresql profile =====
@@ -60,15 +62,25 @@ Possible parameters:
    * **single_transaction** : if set to **on**, all queries executed in a same page will be sent in a same transaction (between a BEGIN; and a COMMIT;). Default: **off**
    * **search_path**: the list of schema where table are getting from, if the default schema of the connection doesn't correspond to the schema used by the application
 
-===== sqlite profile =====
+===== sqlite3/sqlite profile =====
 
 Possible parameters:
 
-   * **driver** : should be "sqlite"
-   * **database** : the database file. You can use the shortcuts like "app:", "lib:" or "var:" to indicate a path inside the application directory, the lib directory, or the var directory.
+   * **driver** : should be "sqlite3" (or "sqlite" for legacy sqlite2 databases)
+   * **database** : the database file.
    * **persistent** : says if the connection should be persistent ("on") or not ("off")
 
-Do not forget that the sqlite database files must be placed in the @@F@var/db/sqlite/@@ directory of your application. Theses files and the directory must have read and write permissions for your webserver user.
+For the database file, you can use 3 syntaxes:
+
+   * a simple file name (ex: mybase.sqlite). The file will be in the @@F@var/db/sqlite3/@@
+     directory (for sqlite3) or in @@F@var/db/sqlite/@@ (for sqlite 2).
+   * a partial path + filename, using a shorcut like "app:", "lib:" or "var:" to indicate
+     a path inside the application directory, the lib directory, or the var directory.
+     ex: "app:../db/mybase.sqlite".
+   * a full path on the file system (Jelix 1.6.4+). Ex: /opt/foo/bar.sqlite.
+
+Do not forget that these files and directories must have read and write permissions for
+your webserver user.
 
 ===== PDO profile =====
 
