@@ -48,4 +48,9 @@ Improvements provided by 1.6.1 and 1.6.2:
   * Use the latest PHPUnit version from Composer.
   * For contributors: a vagrant configuration is provided in the source code repository to allow to launch tests without configuration on the developer's machine.
 
+Improvements provided by 1.6.6:
+
+  * jForms: support of "class" data sources for dynamic changes into menulist and listbox (criteriafrom attribute)
+  * jDb: Allow to use a PostgreSQL service for connection instead of host/login/password
+
 Main contributors of Jelix 1.6:  Olivier Demah, Philippe Villiers, Eric D., Couac, Brice Tence, Khena.
