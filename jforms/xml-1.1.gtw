@@ -667,26 +667,6 @@ You use the @@A@criteria@@ attribute for "static" parameters:
 
 Here the method @@M@findByCat()@@ will be called with the "admin" value as parameter.
 
-== Dependencies with an other control ==
-
-If the value of the parameter could be the value of an other control, use @@A@criteriafrom@@ which should contain the identifier of the control.
-
-<code xml>
-  <menulist ref="catlist">
-     ...
-  </menulist>
- 
-  <menulist ref="conf">
-      ...
-      <datasource dao="testapp~config" method="findByCat" criteriafrom="catlist"
-                  labelproperty="cvalue" valueproperty="ckey"/>
-  </menulist>
-</code>
-
-In this exemple, the content of the second list will be filled depending of the selected value of the first list.
-
-Note that since jelix 1.2, the content of the menulist is replaced dynamically when the user change the value of the control indicated into @@A@criteriafrom@@. In Jelix 1.1, nothing happen.
-
 === For the display of values ===
 
 When the form is displayed with plugins @@{formdata}@@ or @@{formdatafull}@@, where only values are displayed (or more exactly, corresponding labels), jForms don't call the method indicated into @@A@method@@. By default, it calls the @@M@get@@ method of the dao, with the selected value. If there are some criterias, they are also passed to the method. It means that //the selected value and criteria values must correspond to the primary key// of the corresponding record.
@@ -767,12 +747,53 @@ in jForms XML file :
   </menulist>
 </code>
 
+
+==== Dependencies with an other control ====
+
+In a field which have a dynamic datasource, you often may want that the list
+of items depends of the value of an other field. Example: a list of town
+depends of a country selected in an other field.
+
+You should then use the attribuet @@A@criteriafrom@@, which must contain the
+identifier of the control containing the value that serves as criteria for the
+list of choices.
+
+<code xml>
+  <menulist ref="countries">
+     ...
+  </menulist>
+ 
+  <menulist ref="towns">
+      ...
+      <datasource dao="testapp~towns" method="findByCountry"
+            criteriafrom="countries" labelproperty="town_name" valueproperty="town_code"/>
+  </menulist>
+</code>
+
+In this exemple, the content of the second list will be filled depending of the
+selected value of the first list.
+
+In the web page, the content of the menulist is replaced dynamically when
+the user change the value of the control indicated into @@A@criteriafrom@@.
+
+Before Jelix 1.6.6, @@A@criteriafrom@@ was supported only on dao datasources.
+Since Jelix 1.6.6, it can also be used on class datasources.
+
+The class must then implement the  @@C@jIFormsDynamicDatasource@@ interface
+(which inherits from @@C@jIFormsDatasource2@@). It adds two methods,
+@@M@setCriteriaControls($list)@@ which accepts a list of field id, and
+@@M@getCriteriaControls()@@ which returns this list.
+
+An abstract class @@C@jFormsDynamicDatasource@@, implements this
+interface so your class can inherit from it.
+
 ==== Other data source ====
 
-If neither DAO, class or static data are of use, see "Defining choices on a multiple choice control" in [[usage|jForms usage]].
+If neither DAO, class or static data are of use, see "Defining choices on a
+multiple choice control" in [[usage|jForms usage]].
 
 If you do so, don't declare @@E@<item>@@ element nor @@E@<datasource>@@ element.
-
+You have to set the @@P@datasource@@ property on the field object, with a class.
 
 ==== Grouped data ====
 
