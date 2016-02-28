@@ -1,14 +1,20 @@
 ~~LANG:FR@frman:nouveautes~~
 
-Main improvements provided by the version 1.7 are: 
+===== Main improvements provided by the version 1.7 =====
 
-  * [[https://packagist.org/packages/jelix/jelix|Jelix is now installable with Composer]]
-  * A new project can be started by using the package jelix/jelix-skeleton-app
-    installable via Composer
-  * No need anymore to "build" Jelix from the git repository: it is more easy to contribute ;-)
+  * Composer integration
+    * [[https://packagist.org/packages/jelix/jelix|Jelix is now installable with Composer]]
+    * Some modules and plugins are now in their own repository and available separately
+      with Composer.
+    * A new project can be started by using the package jelix/jelix-skeleton-app
+      installable via Composer
+    * Configuration parameters @@modulesPath@@ and @@pluginsPath@@ are not supported
+      anymore and replaced by a new API to call from @@application.init.php@@:
+      @@jApp::declareModulesDir()@@, @@jApp::declarePluginsDir()@@, @@jApp::declareModuleDir()@@.
+      It si also possible to declare these path in your composer.json file.
+      
   * In new application created with createapp.php, the temp directory is now in the application
     directory
-  * The Vagrant configuration for contributors is now in testapp
 
   * new method @@M@jApp::version()@@
   * new object @@C@jFramework@@ allowing to access to some informations about the framework (version...)
@@ -17,8 +23,66 @@ Main improvements provided by the version 1.7 are:
   * jauthdb_admin: Users list can be filtered and ordered
   * jacl2db_admin: Users list can be filtered 
 
+  * jIniFileModifier: no empty line added at the end of the file at each save
+  * @@jFile::getMimeTypeFromFilename()@@: support of a mime type list defined
+   into a @@[mimeTypes]@@ section in the configuration
+  * new methods @@jFile::shortestPath()@@ and @@jFile::normalizePath()@@.
+  * jProfiles:
+     * The content of profiles.ini.php is optimized and stored in a cache
+     * it is extensible with plugins: these plugins can process a specific type
+       of profile and store some additionnal informations in the cache.
+       (plugin : @@profiles/<type>/<type>.profiles.php@@, class: @@<type>ProfilesCompiler@@).
+     * A plugin for jDb is provided, allowing jDb to improve the connection speed.
+
+
+===== Modules and plugins removed =====
+
+Like the jtcpdf module in previous version of Jelix, some modules and plugins
+are not provided anymore with the Jelix package, but available separately
+via Composer.
+
+Here are these modules and plugins
+
+  * jtcpdf module: [[https://packagist.org/packages/jelix/tcpdf-module|jelix/tcpdf-module]].
+  * Minify plugin for jResponseHtml: [[https://packagist.org/packages/jelix/minify-module|jelix/minify-module]].
+  * redis plugin for jKVDb: [[https://packagist.org/packages/jelix/php-redis-plugin|jelix/php-redis-plugin]].
+  * jsitemap module : [[https://packagist.org/packages/jelix/sitemap-module|jelix/sitemap-module]]
+  * [[https://packagist.org/packages/jelix/diff-plugin|diff plugin for jTpl]]
+
+Some other components, modules and plugins are now in their own repository, although
+there are available with the Jelix package via Composer dependencies.
+
+  * [[https://packagist.org/packages/jelix/fakeserverconf|FakeServerConf]]
+  * [[https://packagist.org/packages/jelix/soap-server-module|jSoap module]]
+  * [[https://packagist.org/packages/jelix/feeds-module|new module jFeeds]] containing classes
+    and responses object to generate RSS and ATOM feeds
+  * [[https://packagist.org/packages/jelix/castor|Standalone version of jTpl: Castor]]
+  * [[https://packagist.org/packages/jelix/inifile|IniModifier and MultiIniModifier]], 
+    (formely known as jIniFileModifier and jIniMultiFilesModifier)
+  * [[https://packagist.org/packages/jelix/wikirenderer-plugin|jWiki and WikiRenderer]]
+
+===== Deprecated modules and plugins =====
+
   * Simpletests and the junittests module has been removed. If you need them, you can
     still installed separately (with Composer for example).
-  * FakeServerConf is now installed with Composer
+  * mysql and sqlite plugins. They used deprecated PHP API. Note that there are
+    still a mysqli and a sqlite3 plugin in Jelix
+  * There are not anymore en_EN locales files. Configure your application to use
+    en_US or en_GB locales
+  * The memcache22 plugin for jCache has been removed
+  * Method @@jInstallerBase::declarePluginsPath()@@ has been removed
+  * jHttp is now deprecated and available as a Composer package
+  * jIniFile, jIniFileModifier, jIniMultiFilesModifier have other names:
+    Jelix\IniFile\Util, Jelix\IniFile\IniModifier, Jelix\IniFile\MultiIniModifier.
+    But it is still possible to use old name until the next version.
+  * Clearbricks files have been removed
 
-Main contributors of Jelix 1.7:  ....
+===== For contributors =====
+
+  * The Vagrant configuration for contributors is now in testapp
+  * No need anymore to "build" Jelix from the git repository: it is more easy to contribute ;-)
+  * FakeServerConf, Minify, PHPMailer  are now installed via Composer
+  * In testapp, a new application "adminapp" is available to test admin modules
+
+
+
