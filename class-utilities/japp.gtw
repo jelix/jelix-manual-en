@@ -1,10 +1,30 @@
 ~~LANG:FR@frman:classes-utiles/japp~~
 
-jApp is a class to specify (in application.init.php) and to retrieve different path of the application. Since Jelix 1.3, it replaces JELIX_APP_* constants.
+jApp is a class bringing informations about the Jelix environment.
+
+It allows to specify (in application.init.php) and to retrieve, different path
+of the application (Since Jelix 1.3, it replaces JELIX_APP_* constants).
+
+It propose also some methods to retrieve some global Jelix Object and to
+manipulate Jelix environment (internal use).
+
+
+===== Access to some global objects =====
+
+<code>
+// the configuration object
+$config = jApp::config();
+
+//the router
+$coord = jApp::coord();
+</code>
+
+
 
 ===== Retrieve the application directory =====
 
-The method @@M@appPath()@@  returns the full path of the application. In old version, it was JELIX_APP_PATH.
+The method @@M@appPath()@@ returns the full path of the application. In old
+version, it was JELIX_APP_PATH.
 
 <code>
 
@@ -14,7 +34,8 @@ $path = jApp::appPath();
 
 ===== Retrieve the temporary directory =====
 
-To have the path to the temp directory, call the methode @@M@tempPath()@@. In old version, it was JELIX_APP_TEMP_PATH.
+To have the path to the temp directory, call the method @@M@tempPath()@@. In
+old version, it was JELIX_APP_TEMP_PATH.
 
 <code>
 
@@ -41,8 +62,14 @@ $path = jApp::configPath();
 // equals to the old JELIX_APP_WWW_PATH
 $path = jApp::wwwPath(); 
 
+// base path (section urlengine in configuration )
+$path = jApp::urlBasePath();
+
 // the path to the main configuration file of the application
 // (mainconfig.ini.php or defaultconfig.ini.php for jelix <= 1.5)
-$path = jApp::wwwPath();
+$path = jApp::mainConfigFile();
+
+// the path to a module
+$path = jApp::getModulePath($nom_module);
 
 </code>
