@@ -65,4 +65,15 @@ Improvements provided by 1.6.7:
   * The legacy builder of jForms (jFormsBuilderHtml) is now deprecated too. It
     will disappear in the next release (1.7).
 
-Main contributors of Jelix 1.6:  Olivier Demah, Philippe Villiers, Eric D., JulienI, Couac, Brice Tence, Khena.
+Improvements provided by 1.6.8
+
+  * jAcl2: new driver dbcache. It is like the db driver, but it also stores
+    results in a cache via jCache to improve performance.
+  * jCache: allows char '/.-:' in keys. Modify cache file storage.
+* For file driver of jCache, the tree structure of cache files has changed to have smaller path. file_name_prefix is now used as directory name, not prefix filename.
+  * Redis plugin for jCache: support key prefixes with the new key_prefix option
+  * Redis plugin for jCache: support db indexes with the new db option
+  * Redis jKvDb driver: support of db index and key prefixes options
+  * new method jInstallerEntryPoint::getEpConfigIni()
+
+Main contributors of Jelix 1.6:  Olivier Demah, Philippe Villiers, Eric D., JulienI, Couac, Brice Tence, Khena, René-luc D'hont.

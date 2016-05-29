@@ -7,13 +7,19 @@ There are certain different things to take in account for a production server, i
 ===== Choosing the good edition of Jelix =====
 
 
-To develop, you use of course the "developer" edition of Jelix. This edition includes some additionals instructions for logger, to help debugging etc.
+To develop, you use of course the "developer" edition of Jelix. This edition
+includes some additionals instructions for logger, to help debugging etc.
 
-However, for the installation on a production server, it is preferable to install the "optimized" edition of Jelix. As its name indicates it, it is optimized, and the useless things in production are removed. Note however that your application will function exactly the same way as with one of the other editions of Jelix, except for one detail: there will be some light performance improvements with the "Optimized" edition!
+However, for the installation on a production server, it is preferable to
+install the "optimized" edition of Jelix. As its name indicates it, it is
+optimized, and the useless things in production are removed. Note however that
+your application will function exactly the same way as with one of the other
+editions of Jelix, except for one detail: there will be some light performance
+improvements with the "Optimized" edition!
 
-If you choose to remain with the "developer" edition on your production server, there is no problem with that.
+If you choose to remain with the "developer" edition on your production server,
+there is no problem with that.
 
-A "Gold" edition is also available, it is intended for the developers who can modify the php configuration, and especially install PHP extensions. Indeed, this edition uses some PHP extensions which are not available among all hosts, and this edition uses also a PHP extension  especially dedicated to Jelix, which deals with certain processes of the framework. The use of "gold" edition thus significantly improves the performances of your application. You have to compile the jelix extension yourself. Therefore, the source code of this extension is provided in the package of the Gold edition.
 
 ===== Configuration =====
 

@@ -10,28 +10,41 @@ Your application is already running on your production server. Now you would lik
 
 ===== Closing and opening an application =====
 
-It's often better to have a single web page saying that the application is not available, during an update process. Users could not then execute the application, and it's a good things, so modules won't act on a database that is not already updated (an update process is never instantaneous).
+It's often better to have a single web page saying that the application is not
+available, during an update process. Users could not then execute the
+application, and it's a good things, so modules won't act on a database that is
+not already updated (an update process is never instantaneous).
 
 You have two choice to close the application. 
 
-Your system administrator may reconfigure the web server to redirect all http request to the web page showing the message or to change the document root. Or you may configure yourself your hosting to change the document root.
+Your system administrator may reconfigure the web server to redirect all http
+request to the web page showing the message or to change the document root. Or
+you may configure yourself your hosting to change the document root.
 
-An other solution, is to use a mecanism into Jelix, which allows to close the application. It works only if you call @@checkAppOpened()@@ in the entrypoints, before the call of @@C@jCoordinator@@. 
+An other solution, is to use a mecanism into Jelix, which allows to close the
+application. It works only if you call @@checkAppOpened()@@ in the entrypoints,
+before the call of @@C@jCoordinator@@. 
 
-To close the application, you have to create a file, @@F@var/config/CLOSED@@, containing nothing or a message.
+To close the application, you have to create a file, @@F@var/config/CLOSED@@,
+containing nothing or a message.
 
-Then Jelix displays the page  @@F@lib/jelix/installer/closed.html@@. You can provide your own html page, by storing it into your application as @@F@install/closed.html@@.
+Then Jelix displays the page @@F@lib/jelix/installer/closed.html@@. You can
+provide your own html page, by storing it into your application as
+@@F@install/closed.html@@.
 
 To reopen the application, just remove the file @@F@var/config/CLOSED@@.
 
-You can manipulate this file manually (if you have only a FTP access to your web site, this is the solution). or, if you have a command line access, you can call jelix commands: @@openapp@@ and @@closeapp@@
+You can manipulate this file manually (if you have only a FTP access to your web
+site, this is the solution). or, if you have a command line access, you can call
+jelix commands: @@openapp@@ and @@closeapp@@
 
 <code bash>
 $ php cmd.php closeapp
 $ php cmd.php openapp
 </code>
 
-You can give a message to the @@closeapp@@ command. It will replace the @@%message%@@ tag into the closed.html file.
+You can give a message to the @@closeapp@@ command. It will replace the
+@@%message%@@ tag into the closed.html file.
 
 <code bash>
 $ php cmd.php closeapp "Sorry, we are closed for the moment, a new version is comming."
@@ -39,42 +52,49 @@ $ php cmd.php closeapp "Sorry, we are closed for the moment, a new version is co
 
 ===== Updating files =====
 
-The second step is to update files of your application. You could upload files into the directory, with FTP, SCP or with other tools. You could also launch an update with your prefered source code manager (@@svn update@@, @@hg pull -u@@, @@git pull -u@@...).
+The second step is to update files of your application. You could upload files
+into the directory, with FTP, SCP or with other tools. You could also launch an
+update with your prefered source code manager (@@svn update@@, @@hg pull -u@@,
+@@git pull -u@@...).
 
 If you update manually, don't forget to remove deprecated files.
 
 ===== Launching the update =====
 
-Now, source files are ok, you have to update the application it self (database, configuration...).
+Now, source files are ok, you have to update the application it self (database,
+configuration...).
 
-The only thing you have to do, is to launch the installer, as you did when you installed the application for the first time. The Jelix installer (used by a wizard or an installation script of an application), can install **and** update modules.
+The only thing you have to do, is to launch the installer, as you did when you
+installed the application for the first time. The Jelix installer (used by a
+wizard or an installation script of an application), can install **and** update
+modules.
 
 ==== With a wizard ====
 
-If you installed the application with a wizard, it won't probably work for an update, except if the documentation of the application says that you can use it. In this case, launch the corresponding script with your browser, and remove the file after the update.
+If you installed the application with a wizard, it won't probably work for an
+update, except if the documentation of the application says that you can use it.
+In this case, launch the corresponding script with your browser, and remove the
+file after the update.
 
 ==== With the application installer ====
 
-If there is a @@F@install/installer.php@@ script, just launch it: open a console, go into the @@F@install/@@ directory, and then type @@php.exe installer.php@@.
+If there is a @@F@install/installer.php@@ script, just launch it: open a
+console, go into the @@F@install/@@ directory, and then type @@php.exe
+installer.php@@.
 
 ==== With the jelix installer ====
 
-If there isn't wizard or dedicated installation script, open a console, go into the application directory and type @@php.exe cmd.php installapp@@.
+If there isn't wizard or dedicated installation script, open a console, go into
+the application directory and type @@php.exe cmd.php installapp@@.
 
 ==== By hand ====
 
-This is the case when the installation system has been deactivated into specifics projects (see the previous chapter about the installation). In this case, you have to update every thing needed by the application, "by hand", or by "home made" scripts.
+This is the case when the installation system has been deactivated into
+specifics projects (see the previous chapter about the installation). In this
+case, you have to update every thing needed by the application, "by hand", or by
+"home made" scripts.
 
 ===== Cleaning the temp directory =====
 
-**You must always remove all files stored into the temp/yourapp/ directory.**, after an installation or an update, and before to execute the application.
-
-
-
-
-
-
-
-
-
-
+**You must always remove all files stored into the temp/yourapp/ directory.**,
+after an installation or an update, and before to execute the application.

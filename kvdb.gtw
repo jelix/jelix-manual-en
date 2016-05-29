@@ -1,27 +1,40 @@
 ~~LANG:FR@frman:kvdb~~
 
-Jelix has an abstract layer to access to key-value databases, less complex than SQL databases.
+Jelix has an abstract layer to access to key-value databases, less complex than
+SQL databases.
 
-You have a @@C@jKVDb@@ from which you retrieve a connector to a key-value database. Like jDb, there are some "profiles", stored in the @@F@profiles.ini.php@@ file (See [[config#the-profiles.ini.php-file|the corresponding chapter]]), where you define parameters to connect to these databases.
+You have a @@C@jKVDb@@ from which you retrieve a connector to a key-value
+database. Like jDb, there are some "profiles", stored in the
+@@F@profiles.ini.php@@ file (See [[config#the-profiles.ini.php-file|the
+corresponding chapter]]), where you define parameters to connect to these
+databases.
 
-jKVDb works with some "drivers" to access to "key-value" data. Jelix provides drivers for simple files (file and file2), memcache, redis, and... sql. See below for more informations about this drivers.
+jKVDb works with some "drivers" to access to "key-value" data. Jelix provides
+drivers for simple files (file and file2), memcache, redis, and... sql. See
+below for more informations about this drivers.
 
 
 ===== Configuration =====
 
-As for jDb, @@F@profiles.ini.php@@ contains some section, one for each databases you want to access. Each section should contain at least, one parameter, @@driver@@, indicating the name of the driver to use. Other parameters should be set, depending on the driver.
+As for jDb, @@F@profiles.ini.php@@ contains some section, one for each databases
+you want to access. Each section should contain at least, one parameter,
+@@driver@@, indicating the name of the driver to use. Other parameters should be
+set, depending on the driver.
 
 The connection type to indicate in profile names is @@jkvdb@@.
 
 
 ===== Accessing to a database =====
 
-You must call @@jKVDb::getConnection()@@, by giving eventually a profile (else the profile "default" is used). You retrieve an object inheriting from @@C@jKVDriver@@.
+You must call @@jKVDb::getConnection()@@, by giving eventually a profile (else
+the profile "default" is used). You retrieve an object inheriting from
+@@C@jKVDriver@@.
 
-With this object, you can access and modify the content of the key-value database. Here are some methods you can call:
+With this object, you can access and modify the content of the key-value
+database. Here are some methods you can call:
 
 
-   * @@M@get($key)@@: to retrieve the value corresponding to the given key.
+   * @@M@get($key)@@: to retrieve the value corresponding to the given key. Returns null if the key does not exists.
    * @@M@set($key, $value)@@: to store a new value or modify an existing value
    * @@M@insert($key, $value)@@: to store a new value. return false if the key already exists
    * @@M@replace($key,$value)@@: to change the value of the corresponding key. If the key doesn't exist, it returns false.
@@ -76,7 +89,8 @@ This driver supports the @@I@jIKVttl@@ interface.
 
 ==== redis ====
 
-This driver allows to access to a Redis database. It uses the library php5redis. For the configuration, indicate a @@host@@ and a @@port@@ parameter.
+This driver allows to access to a Redis database. It uses the library php5redis.
+For the configuration, indicate a @@host@@ and a @@port@@ parameter.
 
 <code ini>
 [jkvdb:myredis]
@@ -87,6 +101,10 @@ port = 6379
 
 This driver supports the @@I@jIKVttl@@ interface.
 
+Since Jelix 1.6.8, it supports also these parameters:
+
+   * @@key_prefix@@ : a prefix which will be added on each key
+   * @@db@@ : the database number in Redis (0 by default)
 
 ==== db ====
 
@@ -127,7 +145,8 @@ This driver supports the @@I@jIKVttl@@ interface.
 
 ==== file2 ====
 
-It is a driver similar to the "file" driver, but it is less sophisticated. It has no configuration parameters and store files into @@F@temp/filekv/@@.
+It is a driver similar to the "file" driver, but it is less sophisticated. It
+has no configuration parameters and store files into @@F@temp/filekv/@@.
 
 You must use it only for temporary values.
 
