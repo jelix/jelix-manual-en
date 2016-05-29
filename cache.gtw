@@ -3,14 +3,15 @@
 Caching data or parts of an HTML page allows to increase performance of your
 web site, and even to avoid to send data to the browser in some case.
 
-You probably saw [[/zones#using the cache|how to put zone content in cache]]. You will see
-here how to put any data in a cache system, and how to use HTTP cache.
+You probably saw [[/zones#using the cache|how to put zone content in cache]].
+You will see here how to put any data in a cache system, and how to use HTTP
+cache.
 
 
 ===== jCache =====
 
-jCache is a class to store any data in a cache system like memcache. It supports
-other kind of storage like files or a SQL database.
+jCache is a class to store any data in a cache system like memcache, Redis... It
+supports other kind of storage like files or a SQL database.
 
 Note that jCache doesn't use jKVDb as a backend, but it could use it in next versions.
 
@@ -59,6 +60,35 @@ enabled=1
 servers = memcache_host1:11211,memcache_host2:11211,memcache_host3:11211
 </code>
 
+=== Redis backend ===
+
+This driver stores data in a Redis database, and use a pure PHP class, PHP5Redis
+to communicate with Redis.
+
+Possible parameters:
+
+
+   * @@host@@ : name or ip of the Redis server
+   * @@port@@ : network port
+   * @@key_prefix@@ : a prefix which will be added on each key
+   * @@db@@ : the database number in Redis (0 by default)
+
+Example:
+
+<code>
+[jcache:myredis]
+driver=redis
+ttl=360
+enabled=1
+host=192.168.0.1
+port=6379
+db=0
+key_prefix=
+</code>
+
+Note: this backend has been introduces in Jelix 1.6.7.
+
+
 
 === file backend ===
 
@@ -71,7 +101,7 @@ It is similar to the file driver of jKVDb. Here are its configuration parameters
     directory structure", 1 means "one level of directory", 2 means "two
     levels"...
   * @@directory_umask@@: umask for directory structure (default '0700') 
-  * @@file_name_prefix@@: prefix for cache files (default 'jelix_cache')
+  * @@file_name_prefix@@: prefix for cache files (default 'jelix_cache'). Since Jelix 1.6.8, it is used as prefix for the root directory of the cache.
   * @@cache_file_umask@@: umask for cache files (default '0600')
 
 === sql backend ===
@@ -93,7 +123,7 @@ Configuration parameters:
 
 To store and read from the cache system, call one of the static methods of jCache.
 
-   * @@M@jCache::get($key)@@: to retrieve the value corresponding to the given key.
+   * @@M@jCache::get($key)@@: to retrieve the value corresponding to the given key. False means that the key does not exist.
    * @@M@jCache::set($key, $value, $ttl)@@: to store a new value or modify an existing value. $ttl is optional
    * @@M@jCache::delete($key)@@: delete the given key-value
    * @@M@jCache::increment($key)@@: increment the value. You can indicate also the value of the incrementation
@@ -111,7 +141,7 @@ To store and read from the cache system, call one of the static methods of jCach
 
 All this static methods accept as last argument a profile. By default, the "default" profile will be used.
 
-
+Only these charaacters should be used for key names : letters, numbers, @@/@@, @@_@@, @@-@@, @@:@@, @@.@@.
 
 
 ===== jResponse and HTTP cache =====

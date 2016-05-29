@@ -84,5 +84,3 @@ there are available with the Jelix package via Composer dependencies.
   * FakeServerConf, Minify, PHPMailer  are now installed via Composer
   * In testapp, a new application "adminapp" is available to test admin modules
 
-
-

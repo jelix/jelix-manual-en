@@ -1,10 +1,12 @@
 ~~LANG:FR@frman:droits2/configuration~~
 
-Before using jAcl2 API and its db driver, you have to setup a database and fill it with elements composing rights.
+Before using jAcl2 API and its "db" driver (or "dbcache"), you have to setup a
+database and fill it with elements composing rights.
 
 ===== Installation =====
 
-jAcl2.db driver requires a database to work. You have to create it with the needed tables and setup a connection profile.
+jAcl2.db driver (or jAcl2.dbcache) requires a database to work. You have to
+create it with the needed tables and setup a connection profile.
 
 === Connection configuration ===
 
@@ -254,8 +256,7 @@ group	subject		resource
 		-
 </code>
 
-Since Jelix 1.4.1, "-" for a resource means "no resource". So the indicated right is a right that is not applied on a resource.
-Before Jelix 1.4.1, the resource field was empty for this case.
+"-" for a resource means "no resource". So the indicated right is a right that is not applied on any resource.
 
 Now, you want to deal with writers and give them all rights on @@L@cms.articles@@.
 
