@@ -310,7 +310,8 @@ Note: since Jelix 1.5, architecture of generators has been modified. But it
 is still possible to use olders generators. To use them, you should
 prefix their name with "legacy.". For example, to use  the deprecated
 builder 'htmllight', indicate 'legacy.htmllight'. Read manual of previous
-version of Jelix to know how to use them.
+version of Jelix to know how to use them. Note that these generators are
+deprecated and will be removed from Jelix 1.7.
 
 To specify your own generator for th whole application, modify this parameter
 in the configuration:

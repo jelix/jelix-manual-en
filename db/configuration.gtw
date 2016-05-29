@@ -68,9 +68,11 @@ Possible parameters:
 
 Possible parameters:
 
-   * **driver** : should be "sqlite3" (or "sqlite" for legacy sqlite2 databases)
-   * **database** : the database file.
-   * **persistent** : says if the connection should be persistent ("on") or not ("off")
+   * **driver**: should be "sqlite3" (or "sqlite" for legacy sqlite2 databases)
+   * **database**: the database file.
+   * **persistent**: says if the connection should be persistent ("on") or not ("off")
+   * **extensions**: list of sqlite extension to load (separated by a coma)
+   * **busytimeout**: integer for the busytimeout option of Sqlite
 
 For the database file, you can use 3 syntaxes:
 
