@@ -70,8 +70,9 @@ Possible parameters:
 
    * @@host@@ : name or ip of the Redis server
    * @@port@@ : network port
-   * @@key_prefix@@ : a prefix which will be added on each key
    * @@db@@ : the database number in Redis (0 by default)
+   * @@key_prefix@@ : a prefix which will be added on each key
+   * @@key_prefix_flush_method@@: the method to delete keys when a prefix is indicated.
 
 Example:
 
@@ -84,10 +85,43 @@ host=192.168.0.1
 port=6379
 db=0
 key_prefix=
+key_prefix_flush_method=
 </code>
 
 Note: this backend has been introduces in Jelix 1.6.7.
 
+If you indicate a prefix, all keys you indicate to jCache will be prefixed
+by the key_prefix value into the Redis database.
+
+Moreover, when the cache is asked to be flushed, only keys having the prefix
+will be deleted. However, because of how Redis is working, it may be very slow,
+and then "freeze" your application.
+
+So the plugin implements different methods to do the flush in this case. You
+indicate the method into the @@key_prefix_flush_method@@ parameter:
+
+   * @@direct@@ : keys are deleted directly. This is the default behavior, but
+     should not use it if you know that your database could have hundred keys.
+   * @@jcacheredisworker@@ : the deletion will be made asynchronously by a
+     worker or a cron script. See details below.
+   * @@event@@ : if you want an other behavior, you should implement it (and it
+     is better if it is an asynchronous process). Then you can notify your
+     implementation by listening the @@jCacheRedisFlushKeyPrefix@@ event jEvent.
+     This event contains the profile name and the prefix of keys to delete.
+
+How is the @@jcacheredisworker@@ method working?
+
+When a flush is asked, the plugin only stores the prefix into a Redis list,
+named @@jcacheredisdelkeys@@. A worker (a process that run aside the web server)
+or a cron script (a script that is launched by the server periodically), should
+then remove these prefixes from the list and delete corresponding keys.
+
+You have an example of a such worker in @@F@lib/jelix/core-modules/jelix/controller/redisworker.cmdline.php@@.
+You can launch it with systemd/sysinit/supervisord for example. The command is:
+@@php myapp/scripts/script.php jelix~redisworker:deljcache <profile>@@.
+Replace @@<profile>@@ by the profile name of the cache. It waits after incoming
+prefixes in the list, and delete corresponding keys. If you launch it by hand on
+the command line, just hit @@<ctrl>+C@@ to stop it.
 
 
 === file backend ===
