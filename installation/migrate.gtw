@@ -28,6 +28,11 @@ As usual, you must remove every files into the @@F@temp/yourapp/@@ directory.
 ==== Other stuffs ====
 
 
+There are many things to do, but it is not documented. If you can read french,
+read the french manual.
+
+
+
 ==== Upgrading your modules ====
 
   * update sources of vendor's modules that you have installed, with version compatible with Jelix 1.7.
