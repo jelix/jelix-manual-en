@@ -205,12 +205,23 @@ If @@on_error=2@@, auth plugin will execute action selected by @@on_error_action
 
 ==== Authentication persistence ====
 
-jAuth offers a way to create authentication persistence. In other words, a user will authenticate once and on every other visits, he will be automatically authenticated. This is done by a cookie which stores some user information. Even a part of them are encrypted. 
+jAuth offers a way to create authentication persistence. In other words, a user
+will authenticate once and on every other visits, he will be automatically
+authenticated. This is done by a cookie which stores some user information
+that are encrypted.
 
 To configure persistence use the parameters below:
 
    * @@persistant_enable@@: set it to @@L@on@@ to activate authentication persistence
-   * @@persistant_crypt_key@@: this one is mandatory. You **must** replace its default value ! It is a string composed of arbitrary chars (its length should over 10). It will be used as an encrypt key for cookie datas. If you change key value, be aware that all users will have to re-authenticate to benefit of persistence.
+   * @@persistant_crypt_key@@: this one is mandatory. Since 1.6.8 it is filled
+     automatically by the installer, with a random key, and is stored into
+     the section @@coordplugin_auth@@ of the localconfig.ini.php file. It will
+     be used as an encrypt key for cookie datas. If you change key value, be
+     aware that all users will have to re-authenticate to benefit of persistence.
+
+**Warning**: until Jelix 1.6.7, this parameter is stored into the jAuth configuration
+file, and you **must** replace its default value! I you upgrade to Jelix 1.6.8
+and higher, the update script will change and move correctly its value.
 
 Other less important parameters:
 
