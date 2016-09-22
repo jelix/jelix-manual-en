@@ -2,9 +2,9 @@
 
 <bookinfo>
 title = Developer manual
-subtitle= Jelix 1.6.9
+subtitle= Jelix 1.6.10
 title_short= Developer manual
-edition = Jelix 1.6.9
+edition = Jelix 1.6.10
 author=Laurent|Jouanneau
 author=Dominique|Papin
 author=Afroxav
@@ -14,8 +14,6 @@ copyright_holder=Laurent Jouanneau
 copyright_holder=Dominique Papin
 copyright_holder=All jelix.org wiki contributors
 </bookinfo>
-
-Download [[http://download.jelix.org/jelix/releases/1.6.x/1.6.2/jelix-manual-1.6.2.pdf|the manual in PDF format]] (deprecated).
 
 <bookcontents>
 - part: [[introduction|Introduction]]
