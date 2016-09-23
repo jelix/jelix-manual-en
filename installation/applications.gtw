@@ -48,7 +48,7 @@ Create the @@F@mysite/temp/testapp@@ directory. Perhaps your application contain
 
 You have to configure the web server (virtual host, with a document root..), and to configure certainly a SQL database.
 
-Read [[/server-configuration|the corresponding chapter]] before continuing.
+Read [[server-configuration|the corresponding chapter]] before continuing.
 
 
 ===== Installing the application =====

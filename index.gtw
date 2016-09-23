@@ -25,9 +25,9 @@ Download [[http://download.jelix.org/jelix/nightly/1.7.x/jelix-manual-1.7.pdf|th
 - part: [[getting-started|Getting started]]
   - chapter: [[installation/requirements|Install requirements]]
   - chapter: [[installation/jelix|Install Jelix]]
+  - chapter: [[installation/create-application|Creating an application]]
+  - chapter: [[installation/server-configuration|Server configuration]]
   - chapter: [[jelix-scripts|Using jelix scripts]]
-  - chapter: [[create-application|Creating an application]]
-  - chapter: [[server-configuration|Server configuration]]
 
 - part: [[main-concepts|Fundamental]]
    - chapter: [[core|Core workflow]]

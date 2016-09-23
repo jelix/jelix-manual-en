@@ -33,7 +33,7 @@ An url is made of different parts :
 The url engines analyze the pathinfo and the parameters to determine the module/action.
 
 You can have to configure some options in Apache. See
-[[/server-configuration#configuration-for-cools-urls|apache configuration]].
+[[/installation/server-configuration#configuration-for-cools-urls|apache configuration]].
 
 ===== Configuration =====
 
