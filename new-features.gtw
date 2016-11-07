@@ -76,4 +76,19 @@ Improvements provided by 1.6.8
   * Redis jKvDb driver: support of db index and key prefixes options
   * new method jInstallerEntryPoint::getEpConfigIni()
 
+Improvements provided by 1.6.9 :
+
+  * jForms, HtmlBuilder: possibility to redefine the display of errors with
+    the @@ouputError()@@ method, in child classes.
+  * Possibility to declare the path of a single module (outside from a modules group),
+    with the @@<module>.path@@ parameter of the section @@modules@@.
+
+Improvements provided by 1.6.11 :
+
+  * jAuth: support of an action for errors in Ajax requests, with the
+    @@on_ajax_error_action@@ parameters (see default configuration of the "jauth"
+    plugin).
+  * jDb, mysqli : support of SSL connections.
+
+
 Main contributors of Jelix 1.6:  Olivier Demah, Philippe Villiers, Eric D., JulienI, Couac, Brice Tence, Khena, René-luc D'hont.

@@ -76,6 +76,21 @@ markup controlling the display of your form. Arguments for @@form@@ are :
       * the name of the builder ('html' by default)
       * an array containing options for the builder
 
+<code php>
+ {form $myform, 'mymodule~default:save',
+  array('parameter1' => 'foo', 'parameter2' => 'bar'},
+  'html',
+  array(
+     'attributes' =>
+         array('class' => 'css_class_on_form_element',
+               'otherHtmlAttribute' => 'value'),
+     'errorDecorator' => 'myErrorDecorator',
+     'plugins' => array(
+         'myTextField' => 'pluginForTextField',
+         'myDateField' => 'pluginForDateField')
+  )}
+</code>
+
 
 Note: As for the formfull plugin, there are some limitations in the plugin form
 and the template engine, so don't use the plugin inside a loop, where the

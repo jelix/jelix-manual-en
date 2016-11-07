@@ -46,6 +46,12 @@ Possible parameters:
      connection. Try to set it to "on" if you have some encoding issues with your
      retrieved data.
 
+For mysqli, since Jelix 1.6.11, it is possible to configure a SSL access:
+
+   * **ssl** : 0 or 1. Activate or not the SSL connection
+   * **ssl_key_pem** : path to the private SSL key
+   * **ssl_cert_pem** : path to the SSL certificat
+   * **ssl_cacert_pem** : path to the certificat of the certificat authority.
 
 ===== postgresql profile =====
 

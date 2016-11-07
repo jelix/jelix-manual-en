@@ -5,6 +5,8 @@ A module is a directory with a precise file-system hierarchy. Modules are
 groupped in one or several directories called //modules group//, or repository
 of modules.
 
+Since Jelix 1.6.9, it is also possible to declare some modules
+outside from modules group.
 
 ===== Declaring a modules group =====
 
@@ -34,6 +36,22 @@ It declares two module groups :
   * @@F@modules@@, subdirectory of your application path.
 
 Modules from both directories could be activated and installed in your application.
+
+===== Declaring a single module =====
+
+Since Jelix 1.6.9, it is possible to have a module outside a modules group (for
+example, in a Composer package). So you can indicate its path directly into
+the Jelix configuration.
+
+It is done into the @@modules@@ section (and not in @@modulesPath@@), with a
+parameter @@.path@@:
+
+<code ini>
+[modules]
+my_module.access = 2
+my_module.path = app:vendor/my_vendor_name/my_package/the_module
+</code>
+
 
 ===== Directories of a module =====
 
