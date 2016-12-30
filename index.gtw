@@ -167,7 +167,6 @@ Download [[http://download.jelix.org/jelix/nightly/1.7.x/jelix-manual-1.7.pdf|th
         - section: [[ref-plugins/tplplugins/metas|Meta]]
    - chapter: [[ref-plugins/coordplugins|Coordinator plugins]]
       - section: [[coordplugins/history|history]]
-      - section: [[coordplugins/zendframework|zendframework]]
    - chapter: [[ref-modules|Jelix modules]]
       - section: [[ref-modules/master_admin|master_admin]]
    - chapter: [[ref-javascript-library|Javascript Librairies]]
