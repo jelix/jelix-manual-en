@@ -92,7 +92,7 @@ Download [[http://download.jelix.org/jelix/nightly/1.7.x/jelix-manual-1.7.pdf|th
      - section: [[jforms/after-submit|Using a form after a submit]]
      - section: [[jforms/data-display|display only form values]].
      - section: [[jforms/security|Security in forms]].
-   - chapter: [[bd|jDb: accessing to SQL database]]
+   - chapter: [[db|jDb: accessing to SQL database]]
      - section: [[db/configuration|Profiles and configuration]]
      - section: [[db/queries|Executing queries]]
      - section: [[db/tools|Schemas and tools]]
