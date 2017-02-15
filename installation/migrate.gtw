@@ -48,7 +48,7 @@ You should verify that your pages showing form contents are still good.
      * In @@F@module.xml@@ files, indicate that the module is compatible with Jelix 1.6 (change the attributes @@A@maxversion@@). Example:
 
 <code xml>
-        <jelix minversion="1.4" maxversion="1.6.*"/>
+        <jelix minversion="1.6" maxversion="1.6.*"/>
 </code>
 
 See [[/new-features|the detailed changelog]] to know what are the new classes and methods you can use.
