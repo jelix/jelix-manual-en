@@ -112,5 +112,6 @@ See details in [[refclass:dao/jDaoGenerator|jDaoGenerator API reference]] .
 
 ==== Existing drivers  ====
 
-@@F@lib/jelix/plugins/db/@@ contains all jelix standard drivers : mysql, postgresql, sqlite, mssql, intuition. 
+@@F@lib/jelix/plugins/db/@@ contains all jelix standard drivers :
+mysql, postgresql, sqlite3, mssql, sqlsrv, oci.
 

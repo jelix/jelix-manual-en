@@ -499,11 +499,11 @@ mod_rewrite module of apache.
 
 For example, you want to have
 <code>
-   http://monsite.com/news/2007-02-08-il-neige-a-lille.html
+   http://monsite.com/news/2017-02-08-il-neige-a-lille.html
 </code>
 instead of
 <code>
-   http://monsite.com/index.php/news/2007-02-08-il-neige-a-lille.html
+   http://monsite.com/index.php/news/2017-02-08-il-neige-a-lille.html
 </code>
 
 First, in the @@F@urls.xml@@ file, put the attribute @@A@noentrypoint="true"@@

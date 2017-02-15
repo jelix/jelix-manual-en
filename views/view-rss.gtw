@@ -17,10 +17,10 @@ For example:
 <code php>
    $resp->infos->title = 'Jelix news';
    $resp->infos->webSiteUrl= 'http://jelix.org/';
-   $resp->infos->copyright = 'Copyright 2006-2008 jelix.org';
+   $resp->infos->copyright = 'Copyright 2017 jelix.org';
    $resp->infos->description = 'News about Jelix, fresh meat for hairy trolls.';
-   $resp->infos->updated = '2007-06-08 12:00:00';
-   $resp->infos->published = '2007-06-08 12:00:00';
+   $resp->infos->updated = '2017-06-08 12:00:00';
+   $resp->infos->published = '2017-06-08 12:00:00';
    $resp->infos->ttl = 60;
 </code>
 

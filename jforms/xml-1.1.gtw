@@ -529,20 +529,22 @@ The @@E@<choice>@@ element accept @@E@<help>@@, @@E@<hint>@@, @@E@<alert>@@, as 
 
 ==== Captcha ====
 
-In some contexts, it is necessary to verify that the form is filled by a human, not by a spammer robot.
+In some contexts, it is necessary to verify that the form is filled by a human,
+not by a spammer robot.
 
-JForms provides the element  @@E@<captcha>@@ to include a field which will do this verification. For the moment, it is not an image like in some websites, but a simple text field in which the user should give a response to a simple question asked by jForms.
+JForms provides the element  @@E@<captcha>@@ to include a field which will do
+this verification.
 
-The use of the captcha element is very simple, an has no specific attributes.
+The use of the captcha element is very simple:
+
 <code xml>
  <captcha ref="antispam">
     <label>Vérification anti-spam</label>
  </captcha>
 </code>
 
-Questions and answers are stored in a locale file, in the module jelix. For example, for english questions, this is @@F@lib/jelix/core-modules/jelix/locales/en_US/captcha.UTF-8.properties@@. This file contains a first locale, @@number@@, which contains the number of question. And it is followed by locales which contain the questions and the answers. You can redefine this file to add or modify questions/answers.
+To know more on this control and to configure it, see [[xml-1.1/captcha|the dedicated section]].
 
-See [[/overloads|the chapter on the redefinition of files]].
 
 ==== Submit button ====
 

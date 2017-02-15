@@ -17,9 +17,9 @@ For example:
 <code php>
    $rep->infos->title = 'Jelix news';
    $rep->infos->webSiteUrl= 'http://jelix.org/en/';
-   $rep->infos->copyright = 'Copyright 2006-2007 jelix.org';
+   $rep->infos->copyright = 'Copyright 2017 jelix.org';
    $rep->infos->description = 'News about Jelix, fresh meat for hairy trolls.';
-   $rep->infos->updated = '2007-06-08 12:00:00';
+   $rep->infos->updated = '2017-06-08 12:00:00';
    $rep->infos->selfLink=jUrl::get();
 </code>
 

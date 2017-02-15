@@ -118,7 +118,7 @@ You can then modify it by changing different values. If you want different value
 
 <code ini>
 [myapp]
-incofCopyright=2012 my company
+incofCopyright=2017 my company
 </code>
 
 

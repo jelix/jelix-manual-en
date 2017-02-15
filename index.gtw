@@ -2,20 +2,18 @@
 
 <bookinfo>
 title = Developer manual
-subtitle= Jelix 1.7.0a1pre
+subtitle= Jelix 1.7.0-beta.2
 title_short= Developer manual
-edition = Jelix 1.7.0a1pre
+edition = Jelix 1.7.0-beta.2
 author=Laurent|Jouanneau
 author=Dominique|Papin
 author=Afroxav
 author=|All jelix.org wiki contributors||
-copyright_years=2006-2016
+copyright_years=2006-2017
 copyright_holder=Laurent Jouanneau
 copyright_holder=Dominique Papin
 copyright_holder=All jelix.org wiki contributors
 </bookinfo>
-
-Download [[http://download.jelix.org/jelix/nightly/1.7.x/jelix-manual-1.7.pdf|the manual in PDF format]].
 
 <bookcontents>
 - part: [[introduction|Introduction]]
@@ -83,6 +81,7 @@ Download [[http://download.jelix.org/jelix/nightly/1.7.x/jelix-manual-1.7.pdf|th
    - chapter: [[jforms|jForms: automatic forms]]
      - section: [[jforms/xml|jForms file format]]
      - section: [[jforms/xml-1.1|Creating a jforms file]]
+        -section: [[jforms/xml-1.1/captcha|Captcha]]
         -section: [[jforms/xml/htmleditor|HTML editor]]
         -section: [[jforms/xml-1.1/datepicker|Datepickers]]
         -section: [[jforms/xml/wikieditor|Wiki editor]]

@@ -40,7 +40,7 @@ read the french manual.
      * In @@F@module.xml@@ files, indicate that the module is compatible with Jelix 1.7 (change the attributes @@A@maxversion@@). Example:
 
 <code xml>
-        <jelix minversion="1.4" maxversion="1.7.*"/>
+        <jelix minversion="1.6" maxversion="1.7.*"/>
 </code>
 
 See [[/new-features|the detailed changelog]] to know what are the new classes and methods you can use, deprecated components etc...

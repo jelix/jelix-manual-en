@@ -1,7 +1,10 @@
 ~~LANG:FR@frman:installation/prerequis~~
 
-You must install at least the 5.3 version of PHP. The **dom**, **simplexml**,
-**pcre**, **session**, **tokenizer** and **spl** extensions are required (they
+You must install at least the 5.3 version of PHP.
+Jelix is compatible with PHP 7.0 as of version 1.6.9, and with PHP 7.1 as of
+version 1.6.14.
+
+The **dom**, **simplexml**, **pcre**, **session**, **tokenizer** and **spl** extensions are required (they
 are generally turned on in a standard PHP 5.3 installation).
 
 Note about DOM and XML: verify that the [[http://www.php.net/manual/en/intro.dom.php|DOM extension]]
@@ -10,7 +13,7 @@ is **not** installed. Some distribution includes both (or only DOM-XML), and
 then there are some PHP errors within Jelix.
 
 You can install a database connector too. Jelix deals with mysql 4.1+, postgresql 8.0+,
-sqlite, Oracle (oci) and PDO.
+sqlite, Oracle (oci), SQL server and PDO.
 
 **To test the compatibility of your server** with Jelix, install the file
 @@F@lib/jelix_check_server.php@@ provided into the jelix archive, on your web hosting

@@ -38,7 +38,7 @@ lists of date and time formats accepted by jDateTime:
 | jDateTime::DB_TFORMAT | time format of classic database style: "HH:mm:SS" |
 | jDateTime::ISO8601_FORMAT | ISO8601 format |
 | jDateTime::TIMESTAMP_FORMAT | integer, number of seconds since 1/1/1970 |
-| jDateTime::FULL_LANG_DATE | full format date (i.e. day of week and month in letter) respecting language conventions (ex: thursday, may 27th 2010) |
+| jDateTime::FULL_LANG_DATE | full format date (i.e. day of week and month in letter) respecting language conventions (ex: thursday, may 27th 2017) |
 
 
 Note: LANG_* formats are converted by jDateTime based on locales **format** file located in jelix module and current lang selected by your application.
@@ -48,7 +48,7 @@ Example :
 <code php>
   $dt = new jDateTime();
 
-  $dt->setFromString("2006-04-10",jDateTime::DB_DFORMAT);
+  $dt->setFromString("2017-04-10",jDateTime::DB_DFORMAT);
 
   echo "your date is ", $dt->year, ",", $dt->month, ",", $dt->day, ",", $dt->hour, ",", $dt->minute, ",", $dt->second;
 
@@ -62,7 +62,7 @@ You'll have noticed all member properties representing elements of a date.
   $dt = new jDateTime();
   $dt->defaultFormat = jDateTime::DB_DFORMAT;
 
-  $dt->setFromString("2006-04-10");
+  $dt->setFromString("2017-04-10");
 </code>
 
 ===== Convert date-time to string =====
@@ -78,17 +78,17 @@ You'll have noticed all member properties representing elements of a date.
 **sub** and **add** methods does substract or add duration to a date.
 <code php>
   $dt = new jDateTime();
-  $dt->setFromString("2006-04-10",jDateTime::DB_DFORMAT);
+  $dt->setFromString("2017-04-10",jDateTime::DB_DFORMAT);
 
   // substract 2 days
   $dur1 = new jDuration(array('day'=>2));
   $dt->sub($dur1);
-  echo $dt->toString(jDateTime::DB_DFORMAT); // displays 2006-04-08
+  echo $dt->toString(jDateTime::DB_DFORMAT); // displays 2017-04-08
 
   // add 27h15 hours
   $dur2 = new jDuration(array('hour'=>27, 'minute'=>15));
   $dt->add($dur2);
-  echo $dt->toString(jDateTime::DB_DTFORMAT); // displays 2006-04-09 03:15:00
+  echo $dt->toString(jDateTime::DB_DTFORMAT); // displays 2017-04-09 03:15:00
 
 </code>
 
@@ -96,10 +96,10 @@ You'll have noticed all member properties representing elements of a date.
 
 <code php>
   $dt = new jDateTime();
-  $dt->setFromString("2006-04-10",jDateTime::DB_DFORMAT);
+  $dt->setFromString("2017-04-10",jDateTime::DB_DFORMAT);
 
   $dt2 = new jDateTime();
-  $dt2->setFromString("2006-04-12",jDateTime::DB_DFORMAT);
+  $dt2->setFromString("2017-04-12",jDateTime::DB_DFORMAT);
 
   // duration between $dt and $dt2
   $dt3 = $dt->durationTo($dt2);
@@ -116,10 +116,10 @@ it is now possible to do some subtraction of dates by using the function substra
 
 <code php>
   $dt = new jDateTime();
-  $dt->setFromString("2006-04-10",jDateTime::DB_DFORMAT);
+  $dt->setFromString("2017-04-10",jDateTime::DB_DFORMAT);
 
   $dt2 = new jDateTime();
-  $dt2->setFromString("2006-04-12",jDateTime::DB_DFORMAT);
+  $dt2->setFromString("2017-04-12",jDateTime::DB_DFORMAT);
 
   $result = $dt->compareTo($dt2);
 </code>

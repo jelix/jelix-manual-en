@@ -89,12 +89,20 @@ This driver supports the @@I@jIKVttl@@ interface.
 
 ==== redis ====
 
-This driver allows to access to a Redis database. It uses the library php5redis.
+This driver allows to access to a Redis database.
+
+In fact, there are two plugins:
+
+   * "redis_php": it uses a pure PHP class, PHPRedis to communicate with Redis.
+     (this plugin was named "redis" before Jelix 1.6.14)
+   * "redis_ext": it uses the API of the PHP extension Redis (plugin introduced
+     into Jelix 1.6.14)
+
 For the configuration, indicate a @@host@@ and a @@port@@ parameter.
 
 <code ini>
 [jkvdb:myredis]
-driver=redis
+driver=redis_php
 host = localhost
 port = 6379
 </code>

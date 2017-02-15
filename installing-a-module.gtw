@@ -1,8 +1,30 @@
 ~~LANG:FR@frman:installer-un-module~~
 
-This section is not targeting new modules created with the @@c@createmodule@@ command, as this command activate and install the new module except if you want to change the access level.
+This section is not targeting new modules created with the @@c@createmodule@@
+command, as this command activate and install the new module except if you want
+to change the access level.
 
-You should read this section if you want to create manually a module, or to install an existing module, provided with Jelix or by an other project.
+You should read this section if you want to create manually a module, or to
+install an existing module, provided with Jelix or by an other project.
+
+
+===== Declaring a single module =====
+
+In the chapter about the module creation, we saw taht we could declare directories
+of several modules (modules groups), in the @@modulesPath@@ parameter.
+
+Since Jelix 1.6.9, it is possible to have a module outside a modules group (for
+example, in a Composer package). So you can indicate its path directly into
+the Jelix configuration.
+
+It is done into the @@modules@@ section (and not in @@modulesPath@@), with a
+parameter @@.path@@:
+
+<code ini>
+[modules]
+my_module.access = 2
+my_module.path = app:vendor/my_vendor_name/my_package/the_module
+</code>
 
 ===== Access level of a module =====
 
