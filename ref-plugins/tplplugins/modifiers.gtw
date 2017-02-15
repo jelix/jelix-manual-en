@@ -107,10 +107,10 @@ Without parameter, this modifier expect a database string format(jDateTime::BD_D
   <p>this date are {$myDate|jdatetime}.</p>
 </code>
 
-if $myDate='2006-04-12 01:05:26' an if language are en, then it display
+if $myDate='2017-04-12 01:05:26' an if language are en, then it display
 
 <code>
- this date are 12/04/2006 01h05mn26s.
+ this date are 12/04/2017 01h05mn26s.
 </code>
 
 To use another formats, you have to use one of this string in modifier parameter :
@@ -124,7 +124,7 @@ To use another formats, you have to use one of this string in modifier parameter
 | 'db_time' | jDateTime::DB_TFORMAT | timeof classic database style : "HH:mm:SS" |
 | 'iso8601' | jDateTime::ISO8601_FORMAT | format ISO8601 |
 | 'timestamp' | jDateTime::TIMESTAMP_FORMAT | integer, number of seconds since 1/1/1970 (timestamp) |
-| 'full_lang_date' | jDateTime::FULL_LANG_DATE | full format date (i.e. day of week and month in letter) respecting language conventions (ex: thursday, may 27th 2010) |
+| 'full_lang_date' | jDateTime::FULL_LANG_DATE | full format date (i.e. day of week and month in letter) respecting language conventions (ex: thursday, may 27th 2017) |
 
 
 The first parameter is the format of date string to convert, the second one, the format to display.
@@ -132,7 +132,7 @@ The first parameter is the format of date string to convert, the second one, the
   <p>this date are {$myDate|jdatetime:'db_date':'timestamp'}.</p>
 </code>
 
-if $myDate='2006-04-15' then it display
+if @@$myDate='2006-04-15'@@ then it display
 
 <code>
  this date are 1145052000.

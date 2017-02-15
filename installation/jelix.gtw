@@ -1,11 +1,13 @@
 ~~LANG:FR@frman:installation/sources~~
 
-Jelix is provided in the form of a tar.gz or zip file. This file contains a @@F@jelix/lib@@ directory which contains all the files of the framework and the dependent libraries, as well as a @@F@jelix/temp@@ directory. 
+Jelix is provided in the form of a tar.gz or zip file. This file contains a
+@@F@jelix/lib@@ directory which contains all the files of the framework and the
+dependent libraries, as well as a @@F@jelix/temp@@ directory.
 
 Extract the file with software like winzip, unzip or tar.
 
 <code bash>
-  tar xvzf jelix_1.3.tar.gz
+  tar xvzf jelix-1.6.14-opt.tar.gz
 </code>
 
 You get the following directories : 
