@@ -5,7 +5,7 @@ Jelix has an abstract database access system : jDb. jDb provides an API common t
   * postgresql
   * sqlite
   * oci (oracle)
-  * mssql (experimental)
+  * mssql and sqlsrv (experimental)
 
 And also the last one, pdo, allowing to specify to jDb to use pdo instead of the abstract classes internal to jDb.
 

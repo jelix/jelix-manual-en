@@ -70,7 +70,7 @@ Improvements provided by 1.6.8
   * jAcl2: new driver dbcache. It is like the db driver, but it also stores
     results in a cache via jCache to improve performance.
   * jCache: allows char '/.-:' in keys. Modify cache file storage.
-* For file driver of jCache, the tree structure of cache files has changed to have smaller path. file_name_prefix is now used as directory name, not prefix filename.
+  * For file driver of jCache, the tree structure of cache files has changed to have smaller path. file_name_prefix is now used as directory name, not prefix filename.
   * Redis plugin for jCache: support key prefixes with the new key_prefix option
   * Redis plugin for jCache: support db indexes with the new db option
   * Redis jKvDb driver: support of db index and key prefixes options
@@ -89,6 +89,16 @@ Improvements provided by 1.6.11 :
     @@on_ajax_error_action@@ parameters (see default configuration of the "jauth"
     plugin).
   * jDb, mysqli : support of SSL connections.
+
+Improvements provided by 1.6.14 :
+
+  * Plugins "redis" for jCache and jKvdb have been renamed "redis_php"
+  * new Redis plugins, named “redis_ext”, for jCache and jKvDb, using the API
+    of the Redis extension.
+  * New experimental jDb driver, sqlsrv, for SQLServer, using the sqlsrv PHP API.
+  * jForms: the captcha control is now configurable, so you can implement your
+    own Captcha. See [[jforms/xml-1.1/captcha|the Captcha page]].
+  * New catcha plugin: Recaptcha
 
 
 Main contributors of Jelix 1.6:  Olivier Demah, Philippe Villiers, Eric D., JulienI, Couac, Brice Tence, Khena, René-luc D'hont.

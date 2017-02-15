@@ -62,11 +62,17 @@ servers = memcache_host1:11211,memcache_host2:11211,memcache_host3:11211
 
 === Redis backend ===
 
-This driver stores data in a Redis database, and use a pure PHP class, PHP5Redis
-to communicate with Redis.
+This driver stores data in a Redis database.
+
+In fact, there are two plugins:
+
+   * "redis_php": it uses a pure PHP class, PHPRedis to communicate with Redis.
+     (plugin introduced into Jelix 1.6.8 under the name "redis" and renamed to
+      "redis_php" in Jelix 1.6.14)
+   * "redis_ext": it uses the API of the PHP extension Redis (plugin introduced
+     into Jelix 1.6.14)
 
 Possible parameters:
-
 
    * @@host@@ : name or ip of the Redis server
    * @@port@@ : network port
@@ -78,7 +84,7 @@ Example:
 
 <code>
 [jcache:myredis]
-driver=redis
+driver=redis_php
 ttl=360
 enabled=1
 host=192.168.0.1
@@ -87,8 +93,6 @@ db=0
 key_prefix=
 key_prefix_flush_method=
 </code>
-
-Note: this backend has been introduces in Jelix 1.6.7.
 
 If you indicate a prefix, all keys you indicate to jCache will be prefixed
 by the key_prefix value into the Redis database.

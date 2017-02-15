@@ -81,6 +81,7 @@ copyright_holder=All jelix.org wiki contributors
    - chapter: [[jforms|jForms: automatic forms]]
      - section: [[jforms/xml|jForms file format]]
      - section: [[jforms/xml-1.1|Creating a jforms file]]
+        -section: [[jforms/xml-1.1/captcha|Captcha]]
         -section: [[jforms/xml/htmleditor|HTML editor]]
         -section: [[jforms/xml-1.1/datepicker|Datepickers]]
         -section: [[jforms/xml/wikieditor|Wiki editor]]

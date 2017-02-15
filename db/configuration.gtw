@@ -53,6 +53,10 @@ For mysqli, since Jelix 1.6.11, it is possible to configure a SSL access:
    * **ssl_cert_pem** : path to the SSL certificat
    * **ssl_cacert_pem** : path to the certificat of the certificat authority.
 
+Note: prefer to use mysqli, as the API used by the "mysql" plugin has been
+deprecated into PHP.
+
+
 ===== postgresql profile =====
 
 Possible parameters:
@@ -121,5 +125,36 @@ password=
 </code>
 
 
+
+===== mssql/sqlsrv profile =====
+
+Possible parameters:
+
+   * **driver** : should be "sqlsrv" ("mssql" is deprecated)
+   * **database** : the database name
+   * **host** : the server name.
+   * **port** : TCP port to use for the connection.
+   * **user** and **password** : the username and the password to use for the connection.
+   * **force_encoding** : says if the current character set should be specified during the connection. Try to set it to "on" if you have some encoding issues with your retrieved data.
+
+
+===== oci profile =====
+
+Possible parameters:
+
+   * **driver** : should be "oci"
+   * **persistent**: says if the connection should be persistent ("on") or not ("off")
+   * **user** and **password** : the username and the password to use for the connection.
+   * **force_encoding** : says if the current character set should be specified during the connection. Try to set it to "on" if you have some encoding issues with your retrieved data.
+
+For connection parameters, provide a connection string :
+
+   * **dsn*: the connection string
+
+Or separate parameters:
+
+   * **database** : the database name
+   * **host** : the server name.
+   * **port** : TCP port to use for the connection.
 
 
