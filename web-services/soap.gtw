@@ -351,3 +351,24 @@ So, the classmap of a profile, contains the classmap of @@__common__@@, the clas
 of the section corresponding to the profile, and the classmap declared into the
 profile in the "classmap" property.
 
+Other configuration options:
+
+- @@trace=on@@: to activate debugging. In a log file of type "soap", you'll have
+  all SOAP requests and responses. You should configure the logger correctly.
+  Example:
+
+<code ini>
+[logger]
+soap=file
+
+[fileLogger]
+soap=soap.log
+</code>
+
+- @@exceptions@@: it's a boolean indicating if SOAP error should generate SoapFault
+  exceptions.
+- @@connection_timeout@@: time in secondes to wait after a response, before generating an error
+- @@ssl_self_signed@@ (since 1.6.15) : if "on", there will not error when
+  the SSL certificat of the SOAP server cannot be verified. You should not
+  activate it on distant SOAP servers.
+
