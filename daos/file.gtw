@@ -258,8 +258,9 @@ by the generated class.
 Your methods should only do some calculation, verify some business rules etc.. If you want
 to do SQL request, see "XML or PHP methods" on the DAO factory.. 
 
-Your class will have the name you want, and stored into the directory @@F@daos/@@ of a module,
-in the file @@<classname>.daorecord.php@@.
+Your class have the name you want, with the suffix @@DaoRecord@@, and
+it should be stored into the directory @@F@daos/@@ of a module, in the file
+@@<classname>.daorecord.php@@.
 
 You indicate the class selector  @@<modulename>~<classname>@@ in the @@A@extends@@ attribute
 on the @@E@<record>@@ element.
@@ -274,11 +275,11 @@ Example, in your dao file:
    </record>
 </code>
 
-Records will be objects from the class @@C@news@@ stored in the file @@F@daos/news.daorecord.php@@
-in the module @@news@@.
+Records will be objects from the class @@C@newsDaoRecord@@ stored in the file
+@@F@daos/news.daorecord.php@@ in the module @@news@@.
 
 <code php>
-class news extends jDaoRecordBase {
+class newsDaoRecord extends jDaoRecordBase {
 
    function calculateSomething() {
         $this->field1 = $this->field2 * 1.196;
