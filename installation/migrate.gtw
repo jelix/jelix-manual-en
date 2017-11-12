@@ -41,6 +41,12 @@ to match API changes:
 Many improvements have been made on the display of data of jforms (with @@ctrl_value@@ or @@formdatafull@@ plugins).
 You should verify that your pages showing form contents are still good.
 
+==== About jDao ====
+
+Remove the use of the @@groupby@@ attribute on @@<method>@@ elements. It is
+deprecated and its implementation is unstable. Replace your method by an
+other SQL query.
+
 ==== Upgrading your modules ====
 
   * update sources of vendor's modules that you have installed, with version compatible with Jelix 1.6.

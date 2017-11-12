@@ -100,5 +100,11 @@ Improvements provided by 1.6.14 :
     own Captcha. See [[jforms/xml-1.1/captcha|the Captcha page]].
   * New catcha plugin: Recaptcha
 
+Improvements provided by 1.6.16 :
+
+  * jDao: the @@groupby@@ attribute on @@<method>@@ is deprecated because its
+    SQL implementation is not compatible with recent version of Mysql, and is
+    unpredicatble (and not implemented for other database than mysql). It will
+    be removed in 1.7. An "E_USER_DEPRECATED" error is generated when it is used.
 
 Main contributors of Jelix 1.6:  Olivier Demah, Philippe Villiers, Eric D., JulienI, Couac, Brice Tence, Khena, René-luc D'hont.
