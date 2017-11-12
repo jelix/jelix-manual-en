@@ -106,5 +106,7 @@ Improvements provided by 1.6.16 :
     SQL implementation is not compatible with recent version of Mysql, and is
     unpredicatble (and not implemented for other database than mysql). It will
     be removed in 1.7. An "E_USER_DEPRECATED" error is generated when it is used.
+  * A [[debugging|new feature that prevent to leak sensitive data into log]]
+
 
 Main contributors of Jelix 1.6:  Olivier Demah, Philippe Villiers, Eric D., JulienI, Couac, Brice Tence, Khena, René-luc D'hont.

@@ -52,6 +52,40 @@ And values are list of loggers (names of corresponding plugins). You can indicat
    * @@memory@@, to store messages in memory (temporary). It is needed for the debugbar or other components.
    * and any other plugin names you created or installed for jLog.
 
+
+==== To not output sensitive data into logs ====
+
+In log content of errors and other type of log, http requests parameters are
+dumped, to ease the debugging. However some of these data may be sensitive
+data, like the content of a password file of a form.
+
+Since Jelix 1.6.16, it is possible to indicate in controllers and in the configuration
+which parameters should not be write into logs.
+
+In the @@error_handling@@ section of the configuration, you can add
+a @@sensitiveParameters@@ parameters indicating a list of parameters name
+separated by a coma. By default, it has this value:
+
+<code ini>
+[error_handling]
+sensitiveParameters = "password,passwd,pwd"
+</code>
+
+You can indicate also other sensitive parameters into controllers, like this:
+
+<code php>
+class passwordCtrl extends jController {
+
+    public $sensitiveParameters = array('pwd', 'pwd_confirm');
+
+    // ...
+}
+</code>
+
+Note that jForms automatically declare all "secret" controls as sensitive
+data.
+
+
 ==== File logger ====
 
 When you use the file logger, you must indicate in which file you want to store
