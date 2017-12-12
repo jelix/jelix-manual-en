@@ -33,6 +33,12 @@ read the french manual.
 
 
 
+==== About jDao ====
+
+Remove the use of the @@groupby@@ attribute on @@<method>@@ elements. It is
+deprecated and its implementation is unstable. Replace your method by an
+other SQL query.
+
 ==== Upgrading your modules ====
 
   * update sources of vendor's modules that you have installed, with version compatible with Jelix 1.7.

@@ -24,3 +24,18 @@ Obviously, entry points that do not appear in their related URLS must be
 configured with mod rewrite Apache rules as mentioned in the section of the
 [[significant#mod_rewrite-and-just-removing-the-name-of-the-entry-point-in-the-url|documentation dedicated to significant url engines]].
 
+Since Jelix 1.6.16, you can indicate alternate name for module in urls. In
+the section @@basic_significant_urlengine_aliases@@ of the configuration,
+you indicate these alternate name.
+
+Example:
+
+<code ini>
+[basic_significant_urlengine_aliases]
+: alternate name = module name
+foo=bar
+</code>
+
+The URL @@index.php/foo/mycontroller/hello@@, corresponds to the @@hello@@
+method of the controller @@mycontroller@@ of the module @@bar@@ (and not the
+module @@foo@@).

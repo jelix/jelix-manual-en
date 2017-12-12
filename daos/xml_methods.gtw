@@ -48,12 +48,6 @@ You can add a //distinct// attribute to only retrieve the distinct elements:
    ..
 </code>
 
-You can also add a //groupby// attribute to add a GROUP BY clause. (use it only with mysql, the generated code doesn't really work on other databases)
-<code xml>
-  <method type="select" name="findThem" groupby="foo"> 
-   ..
-</code>
-
 The optional //<condition>// element describes a condition (//WHERE// clause in SQL). See the section later.
 
 You can also add a //order// element so you can specify the order of the retrieved records (//ORDER//  clause in SQL). So you should addd one or more //<orderitem>// elements, which contain a //property// attribute and a //way// attribute. //property// indicates the property on which the order will be applied, and //way// should contain "asc" or "desc" values, or a name of one of method parameters (the name should begin with a //$//)

@@ -2,11 +2,16 @@
 
 ===== Managing schemas =====
 
-The class @@C@jDbSchema@@ allow you to manipulate the structure of the database. It have some methods to create a table, to retrieve the structure of a table etc. It uses some other tables: @@C@jDbTable@@ and @@C@jDbColumn@@.
+The class @@C@jDbSchema@@ allow you to manipulate the structure of the database.
+It have some methods to create a table, to retrieve the structure of a table,
+to add/modify/remove columns etc. It uses some other classes:
+@@C@jDbTable@@ and @@C@jDbColumn@@.
 
-This classes are experimentals and all drivers don't support them.
+Until Jelix 1.6.16, jDbSchema was experimental and only Mysql was supported.
+Since Jelix 1.6.16, Postgresql, Mysql and sqlite3 are fully supported.
 
-You can retrieve a @@C@jDbSchema@@ object by calling the method @@M@schema()@@ of a @@C@jDbConnection@@ object.
+You can retrieve a @@C@jDbSchema@@ object by calling the method
+@@M@schema()@@ of a @@C@jDbConnection@@ object.
 
 See the API documentation.
 
