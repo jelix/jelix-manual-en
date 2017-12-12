@@ -57,21 +57,37 @@ The option @@V@checkCacheFiletime@@ prevents Jelix from checking all the time th
 Do not forget to update the parameters of the @@V@[mailer]@@ section. Usually, the mailer parameters are different between your development server and your production server unless you use third party solutions.
 
 
-=== If your server is behind a proxy ===
+=== If your server is behind a reverse proxy ===
 
-if you server is not listen on standard port, you should indicate to jelix that it should generate urls with standard port (for the proxy). In the general section:
+In some networks, the web server that run Jelix is behind a reverse-proxy
+(a load balancer, HaProxy or an other web server configured as a reverse-proxy
+like Nginx). So the web server is not configured as a frontal web server: it
+has not the domain name of the web site, it may not listen on standard port or
+the reverse proxy communicate HTTPS request as HTTP request to the web server,
+etc.
+
+
+If your server is not listening on a standard port, you should indicate to
+jelix that it should generate urls with standard port (for the proxy).
+In the general section:
 
 <code ini>
 forceHTTPPort = true
 forceHTTPSPort = true
 </code>
 
-And you should probably indicate the real domain name of the site (else Jelix use the server name)
+And you should probably indicate the real domain name of the site (so the
+domain name of the reverse-proxy), else Jelix uses the web server name.
+
 <code>
 domainName = www.example.com
 </code>
 
-If the "basePath" value of the server does not correspond to the "public" basePath, (ex: the proxy redirect urls like http://example.com/index.php to your backend server http://backend.example.com/foo/bar/index.php), You have to indicate the "public" basePath and the backend base Path:
+If the "basePath" value of the web server does not correspond to the
+"public" basePath as requested to the reverse proxy, (ex: the proxy redirects
+urls like http://example.com/index.php to your web server
+http://backend.example.com/foo/bar/index.php), You have to indicate the
+"public" basePath and the backend base Path:
 
 <code ini>
 [urlengine]
@@ -79,12 +95,19 @@ basePath= /
 backendBasePath = /foo/bar
 </code>
 
-And if the proxy redirect HTTPS request to HTTP, you must deactivate the HTTPS check
+If the reverse proxy redirect HTTPS request to HTTP, you must deactivate the
+HTTPS check for URL engines:
 
 <code ini>
 [urlengine]
 checkHttpsOnParsing = off
 </code>
 
+And since Jelix 1.6.16, you can indicate to force all generated URL with the
+HTTPS protocol, because it doesn't know what it the protocol used by
+requests on the reverse proxy:
 
-
+<code ini>
+[urlengine]
+forceProxyProtocol = https
+</code>

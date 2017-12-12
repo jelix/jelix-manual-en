@@ -365,6 +365,10 @@ soap=file
 soap=soap.log
 </code>
 
+Since Jelix 1.6.16, you can also use the @@soapfile@@ logger instead of @@file@@.
+This logger stores xml content of requests and responses in separate files
+to ease debugging.
+
 - @@exceptions@@: it's a boolean indicating if SOAP error should generate SoapFault
   exceptions.
 - @@connection_timeout@@: time in secondes to wait after a response, before generating an error

@@ -107,6 +107,12 @@ Improvements provided by 1.6.16 :
     unpredicatble (and not implemented for other database than mysql). It will
     be removed in 1.7. An "E_USER_DEPRECATED" error is generated when it is used.
   * A [[debugging|new feature that prevent to leak sensitive data into log]]
-
+  * Full support of Postgresql, sqlite3 and Mysql in jDbSchema
+  * Basic url engine: modules can have a custom name in urls
+  * UI of rights management (jAcl2): it is not possible anymore to remove
+    rights about rights management from an administrator, if he is the only
+    one user having these rights.
+  * new @@soapfile@@ logger for SOAP logs
+  * PHP 7.2 support.
 
 Main contributors of Jelix 1.6:  Olivier Demah, Philippe Villiers, Eric D., JulienI, Couac, Brice Tence, Khena, René-luc D'hont.
