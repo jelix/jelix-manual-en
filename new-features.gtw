@@ -106,6 +106,8 @@ Improvements provided by 1.6.16 :
     SQL implementation is not compatible with recent version of Mysql, and is
     unpredicatble (and not implemented for other database than mysql). It will
     be removed in 1.7. An "E_USER_DEPRECATED" error is generated when it is used.
+    The method @@jDaoConditions::addItemGroup()@@ is also deprecated for the same
+    reason.
   * A [[debugging|new feature that prevent to leak sensitive data into log]]
   * Full support of Postgresql, sqlite3 and Mysql in jDbSchema
   * Basic url engine: modules can have a custom name in urls
