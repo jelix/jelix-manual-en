@@ -38,6 +38,8 @@ read the french manual.
 Remove the use of the @@groupby@@ attribute on @@<method>@@ elements. It is
 deprecated and its implementation is unstable. Replace your method by an
 other SQL query.
+For the same reason, you should replace the use of @@jDaoConditions::addItemGroup()@@
+by an other query.
 
 ==== Upgrading your modules ====
 

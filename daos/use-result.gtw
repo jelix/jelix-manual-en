@@ -222,15 +222,57 @@ Some databases like Postgresql support regular expressions. For postgresql you c
 
 Other operator like @@REGEXP@@, @@NOT REGEXP@@ are also supported. Verify first if it is compatible with your database.
 
+==== Adding methods on record objects ====
 
-=== Doing a GroupBy ===
+If you need to add some PHP methods on record objects (to
+calculate values from field values for example), you can
+define a base class for the dao.
 
-@@C@jDaoConditions@@ enables you to indicate on which properties you want to create a group. Just call the @@M@addItemGroup()@@ method. The only parameter required is the name of the column where the grouping will occur.
+You have to use the @@extends@@ attribut on the @@record@@
+element. Its value is the selector of your base class:
 
-<code php>   
-   $conditions = jDao::createConditions();
-   $conditions->addCondition('label', '=', $name);
-   $conditions->addItemGroup('status');
-   
-   $list = $maFactory->findBy($conditions);
+
+<code xml>
+ <!-- fichier mymodule/daos/mydao.dao.xml -->
+ ...
+ <record extends="mymodule~myrecord">
+  ...
+ </record>
+ ...
 </code>
+
+Your base class should be store in a file which have the class name
+and the suffix @@.daorecord.php@@, in the daos/ directory of your module.
+The class should follow these rules:
+
+   * the class should be abstract
+   * the name of the class should have the suffix @@DaoRecord@@
+     (but this suffix is not indicated in the selector)
+   * the class should inherits from @@C@jDaoRecordBase@@
+
+
+
+<code php>
+// file mymodule/daos/myrecord.daorecord.php
+
+abstract class myrecordDaoRecord extends jDaoRecordBase {
+    function calculateTotal() {
+       return $this->amount + $this->vat;
+       // ...
+    }
+}
+</code>
+
+Then you can call this method on each records:
+
+<code php>
+
+   $maFactory = jDao::get("mymodule~myrecord");
+   $list = $maFactory->findAll();
+
+   foreach ($list as $row) {
+        $total = $row->calculateTotal();
+        //...
+   }
+</code>
+
