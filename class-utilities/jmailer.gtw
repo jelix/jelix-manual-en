@@ -1,7 +1,7 @@
 ~~LANG:FR@frman:classes-utiles/jmailer~~
 
 
-jMailer is a useful class for sending emails in controllers or business classes. It is based on the famous  [[http://phpmailer.codeworxtech.com|PHPMailer]] class (version 2.3).
+jMailer allows to send emails. It is based on the famous [[http://phpmailer.codeworxtech.com|PHPMailer]] class.
 
 Here are its features:
   * support **attachments**
@@ -26,29 +26,36 @@ jMailer options shall be edited in @@F@var/config/localconfig.ini.php@@. Look at
 
 ==== Configuration options ====
 
-
-  * //webmasterEmail//: default sender email
-  * //webmasterName//:  default sender name
-  * //mailerType//: indicates how to send mails (default: "mail")
+  * @@webmasterEmail@@: default sender email.
+  * @@webmasterName@@:  default sender name
+  * @@mailerType@@: indicates how to send mails (default: "mail")
     * "mail": PHP mail function
     * "sendmail": use the server program 
     * "smtp": direct connection to an SMTP host
-  * //hostname//: used in //Message-Id// and //Received// headers, and also as default //HELO// string. If empty, the value returned by SERVER_NAME is used or 'localhost.localdomain'.
-  * //sendmailPath//: path to sendmail program
+  * @@hostname@@: used in @@Message-Id@@ and @@Received@@ headers, and also as default @@HELO@@ string. If empty, the value returned by SERVER_NAME is used or 'localhost.localdomain'.
+  * @@sendmailPath@@: path to sendmail program
 
 To send mails with a SMTP server:
-  * //smtpHost//: SMTP hostname
-  * //smtpPort//: SMTP port
-  * //smtpSecure//: secured connection or not (possible value: "", "ssl", "tls")
-  * //smtpHelo//: SMTP //Helo// message
-  * //smtpAuth//: turn on/off SMTP authentication 
-  * //smtpUsername//: SMTP login
-  * //smtpPassword//: SMTP password
-  * //smtpTimeout//: SMTP server time out
+  * @@smtpHost@@: SMTP hostname
+  * @@smtpPort@@: SMTP port
+  * @@smtpSecure@@: secured connection or not (possible value: "", "ssl", "tls")
+  * @@smtpHelo@@: SMTP @@Helo@@ message
+  * @@smtpAuth@@: turn on/off SMTP authentication
+  * @@smtpUsername@@: SMTP login
+  * @@smtpPassword@@: SMTP password
+  * @@smtpTimeout@@: SMTP server time out
 
-jMailer uses also general parameters //locale// and //charset// to setup the language and charset of emails.
+jMailer uses also general parameters @@locale@@ and @@charset@@ to setup the language and charset of emails.
 
 Of course, you can change all of these parameters directly with properties and methods of jMailer class. See reference documentation.
+
+Note about the @@webmasterEmail@@: If you don't use the smtp mailer, be sure the web server
+is allowed to send emails with the given Email. Else some mail servers may
+reject emails sent by your application or mark them as spam. For example, if
+your web server is public, you should set correcly the
+[[https://en.wikipedia.org/wiki/Sender_Policy_Framework|DNS SPF record]] for your
+domain name. This record should content the IP of your web server.
+See the configuration manager of your domain name provider.
 
 ===== Sending a simple mail =====
 
