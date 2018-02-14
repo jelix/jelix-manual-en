@@ -22,7 +22,7 @@ However, jMailer brings some additional features :
 
 ===== Configuration file =====
 
-jMailer options shall be edited in @@F@var/config/mainconfig.ini.php@@. Look at the @@[mailer]@@ section.
+jMailer options shall be edited in @@F@var/config/localconfig.ini.php@@. Look at the @@[mailer]@@ section.
 
 ==== Configuration options ====
 

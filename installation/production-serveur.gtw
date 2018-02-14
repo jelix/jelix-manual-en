@@ -30,11 +30,11 @@ there is no problem with that.
 
 ==== About the application ====
 
-Here some advices for the configuration of the application, in the @@F@var/config/mainconfig.ini.php@@ file.
+Here some advices for the configuration of the application, in the @@F@var/config/localconfig.ini.php@@ file.
 
 === section jResponseHtml ===
 
-Déactivate the debugbar plugin.
+Deactivate the debugbar plugin.
 
 === configuration du logger ===
 

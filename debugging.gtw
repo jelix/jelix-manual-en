@@ -21,7 +21,7 @@ more specific "loggers".
 
 ==== Configuring jLog ====
 
-To specify loggers, you must fill the @@[logger]@@ section. By default:
+To specify loggers, you must fill the @@[logger]@@ section (in @@F@var/config/mainconfig.ini.php@@ or @@F@var/config/localconfig.ini.php@@). By default:
 
 <code ini>
 
@@ -149,7 +149,7 @@ The debugbar is a plugin itself for jResponseHtml. So to activate it:
   * you need to indicate the list of plugins you want to use for the debugbar
     (by default : "sqllog, sessiondata, defaultlog").
 
-Here is a typical example:
+Here is a typical example to set into @@F@var/config/localconfig.ini.php@@:
 
 <code ini>
 [jResponseHtml]
