@@ -173,6 +173,42 @@ So, to known the full configuration, Jelix reads these files in this order and m
 
 Values of a configuration file override values of the previous configuration file.
 
+=== Using environment variables ===
+
+Ini files are readed by the @@parse_ini_file@@ function, and so specific syntaxes
+are available to indicate values coming from outside the ini file.
+
+- You can indicate PHP constants:
+
+<code php>
+# somewhere in a file included by your index.php
+define("SOMETHING", "hello world");
+</code>
+
+In one of your ini file:
+<code ini>
+foo = SOMETHING
+</code>
+
+Then foo will have the value @@"hello world"@@.
+
+- You can indicate environment variables:
+
+<code bash>
+# variables set in the environment of PHP-FPM, PHP-CLI, or Apache (with the PHP module)
+MYAPP_MYSQL_LOGIN=admin
+MYAPP_MYSQL_PASSWORD=Sup3Rp4ssw0rd!
+</code>
+
+Example, in your profiles.ini.php (see below), you have to use this syntax:
+
+<code ini>
+[jdb:default]
+driver=mysqli
+login= ${MYAPP_MYSQL_LOGIN}
+password= ${MYAPP_MYSQL_PASSWORD}
+</code>
+
 ===== The profiles.ini.php file =====
 
 This file contains all connections parameters of some Jelix Components: SQL and
@@ -198,6 +234,8 @@ host=localhost
 login= mylogin
 password=mypassword
 </code>
+
+Remember that you can indicate environment variables. See above.
 
 
 === Profile Alias ===
