@@ -171,6 +171,8 @@ bundled library, ou you can change CSS and JS depending of the environment
 
   * jAuth: persistant_crypt_key has been renamed to persistant_encryption_key
    and use a stronger random generation algorithm.
+  * jAuth, plugin ldap: connection information (host, login, password etc.)
+    should now be into the profiles.ini.php file
   * jauthdb_admin: Users list can be filtered and ordered
   * jacl2db_admin: Users list can be filtered
 
@@ -243,6 +245,7 @@ there are available with the Jelix package via Composer dependencies.
   * Clearbricks files have been removed
   * files json.js, json2.js and xul/jsonrpc.js have been removed since browsers
     support now JSON natively.
+  * plugin @@LDS@@ for jAuth has been removed.
 
 ===== For contributors =====
 

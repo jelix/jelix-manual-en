@@ -5,8 +5,7 @@ users.
 
 Relying on drivers to access user data, you can use a database, a LDAP
 directory, or any other way to access data. As for now, there is a database
-driver, an LDS directory based driver, an LDAP directory based driver, and a
-driver for an external class.
+driver, an LDAP directory based driver, and a driver for an external class.
 
 The authentication system relies on several things :
 
@@ -40,10 +39,10 @@ To activate it, if you want to use ressources of the module @@jauth@@
 
 ==== By installing the module jauth ====
 
-Use the command installmodule of jelix to install the module:
+Use the command @@module:install@@ of jelix to install the module:
 
 <code bash>
-$ php cmd.php installmodule jauth
+$ php cmd.php module:install jauth
 </code>
 
 It will activate the module, and create a new file @@F@var/config/index/auth.coord.ini.php@@,
@@ -51,7 +50,7 @@ which is the configuration of the plugin @@auth@@.
 
 ==== By hand ====
 
-Copy the file @@F@lib/jelix-modules/jauth/install/var/config/auth.coord.ini/php@@
+Copy the file @@F@lib/jelix-modules/jauth/install/var/config/auth.coord.ini.php@@
 into the configuration directory of your entry point, for instance
 @@F@var/config/index/auth.coord.ini.php@@.
 
@@ -69,7 +68,7 @@ the order of declaration in the configuration is important. So if the plugin
 So you should declare the "auth" plugin after plugins that don't need
 authentication.
 
-You can learn more about [[plugins|plugins here]].
+You can learn more about [[/plugins|plugins here]].
 
 ===== Authentication core configuration =====
 
@@ -81,17 +80,16 @@ To configure the authentication system, edit the file
 You must assign the @@driver@@ option with a driver name and fill a section
 containing the driver parameters.
 
-Read the [[authentication/drivers|jAuth drivers documentation]] to know which
+Read the [[drivers|jAuth drivers documentation]] to know which
 driver you can use and how to activate it.
 
 ==== Function to hash password ====
 
 Since Jelix 1.4.1 (and 1.3.4, 1.2.10), there are two hashing system to hash
 your password in the storage. Jelix 1.4.1 and higher provide indeed a more
-secured method, using the new password API of PHP 5.5. A pure PHP implementation
-is provided in Jelix to use this API in previous PHP version.
+secured method, using the new password API of PHP 5.5.
 
-=== Old hashing system ===
+=== Old deprecated hashing system ===
 
 By default, the function to hash password is @@M@sha1@@, (in jelix 1.1
 and lower, it was @@M@md5@@) but it's possible to use an other function which
@@ -138,9 +136,7 @@ In the configuration of the plugin:
 === New hashing system ===
 
 This system is provided since Jelix 1.2.10/1.3.4/1.4.1 and use a new PHP 5.5 API. It uses
-by default the bcrypt method. A similar API is provided by Jelix to use it in
-PHP 5.4 or PHP 5.3. Since it uses the @@M@crypt@@ function with bcrypt, you
-should use at least PHP 5.3.7 (or PHP 5.3.3 on an updated Debian Squeeze box).
+by default the bcrypt method.
 
 The configuration is simple. You should have to parameters in the global section
 of the jauth configuration (so outside sections like @@[Db]@@):
@@ -160,8 +156,8 @@ field in your database, than the old hashing system.
 
 == Migration ===
 
-If you want to upgrade an existing application to Jelix 1.2.10/1.3.4/1.4.1, and you
-would like to use the new hashing system, you should:
+If you want to upgrade an existing application that is using the old hash system,
+and you would like to use the new hashing system (which is highly recommanded!), you should:
 
    * enlarge the password field (@@password@@) in your database, to 120 characters
    * modify the corresponding DAO (if you don't use jelixuser of jauthdb module),
@@ -173,7 +169,7 @@ hashing system will be replaced by a new hash. This is why you should
 keep the values of @@password_crypt_function@@ and @@password_salt@@,
 else users couldn't authenticate themselves.
 
-**Warning: Do not do this migration with a shared database**, used by several application in wich
+**Warning: Do not do this migration with a shared database**, used by several application in which
 the migration has not been done. Users could not be authenticated, since new hash password
 are not compatible with the old hashing system (and vice-versa). And you could not
 return to the old hashing system, unless you made database backup.
@@ -183,8 +179,8 @@ return to the old hashing system, unless you made database backup.
 
 @@timeout@@ option indicates inactivity duration to invalid authentication. Its
 unit is minutes. If you set it to @@L@0@@, there is no timeout. And the
-authentication session will live throughout the browser session.
-
+authentication session will live throughout the browser session, or the php
+session (configured into the php.ini file).
 
 ==== Control authentication in each action ====
 
@@ -265,10 +261,6 @@ To configure persistence use the parameters below:
      be used as an encrypt key for cookie datas. If you change key value, be
      aware that all users will have to re-authenticate to benefit of persistence.
 
-**Warning**: until Jelix 1.6.7, this parameter is stored into the jAuth configuration
-file, and you **must** replace its default value! I you upgrade to Jelix 1.6.8
-and higher, the update script will change and move correctly its value.
-
 Other less important parameters:
 
    * @@persistant_cookie_name@@: cookie name. Default : @@L@"jelixAuthentificationCookie"@@.
@@ -287,7 +279,7 @@ your own controllers.
 
 If you want other features, like registering and clearing account forms,
 changing passwords or lost password forms, you may use the jcommunity module.
-See [[http://bitbucket.org/laurentj/jcommunity|jCommunity]].
+See [[https://github.com/jelix/jcommunity-module|jCommunity]].
 
 ==== Classic configuration ====
 
@@ -309,8 +301,8 @@ a DDOS attack.
 For @@after_login@@ and @@after_logout@@, watch below.
 
 Templates of the module jAuth can be easily customized if you overload them.
-Just copy and edit them in @@F@var/themes/default/jauth/@@. More on overloading
-[[overloads|here]].
+Just copy and edit them in @@F@var/themes/default/jauth/@@. More about themes
+[[/themes|here]].
 
 
 ==== Redirection options ====
@@ -507,12 +499,12 @@ Exemple of an event handler on "AuthCanRemoveUser":
 <code>
 function onAuthCanRemoveUser  ($event)
 {
-$login = $event->getParam('login');
-if($login == 'admin)
-  $ok = false;
-else
-  $ok = true;
-$event->Add(array('canremove'=>$ok));
+    $login = $event->getParam('login');
+    if($login == 'admin)
+      $ok = false;
+    else
+      $ok = true;
+    $event->Add(array('canremove'=>$ok));
 }
 </code>
 
