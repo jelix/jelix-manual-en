@@ -2,88 +2,189 @@
 
 ===== Improvements provided by the version 1.7 =====
 
-==== Main features ====
+Jelix 1.7 brings many new features. However, [[installation/migrate|migration]]
+is easy, as migration script do many things.
 
-  * Jelix 1.7 is now compatible only with PHP 5.6 or higher.
+Jelix 1.7 is now compatible only with PHP 5.6 or higher.
 
-  *  **NODOC** Composer integration
+==== Composer integration ====
+
     * [[https://packagist.org/packages/jelix/jelix|Jelix is now installable with Composer]]
     * Some modules and plugins are now in their own repository and available separately
       with Composer.
-    * A new project can be started by using the package jelix/jelix-skeleton-app
-      installable via Composer
+    * A new project can be started by using the package [[https://packagist.org/packages/jelix/jelix-skeleton-app|jelix/jelix-skeleton-app]]
     * Configuration parameters @@modulesPath@@ and @@pluginsPath@@ are not supported
       anymore and replaced by a new API to call from @@application.init.php@@:
       @@jApp::declareModulesDir()@@, @@jApp::declarePluginsDir()@@, @@jApp::declareModuleDir()@@.
-      It si also possible to declare these path in your composer.json file.
-      
-  *  **NODOC** In new application created with createapp.php, the temp directory is now in the application
-    directory
+      It si also possible to declare modules and plugins path in your composer.json
+      file.
 
-  * **NODOC** The URL engine has been reworked:
-    * no more plugin system ('simple', 'basic_significant', 'significant' are gone).
-    * The new URL engine is a merge between the previous 'significant' and
-      'basic_significant' engine, with many improvements in the configuration
-    * An API allows to installer scripts to declare new URL (so it modify
-      the urls.xml file)
+==== New @@F@app/@@ directory ====
+
+An application contains now a new @@F@app/@@ directory in which some files
+and directory have been moved from @@F@var/@@ and @@F@responses/@@. It allows
+to separate files that are common for all environment (in  @@F@app/@@), from
+those that are specific to a server (in @@F@var/@@).
+
+This is the case for:
+
+   * main configuration. It is now in @@F@app/config@@, containing
+     @@F@mainconfig.ini.php@@, @@F@urls.xml@@,
+     configuration files of plugins, of SOAP etc. Other files like @@F@localconfig.ini.php@@,
+     @@F@profiles.ini.php@@ stay in @@F@var/config@@.
+   * @@F@config.ini.php@@ of entry points can be in both @@F@app/config@@ and
+     @@F@var/config@@
+   * @@F@overloads@@, @@F@themes@@ and @@F@locales@@ directories. They should
+     be in @@F@app/@@. @@F@var/overloads@@,
+     @@F@var/themes@@ and @@F@var/locales@@ can be still used but only
+     for ressources created by the application.
+   * @@F@responses/@@ has been moved to @@F@app/responses@@.
+
+==== New URL engine ====
+
+There is now only one URL engine, which is a mix of @@significant@@ and
+@@basic_significant@@ url engine of Jelix 1.6. It has many improvements to ease
+configuration. There is not anymore a plugin system for url engines, so
+@@simple@@, @@significant@@ and @@basic_significant@@ plugins are gone.
+
     * "module" and "action" parameters are not supported anymore (but you can
       still retrieve them from your controllers, even if this feature is
       deprecated)
+    * parameters @@startModule@@ and @@startAction@@ in the configuration do no
+      exist anymore, as well as @@engine@@, @@defaultEntrypoint@@,
+      @@simple_urlengine_https@@, @@simple_urlengine_entrypoints@@,
+      @@basic_significant_urlengine_entrypoints@@.
+    * An API allows Installer scripts to declare new URL (so it modify
+      the urls.xml file):  @@jInstallerGlobalSetup::getUrlModifier()@@, @@jInstallerGlobalSetup::declareNewEntryPoint()@@
+    * In the urls.xml file:
+       * it si possible to indicate a pathinfo on @@<url module="..">@@
+       * it is required to indicate an action for the url "/". It replace the
+         deprecated @@startModule@@ and @@startAction@@ configuration parameters.
+       * an empty pathinfo  in @@<url>@@ is equivalent to "/".
+       * Errors during the parsing of urls.xml have been improvemed
+       * it is possible to declare an url for a controller, without declaring
+         all of its methods.
 
-  *  **NODOC** jProfiles:
+The migration tools generates the new urls.xml for you.
+
+==== Improvements of the installer ====
+
+A new API for installation scripts has been created, allowing to separate
+installation and configuration for each entrypoints, and installation and configuration
+for the whole application, in particulary about configuration files.
+New classes @@jInstallerModule2@@ and @@jInstallerEntryPoint2@@ have been created.
+Your scripts can still inherits from @@jInstallerModule@@ and
+@@jInstallerEntryPoint@@ but they are deprecated.
+
+It is also possible to deinstall a module with a new command @@php cmd.php module:uninstall@@.
+You can then implements @@uninstallEntrypoint()@@ in your install class,
+to remove some configuration parameters, to delete some files etc...
+
+During an upgrade, jInstaller does a backup of @@F@installer.ini.php@@, so if
+something goes wrong, you can restore it.
+
+==== New assets system: webassets ====
+
+Jelix 1.7 offers a new way to declare in the HTML, assets like JS and CSS.
+In the configuration you can set some lists of JS scripts and CSS urls. Each lists
+are a named group.
+
+So in your controller, instead of setting directly JS and CSS content, you
+just indicate the name of webassets group you want to use.
+
+It allows to modify easily what a module want to load into your web page, without
+modifying the module itself. It could be very useful with external modules,
+or even modules provided by Jelix. For example, you can indicate other version of
+bundled library, ou you can change CSS and JS depending of the environment
+(demo vs production).
+
+==== jDb and jDao ====
+
+  * jDb: improved the support of prepared queries
+     * bindValue and bindParam should follow signature of PDO'ones
+     * sqlite: support of prepared queries
+     * pgsql: support of named parameters for prepared queries
+     * mysqli: improved support of prepared queries
+  * jDb/mysqli: use modern api to start transaction
+  * jDao has now its own plugins to generate classes. So "daobuilder"
+    classes of jDb plugins are not recognized anymore.
+  * jDb schema: all improvements coming from Jelix 1.6.16. Full
+    support of SQL schema changes with Mysql, Postgresql Sqlite3, OCI and SQLServer.
+
+  *  jProfiles:
      * The content of profiles.ini.php is optimized and stored in a cache
      * it is extensible with plugins: these plugins can process a specific type
        of profile and store some additionnal informations in the cache.
        (plugin : @@profiles/<type>/<type>.profiles.php@@, class: @@<type>ProfilesCompiler@@).
      * A plugin for jDb is provided, allowing jDb to improve the connection speed.
 
-  * **NODOC** Scripts Jelix-scripts (cmd.php): all commands to help building
+==== jForms ====
+
+  * jForms does not store instances data into the session, but into
+    a cache, by using jCache (so you can configure the cache : in files, or in
+    memcache, Redis...)
+  * For the @@choice@@ control, an item can now be an empty value.
+  * a @@choice@@ control can be used inside a @@group@@.
+  * The javascript generated for a form is now loaded as a separate file, and
+    is not anymore inline, with the HTML code. This is useful to have
+    clean [[https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP|CSP rules]].
+  * All components of jForms, as well as wikieditor and htmleditor, are now
+    using the new web assets system, so it is easy to replace javascript and
+    CSS url.
+  * In Javascript, you can now reload a listbox generated dynamically, by calling
+    the new method @@jforms::updateDynamicList()@@.
+
+==== API change in the framework core ====
+
+  * the property @@_lang@@ of @@jResponseHtml@@ does contain now only the lang
+    code (XX) instead of the full locale (XX_YY). The full locale is now in a
+    new property @@_locale@@.
+  * jRequest parse now automatically JSON content from the body request. This
+    feature was introduced in Jelix 1.6.12 but it was deactivated by default.
+  * new method @@M@jCoordinator::execOriginalAction()@@ to know when there is
+    an internal redirection
+  * jCmdLineRequest: the module and the action name should be given to the
+   constructor when the script is dedicated to a specific action.
+  * CRUD controller: the records list can be ordered
+
+  * @@jApp@@ :
+    * new method @@jApp::urlBasePath()@@ which allow to retrieve the base path,
+      so it is a shortcut for @@jApp::config()->urlengine['basePath']@@.
+    * new method @@M@jApp::version()@@
+    * jApp is now using internally a new class jAppInstance to ease context switching
+    * new method @@M@jAppInstance::includePlugin()@@ to load a plugin class without instancying it directly
+  * new object @@C@jFramework@@ allowing to access to some informations about the framework (version...)
+  * In new application created with createapp.php, the temp directory is now in the application
+    directory
+
+  * Web assets of modules loaded by the www controler of Jelix are now
+    put in the cache of the browser.
+
+==== Other new features ====
+
+  * Scripts Jelix-scripts (cmd.php): all commands to help building
     an application and its components are now based on the component Symfony Console.
     Command names and their parameters have been changed.
+  * Jelix-scripts createapp:
+    * createapp.php script has been moved to a bin/ directory and is based on Symfony Console.
+    * new option @@--modulename@@ to indicate the name of the newly created module.
 
-  * **NODOC** jForms does not store instances data into the session, but into
-    a cache, by using jCache.
-  * **NODOC** jLocale can now try a locale key in a similar locale of the current one
-  * **NODOC** jInstaller does now a backup of installer.ini.php
-  * **NODOC** jAuth: persistant_crypt_key has been renamed to persistant_encryption_key
+  * jAuth: persistant_crypt_key has been renamed to persistant_encryption_key
    and use a stronger random generation algorithm.
-  * **NODOC** Web assets of modules loaded by the www controler of Jelix are now
-    put in the cache of the browser.
-  * **NODOC** jDb schema: improved support into sqlite3 driver
-  * **NODOC** jDao has now its own plugins to generate classes. So "daobuilder"
-    classes of jDb plugins are not recognized anymore.
-  * **NODOC** jDb: improved the support of prepared queries
-     * **NODOC** bindValue and bindParam should follow signature of PDO'ones
-     * **NODOC** sqlite: support of prepared queries
-     * **NODOC** pgsql: support of named parameters for prepared queries
-     * **NODOC** mysqli: improved support of prepared queries
-  * **NODOC** jDb/mysqli: use modern api to start transaction
-  * **NODOC** Organize zones cache into subdirectories
+  * jauthdb_admin: Users list can be filtered and ordered
+  * jacl2db_admin: Users list can be filtered
 
-==== API changes ====
+  * jLocale can now try a locale key in a similar locale of the current one
+  * jLocale has been refactorized with a new class to read properties file
 
-  * **NODOC** new method @@M@jApp::version()@@
-  * **NODOC** new object @@C@jFramework@@ allowing to access to some informations about the framework (version...)
-  * **NODOC** Jelix-scripts createapp: createapp.php script has been moved to a bin/ directory and is based on Symfony Console.
-  * **NODOC** Jelix-scripts createapp: new option -modulename to indicate the name of the newly created module.
-  * **NODOC** CRUD controller: the records list can be ordered
-  * **NODOC** jauthdb_admin: Users list can be filtered and ordered
-  * **NODOC** jacl2db_admin: Users list can be filtered 
+  * Organize zones cache into subdirectories
 
-  * **NODOC** new method @@M@jAppInstance::includePlugin()@@ to load a plugin class without instancy it directly
-
-  * **NODOC** jIniFileModifier: no empty line added at the end of the file at each save
-  * **NODOC** @@jFile::getMimeTypeFromFilename()@@: support of a mime type list defined
+  * jIniFileModifier: no empty line added at the end of the file at each save
+  * @@jFile@@ is based on the Composer package "jelix/file-utilities", which
+    have more useful methods.
+  * @@jFile::getMimeTypeFromFilename()@@: support of a mime type list defined
    into a @@[mimeTypes]@@ section in the configuration
-  * **NODOC** jLocale has been refactorized with a new class to read properties file
-
-
-  * **NODOC** @@jInstallerBase@@ and @@jInstallerEntryPoint@@ for installation
-    scripts, have new methods to access to configuration files
-  * **NODOC** fix jDatetime about RCF822 format and timezone
-  * **NODOC** jDao: the 'driver' attribut is deprecated, and is replaced by a 'dbtype' attribute
-  * **NODOC** new method @@M@jCoordinator::execOriginalAction()@@ to know when there is an internal redirection
-  * **NODOC** jApp is now using internally a new class jAppInstance to ease context switching
+  * fix jDatetime about RCF822 format and timezone
 
 ===== Modules and plugins removed =====
 
@@ -107,34 +208,41 @@ there are available with the Jelix package via Composer dependencies.
   * [[https://packagist.org/packages/jelix/feeds-module|new module jFeeds]] containing classes
     and responses object to generate RSS and ATOM feeds
   * [[https://packagist.org/packages/jelix/castor|Standalone version of jTpl: Castor]]
-  * [[https://packagist.org/packages/jelix/inifile|IniModifier and MultiIniModifier]], 
+  * [[https://packagist.org/packages/jelix/inifile|IniModifier and MultiIniModifier]],
     (formely known as jIniFileModifier and jIniMultiFilesModifier)
   * [[https://packagist.org/packages/jelix/wikirenderer-plugin|jWiki and WikiRenderer]]
 
 ===== Deprecated features, modules and plugins =====
 
-  * @@jFile@@ is based on the Composer package "jelix/file-utilities", which
-    have more useful methods. jFile is deprecated.
-  * Simpletests and the junittests module has been removed. If you need them, you can
-    still installed separately (with Composer for example).
-  * mysql and sqlite plugins. They used deprecated PHP API. Note that there are
-    still a mysqli and a sqlite3 plugin in Jelix
   * There are not anymore en_EN locales files. Configure your application to use
     en_US or en_GB locales
   * The memcache22 plugin for jCache has been removed
   * Method @@jInstallerBase::declarePluginsPath()@@ has been removed
-  * jHttp is now deprecated and available as a Composer package
   * jIniFile, jIniFileModifier, jIniMultiFilesModifier have other names:
     Jelix\IniFile\Util, Jelix\IniFile\IniModifier, Jelix\IniFile\MultiIniModifier.
     But it is still possible to use old name until the next version.
-  * **NODOC** The class @@jJson@@ has been removed. Use json PHP functions instead.
-  * **NODOC** The class @@jCrypt@@ has been removed. The API it used has been deprecated
+  * The method @@jApp::configPath()@@ is deprecated and replaced by @@jApp::varConfigPath()@@
+  * The class @@jJson@@ has been removed. Use json PHP functions instead.
+  * The class @@jCrypt@@ has been removed. The API it used has been deprecated
     in PHP and is not maintained anymore. You should use other stronger libraries
     like defuse/php-encryption for example.
-  * Clearbricks files have been removed
-  * **NODOC** the class @@jVersionComparator@@ has been replaced by another
+  * the class @@jVersionComparator@@ has been replaced by another
     similar class @@Jelix\Version\VersionComparator@@ (package "jelix/version")
   * Remove <directories> from project.xml. It is not supported anymore.
+  * the plugin zendframework has been removed
+  * jDao: the 'driver' attribute on the @@binary_op@@ element is deprecated,
+    and is replaced by a 'dbtype' attribute
+  * jDao: the support of the attribute @@groupby@@ on the element @@method@@ has been removed
+  * jDao: the deprecated method @@jDaoConditions::addItemGroup()@@ has been removed
+
+  * Simpletests and the junittests module has been removed. If you need them, you can
+    still installed separately (with Composer for example).
+  * mysql and sqlite plugins. They used deprecated PHP API. Note that there are
+    still a mysqli and a sqlite3 plugin in Jelix
+  * jHttp is now deprecated and available as a Composer package
+  * Clearbricks files have been removed
+  * files json.js, json2.js and xul/jsonrpc.js have been removed since browsers
+    support now JSON natively.
 
 ===== For contributors =====
 
@@ -146,3 +254,5 @@ there are available with the Jelix package via Composer dependencies.
 ===== Contributors to Jelix 1.7 =====
 
   * Brunto (crud controller)
+  * Julien Issler (improvements on jForms)
+  * Laurent Jouanneau (most of improvements)
