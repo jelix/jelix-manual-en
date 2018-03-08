@@ -7,9 +7,6 @@ It have some methods to create a table, to retrieve the structure of a table,
 to add/modify/remove columns etc. It uses some other classes:
 @@C@jDbTable@@ and @@C@jDbColumn@@.
 
-Until Jelix 1.6.16, jDbSchema was experimental and only Mysql was supported.
-Since Jelix 1.6.16, Postgresql, Mysql and sqlite3 are fully supported.
-
 You can retrieve a @@C@jDbSchema@@ object by calling the method
 @@M@schema()@@ of a @@C@jDbConnection@@ object.
 
@@ -18,14 +15,18 @@ See the API documentation.
 
 ===== Executing an SQL script =====
 
-If you want to execute a SQL script containing several queries, you can call the @@M@execSQLScript()@@ method of the object @@C@jDbTools@@. You retrieve this object by calling the method @@M@tools()@@ of a connection object.
+If you want to execute a SQL script containing several queries, you can call
+the @@M@execSQLScript()@@ method of the object @@C@jDbTools@@. You retrieve this
+object by calling the method @@M@tools()@@ of a connection object.
 
 <code php>
   $conn = jDb::getConnection();
   $conn->tools()->execSQLScript('/path/to/a/script.sql');
 </code>
 
-In order to use the table prefix indicated in the profile, it is strongly recommended to use the @@%%PREFIX%%@@ tag before each name of tables. It will be replaced by the prefix (or by  nothing if there is no prefix).
+In order to use the table prefix indicated in the profile, it is strongly
+recommended to use the @@%%PREFIX%%@@ tag before each name of tables. It will be
+replaced by the prefix (or by nothing if there is no prefix).
 
 <code sql>
 UPDATE %%PREFIX%%product.....;

@@ -12,10 +12,18 @@ First, you should retrieve a jDbConnection object:
   $conn = jDb::getConnection();
 </code>
 
-The getConnection method allows you to retrieve a jDbConnection type object (or jDbConnection extending PDO, if you use PDO, they however have the same API). This method accepts an optional parameter : the name of the profile to use. If it is not specified, the default one is used.
+The @@getConnection()@@ method allows you to retrieve a @@jDbConnection@@ object (or
+@@jDbPDOConnection@@ extending PDO, if you use PDO, they however have the same API).
+This method accepts an optional parameter : the name of the profile to use. If
+it is not specified, the default one is used.
 
 
-To construct your SQL queries, you have an important method to use: //quote()//. It escapes all reserved characters of the database, and you should use it for all data you want to insert in your SQL queries. It avoid security issue like SQL injection. Another friend of //quote()// is //quote2()// which can be used on **binary** column.
+To construct your SQL queries, you have an important method to use if you are
+not using prepared statement: @@quote()@@.
+It escapes all reserved characters of the database, and you should use it for
+all data you want to insert in your SQL queries. It avoid security issue like
+SQL injection. Another friend of @@quote()@@ is @@quote2()@@ which can be used
+on **binary** column.
 
 
 <code php>
@@ -23,14 +31,16 @@ To construct your SQL queries, you have an important method to use: //quote()//.
   $sql .=" (". $conn->quote("Doe") .",".$cnx->quote('john').")";
 </code>
 
-Notice that the //quote()// method add quotes at the begin and the end of the given string.
+Notice that the @@quote()@@ method add quotes at the begin and the end of the given string.
 
-To execute queries, you have two methods: //exec// and //query//.
+To execute queries, you have two methods: @@exec()@@ and @@query()@@.
 
 
 ==== exec ====
 
-//exec// should be use for queries which don't return records, like UPDATE, INSERT, DELETE... This method only returns the number of updated/inserted/deleted records. Example:
+@@exec@@ should be use for queries which don't return records, like UPDATE,
+INSERT, DELETE... This method only returns the number of
+updated/inserted/deleted records. Example:
 
 <code php>
   $conn = jDb::getConnection();
@@ -40,7 +50,8 @@ To execute queries, you have two methods: //exec// and //query//.
 
 ==== query ====
 
-//query// should be used for queries which return records : SELECT, stored procedure. The method returns a jDbResultSet object.
+@@query@@ should be used for queries which return records : SELECT, stored
+procedure. The method returns a @@jDbResultSet@@ object.
 
 Quick example:
 
@@ -57,7 +68,7 @@ Quick example:
 
 ==== limitQuery ====
 
-You can retrieve only some few records, by using the //limitQuery// method:
+You can retrieve only some few records, by using the @@limitQuery@@ method:
 
 <code php>
   $conn = jDb::getConnection();
@@ -69,18 +80,93 @@ You can retrieve only some few records, by using the //limitQuery// method:
   } 
 </code>
 
-The first parameter is the query. The second is the number of the first record to retrieve. And the third parameter is the count of records to retrieve.
+The first parameter is the query. The second is the number of the first record
+to retrieve. And the third parameter is the count of records to retrieve.
 
 
-===== ResultSet =====
+==== Prepared statement ====
 
-jDbResultSet is the object you retrieve after a SELECT query.
+You can use prepared statement. It is more secured than creating a SQL request
+string from variables.
 
-Its fetch() method allows to retrieve the records one by one. jDbResultSet always returns a record as an object.
+The API is similar to PDO: a method @@prepare()@@ allow to indicate the query.
+The query can have named parameters starting with a @@:@. And the method
+returns an object @@jDbResultSet@@.
 
-Its fetchAll() method allows to retrieve everything in a PHP array in one shot.
+<code>
+    $stmt = $cnx->prepare('INSERT INTO `labels_test` (`key`,`lang` ,`label`) VALUES (:k, :lg, :lb)');
+</code>
 
-jDbResultSet implements also the Iterator interface, so you can use it in some case, like in a //foreach// statement.
+On the returned object, you can indicate the value of each parameters with the
+method @@bindParam()@@ or @@bindValue()@@. @@bindParam()@@ is to give the
+value of variable, and @@bindValue()@@ is to give directly a PHP value.
+You have to indicate the type of the variable or value to both methods, with
+one of the @@PDO::PARAM_*@@ constants. By default it is @@PDO::PARAM_STR@@,
+so the value should be a string.
+
+<code>
+    $bind = $stmt->bindParam('lg', $lang);
+    $bind = $stmt->bindParam('k', $key, PDO::PARAM_INT);
+    $bind = $stmt->bindValue('lb', 'hello', PDO::PARAM_STR);
+</code>
+
+Then you execute the query:
+
+<code>
+    $stmt->execute();
+</code>
+
+If the request returns some results (like a SELECT), you can use @@$stmt@@
+like when calling @@query()@@ on a connection object to retrieve results. See
+below.
+
+Because you are using a prepared statement, it is possible to reuse the
+@@$stmt@@ object to bind other values and to retrieve corresponding results,
+without recalling @@prepare()@@.
+
+<code>
+    $stmt = $cnx->prepare('INSERT INTO `labels_test` (`key`,`lang` ,`label`) VALUES (:k, :lg, :lb)');
+
+    // we insert a first record
+    $bind = $stmt->bindParam('lg', $lang);
+    $bind = $stmt->bindParam('k', $key, PDO::PARAM_INT);
+    $bind = $stmt->bindValue('lb', 'hello', PDO::PARAM_STR);
+    $stmt->execute();
+
+    // we insert a second record, by setting only parameters that have different
+    // values
+    $bind = $stmt->bindValue('k', 'good.bye', PDO::PARAM_INT);
+    $bind = $stmt->bindValue('lb', 'Good Bye', PDO::PARAM_STR);
+    $stmt->execute();
+
+</code>
+
+An alternative to @@bindParam()@@ and @@bindValue()@@, is to give parameter
+values directly to the @@execute()@@ method.
+
+<code>
+    $stmt = $cnx->prepare('INSERT INTO `labels_test` (`key`,`lang` ,`label`) VALUES (:k, :lg, :lb)');
+
+    $stmt->execute(array(
+        'lg' => $lang,
+        'k' => $key,
+        'lb' => 'hello'
+    ));
+</code>
+
+Note that the oci driver does not support parameters given to @@execute()@@.
+
+===== Result Set =====
+
+@@jDbResultSet@@ is the object you retrieve after a SELECT query (via @@query()@@, @@limitQuery()@@ or @@prepare()@@).
+
+Its @@fetch()@@ method allows to retrieve the records one by one. jDbResultSet
+always returns a record as an object.
+
+Its @@fetchAll()@@ method allows to retrieve all records in a PHP array in one shot.
+
+jDbResultSet implements also the @@Iterator@@ interface, so you can use it in
+some case, like in a @@foreach@@ statement.
 
 <code php>
   $conn = jDb::getConnection();
@@ -92,8 +178,9 @@ jDbResultSet implements also the Iterator interface, so you can use it in some c
   } 
 </code>
 
-The objects returned by the jDbResultSet object, are anonymous object (StdObject in PHP). If you want to have objects which are based on a specific class, you should indicate it with the setFetchMode:
-
+The objects returned by the jDbResultSet object, are anonymous object (StdClass in PHP).
+If you want to have objects which are based on a specific class, you should indicate
+it with the @@setFetchMode()@@:
 
 <code php>
   class User {
@@ -103,7 +190,7 @@ The objects returned by the jDbResultSet object, are anonymous object (StdObject
   $conn = jDb::getConnection();
   $rs = $conn->query('SELECT name, firstname FROM users');
 
-  $rs->setFetchMode($rs->FETCH_CLASS , 'User');
+  $rs->setFetchMode(jDbConnection::FETCH_CLASS, 'User');
   
   $result='';
   foreach($rs as $record){
@@ -119,6 +206,7 @@ For other methods of jDbResultSet, see the [[refclass:db/jDbResultSet|API refere
 Of course, you can assign a jDbResultSet object in a template variable.
 
 For example, in a controller:
+
 <code php>
   $conn = jDb::getConnection();
 
@@ -143,21 +231,28 @@ And in the template:
 
 ===== Transactions =====
 
-jDb allow you to execute your queries into transactions. Of course, the driver and the database should support this feature.
+jDb allows you to execute your queries into transactions. Of course, the driver
+and the database should support this feature.
 
-To start a transaction, you should call the //beginTransaction ()// method. Then you execute your queries. Then you can validate the transaction by calling the //commit()// method, or you can cancel it by calling the //rollback()// method.
+To start a transaction, you should call the @@beginTransaction()@@ method. Then
+you execute your queries. Then you can validate the transaction by calling the
+@@commit()@@ method, or you can cancel it by calling the @@rollback()@@ method.
 
 <code php>
    $conn = jDb::getConnection();
 
    $conn->beginTransaction();
 
-   $conn->exec(...);
-   $conn->query(...);
-   //....
-   
-   if($ok)
-     $conn->commit();
-   else
-     $conn->rollback();
+   try {
+        $conn->exec(...);
+        $conn->query(...);
+        $conn->exec(...);
+        $conn->exec(...);
+        //....
+        $conn->commit();
+    }
+    catch (Exception $e) {
+        $conn->rollback();
+    }
+
 </code>
