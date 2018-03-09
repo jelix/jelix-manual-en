@@ -1,12 +1,19 @@
 ~~LANG:FR@frman:concepts/objets-response~~
 
-A jResponse object handles the control and the correct generation of the response, the output data. It represents the view in the MVC pattern. Every display command use this object.
+A jResponse object handles the control and the correct generation of the
+response, the output data. It represents the view in the MVC pattern. Every
+display command use this object.
 
-There is a class extending jResponse for each format that we want to handle : html, text, binary files, pdf, XML-RPC etc... or for other types of output, like the redirection.
+There is a class extending jResponse for each format that we want to handle :
+html, text, binary files, pdf, XML-RPC etc... or for other types of output, like
+the redirection.
 
-A jResponse object implements some methods, here are the more useful of them :
+A jResponse object implements some methods, here are the more useful of them:
+
    * @@M@addHttpHeader()@@: to add some HTTP header which will be sent at the right time
    * @@M@setHttpStatus()@@: to set the http code  (200, 404,...)
+   * @@M@isValidCache()@@, @@M@setExpire()@@ and @@M@setLifeTime()@@ to manage
+     the cache of the response.
 
 This methods are available in all type of response.
 

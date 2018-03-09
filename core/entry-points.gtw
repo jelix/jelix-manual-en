@@ -3,19 +3,21 @@
 ===== Entry points =====
 
 An entry point is a script which execute a part or all your application [[call-action|actions]].
+
 We can call them "boostrap" too.
+
 Only entry points should be accessible from the web and therefore should lie in @@F@www/@@
 directory of your application. It should exist an entry point for each type of request that
 you want to use (normal, soap, xml-rpc ...). As a result, each entry point should also have
 its specific configuration file.
 
-An entry point initializes the jelix environment, creates a @@C@jCoordinator@@ object, a
+An entry point initializes the Jelix environment, creates a @@C@jCoordinator@@ object, a
 @@C@jRequest@@ object (to parse all request parameters) and indicates which configuration
 file to use. For a normal entry point (like @@F@index.php@@), the code looks like this:
 
 <code php>
 // application initialization file
-require_once ('../../testapp/application.init.php');
+require_once ('../application.init.php');
 
 // load the configuration file
 jApp::loadConfig('index/config.ini.php');
@@ -30,6 +32,17 @@ $request = new jClassicRequest();
 // action processing (routing, controller execution...)
 jApp::coord()->process($request);
 </code>
+
+You'll create several entry points in these case:
+
+   * an entry point for each type of request
+   * an entry point dedicated to some modules
+
+If you want to access to same actions of a module through several entry points,
+it is not possible. If you really need such architecture, probably you need
+several application instead, or to split your module. Several applications
+can share the same database, share some of there modules or share the same www directory.
+
 
 ===== jApp =====
 
@@ -53,9 +66,10 @@ You can retrieve them with these specific methods:
 
 <code php>
   $path = jApp::appPath();      // the full path of the application directory
-  $path = jApp::varPath();      // the full path of the var directory of the application
-  $path = jApp::logPath();      // the full path of the log directory of the application (app/var/log)
-  $path = jApp::configPath();   // the full path of the config directory of the application (app/var/config)
+  $path = jApp::varPath();      // the full path of the var directory of the application (var/)
+  $path = jApp::logPath();      // the full path of the log directory of the application (var/log)
+  $path = jApp::appConfigPath();// the full path of the static config directory of the application (app/config)
+  $path = jApp::varConfigPath();// the full path of the variable config directory of the application (var/config)
   $path = jApp::wwwPath();      // the full path of the web directory of the application (app/www)
   $path = jApp::scriptsPath();  // the full path of the scripts directory of the application (app/scripts)
   $path = jApp::tempPath();     // the full path of the temp directory corresponding to the entry point (temp/app/www/)
@@ -66,3 +80,5 @@ You can retrieve them with these specific methods:
 You can give a filename to these methods (except @@M@getModulePath@@), it will be append to the path.
 
 It is highly recommended to use these methods instead of having hard coded path in your modules.
+
+To know more, see [[../class-utilities/japp|the dedicated chapter]].

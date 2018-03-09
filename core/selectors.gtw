@@ -2,7 +2,11 @@
 
 ===== The usefulness of the selectors =====
 
-The selectors are used a lot in Jelix. They allow to indicate a resource, a file, without having to know its path. Indeed, the tree structure of a Jelix application can be modified according to standards of the server used (the var directory of the myapp application going in the /var/myapp/var for example, on a unix server).
+The selectors are used a lot in Jelix. They allow to indicate a resource, a file,
+without having to know its path. Indeed, the tree structure of a Jelix
+application can be modified according to standards of the server used (the @@var/@@
+directory of the "myapp" application going in the @@/var/lib/myapp/@@ for example, on a
+unix server).
 
 In addition, the Jelix libs can be installed in another tree structure than the application.
 
@@ -10,14 +14,13 @@ Thus, the selectors make possible not to modify our application when it's differ
 
 And they avoid to type long file paths...
 
-
-
-
 ===== How a selector is defined =====
 
-A selector is a string with the following format : "aModule~aResource", you can forget the module when this is the module we are in. In this case, you can write "aRessource".
+A selector is a string with the following format: @@"aModule~aResource"@@, you can
+forget the module when this is the module we are in. In this case, you can write
+@@"aRessource"@@.
 
-A selector  indicates a precise type of resource. Here are the different types of selectors :
+A selector indicates a precise type of resource. Here are the different types of selectors:
 
 ^ Resource ^ Prefix ^ Class ^
 | an action | act | jSelectorAct |
@@ -34,22 +37,29 @@ A selector  indicates a precise type of resource. Here are the different types o
 | file in lib/ | lib | jSelectorLib |
 
 
-In general, you will have to give a selector as parameter of certain methods without having to give its type. Indeed, these methods know this will be a selector on a precise type of resource.
+In general, you will have to give a selector as parameter of certain methods
+without having to give its type. Indeed, these methods know this will be a
+selector on a precise type of resource.
 
+<code>
   jDAO::create("myModule~myDao");
+</code>
 
 Here, jDAO will look for a DAO file with the name myDAO.dao.xml in the myModule module.
 
 
 ===== Defining a precise type of selector =====
 
-The type can sometimes be different, or the method can take any type of selector. In this case, you have to add a prefix to the selector, to specify its type. This prefix is indicated in the above table. The notation of a selector is then :
+The type can sometimes be different, or the method can take any type of
+selector. In this case, you have to add a prefix to the selector, to specify its
+type. This prefix is indicated in the above table. The notation of a selector is
+then: @@"type:aModule~aResource"@@.
 
-    "type:aModule~aResource"
+This is called a "full selector".
 
-This is called a "complete selector".
-
-We will then use the jSelectorFactory object to retrieve the corresponding selector object (see the class column in the table), and thus the physical path of the indicated resource.
+We will then use the jSelectorFactory object to retrieve the corresponding
+selector object (see the class column in the table), and thus the physical path
+of the indicated resource.
  
 <code php>
     $aSelector = "tpl:foo~bar";

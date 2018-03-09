@@ -2,13 +2,20 @@
 
 ===== A jRequest object for each type of request =====
 
-A jRequest object handles the processing of the input data in order to make it easily available to the framework and especially to the actions. It allows, among other things, to determine the name of the action to execute.
+A jRequest object handles the processing of the input data in order to make it
+easily available to the framework and especially to the actions. It allows,
+among other things, to determine the name of the action to execute.
 
-There are several types of jRequest objects, processing different input data. Indeed, we don't retrieve the input data for a HTML page (in the url (get) or encoded in the body of the HTTP request (post) ), the same way as we would do for a SOAP request (data in the body of the HTTP request in XML).
+There are several types of jRequest objects, processing different input data.
+Indeed, we don't retrieve the input data for a HTML page (in the url (get) or
+encoded in the body of the HTTP request (post) ), the same way as we would do
+for a SOAP request (data in the body of the HTTP request in XML).
 
-For each jRequest object, corresponds one or more authorized output format, then one or more authorized jResponse object.
+For each jRequest object, corresponds one or more authorized output format, then
+one or more authorized jResponse object.
 
 The available jRequest object are:
+
   * classic: for "normal" requests whose response type is any content (html, text, redirection ..)
   * soap: for SOAP request, when you want implement some SOAP services. The response should be in SOAP format.
   * xmlrpc: for the XMLRPC requests. The response must be in XMLRPC
@@ -20,19 +27,23 @@ You'll have an entry points for each request type you want to support in your ap
 
 ===== API =====
 
-During the action processing, the request object is accessible through the @@P@request@@ property of the @@C@jCoordinator@@ object. This object is accessible through the @@C@jApp@@ object.
+During the action processing, the request object is accessible through the
+@@P@request@@ property of the @@C@jCoordinator@@ object. This object is
+accessible through the @@C@jApp@@ object.
 
 <code php>
 // To retrieve a request parameter
 $myfooValue = jApp::coord()->request->getParam('foo');
 </code>
 
-But in a controller, you have some method on the @@C@jController@@ class, to do the same thing shortly:
+But in a controller, you have some method on the @@C@jController@@ class, to do
+the same thing shortly:
+
 <code php>
  $myfooValue = $this->param('foo');
 </code>
 
-Some other properties are available :
+Some other properties are available:
 
 | @@P@type@@ | to know the request type. |
 | @@P@url_script_path@@ | the path to the script in the url |
@@ -40,8 +51,13 @@ Some other properties are available :
 | @@P@url_path_info@@ | The pathinfo part of the url |
 | @@P@params@@        | request parameters |
 
-Some methodes:
+Some methods:
 
   * @@M@getIp()@@: to retrieve the IP of the client
+  * @@M@getProtocol()@@: to know if it is HTTP or HTTPS
+  * @@M@getPort()@@: to know the port (80, 443..)
+  * @@M@getDomainName()@@: to retrieve the domain name
+  * @@M@getServerURI()@@: to retrieve the url of the application @@<protocol><domain>[:<port>]@@
   * @@M@isAjax()@@: to know if the request is an ajax request or not.
+  * @@M@header()@@ and @@M@headers()@@: to retrieve request headers.
 
