@@ -1,7 +1,7 @@
 ~~LANG:FR@frman:classes-utiles/jmailer~~
 
-
-jMailer allows to send emails. It is based on the famous [[http://phpmailer.codeworxtech.com|PHPMailer]] class.
+jMailer is an object to send emails. It is based on the
+[[https://github.com/PHPMailer/PHPMailer|PHPMailer]] class.
 
 Here are its features:
   * support **attachments**
@@ -9,11 +9,11 @@ Here are its features:
   * **Multiple recipients**
   * **Multiple sending** channel (mail(), sendmail)
   * **SMTP authentication** support
-  * Mail **templates** through jTpl
 
-You can find many PHPMailer use cases over the web. So, we won't document all of the features above.
+You can find many PHPMailer use cases over the web. So, we won't document all of the features.
 
-However, jMailer brings some additional features :
+jMailer brings some additional features, and ease configuration through the
+main configuration file:
 
    * default configuration of jMailer is stored in the configuration file of the application
    * you can use jTpl templates to generate your emails content.
@@ -22,17 +22,20 @@ However, jMailer brings some additional features :
 
 ===== Configuration file =====
 
-jMailer options shall be edited in @@F@var/config/localconfig.ini.php@@. Look at the @@[mailer]@@ section.
+jMailer options shall be edited in @@F@var/config/localconfig.ini.php@@, in a
+@@[mailer]@@ section.
 
 ==== Configuration options ====
 
   * @@webmasterEmail@@: default sender email.
-  * @@webmasterName@@:  default sender name
+  * @@webmasterName@@:  default sender name.
   * @@mailerType@@: indicates how to send mails (default: "mail")
     * "mail": PHP mail function
     * "sendmail": use the server program 
     * "smtp": direct connection to an SMTP host
-  * @@hostname@@: used in @@Message-Id@@ and @@Received@@ headers, and also as default @@HELO@@ string. If empty, the value returned by SERVER_NAME is used or 'localhost.localdomain'.
+  * @@hostname@@: used in @@Message-Id@@ and @@Received@@ headers, and also as
+    default @@HELO@@ string. If empty, the value returned by @@$_SERVER['SERVER_NAME']@@ is used
+    or 'localhost.localdomain'.
   * @@sendmailPath@@: path to sendmail program
 
 To send mails with a SMTP server:
@@ -45,9 +48,11 @@ To send mails with a SMTP server:
   * @@smtpPassword@@: SMTP password
   * @@smtpTimeout@@: SMTP server time out
 
-jMailer uses also general parameters @@locale@@ and @@charset@@ to setup the language and charset of emails.
+jMailer uses also general parameters @@locale@@ and @@charset@@ to setup the
+language and charset of emails.
 
-Of course, you can change all of these parameters directly with properties and methods of jMailer class. See reference documentation.
+Of course, you can change all of these parameters directly with properties and
+methods of jMailer class. See reference documentation.
 
 Note about the @@webmasterEmail@@: If you don't use the smtp mailer, be sure the web server
 is allowed to send emails with the given Email. Else some mail servers may
@@ -77,7 +82,7 @@ Sending a text email.
 
 You can use the powerfull template engine of Jelix to send an email. You have to create a template in your module. In this template, you can use meta values to specify your email parameters.
 
-Example, in modules/mymodule/templates/supermail.tpl
+Example, in @@modules/mymodule/templates/supermail.tpl@@:
 <code html>
     {meta Subject 'Super mail.'}
     {meta Priority 1}
@@ -94,7 +99,6 @@ Example, in modules/mymodule/templates/supermail.tpl
 
 And in your PHP code :
 
-
 <code php>
     $mail = new jMailer();
     $tpl = $mail->Tpl('mymodule~supermail');
@@ -104,7 +108,8 @@ And in your PHP code :
 </code>
 
 
-Notice that @@C@jMailer@@ will create template variables corresponding to some PHPMailer properties, so you can use it them anywhere in the template
+Notice that @@C@jMailer@@ will create template variables corresponding to some
+PHPMailer properties, so you can use it them anywhere in the template
 
 
 <code html>
@@ -136,15 +141,56 @@ $mail->AddAddress('toto@example.com' , 'Toto');
 $mail->Send();
 </code>
 
-If you use a HTML template, indicate @@true@@ to the method @@M@Tpl@@.
+An alternative way is to give a template with HTML content, and so you have
+to indicate @@true@@ to the method @@M@Tpl@@.
 
 <code php>
-$tpl = $mail->Tpl('mymodule~supermail', true);
+$tpl = $mail->Tpl('mymodule~htmlmail', true);
+</code>
+
+PHPMailer include the HTML content in the email, but also a plain text version
+of the content, by removing HTML elements and their attributes, CSS,
+javascript code. jMailer improves the process by keeping links of the @@<a>@@
+elements, between parenthesis after the label of the link, except if there
+is a class or an attribute named @@notexpandlink@@.
+
+You can provide your own HTML to text converter, by indicating it as the third
+parameter to @@Tpl()@@. It should be a @@callable@@ type:
+
+<code>
+$tpl = $mail->Tpl(
+    'mymodule~supermail',
+    true,
+    function ($html) {
+        // ... convert to text
+        return $text;
+    }
+);
+</code>
+
+Your HTML may content some images with the @@<img>@@ element. If the @@src@@
+attribute is not an URL, then PHPMailer considers it as a file to include
+into the mail. The path to the image may be a full path. But if it is a
+relative path, you should indicate the base directory of all images to resolve
+paths.
+
+In this example, images referred into the HTML are in the @@www/images/@@
+of the application:
+
+<code>
+$tpl = $mail->Tpl(
+    'mymodule~supermail',
+    true,
+    null,
+    jApp::wwwPath('images/')
+);
 </code>
 
 ===== Sending an attachment =====
 
-You can add attachment easily in your email, by giving the path of the file stored somewhere on the hard drive. You can also indicate an other name for the file.
+You can add attachment easily in your email, by giving the path of the file
+stored somewhere on the hard drive. You can also indicate an other name for the
+file.
 
 <code php>
 $mail = new jMailer();
@@ -155,4 +201,5 @@ $mail->Send();
 
 ===== Advanced features =====
 
-Since jMailer inherits from the PHPmailer class, read [[http://phpmailer.worxware.com/index.php?pg=methods|the documentation of PHPMailer]] to know more about its features.
+Since jMailer inherits from the PHPmailer class, read [[http://phpmailer.github.io/PHPMailer/|the API documentation of PHPMailer]]
+to know more about its features.

@@ -148,7 +148,6 @@ copyright_holder=All jelix.org wiki contributors
       - section: [[class-utilities/japp|jApp: directories of the application]]
       - section: [[class-utilities/jfilter|jFilter: verifying and filtering datas]]
       - section: [[class-utilities/jdatetime|jDateTime: dates and times]]
-      - section: [[class-utilities/jhttp|jHttp: http requests]]
       - section: [[class-utilities/jmailer|jMailer: sending mails]]
       - section: [[class-utilities/jwiki|jWiki: generating contents from wiki contents]]
       - section: [[class-utilities/jsession|jSession: managing sessions]]

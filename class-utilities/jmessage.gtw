@@ -1,8 +1,12 @@
 ~~LANG:FR@frman:classes-utiles/jmessage~~
 
-Often, you'll find useful to display some results/consequences/hints of an action in a subsequent action. As an example, when you redirect a user to your home page after a login failure, it would be very interesting to display him a message that is login has failed and the reasons why. 
+Often, you'll find useful to display some results/consequences/hints of an
+action in a subsequent action. As an example, when you redirect a user to your
+home page after a login failure, it would be interesting to display him a
+message that the login has failed and the reasons why.
 
-In such cases, @@C@jMessage@@ is your best help. In short, jMessage stores messages in session and expose methods to add, get and clear them. 
+In such cases, @@C@jMessage@@ is your best help. In short, jMessage stores
+messages in session and expose methods to add, get and clear them.
 
 ===== Session variable =====
 
@@ -18,7 +22,8 @@ Example :
 
 ===== Adding a message =====
 
-Use @@M@jMessage::add@@ static method to store a message for further display. Give your message as first argument. it also accepts an optional type.
+Use @@M@jMessage::add@@ static method to store a message for further display.
+Give your message as first argument. it also accepts an optional type.
 
 Example :
 <code php>
@@ -31,8 +36,9 @@ Example :
 
 ===== Display a message =====
 
-Use @@f@jMessage@@ template plugin to display messages pending. 
-Example : 
+Use the @@jmessage@@ template plugin to display pending messages.
+
+Example:
 <code>
     // in your home tpl
 
@@ -40,16 +46,22 @@ Example :
     {jmessage} 
 </code>
 
-code above will result in the html fragment below:
+Code above will result in the html fragment below:
+
 <code html>
   <ul class="jelix-msg">
    <li class="jelix-msg-item-default">login failed : incorrect password</li>
   </ul>
 </code>
 
-Or alternatively use @@M@jMessage::get@@ static method to retrieve a message in a controller.
+Note that Jelix provides default styles for type of messages @@error@@, @@warning@@,
+@@notice@@ and @@ok@@ in the module @@master_admin@@.
 
-Example :
+Alternatively you can use the @@M@jMessage::get()@@ static method to retrieve a
+message in a controller.
+
+Example:
+
 <code php>
    // in your 'home' action
    $message = jMessage::get(); // retrieves messages of type 'default'
@@ -58,14 +70,16 @@ Example :
    $tpl->assign('message', $message);
 </code>
 
-Note : if your message had not been stored with the default type, you should have called @@M@jMessage::get('mytype')@@ to retrieve it. 
+Note: if your message had not been stored with the default type, you should have
+called @@M@jMessage::get('mytype')@@ to retrieve it.
 
 You can also retrieve every messages with @@M@jMessage::getAll()@@.
 
-
 ===== Clearing messages =====
 
-To clear pending messages and thus ensures that your sessions does not get filled piles of messages, call @@M@jMessage::clearAll()@@. 
+To clear pending messages and thus ensures that your sessions does not get
+filled piles of messages, call @@M@jMessage::clearAll()@@.
 
-To clear a specific type of messages, use @@M@jMessage::clear()@@. it accepts an optional type argument. If empty, it clears messages of  //default// type.
+To clear a specific type of messages, use @@M@jMessage::clear()@@. It accepts
+an optional type argument. If empty, it clears messages of @@default@@ type.
 

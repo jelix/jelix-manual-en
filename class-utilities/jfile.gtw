@@ -1,6 +1,7 @@
 ~~LANG:FR@frman:classes-utiles/jfile~~
 
-jFile help to do file processing. All methods of jFile are statics, so you don't have to instanciate this class.
+jFile help to do file processing. All methods of jFile are statics, so you don't
+have to instanciate this class.
 
 ===== read method =====
 
@@ -11,9 +12,10 @@ $content = jFile::read('/path/to/file.ext');
 </code>
 
 
-===== write method=====
+===== write method =====
 
-Write data into a file. It uses a temporary file, and then rename it to the given name, in order to limit access conflicts.
+Write data into a file. It uses a temporary file, and then rename it to the
+given name, in order to limit access conflicts.
 
 It returns @@true@@ if it is a success.
 
@@ -31,7 +33,8 @@ jFile::createDir('/path/of/the/directory/');
 
 ===== removeDir method =====
 
-Delete recursively the content of a directory. The second parameter allow to delete (@@true@@ by default) or no (@@false@@) the directory itself.
+Delete recursively the content of a directory. The second parameter allows to
+delete (@@true@@ by default) or not (@@false@@) the directory itself.
 
 
 <code php>
@@ -41,3 +44,23 @@ jFile::removeDir('/path/of/the/directory', false);
 jFile::removeDir('/path/of/the/directory');
 // The content of "directory" AND the directory itself will be deleted
 </code>
+
+===== getMimeTypeFromFilename =====
+
+It allows to know the mime type of a file by analysing its name. It recognizes
+many file name extension. However you can add your own extensions into the
+@@mimeTypes@@ section into the configuration, like this:
+
+<code ini>
+[mimeTypes]
+foo = "application/foo"
+</code>
+
+Files having the extension "foo" will be recognized as having the
+"application/foo" mime type.
+
+===== Other functions =====
+
+jFile have other static methods, inherited from other classes of the
+package @@jelix/file-utilities@@: @@\Jelix\FileUtilities\File@@, @@\Jelix\FileUtilities\Path@@,
+@@\Jelix\FileUtilities\Directory@@... See their API.

@@ -28,7 +28,6 @@ In your profiles.ini.php:
 <code ini>
 [jkvdb:jpref]
 
-
 </code>
 
 To know more about configuration of jKvdb, see [[/kvdb#drivers|its documentation]].
@@ -38,16 +37,13 @@ To know more about configuration of jKvdb, see [[/kvdb#drivers|its documentation
    * @@M@jPref::get($key)@@: to retrieve a preference.
    * @@M@jPref::set($key, $value, $ttl)@@: so modify/save a preference.
 
-
 Example :
 
 <code php>
-
 jPref::set('nb.items.per.page', 20);
 
 $val = jPref::get('nb.items.per.page');
 // $val contains 20
-
 </code>
 
 ===== Admin interface for jPref =====

@@ -1,12 +1,16 @@
 ~~LANG:FR@frman:classes-utiles/jdatetime~~
 
-jDateTime is a class encapsulating a date. It defines an API to convert date to different formats and do some time calculation.
+jDateTime is a class encapsulating a date. It defines an API to convert date to
+different formats and do some time calculation.
 
 There is different ways to create a jDateTime object:
-   * either pass  a date value to jDateTime constructor : year, month, day, hour, minute, second arguments are all integer values and optional. 
-   * either use @@M@setFromString@@ method on a jDateTime object. Its argument must be a date-formatted string 
+   * either pass  a date value to jDateTime constructor : year, month, day,
+     hour, minute, second arguments are all integer values and optional.
+   * either use @@M@setFromString@@ method on a jDateTime object. Its argument
+     must be a date-formatted string
 
-Note: for your time calculations, **prefer the use of the object DateTime appeared in PHP 5.2**. jDatetime have some limitations (it doesn't work with date lower than 01/01/1970).
+Note: for your time calculations, **prefer the use of the object DateTime**.
+jDatetime have some limitations (it doesn't work with date lower than 01/01/1970).
 
 ===== Retrieving the current date =====
 
@@ -25,25 +29,31 @@ The @@M@now()@@ method allow to set a @@C@jDatetime@@ object to the current date
 
 ===== Convert a string to date-time =====
 
-@@M@setFromString@@, as said before, takes a string as first argument and an optional format type as last argument. The latter is a numeric value. jDateTime defines in its namespace, constants enumerating those formats.
+@@M@setFromString@@, as said before, takes a string as first argument and an
+optional format type as last argument. The latter is a numeric value. jDateTime
+defines in its namespace, constants enumerating those formats.
 
-lists of date and time formats accepted by jDateTime:
+Lists of date and time formats accepted by jDateTime:
 
 ^ constantes de classe   ^ format ^
 | jDateTime::LANG_DFORMAT | date format of current application lang (with //en//, this is mm/jj/aaaa) |
 | jDateTime::LANG_DTFORMAT |date and time format of current application lang |
 | jDateTime::LANG_TFORMAT | time format of current application lang |
+| jDateTime::LANG_SHORT_DTFORMAT | date and time without seconds formated using the current application lang  |
+| jDateTime::LANG_SHORT_TFORMAT | time without seconds formated using the current application lang  |
 | jDateTime::DB_DFORMAT | date format of classic database style: "AAAA-MM-JJ" |
 | jDateTime::DB_DTFORMAT | date and time format of classic database style: "AAAA-MM-JJ HH:mm:SS" |
 | jDateTime::DB_TFORMAT | time format of classic database style: "HH:mm:SS" |
 | jDateTime::ISO8601_FORMAT | ISO8601 format |
+| jDateTime::RFC822_FORMAT |  RFC822 format "D, d M y H:i:s O" |
 | jDateTime::TIMESTAMP_FORMAT | integer, number of seconds since 1/1/1970 |
 | jDateTime::FULL_LANG_DATE | full format date (i.e. day of week and month in letter) respecting language conventions (ex: thursday, may 27th 2017) |
 
 
-Note: LANG_* formats are converted by jDateTime based on locales **format** file located in jelix module and current lang selected by your application.
+Note: LANG_* formats are converted by jDateTime based on locales **format**
+file located in jelix module and current lang selected by your application.
 
-Example :
+Example:
 
 <code php>
   $dt = new jDateTime();
@@ -67,7 +77,8 @@ You'll have noticed all member properties representing elements of a date.
 
 ===== Convert date-time to string =====
 
-@@M@toString@@ method convert date to string. It accepts an optional argument specifying a format (see above for formats). 
+@@M@toString@@ method convert date to string. It accepts an optional argument
+specifying a format (see above for formats).
 
 <code php>
   $dt->toString(jDateTime::LANG_DFORMAT);
@@ -75,7 +86,9 @@ You'll have noticed all member properties representing elements of a date.
 
 ===== date-time calculation =====
 
-**sub** and **add** methods does substract or add duration to a date.
+@@M@sub()@@ and @@M@add()@@ methods does substract or add duration to a date.
+You specify duration with the object @@jDuration@@.
+
 <code php>
   $dt = new jDateTime();
   $dt->setFromString("2017-04-10",jDateTime::DB_DFORMAT);
@@ -92,7 +105,7 @@ You'll have noticed all member properties representing elements of a date.
 
 </code>
 
-**durationTo** method gives the duration between two dates. it returns a jDateTime object:
+@@M@durationTo()@@ method gives the duration between two dates. it returns a jDuration object:
 
 <code php>
   $dt = new jDateTime();
@@ -103,16 +116,17 @@ You'll have noticed all member properties representing elements of a date.
 
   // duration between $dt and $dt2
   $dt3 = $dt->durationTo($dt2);
-  echo $dt3->toString(jDateTime::DB_DTFORMAT); // displays 0000-00-02 00:00:00
+  echo $duration->months, ' ', $duration->days, ' ', $duration->seconds;
 </code>
 
-Note: be aware to use dates superior to 01/01/1970.
+Note: be aware to use dates higher than 01/01/1970.
 
-it is now possible to do some subtraction of dates by using the function substract() which takes and returns a  jDateTime. 
+It is possible to do some subtraction of dates by using the method @@M@substract()@@
+which takes and returns a jDateTime object.
 
 ===== date-time comparison =====
 
-**compareTo** method compares two dates
+@@M@compareTo()@@ method compares two dates
 
 <code php>
   $dt = new jDateTime();

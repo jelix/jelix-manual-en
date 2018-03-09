@@ -3,9 +3,9 @@
 jApp is a class bringing informations about the Jelix environment.
 
 It allows to specify (in application.init.php) and to retrieve, different path
-of the application (Since Jelix 1.3, it replaces JELIX_APP_* constants).
+of the application.
 
-It propose also some methods to retrieve some global Jelix Object and to
+It proposes also some methods to retrieve some global Jelix Object and to
 manipulate Jelix environment (internal use).
 
 
@@ -19,57 +19,137 @@ $config = jApp::config();
 $coord = jApp::coord();
 </code>
 
+There is also @@jApp::version()@@ which allows to know the version of the
+application when there is a @@F@VERSION@@ file in the application directory.
 
+If you want to know the version of Jelix, you'll use @@jFramework::version()@@.
 
-===== Retrieve the application directory =====
+===== Retrieving URL path to the application =====
 
-The method @@M@appPath()@@ returns the full path of the application. In old
-version, it was JELIX_APP_PATH.
+To create URL, you'll often need the "basePath" value that is available into
+the configuration, and automatically calculated by the framework when you didn't
+specified it yourself. This method allow to retrieve easily this path:
 
 <code>
+$path = jApp::urlBasePath();
+// old way to retrieve this path: jApp::config()->urlengine['basepath']
+</code>
 
+You can also retrieve the URL path to web assets provided by Jelix (from lib/jelix-www).
+
+<code>
+$path = jApp::urlJelixWWWPath();
+</code>
+
+
+===== Retrieving all miscellaneous physical path =====
+
+jApp is configured during the startup of the application, in the file
+application.init.php. In particulary, path to different components of the
+application are set in it.
+
+The method @@M@appPath()@@ returns the full path of the application.
+
+<code>
 $path = jApp::appPath();
-
 </code>
 
-===== Retrieve the temporary directory =====
-
-To have the path to the temp directory, call the method @@M@tempPath()@@. In
-old version, it was JELIX_APP_TEMP_PATH.
+To have the path to the temp directory, call the method @@M@tempPath()@@.
 
 <code>
-
 $path = jApp::tempPath();
-
 </code>
 
-===== Others methods =====
+Other path are available:
 
 <code>
 // the path to the var/ directory of the application
-// equals to the old JELIX_APP_VAR_PATH
-$path = jApp::varPath(); 
+$path = jApp::varPath();
 
 // the path to the var/log/ directory of the application
-// equals to the old JELIX_APP_LOG_PATH
-$path = jApp::logPath(); 
+$path = jApp::logPath();
+
+// the path to the app/config/ directory of the application
+$path = jApp::appConfigPath();
 
 // the path to the var/config/ directory of the application
-// equals to the old JELIX_APP_CONFIG_PATH
-$path = jApp::configPath(); 
+$path = jApp::varConfigPath();
+// The old method jApp::configPath() is also available but is deprecated
 
 // the path to the www/ directory of the application
-// equals to the old JELIX_APP_WWW_PATH
-$path = jApp::wwwPath(); 
+$path = jApp::wwwPath();
 
-// base path (section urlengine in configuration )
-$path = jApp::urlBasePath();
 
-// the path to the main configuration file of the application
-// (mainconfig.ini.php or defaultconfig.ini.php for jelix <= 1.5)
+// the path to the scripts/ directory of the application
+$path = jApp::scriptsPath();
+</code>
+
+You can give a sub-path or a file to these previous method, to have the full
+path.
+
+
+You can also retrieve the path to the main configuration file of the application:
+
+<code>
+// the path to mainconfig.ini.php
 $path = jApp::mainConfigFile();
+</code>
 
-// the path to a module
-$path = jApp::getModulePath($nom_module);
+You can retrieve the path to a specific module:
+
+<code>
+$path = jApp::getModulePath('my_module');
+</code>
+
+==== Configuring jApp ====
+
+In the application.init.php file, you declare all different path of the application
+we saw above.
+
+You do it with the @@initPaths()@@ and @@setTempBasePath()@@ methods:
+
+<code>
+jApp::initPaths(
+    __DIR__.'/'
+    //__DIR__.'/www/',
+    //__DIR__.'/var/',
+    //__DIR__.'/var/log/',
+    //__DIR__.'/var/config/',
+    //__DIR__.'/scripts/'
+);
+jApp::setTempBasePath(realpath(__DIR__.'/temp').'/');
+</code>
+
+This class contain also methods to indicate where Jelix can find modules and
+plugins:
+
+<code>
+// declare a list of directories containing modules
+jApp::declareModulesDir(array(
+                        __DIR__.'/../lib/jelix-modules/',
+                        __DIR__.'/../lib/jelix-admin-modules/',
+                        __DIR__.'/modules/'
+                    ));
+// declare a list of directories containing plugins
+jApp::declarePluginsDir(array(
+                        __DIR__.'/../lib/jelix-plugins/',
+                        __DIR__.'/plugins'
+                    ));
+
+// declare the path to a module
+jApp::declareModule(__DIR__.'/my-module/');
 
 </code>
+
+Note that if you want to install Jelix and modules via Composer, these methods
+are called automatically with path of modules containing in packages.
+
+
+In the entry point, you have also to say what is the configuration file
+to use, and the router (coordinator) to use.
+
+<code>
+jApp::loadConfig('index/config.ini.php');
+jApp::setCoord(new jCoordinator());
+</code>
+

@@ -1,8 +1,11 @@
 ~~LANG:FR@frman:classes-utiles/jsession~~
 
-jSession is the object used by Jelix to initialize the storage engine. It is not used to read or store variables in session. **Use $_SESSION as usual** to do this task.
+jSession is the object used by Jelix to initialize the storage engine. It is
+not used to read or store variables in session. **Use @@$_SESSION@@ as usual** to
+do this task.
 
-Configuration of the session storage is done in @@F@app/var/config/mainconfig.ini.php@@, in a @@sessions@@ section.
+Configuration of the session storage is done in @@F@app/var/config/mainconfig.ini.php@@,
+in a @@sessions@@ section.
 
 ===== Session name =====
 
@@ -17,14 +20,12 @@ name = "mysession"
 
 NB : only alpha-numeric chars are allowed.
 
-
-
-
 ===== File storage =====
 
-Storing session files in default path may not be a good idea, as that path is often worldwide readable/writable, like /tmp/ for example.
+Storing session files in default path may not be a good idea, as that path is
+often worldwide readable/writable, like @@/tmp/@@ for example.
 
-To make jSession store sessions in your own defined path : 
+To make jSession store sessions in your own defined path:
 
 <code ini>
   [sessions]
@@ -34,11 +35,10 @@ To make jSession store sessions in your own defined path :
 
 NB : app: and lib: keywords are converted.
 
-
-
 ===== Database storage =====
 
-You may need to store your sessions in data, for example when you are doing load-balancing with multiple front servers. In this case, jSession uses jDao: 
+You may need to store your sessions in data, for example when you are doing
+load-balancing with multiple front servers. In this case, jSession uses jDao:
 
 <code ini>
   [sessions]
@@ -49,7 +49,10 @@ You may need to store your sessions in data, for example when you are doing load
 
 A default dao is provided in the jelix module. The selector is @@jelix~jsession@@.
 
-When you install your application, if the configuration is set correctly, Jelix will create a table in your SQL database. During the development, you can execute on of these SQL script to create the table: @@F@lib/jelix/core-modules/jelix/install/sql/install_jsession.schema.*@@.
+When you install your application, if the configuration is set correctly, Jelix
+will create a table in your SQL database. During the development, you can
+execute on of these SQL script to create the
+table: @@F@lib/jelix/core-modules/jelix/install/sql/install_jsession.schema.*@@.
 
 Here is the table:
 

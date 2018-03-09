@@ -1,8 +1,9 @@
 ~~LANG:FR@frman:classes-utiles/jfilter~~
 
-jFilter is a class dealing with string checking and validation. Such as checking if the string is a mail, an url, a number. It is used by jForms but can be likely be used anywhere.
+jFilter is a class dealing with string checking and validation. Such as checking
+if the string is a mail, an url, a number. It is used by jForms but can be
+likely be used anywhere.
 
-Internally, it depends on filter PHP extension (except for Jelix packages aiming at PHP 5.0 and 5.1).
+Internally, it depends on filter PHP extension.
 
-See also its reference API.  
-	
+See also [[refclass:utils/jFilter|its reference API]].
