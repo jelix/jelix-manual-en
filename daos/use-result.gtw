@@ -37,7 +37,9 @@ xml file, @@A@primarykey="key1,key2"@@, you have to give all key values at te sa
   // 3 and 4 are values of key1 and key2
   $baz = $myFactory->get(3, 4);
 </code>
+
 or
+
 <code php>
   $myFactory = jDao::get("foo");
 
@@ -72,8 +74,6 @@ foreach statement.
     }
 </code>
 
-
-
 You can use also two other methods to retrieve records. The first one being @@M@fetch()@@
 which fetches one row from the result set as an object and advances the internal
 pointer one step. 
@@ -88,6 +88,7 @@ pointer one step.
 
 The second one being @@M@fetchAll()@@ which returns an array containing an object
 for each row in the result set.
+
 <code php>
     // fetch all the records as an array of objects
     $rows = $list->fetchAll();
@@ -152,6 +153,7 @@ $list = $myFactory->findBy($conditions, 0, 15);
 
 As for the @@M@countBy()@@ method it takes one additional parameter: the property
 name that we want to apply a DISTINCT clause.
+
 <code php>
 // SELECT COUNT(DISTINCT table.label)...
 $count = $myFactory->countBy($conditions, 'label');
@@ -159,6 +161,7 @@ $count = $myFactory->countBy($conditions, 'label');
 
 Lastly, the @@M@deleteBy()@@ method allow to delete records corresponding to indicated
 criteria, it returns the number of deleted records:
+
 <code php>
 $nb_deleted = $myFactory->deleteBy($conditions);
 </code>
@@ -191,7 +194,7 @@ Here are the operators supported:
   * IN, NOT IN,
   * IS, IS NOT,
   * IS NULL, IS NOT NULL,
-  * MATCH, REGEXP, NOT REGEXP, RLIKE, SOUNDS LIKE
+  * MATCH, REGEXP, NOT REGEXP, RLIKE, SOUNDS LIKE, BETWEEN
   * @@~@@, @@!~@@, @@~*@@, @@!~*@@  (operators for regular expression for postgresql)
 
 == Special case with NULL ==
@@ -242,7 +245,7 @@ element. Its value is the selector of your base class:
 </code>
 
 Your base class should be store in a file which have the class name
-and the suffix @@.daorecord.php@@, in the daos/ directory of your module.
+and the suffix @@.daorecord.php@@, in the @@daos/@@ directory of your module.
 The class should follow these rules:
 
    * the class should be abstract
