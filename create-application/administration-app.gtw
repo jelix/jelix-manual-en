@@ -1,66 +1,113 @@
 ~~LANG:FR@frman:creer-application/creer-administration~~
 
-The @@initadmin@@ command adds an administration web interface to your application. It enables [[/ref-modules/master_admin|master_admin jelix module]], and can automatically configure authentication ([[/authentication|jAuth]]) and rights accesses ([[/rights2|jAcl2]]).
+The @@app:initadmin@@ command adds an administration web interface to your
+application. It enables [[/ref-modules/master_admin|master_admin jelix module]],
+and can automatically configure authentication ([[/authentication|jAuth]]) and
+rights accesses ([[/rights2|jAcl2]]).
 
-**Warning:** for security reasons, and to ease the use of the framework, it is highly recommended to create a dedicated application for an administration web interface.
+**Warning:** for security reasons, and to ease the use of the framework, it is
+highly recommended to create a dedicated application for an administration web
+interface.
 
-To create this administration interface, first, [[/db/configuration|you have to configure jDb]]. Then you can run in your application:
+To create this administration interface, first, [[/db/configuration|you have to configure jDb]].
+Then you can run in your application:
 
 <code bash>
-   php cmd.php initadmin index
+   php cmd.php app:initadmin index
 </code>
 
-   * "index" is the name of the entry point (without the extension @@.php@@) dedicated to the admin interface
+@@index@@ is the name of the entry point (without the extension @@.php@@)
+dedicated to the admin interface.
 
-If you really want (although this is not recommended) to create this interface in an existing application already using index.php for other modules, you can indicate an other name, such as "admin". The command will create it if it doesn't already exist. The configuration of the entry point will be modified in order to have a fully functional web interface. For example, you have two new response object in your @@F@myapp/responses/@@ directory. So you can customize later the general interface of the administration.
+If you really want to create this interface in an existing application already
+using index.php for other modules, you can indicate an other name, such as "admin".
 
-Note that before running this command, you have to configure the database access in @@F@profiles.ini.php@@, because it will create all needed tables for jAuth and jAcl2. If you prefer to configure jAuth and/or jAcl2 by yourself, you can indicate options to the command, respectively @@-noauthdb@@ and @@-noacl2db@@.
+The command will create the entry point if it doesn't already exist. The
+configuration of the entry point will be modified in order to have a fully
+functional web interface. For example, you have two new response objects into your
+@@F@app/responses/@@ directory. So you can customize later the general interface
+of the administration.
 
-After having created the admin interface (and configuring jAuth and jAcl2 correctly if you used  @@-noauthdb@@ and/or @@-noacl2db@@), you can run the application (example.com/admin.php for example).
+Note that before running this command, you have to configure the database access
+in @@F@profiles.ini.php@@, because it will create all needed tables for jAuth
+and jAcl2. If you prefer to configure jAuth and/or jAcl2 by yourself, you can
+indicate options to the command, respectively @@--noauthdb@@ and @@--noacl2db@@.
 
-You will see a login form, displayed by the module jauth. By default, a user named "admin" with the password "admin" is created. After entering login and password, you will be redirected to the [[/ref-modules/master_admin|master_admin module]].
+After having created the admin interface (and configuring jAuth and jAcl2
+correctly if you used  @@--noauthdb@@ and/or @@--noacl2db@@), you can run the
+application (@@http://example.com/admin.php@@ for example).
+
+You will see a login form, displayed by the module jauth. By default, a user
+named "admin" with the password "admin" is created. After entering login and
+password, you will be redirected to the [[/ref-modules/master_admin|master_admin
+module]].
 
 
-**Remember that you cannot use controllers of a module on two entry points at the same time.**. So if you already use controllers and zones of jauth in your application, for anything other than the admin interface, you'll have issues with urls and some "bizarre" behaviors, such as the login form of the admin which is submitted on the other entry point of your application, instead of the entry point of the administration. If you need to use jauth both for an admin and a public web site, you need to create two dedicated applications (they can share both modules code and databases of course).
+**Remember that you cannot use controllers of a module on two entry points at
+the same time.**. So if you already use controllers and zones of jauth in your
+application, for anything other than the admin interface, you'll have issues
+with urls and some "bizarre" behaviors, such as the login form of the admin
+which is submitted on the other entry point of your application, instead of the
+entry point of the administration. If you need to use jauth both for an admin
+and a public web site, you need to create two dedicated applications (they can
+share both modules code and databases of course).
 
 
-===== Using the significant url engine =====
+===== User interface and urls =====
 
-Because of some constraints or because of some needs, you may want to use modules activated by init_admin, with the same configuration of the rest of the application, and perhaps with the [[/urls/significant|significant urls engine]]. By default it is not activated, and so you don't have to do any more to run the administration interface. 
-
-But perhaps you activated it. In this case, you have to do modifications into the @@F@urls.xml@@ file, if you want to access to the admin modules through the web.
-
-First, you have to declare the new entry point
+Administration modules should be accessible only through the entry point
+dedicated to the administration. So you must declare these modules
+in the right @@<entrypoint>@@ element into the @@F@app/config/urls.xml@@.
 
 <code xml>
- <classicentrypoint name="admin">
-     <url pathinfo="" module="master_admin" action="default:index" />
- </classicentrypoint>
+ <entrypoint name="admin">
+     <url pathinfo="/" module="master_admin" action="default:index" />
+     <url module="jauth"/>
+     <url module="jauthdb_admin"/>
+     <url module="jacl2db_admin"/>
+     <!-- etc... -->
+ </entrypoint>
 </code>
 
-The administration use the auth system of jelix, [[/authentication|jAuth]]. You have then to define urls for the jauth module, by including the @@F@urls.xml@@ file provided with the jauth module.
+Without this declaration, modules will not be accessible, because urls to them
+are unknown. Or it could be accessible through an other entry point, which
+will cause issues.
+
+The exemple above allow to declare some basic url (@@/module/controller/action@@)
+quickly, but you may want to have "cool" urls. Each provided administration
+module have their own URL definition file, so you can refer to them.
+
+For example, the administration use the auth system of jelix, [[/authentication|jAuth]]. You
+can then define urls for the jauth module, by including the @@F@urls.xml@@
+file provided with the jauth module.
 
 <code xml>
- <classicentrypoint name="admin">
-     <url pathinfo="" module="master_admin" action="default:index" />
+ <entrypoint name="admin">
+     <url pathinfo="/" module="master_admin" action="default:index" />
 
      <url pathinfo="/login/" module="jauth" include="urls.xml" />
- </classicentrypoint>
+
+ </entrypoint>
 </code>
 
-If, when you called initadmin, you didn't deactivated authentication with jAuthDb and/or rights management with jAcl2Db, you have then to defines urls for the jauthdb_admin module and/or jacl2db_admin. Include their @@F@urls.xml@@ files:
+When you executed @@app:initadmin@@, if you didn't deactivated authentication
+with jAuthDb and/or rights management with jAcl2Db, you have then to defines urls for
+the jauthdb_admin module and/or jacl2db_admin. Include their @@F@urls.xml@@
+files:
 
 <code xml>
- <classicentrypoint name="admin">
+ <entrypoint name="admin">
      <url pathinfo="" module="master_admin" action="default:index" />
 
      <url pathinfo="/login/" module="jauth" include="urls.xml" />
      <url pathinfo="/acl/" module="jacl2db_admin"  include="urls.xml"/>
      <url pathinfo="/auth/" module="jauthdb_admin"  include="urls.xml"/>
+     <url pathinfo="/pref/" module="jpref_admin"  include="urls.xml"/>
 
- </classicentrypoint>
+ </entrypoint>
+
 </code>
 
 
-Your administration interface is ready.
+Your administration interface is now ready.
 
