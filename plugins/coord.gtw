@@ -44,10 +44,19 @@ Since Jelix 1.3, @@"1"@@ means also that the configuration of the plugin can be 
 the configuration file of the entry point. It should be into a @@[coordplugin_XXX]@@
 section (where XXX is the name of the plugin, like @@[coordplugin_foo]@@).
 
-**Important**: if you use several plugins for the coordinator, the order in wich they appear in
-//coordplugins// configuration section is important: jelix will follow this
-order to instantiate and call the plugins. So be careful about this order, and
-read the documentation of the plugins you use.
+**Important**: If you use several coordinator plugins, the order of the plugins
+declaration in the config file matters. Hence the first declared plugin has precedence on the
+others. It means that if this first plugin returns an action, the other ones
+will not be executed. So you need to choose carefully the order of the plugins
+declaration according to the priority you wish for every plugin. For example if
+you consider that the //bar// plugin cannot be executed as long as the //foo//
+plugin does not return any action, then you should declare them this way:
+
+<code ini>
+[coordplugins]
+foo = foo.plugin.ini.php
+bar = 1
+</code>
 
 ===== Plugin configuration =====
 
