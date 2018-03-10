@@ -1,6 +1,7 @@
 ~~LANG:FR@frman:controleurs~~
 
-Controller objects run actions corresponding to client-input. An action corresponds to a unique URL of your application.
+Controller objects run actions corresponding to client-input. An action
+corresponds to a unique URL of your application.
 
 Actions are methods of the controller that prepare a response.
 
@@ -10,26 +11,29 @@ Each controller is dedicated to one client-request type.
 
 ==== File-system ====
 
-Controllers are sorted per-module on the file-system, in the @@F@controllers@@ directory. Each should have a unique prefix and suffix :
+Controllers are sorted per-module on the file-system, in the @@F@controllers@@
+directory. Each should have a unique prefix and suffix.
 
-<code>controllerName.clientRequestType.php</code>
+The file name of a controller should follow a specific format: @@ccc.ttt.php@@,
+where @@ccc@@ is the controller name, and @@ttt@@ is the request type that the
+controller is able to manage.
 
-For example, the //foo// controller usable on classic client-requests :
-<code>foo.classic.php</code>
+For example, the //editor// controller usable on classic client-requests: @@editor.classic.php@@
 
 ==== Class name ====
 
-All controller class name should use suffix //Ctrl//.
+All controller class name should use suffix @@Ctrl@@.
 
-For example, the //foo// controller class name should be :
-<code>fooCtrl</code>
+For example, the class name of the //editor// controller should be: @@editorCtrl@@.
 
 
 ===== Creating a controller =====
 
 Each module could define a default controller, which then should be named "default".
 
-For example, the first controller that you might want to create, named "default": @@F@exampleModule/controllers/default.classic.php@@. The name of the class is then @@C@defaultCtrl@@. Here is the class:
+For example, the first controller that you might want to create, named
+"default": @@F@exampleModule/controllers/default.classic.php@@. The name of the
+class is then @@C@defaultCtrl@@. Here is the class:
 
 <code php>
 class defaultCtrl extends jController {
@@ -37,7 +41,10 @@ class defaultCtrl extends jController {
 }
 </code>
 
-Each controller class should inherit from @@C@jController@@. Then you add a method for each action you want to implement. Methods for actions should be public, without arguments, and should return an object which inherits from  @@C@jResponse@@, so a "response" in Jelix. Example:
+Each controller class should inherit from @@C@jController@@. Then you add a
+method for each action you want to implement. Methods for actions should be
+public, without arguments, and should return an object which inherits from
+@@C@jResponse@@, so a "response" in Jelix. Example:
 
 <code php>
 class defaultCtrl extends jController {
@@ -50,14 +57,20 @@ class defaultCtrl extends jController {
 }
 </code>
 
-The method named "index" in a controller is always considered as the default action of the controller.
+The method named "index" in a controller is always considered as the default
+action of the controller.
 
-When Jelix cannot determine the action and/or the controller from the URL, it tries to execute the method @@M@index()@@ of the "default" controller. So it is recommended to have a "default" controller in a module, and an @@M@index()@@ method in each controller.
+When Jelix cannot determine the action and/or the controller from the URL, it
+tries to execute the method @@M@index()@@ of the "default" controller. So it is
+recommended to have a "default" controller in a module, and an @@M@index()@@
+method in each controller.
 
 
 === Redefining the class constructor ===
 
-To redefine the class constructor, you should call the parent constructor (so the constructor of @@C@jController@@), by giving the received argument, which is a @@C@jRequest@@ object. Example: 
+To redefine the class constructor, you should call the parent constructor (so
+the constructor of @@C@jController@@), by giving the received argument, which is
+a @@C@jRequest@@ object. Example:
 
 <code php>
 class defaultCtrl extends jController {
@@ -76,9 +89,14 @@ class defaultCtrl extends jController {
 
 ==== Fetch a jResponse object ====
 
-Actions should always return @@C@jResponse@@ objects which implements the "View" of the MVC pattern. Jelix supplies several response objects, which allow to generate easily some HTML pages, JSON, text, XML, Zip, redirections etc, and you can make your own inheriting from @@C@jResponse@@.
+Actions should always return @@C@jResponse@@ objects which implements the "View"
+of the MVC pattern. Jelix supplies several response objects, which allow to
+generate easily some HTML pages, JSON, text, XML, Zip, redirections etc, and you
+can make your own inheriting from @@C@jResponse@@.
 
-Each response type is declared with a keyword. So, to retrieve a specific response object, you call the method @@M@getResponse()@@ by indicating the keyword corresponding to the response type:
+Each response type is declared with a keyword. So, to retrieve a specific
+response object, you call the method @@M@getResponse()@@ by indicating the
+keyword corresponding to the response type:
 
 <code php>
    $resp = $this->getResponse('html');
@@ -86,4 +104,9 @@ Each response type is declared with a keyword. So, to retrieve a specific respon
 
 @@V@$resp@@ is now an instance of @@C@jResponseHtml@@ capable of generating HTML.
 
-Notice that you can create your own response object. You can then support a new output format, or you can overload an existing response object to do some things shared between many actions. For example, you can create your own response HTML which generates dynamically a menu. Then, in all actions where you use this responses, you will have this menu. See [[creating-response|the page which explains how to do this]].
+Notice that you can create your own response object. You can then support a new
+output format, or you can overload an existing response object to do some things
+shared between many actions. For example, you can create your own response HTML
+which generates dynamically a menu. Then, in all actions where you use this
+responses, you will have this menu. See [[creating-response|the page which
+explains how to do this]].

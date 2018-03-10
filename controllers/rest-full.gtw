@@ -1,17 +1,24 @@
 ~~LANG:FR@frman:controllers/rest-full~~
 
 
-REST principles consist of using HTTP protocol features to access and manipulate a resource. It is true that POST and GET method are very-well known HTTP requests but HTTP also defines PUT and DELETE methods. Thus RESTful says a resource should be identified by a unique URI and the four HTTP methods should be used to create, modify, delete and display it. 
+REST principles consist of using HTTP protocol features to access and manipulate
+a resource. It is true that POST and GET method are very-well known HTTP
+requests but HTTP also defines PUT, DELETE and other methods. Thus RESTful says a
+resource should be identified by a unique URI and the four HTTP methods should
+be used to create, modify, delete and display it.
 
 See [[http://en.wikipedia.org/wiki/Representational_State_Transfer|RESTful on wikipedia]].
 
-Now, let's dive into RESTful with Jelix
+Now, let's dive into REST with Jelix.
 
 ===== Controller =====
 
-As said before, the four HTTP methods are: GET, POST, DELETE, PUT. Each should be implemented in a RESTful controller.
+As said before, the four HTTP methods are: GET, POST, DELETE, PUT. Each should
+be implemented in a RESTful controller.
 
-You have to create a new controller implementing jIRestController interface. You won't be able to add actions to it other than the four defined by jIRestController:
+You have to create a new controller implementing @@jIRestController@@ interface. You
+won't be able to add actions to it other than the four defined by
+@@jIRestController@@:
 
 <code php>
 
@@ -35,47 +42,45 @@ class exampleCtrl extends jController implements jIRestController {
 }
 </code>
 
-The code of those methods is similar to those of classic actions but you should respect their meaning:
+The code of those methods is similar to those of classic actions but you should
+respect their meaning:
+
   * GET is used to display a resource
   * POST is used to modify a resource
   * PUT is used to create a resource
   * DELETE is used to delete a resource
 
-Note: implementing jIRestController interface is mandatory to do RESTful. Jelix knows you are doing RESTful by the means of this interface and modify its internal behaviour.
-
+Note: implementing jIRestController interface is mandatory to do RESTful. Jelix
+knows you are doing RESTful by the means of this interface and modify its
+internal behaviour.
 
 ===== Client request =====
 
-As said above, there is a unique URI identifying a resource and only HTTP methods indicates which action of your controller Jelix should execute.
+As said above, there is a unique URI identifying a resource and only HTTP
+methods indicates which action of your controller Jelix should execute.
 
-Therefore, if you want to retrieve a REST controller url you shall not indicate an action and leave this field empty in your selector.
+Therefore, if you want to retrieve a REST controller url you shall not indicate
+an action and leave this field empty in your selector.
 
-Example: with the example controller above, its url selector should be "module~exemple:". Note the last ":" character. 
+Example: with the example controller above, its url selector should be
+"module~exemple:". Note the last ":" character.
 
-With the url result of jUrl::get("module~example:"), you will then be able to call it via xmlHttpRequest in a JS script for example. You just have to tell xmlHttpRequest which http method to use (GET, POST, DELETE or PUT).
+With the url result of jUrl::get("module~example:"), you will then be able to
+call it via xmlHttpRequest in a JS script for example. You just have to tell
+xmlHttpRequest which http method to use (GET, POST, DELETE or PUT).
 
 ==== Note ====
 
-There is another way to do REST in a classic controller. Scan $_SERVER['REQUEST_METHOD'] value. But this is  a less "sexy" solution than a jIRestController interface. ;-)
-
-
+There is another way to do REST in a classic controller. Scan
+@@$_SERVER['REQUEST_METHOD']@@ value. But this is a less "sexy" solution than a
+@@jIRestController@@ interface. ;-)
 
 ===== Retrieving parameters of the request =====
 
-As in any controller, you can retrieve parameters with the @@M@param()@@ method, by indicating the parameter name.
+As in any controller, you can retrieve parameters with the @@M@param()@@ method,
+by indicating the parameter name.
 
-For POST and PUT requests, @@M@param()@@ is working only if parameters are stored in the body http request with the content-type "multipart/form-data" or "application/x-www-url-encoded" (this is mostly the case with POST request).
-
-==== The PUT case ====
-
-PHP doesn't support correctly the HTTP PUT method. It doesn't read the body of the request, even if the data format is "multipart/form-data" or "application/x-www-url-encoded" (there isn't a @@$_PUT@@ global variable).
-
-Jelix read for you the body (by reading "php://input". If the content-type of data is "multipart/form-data" or "application/x-www-url-encoded", then data are accessible from the @@M@param()@@ method as usual. However, it doesn't detect uploaded files, so there isn't any content in @@$_FILE@@ and then you have to read file properties by getting the corresponding parameters through the @@M@param()@@ method.
-
-If the content-type of data is not "multipart/form-data" or "application/x-www-url-encoded", you could retrieve the entire content in the special parameter @@__httpbody@@.
-
-<code php>
-  $data = $this->param('__httpbody');
-</code>
-
-Then you have to parse yourself the content to extract data you want. You can read @@$_SERVER["CONTENT_TYPE"]@@ to get the content type of the data.
+For POST and PUT requests, @@M@param()@@ is working only if parameters are
+stored in the body http request with the content-type "multipart/form-data",
+"application/json" or "application/x-www-url-encoded" (this is mostly the case
+with POST request).
