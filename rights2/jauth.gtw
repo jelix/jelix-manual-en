@@ -1,6 +1,6 @@
 ~~LANG:FR@frman:droits2/jauth~~
 
-The mutual use of jAcl2 and jAuth is strongly probable. And you can raises
+There are high chances that you want to use jAcl2 with jAuth. And you can raises
 questions about their integration. In fact this is dumb simple.
 
 ===== jAcl2 interacts with jAuth =====
@@ -21,7 +21,7 @@ This is not done automatically as it depends on the jAcl2 driver selected. As of
 now, only jAcl2.db driver exposes an API to do so. 
 
 The jacl2db module (in lib/jelix-modules) provides a listener to this event, for
-the db driver of jAcl2. It listen to //AuthNewUser// and //AuthRemoveUser//
+the db driver of jAcl2. It listen to @@AuthNewUser@@ and @@AuthRemoveUser@@
 events to trigger rights updates. Then, jAcl2 will give default rights to a new
 member and will delete a member rights upon account deletion.
 

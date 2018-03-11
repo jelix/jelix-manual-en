@@ -3,7 +3,7 @@
 jAcl2.db is a "db" or database driver of jAcl2. Following instructions
 work also with jAcl2.dbcache which is provided since Jelix 1.6.8.
 
-Rights are stored in a database. The driver implements generic concepts fo jAcl2
+Rights are stored in a database. The driver implements generic concepts of jAcl2
 and add one feature: support of user groups. Then, the basic elements defining a
 right are:
 

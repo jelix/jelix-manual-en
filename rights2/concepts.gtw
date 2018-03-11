@@ -6,20 +6,21 @@ fine-grained, yet easily maintainable and manageable way. But what is a right?
 A right in jAcl2 is defined with three elements.
 
 
-===== right  elements =====
+===== Right elements =====
 
 You must distinguish between different elements composing a right:
 
-  * a subject (or a topic)
+  * a subject, or a role if you prefer
   * a user
   * a resource (optional)
 
 Group one of each elements listed above and you have a right. 
 
-==== subject ====
+==== subject/role ====
 
-It is a label referencing a right. It is a topic. As for example,
-"**cms.articles.create**" could reference a right to create a CMS article.
+It is a label referencing a thing that the user has right to do/access.
+It is a role. As for example, "**cms.articles.create**" could reference the right
+to create a CMS article.
 
 To prevent conflicts between modules, a subject should start with its module
 name followed by a controller name and eventually a right label. But it is of
@@ -43,17 +44,15 @@ don't bother about that.
 
 ==== Resource ====
 
-In most cases, associating a //subject// and a //user// is enough. But a more fine-grained control is sometimes needed.
+In most cases, associating a //subject// and a //user// is enough. But a more
+fine-grained control is sometimes needed.
 
 As for example, in a CMS, you want to give an author the right to modify its
 articles but not the other ones. In that case, the right must be defined as a
 combination of a subject, a user and an article id. See below:
 
    * "cms.articles.create" for "authors" group
-   * "cms.articles.update" on "myarticle" for "toto" of "authors" group.
-
-
-
+   * "cms.articles.update" on "myarticle" for "Bob" of "authors" group.
 
 ===== functional description =====
 

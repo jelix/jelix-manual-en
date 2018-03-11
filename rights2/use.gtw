@@ -16,10 +16,11 @@ authentication system.
 First step: you must install the jacl2 module.
 
 <code php>
-php cmd.php installmodule jacl2
+php cmd.php module:install jacl2
 </code>
 
 You must also indicate the driver to use.
+
 Drivers are plugins in jAcl2 system. They are stored in @@V@acl2@@ folder of a
 plugins repository. A jAcl2 plugin is a class @@C@fooAcl2Driver@@ (@@foo@@ being
 the plugin name) implementing @@I@jIAcl2Driver@@ interface and located in
@@ -43,9 +44,10 @@ Since Jelix 1.6.8, there is also a "dbcache" driver, which is similar to the
 "db" driver (it works with jAcl2.db) but stores also rights result into a cache
 using jCache.
 
-===== Ask a question to jAcl2 =====
+===== Check a right with jAcl2 =====
 
-As jAcl2 discovers on its own the current user, you have on 99% cases only one method to use: @@M@jAcl2::check()@@.
+As jAcl2 discovers on its own the current user, you have on 99% cases only one
+method to use: @@M@jAcl2::check()@@.
 
 ==== jAcl2::check ====
 
@@ -73,7 +75,7 @@ if( jAcl2::check("cms.articles.update", $article_id)){
 </code>
 
 If the value of the resource is empty or equal to "-", it means "every resources".
-Before Jelix 1.4.1, "-" could be a resource id but this is not the case anymore.
+
 
 ==== Automatic checking ====
 
@@ -87,7 +89,7 @@ You should have this configuration:
 jacl2 = "1"
 </code>
 
-The plugin have a configuration in a @@coordplugin_jacl2@@ section (it was in a separate file before Jelix 1.5):
+The plugin have a configuration in a @@coordplugin_jacl2@@ section:
 
 <code ini>
 [coordplugin_jacl2]
@@ -103,6 +105,7 @@ on_error_action="jelix~error:badright"
 The plugin will try to retrieve these plugin parameters in your controllers: @@jacl2.right@@, @@jacl2.rights.and@@, @@jacl2.rights.or@@.
 
 To check only one right, use @@jacl2.right@@:
+
 <code php>
 
    public $pluginParams = array(
@@ -111,7 +114,8 @@ To check only one right, use @@jacl2.right@@:
    );
 </code>
 
-Or, to check a sequence of rights about the current user, use @@jacl2.rights.and@@: 
+Or, to check a sequence of rights about the current user, use @@jacl2.rights.and@@:
+
 <code php>
 
    public $pluginParams = array(
@@ -122,6 +126,7 @@ Or, to check a sequence of rights about the current user, use @@jacl2.rights.and
 </code>
 
 Or else, to check if current user has any of a sequence of rights, use @@jacl2.rights.or@@:
+
 <code php>
 
    public $pluginParams = array(
