@@ -1,82 +1,97 @@
 ~~LANG:FR@frman:installation/application~~
 
-This chapter explains how to install an existing application developed with Jelix. We're going to take the TestApp application availabled in the download section of jelix.org. It is an application which contains some examples and some unit tests for Jelix (It is useful for developers who modify jelix).
+This chapter explains how to install an existing application developed with
+Jelix. We're going to take the TestApp application available in the download
+section of jelix.org. It is an application which contains some examples and some
+unit tests for Jelix (It is useful for developers who modify jelix).
 
 The explanations are of course valid for any application based on Jelix.
 
 ===== Files installations =====
 
-Depending of the project, you may have an archive (zip or tar.gz) which contains all files. Or you may have to retrieve files from a source code repository (based an subversion, mercurial, git). The second solution is pretty good, because updates are easiers.
+Depending of the project, you may have an archive (zip or tar.gz) which contains
+all files. Or you may have to retrieve files from a source code repository
+(git, mercurial, subversion...). Or you are using modern tools to deploy sources
+to the server.
 
-When the archive is decompressed, or source code retrieved from the repository, you get the following directories:
+Whatever the solution you are using, you get the following directories,
+let's say in the @@/srv/@@ directory of your server:
 
-  testapp/          application directory
+<code>
+  /srv/testapp/     application directory
       install/      script to install the application
       modules/      modules of the application
-      responses/    common responses for the application
       plugins/      plugins of the application
+      app/responses/  common responses for the application
+      app/config/    static configuration files of the application
+      temp/         where temporary files will be stored
       var/          contain all the files created or that can be modified by Jelix during execution
-         config/    configuration files of the application
+         config/    configuration files of the application depending of the environment
          log/       log files of jelix and of the application
       www/          root of the site of the application (document root)
+</code>
 
+You may have too a @@F@lib/@@ directory, provided into the source code. If not,
+you may have to run Composer to retreive Jelix, or download an archive of Jelix.
 
-You may have too a @@F@lib/@@ and a @@F@temp/@@ directory, provided into the source code. If not, you have to retrieve an archive of Jelix, and to create a temp directory.
+The tree structure of the sources is by default organized in order to install
+the application on a server on which you can specify the public root directory
+of the site (document root). This directory is @@F@/srv/testapp/www@@ .
 
-All these directories could be in a same @@F@mysite/@@ directory. You then have:
+You will of course be able to move the content of @@www/@@ to an other directory,
+but be sure other files are not accessible from a browser, for security reasons.
 
-    mysite/
-       lib/
-       temp/ 
-       testapp/
+===== Renaming configuration files =====
 
-The tree structure of the sources is by default organized in order to install the application on a server on which you can specify the public root directory of the site (document root). This directory is @@F@mysite/testapp/www@@ .
-
-You will of course be able to change the place of these directories but it is not recommended, for security reasons. 
-
-You will notice that the files of the application and those of the framework are separated. This way, you can share the lib directory with several applications.
-
-===== Configuration files renaming =====
-
-In @@F@testapp/var/config@@, you have @@F@*.dist@@ files. Rename them by removing this '.dist' suffix. You have certainly some things to modify in this new files, like database configuration in @@F@profiles.ini.php@@ etc. We will see how exactly below.
-
-===== Creating the temporary directory =====
-
-Create the @@F@mysite/temp/testapp@@ directory. Perhaps your application contains different @@F@*.init.php@@ files, similar to the  @@F@application.init.php@@, but declaring different temporary folders. So create the corresponding folders.
+In @@F@testapp/var/config@@, you may have @@F@*.dist@@ files. Rename them by
+removing this @@.dist@@ suffix. You have certainly some things to modify in this
+new files, like database configuration in @@F@profiles.ini.php@@ etc. We will
+see how exactly below.
 
 ===== Configuring the server =====
 
-You have to configure the web server (virtual host, with a document root..), and to configure certainly a SQL database.
+You have to configure the web server (virtual host, with a document root..), and
+to configure certainly a SQL database.
 
 Read [[server-configuration|the corresponding chapter]] before continuing.
 
-
-===== Installing the application =====
+===== Launching the installer of Jelix =====
 
 There is three ways to install the application, depending what is providing with your application.
 
 ==== With a wizard ====
 
-If there is a @@F@testapp/www/install.php@@ script, this is certainly a script, a wizard, to launch with your browser. So open your browser, and go to the url of this script, for instance @@http://www.mysite.com/install.php@@. Follow instructions and that's it. The wizard will probably modify configuration file for you (database access etc), after asking you informations about it. The installation is then done.
+If there is a @@F@testapp/www/install.php@@ script, this is certainly a script,
+a wizard, to launch with your browser. So open your browser, and go to the url
+of this script, for instance @@http://www.mysite.com/install.php@@. Follow
+instructions and that's it. The wizard will probably modify configuration file
+for you (database access etc), after asking you informations about it. The
+installation is then done.
 
-It is recommended to remove the @@F@install.php@@ file (save it in a protected folder), so it is not accessible anymore from the web.
+It is recommended to remove the @@F@install.php@@ file (save it in a protected
+folder), so it is not accessible anymore from the web.
 
 ==== With the application installer ====
 
-If there is a @@F@testapp/install/installer.php@@ script, this is a script to execute in a
-console. So first fill all needed parameters in @@F@profiles.ini.php@@ and in
-@@F@mainconfig.ini.php@@ (read the documentation of the application to know what exactly
-change). Then open a console, go into the @@F@testapp/install/@@ directory, and then type
-@@php.exe installer.php@@.
+If there is a @@F@testapp/install/installer.php@@ script, this is a script to
+execute in a console. Before to launch it, fill all needed parameters in
+@@F@profiles.ini.php@@ and in @@F@localconfig.ini.php@@ (read the documentation
+of the application to know what exactly you have to change). Then open a console,
+go into the @@F@testapp/install/@@ directory, and then type @@php installer.php@@.
 
 ==== With the jelix installer ====
 
 If there isn't wizard or dedicated installation script, you have to configure
-@@F@profiles.ini.php@@ and in @@F@mainconfig.ini.php@@, then, with a console, go into the
-@@F@testapp/@@ directory and type @@php.exe cmd.php installapp@@. Read
-[[/jelix-scripts|the chapter about jelix commands]] to have more informations about this
-command line.
+@@F@profiles.ini.php@@ and in @@F@localconfig.ini.php@@, then, with a console,
+go into the @@F@testapp/@@ directory and type @@php.exe cmd.php installapp@@.
+Read [[/installation/jelix-scripts|the chapter about jelix commands]] to have more
+informations about this command line.
 
 ==== If the installation system is deactivated into the configuration ====
 
-In some project, especially on internal projects where the installation process is very specific, a choice has probably be made to deactivate the installation system (@@disableInstallers=on@@). In this case, no need to launch the application installer or the jelix installer. However, you have to install all things needed by the application, "by hand", or by your own scripts of your installation process.
+In some project, especially on internal projects where the installation process
+is very specific, a choice has probably be made to deactivate the installation
+system (@@disableInstallers=on@@). In this case, no need to launch the
+application installer or the jelix installer. However, you have to install all
+things needed by the application, "by hand", or by your own scripts of your
+installation process.

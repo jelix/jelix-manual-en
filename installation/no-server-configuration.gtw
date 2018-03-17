@@ -1,0 +1,101 @@
+~~LANG:FR@frman:installation/sans-configuration-serveur~~
+
+This section explains how to install a Jelix application on a web server you cannot
+configure, typically a shared hosting server, or a server where you cannot specify
+the document root.
+
+
+==== Moving the content of www/ ====
+
+So for example, you should install your application "myapp" in a directory
+"mysite". This directory is directly accessible from a web browser.
+
+In this case, it is better to move the content of the directory @@F@myapp/www@@ to 
+the root of your site, @@F@mysite/@@. After that, you have for example:
+
+<code>
+  mysite/
+     index.php
+     myapp/
+        application.init.php
+        app/
+        modules/
+        var/
+        vendor/
+</code>
+
+Here in this example, @@F@index.php@@ is the entry point of your application. 
+You have to modify this PHP file to change the relative paths it contains (if there 
+are other entry points, you should do it in them too). Same for the 
+@@F@myapp/application.init.php@@ file. For example, after modifications, the file 
+@@index.php@@ should look like this:
+
+<code php>
+require_once ('myapp/application.init.php');
+
+require_once (JELIX_LIB_CORE_PATH.'request/jClassicRequest.class.php');
+$config_file = 'index/config.ini.php';
+$jelix = new jCoordinator($config_file);
+$jelix->process(new jClassicRequest());
+</code>
+
+You need also to modify the @@F@myapp/project.xml@@ file in order to update the path
+of each directory, so commands of jelix-scripts will work fine (path should be 
+relative to the project.xml path). See the path of @@www@@:
+
+<code xml>
+<project xmlns="http://jelix.org/ns/project/1.0">
+    <!-- ...  -->
+    <directories>
+        <config>./var/config/</config>
+        <log>./var/log/</log>
+
+        <var>./var/</var>
+        <www>../</www>
+        <temp>../temp/myapp/</temp>
+    </directories>
+    <entrypoints>
+        <!-- ... -->
+    </entrypoints>
+</project>
+</code>
+
+==== Moving the content of jelix-www/ ====
+
+It is finally necessary to move the @@F@lib/jelix-www@@ directory to the root and to 
+rename it in @@F@jelix/@@. You will obtain: 
+
+<code>
+  mysite/
+     index.php
+     jelix/
+     myapp/
+</code>
+
+Note: you can choose another name for the @@F@jelix-www@@ directory. If you do this, you
+have to change the @@V@jelixWWWPath@@ option in the configuration file of the application
+(@@F@myapp/var/config/mainconfig.ini.php@@)
+
+
+**WARNING: it highly recommanded to not store your own scripts/CSS/whatever in this directory or in jelix-www.**
+Else futur update will be difficult, because other colleague will be confused, and may have difficult to know
+what it comes from Jelix, and what it comes from your application. So don't modify the content of jelix-www or
+of its copies, and store your own script in an other directory, for instance, @@F@mysite/js/@@.
+
+Finally, in the file @@F@myapp/application.ini.php@@, you must change the path (second parameter
+ to @@jApp::initPaths@@):
+
+<code php>
+jApp::initPaths(
+    $appPath
+    $appPath.'../',
+    //$appPath.'var/',
+    //$appPath.'var/log/',
+    //$appPath.'var/config/',
+    //$appPath.'scripts/'
+);
+</code>
+
+
+You can then enter the address of your site (http://www.mysite.com for example, or 
+http://localhost/)

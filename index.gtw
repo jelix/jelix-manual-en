@@ -22,10 +22,9 @@ copyright_holder=All jelix.org wiki contributors
 
 - part: [[getting-started|Getting started]]
   - chapter: [[installation/requirements|Install requirements]]
-  - chapter: [[installation/jelix|Install Jelix]]
   - chapter: [[installation/create-application|Creating an application]]
   - chapter: [[installation/server-configuration|Server configuration]]
-  - chapter: [[jelix-scripts|Using jelix scripts]]
+  - chapter: [[installation/jelix-scripts|Using jelix scripts]]
 
 - part: [[main-concepts|Fundamental]]
    - chapter: [[core|Core workflow]]
@@ -139,7 +138,8 @@ copyright_holder=All jelix.org wiki contributors
 - part: [[installation/deployment|Deploying a Jelix application]]
   - chapter: [[installation/production-serveur|Configuring a production server]]
   - chapter: [[installation/applications|Installing an application]] 
-  - chapter: [[installation/application-update|Updating an application]] 
+  - chapter: [[installation/application-update|Updating an application]]
+  - chapter: [[installation/no-server-configuration|Installing on a server that we cannot configure]]
 
 - part: [[tips|Tips]]
 

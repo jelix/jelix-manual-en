@@ -1,29 +1,143 @@
 ~~LANG:FR@frman:creer-application~~
 
-The first thing before using Jelix is to create an application. You can create an application manually, but there is an easier way : using the @@createapp@@ script.
+The first thing before using Jelix is to create an application.
 
-In a console, change directory to @@F@lib/jelix-scripts@@, and run:
+There is two way to create a Jelix application:
+
+   - by installing a "skeleton", with the package  @@jelix-skeleton-app@@, with Composer
+   - by running the command @@create-jelix-app@@ included into the jelix package
+     (zip, tar.gz or Composer package)
+
+To install Composer, go at [[https://getcomposer.org]].
+
+
+===== Using the jelix-skeleton-app package =====
+
+This is the fastest way to create a new application based on Jelix. The package
+include all files to start quickly an application including a first page.
+
+To do so, let's say you want to create an application named "myapp", using
+the development version of Jelix 1.7:
 
 <code bash>
-php createapp.php /path/where/you/want/your/myapp
+composer create-project jelix/jelix-skeleton-app myapp dev-jelix-1.7
+</code>
+
+Composer may ask you if you want to keep the @@F@.git@@ directory. Answer no.
+
+Some files should then be copied before initializing the application:
+
+<code bash>
+ln -s ../vendor/jelix/jelix/lib/jelix-www www/jelix
+cp var/config/profiles.ini.php.dist var/config/profiles.ini.php
+cp var/config/localconfig.ini.php.dist var/config/localconfig.ini.php
+
+php install/installer.php
+</code>
+
+
+===== With the create-jelix-app command =====
+
+The other way to create an application is to use the @@bin/create-jelix-app.php@@
+command. It allow to create a skeleton of your application. It allow to
+personnalize the creation of the skeleton.
+
+You must install sources first: with Composer, or with the zip package from
+jelix.org.
+
+==== Installing sources with Composer ====
+
+Create a @@F@composer.json@@ for your project in a new directory (ex: @@myapp@@)
+which will be dedicated to your application. Here is an example of its content:
+
+<code json>
+{
+    "name": "myorganisation/myapp",
+    "type": "application",
+    "require": {
+        "jelix/jelix": "dev-jelix-1.7.x"
+    },
+    "minimum-stability": "stable"
+}
+</code>
+
+Then, go into @@myapp@@ and launch Composer:
+
+<code bash>
+cd myapp
+composer install
+</code>
+
+A new directory @@vendor@@ appears, in which Jelix and other libraries are
+installed. Jelix is then into @@F@vendor/jelix/jelix/@@.
+
+In other page of the manual, if it is refered to the @@lib/@@ directory of Jelix,
+it is @@F@vendor/jelix/jelix/lib/@@.
+
+The command @@create-jelix-app.php@@ is into @@F@vendor/bin/@@.
+
+==== Installing sources from jelix.org ====
+
+Go into the download page of jelix.org to download a tar.gz or a zip package of
+Jelix. This archive contains all files of the framework and other libraries.
+
+Then extract files from the archive with winzip, unzip, tar or any other tools
+supporting the zip or tar.gz format. Example with tar:
+
+<code bash>
+  tar xvzf jelix-1.7.0.tar.gz
+</code>
+
+A directory @@jelix-1.7.0@@ is then created containing a @@lib/@@ and a @@bin/@@ directory.
+Move these directories into your project directory.
+
+The command @@create-jelix-app.php@@ is into @@F@bin/create-jelix-app.php@@.
+
+
+==== Lauching create-jelix-app ====
+
+In a console, change directory to where is @@F@lib/create-jelix-app.php@@, and run:
+
+<code bash>
+php create-jelix-app.php /path/where/you/want/your/myapp
 </code>
 
 @@myapp@@ will be the name of your application.
 
 
-@@createapp@@ create a @@F@myapp/@@ directory with the given path. Its content is:
+@@create-jelix-app@@ create a @@F@myapp/@@ directory with the given path. Its content is:
 
+<code>
   myapp/
-     install/      scripts to install your application on other server
+     app/
+        config/    static configuration files of your application
+        responses/ contains a class implementing a default HTML response.
+        themes/    different possible themes of your application
+        overloads/ will contain different files you will choose to overload
+                   from those in your modules
+     install/      scripts and files to initialize the application
      modules/      modules owned by your application
-     responses/    contains a class implementing a default HTML response.
      plugins/      plugins owned by your application
-     var/config/   configuration files of your application
-     var/log/      optional log files
-     var/themes/   different possible themes of your application
-     var/overloads/ will contain different files you will choose to overload from those in your modules
+     temp/         all temporary files will be stored in it
+     var/
+         config/   configuration files of your application for the current environment
+         log/      optional log files
+         themes/   themes installed during the life of the application
+         overloads/ like app/overloads, but for files created during the life of the application.
      www/          root of the public files, readable directly by a browser 
+</code>
 
-You have also a new directory @@F@temp/myapp@@, where all cached files generated by Jelix will be stored.
+===== First launch of the application =====
 
-Now, you have to configure the server and your application before running it.
+Now that your application is created, you can test it by launching a web server,
+like the PHP's one (use it only for development!!).
+
+<code bash>
+cd myapp
+php -S localhost:8080 -t www
+</code>
+
+Then go to  @@http://localhost:8080@@ with your browser.
+
+If you want to use an other web server, like Apache or Nginx, you have more
+settings. See the next chapter.

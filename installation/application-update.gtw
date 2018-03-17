@@ -1,18 +1,20 @@
 ~~LANG:FR@frman:installation/mise-a-jour~~
 
-Your application is already running on your production server. Now you would like to update the application. Main steps are:
+Your application is already running on your production server. Now you would
+like to update the application. Main steps are:
 
     - Closing the application.
-    - updating files
+    - backup data and files
+    - updating files of your application
     - launching the update system of jelix
-    - removing all files in temp directories
+    - removing all files in the temp directories
     - opening the application
 
 ===== Closing and opening an application =====
 
 It's often better to have a single web page saying that the application is not
 available, during an update process. Users could not then execute the
-application, and it's a good things, so modules won't act on a database that is
+application, and it's a good thing, since modules won't act on a database that is
 not already updated (an update process is never instantaneous).
 
 You have two choice to close the application. 
@@ -36,26 +38,41 @@ To reopen the application, just remove the file @@F@var/config/CLOSED@@.
 
 You can manipulate this file manually (if you have only a FTP access to your web
 site, this is the solution). or, if you have a command line access, you can call
-jelix commands: @@openapp@@ and @@closeapp@@
+jelix commands: @@app:open@@ and @@app:close@@.
 
 <code bash>
-$ php cmd.php closeapp
-$ php cmd.php openapp
+$ php cmd.php app:close
+$ php cmd.php app:open
 </code>
 
-You can give a message to the @@closeapp@@ command. It will replace the
+You can give a message to the @@app:close@@ command. It will replace the
 @@%message%@@ tag into the closed.html file.
 
 <code bash>
-$ php cmd.php closeapp "Sorry, we are closed for the moment, a new version is comming."
+$ php cmd.php app:close "Sorry, we are closed for the moment, a new version is coming."
 </code>
+
+===== Backing up data =====
+
+Before to update files and launch the installer, it is strongly recommended
+to backup your data. The backup should include:
+
+   - data from your database, obviously
+   - the content of the @@var/@@ directory
+   - the source of the application
+
+Probably there are other things to back up. Only you know what to do, or
+read the manual of the application.
+
+If something goes wrong during the upgrade, these backups allow you to restore
+the application in the previous state.
 
 ===== Updating files =====
 
 The second step is to update files of your application. You could upload files
-into the directory, with FTP, SCP or with other tools. You could also launch an
-update with your prefered source code manager (@@svn update@@, @@hg pull -u@@,
-@@git pull -u@@...).
+into the directory, with FTP, SCP or with other tools like automatic deployment
+tools. You could also launch an update with your prefered source code manager
+(@@svn update@@, @@hg pull -u@@, @@git pull -u@@...).
 
 If you update manually, don't forget to remove deprecated files.
 
@@ -79,8 +96,7 @@ file after the update.
 ==== With the application installer ====
 
 If there is a @@F@install/installer.php@@ script, just launch it: open a
-console, go into the @@F@install/@@ directory, and then type @@php.exe
-installer.php@@.
+console, go into the @@F@install/@@ directory, and then type @@php installer.php@@.
 
 ==== With the jelix installer ====
 
@@ -96,5 +112,5 @@ case, you have to update every thing needed by the application, "by hand", or by
 
 ===== Cleaning the temp directory =====
 
-**You must always remove all files stored into the temp/yourapp/ directory.**,
+**You must always remove all files stored into the @@temp/@@ directory.**,
 after an installation or an update, and before to execute the application.
