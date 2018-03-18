@@ -16,15 +16,10 @@ version, since each version has its own namespace. So it is very easy to migrate
 an application from an old version of Jelix to a newer one: you don't have
 nothing to do for jForms file.
 
-jForms XML dialect evolves between Jelix version. Currently, there are two
-versions for it (@@L@1.0@@ and @@L@1.1@@). To ensure backward compatibility,
-Jelix supports old versions, so you don't have to migrate your old-formatted
-jForms XML file. 
-
 Since each version of the format has its own namespace, be careful to indicate
 the right namespace in the file. Here are the documentation for each version of
 the format.
 
 This manual talks about the 1.1 version of the format. If you want to use
-the previous 1.0 format, read manuals of Jelix 1.3.
+the previous 1.0 format, which is deprecated, read the manual of Jelix 1.3.
 

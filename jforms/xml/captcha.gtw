@@ -11,14 +11,11 @@ element:
 
 ==== Choosing the type of captcha ====
 
-Until Jelix 1.6.13, the form control displayed only a simple field
-in which the user should indicate a response to a question. See the "simple"
-captcha below.
+There are many kind of Captcha available in the web. Jelix provides two
+type of captcha, but you can use any other captcha if you create the
+plugin for jForms (see below). We can call it, a validator.
 
-Since Jelix 1.6.14, you can choose other types of Captcha (but the
-"simple" captcha remains the default one).
-
-To indicate an other type of captcha, you should indicate its name :
+To indicate the type of captcha, you should indicate its name :
 
   * in a @@A@validator@@ attribute on @@E@<captcha>@@
   * or in the configuration parameter  @@captcha@@ in the section @@[forms]@@
@@ -39,7 +36,7 @@ or
 captcha=simple
 </code>
 
-For the moment, only to captcha type are provided into Jelix: "simple" and ReCaptcha.
+For the moment, only two captcha type are provided into Jelix: "simple" and ReCaptcha.
 
 ==== Simple captcha ====
 
@@ -53,15 +50,16 @@ file contains a first locale, @@number@@, which contains the number of question.
 And it is followed by locales which contain the questions and the answers. You
 can redefine this file to add or modify questions/answers. See [[/overloads|the chapter on the redefinition of files]].
 
-To use it, don't set the configuration as it is the default captcha type.
-
-Or indicate "simple":
+To use it, you don't have to set the configuration as it is the default captcha type.
+Or you can indicate "simple":
 
 <code xml>
 <captcha ref="antispam" validator="simple">
  <label>Anti-spam</label>
 </captcha>
 </code>
+
+or 
 
 <code ini>
 [forms]
@@ -72,7 +70,7 @@ captcha=simple
 
 This type of captcha displays the captcha solution of Google: ReCaptcha.
 You have to have a ReCaptcha account.
-See [[https://www.google.com/recaptcha/|the web site of ReCaptcha]].
+See [[https://www.google.com/recaptcha/intro/|the web site of ReCaptcha]].
 
 When you have a ReCaptcha account, Google gives you a site key and a secret.
 
@@ -144,13 +142,13 @@ In the class of the widget, you should implement:
   * @@M@outputJs()@@ to generate some inline JS code if needed
   * @@M@outputControl()@@ to generate HTML
 
-See [[https://github.com/jelix/jelix/blob/jelix-1.6.x/lib/jelix/plugins/formwidget/captcha_html/captcha_html.formwidget.php|simple]]
-and [[https://github.com/jelix/jelix/blob/jelix-1.6.x/lib/jelix/plugins/formwidget/recaptcha_html/recaptcha_html.formwidget.php|recaptcha]].
+See [[https://github.com/jelix/jelix/blob/jelix-1.7.x/lib/jelix/plugins/formwidget/captcha_html/captcha_html.formwidget.php|simple]]
+and [[https://github.com/jelix/jelix/blob/jelix-1.7.x/lib/jelix/plugins/formwidget/recaptcha_html/recaptcha_html.formwidget.php|recaptcha]].
 widgets as example.
 
 === Create the validation class ===
 
-You should create a class in one of you module. Let's say
+You should create a class in one of your module. Let's say
 @@\MyApp\MycapValidator@@. It should be auto-loadable.
 
 The class must implements the interface @@jelix\forms\Captcha\CaptchaValidatorInterface@@,
@@ -164,8 +162,8 @@ so it must implements these two methods:
    response of the user (@@$value@@). @@$internalData@@ is data returned by
    @@initOnDisplay()@@.
 
-See [[https://github.com/jelix/jelix/blob/jelix-1.6.x/lib/jelix/forms/Captcha/SimpleCaptchaValidator.php|the validator for "simple"]]
-and [[https://github.com/jelix/jelix/blob/jelix-1.6.x/lib/jelix/forms/Captcha/ReCaptchaValidator.php|the validator for recaptcha]]
+See [[https://github.com/jelix/jelix/blob/jelix-1.7.x/lib/jelix/forms/Captcha/SimpleCaptchaValidator.php|the validator for "simple"]]
+and [[https://github.com/jelix/jelix/blob/jelix-1.7.x/lib/jelix/forms/Captcha/ReCaptchaValidator.php|the validator for recaptcha]]
 as examples.
 
 === Declare the new type of captcha ===

@@ -1,6 +1,7 @@
 ~~LANG:FR@frman:jforms/xml/htmleditor~~
 
-To use a Wysiwyg HTML editor in your forms, you have to use the @@E@<htmleditor>@@ element.
+To use a Wysiwyg HTML editor in your forms, you have to use the
+@@E@<htmleditor>@@ element.
 
 <code xml>
   <htmleditor ref="description">
@@ -8,98 +9,135 @@ To use a Wysiwyg HTML editor in your forms, you have to use the @@E@<htmleditor>
   </htmleditor>
 </code>
 
-You can change the appearance of the editor, its configuration, and also the engine of the editor, by setting the attributes @@A@config@@ and @@A@skin@@.
+You can change the appearance of the editor, its configuration, and also the
+engine of the editor, by setting the attributes @@A@config@@ and @@A@skin@@.
 
 jForms uses Wymeditor as default editor.
 
 ===== General configuration of the editors =====
 
-The attribute @@A@config@@ indicates the name of a configuration file of an editor. Its default value is @@L@default@@.
+The attribute @@A@config@@ indicates the name of a configuration file of an
+editor. Its default value is @@L@default@@.
 
-Configurations are declared in the section @@V@[htmleditors]@@ in the configuration of Jelix. Here is its default content:
-
-<code ini>
-[htmleditors]
-default.engine.name = wymeditor
-default.engine.file[] = jelix/jquery/jquery.js
-default.engine.file[] = jelix/wymeditor/jquery.wymeditor.js
-default.config = jelix/js/jforms/htmleditors/wymeditor_default.js
-default.skin.default  = jelix/wymeditor/skins/default/screen.css
-</code>
-
-For a better understanding:
-
-<code ini>
-ccc.engine.name = nnn
-ccc.engine.file = 
-ccc.config =
-ccc.skin.sss =
-</code>
-
-  * @@V@ccc@@ is the name of the configuration
-  * @@V@nnn@@ is the name of the engine
-  * @@V@sss@@ is the identifier of a skin
-  * @@V@ccc.engine.file@@ contains the link of the javascript file of the engine
-  * @@V@ccc.config@@ contains the link of the configuration file of the editor (see below)
-  * @@V@ccc.skin@@ contains the link of the CSS file for the skin
- 
-This links are javascript or css file needed by the editor. The path should be relative to the base path of the application (so, relative to the @@V@basePath@@ value).
-
-For the engine (@@V@ccc.engine.file@@), you can specify several javascript files as you can see in the example.
-
-Of course, you can declare several configurations:
+Configurations are declared in the section @@V@[htmleditors]@@ in the
+configuration of Jelix. Here is its default content:
 
 <code ini>
 [htmleditors]
-default.engine.name = wymeditor
-default.engine.file[] = jelix/jquery/jquery.js
-default.engine.file[] = jelix/wymeditor/jquery.wymeditor.js
-default.config = jelix/js/jforms/htmleditors/wymeditor_default.js
-default.skin.default = jelix/wymeditor/skins/default/screen.css
-default.skin.blue = jelix/wymeditor/skins/default/blue.css
-
-simple.engine.name = wymeditor
-simple.engine.file[] = jelix/jquery/jquery.js
-simple.engine.file[] = jelix/wymeditor/jquery.wymeditor.js
-simple.config = js/wymeditor_simple.js
-simple.skin.default = jelix/wymeditor/skins/default/screen.css
-simple.skin.blue = jelix/wymeditor/skins/default/blue.css
-
-full.engine.name = tinymce
-full.engine.file = tinymce/tinymce.js
-full.config = js/tinymce_full.js
-full.skin.default = tinymce/skins/default/full.css
-full.skin.blue = tinymce/skins/default/blue.css
+default.engine.name=wymeditor
+wymbasic.engine.name=wymeditor
+ckdefault.engine.name=ckeditor
+ckfull.engine.name=ckeditor
+ckbasic.engine.name=ckeditor
 </code>
 
-Here there are three configurations, "default", "simple" and "full" and two skins, "default" and "blue".
+As you can see, several configurations are possible. Here, 5 configurations :
+"default", "wymbasic", "ckdefault"...
+For each configuration, you can have several parameters, which name start with
+the configuration name. Here, there is only one parameter defined, @@engine.name@@.
+It indicates the name of the editor. In fact, this name is used in a JS function
+name, a function that is responsible to instanciate the editor.
 
-So, if you want to use the config "full" and the skin "blue":
+For each configuration, there is also several javascript files and css files to
+load in a web page. We are using [[/views/view-html|webassets]].
+The webassets group for htmleditor should have a name with the configuration name
+(here @@default@@) and a prefix @@jforms_htmleditor_@@. The default web assets 
+are:
+
+<code ini>
+[webassets_common]
+
+;...
+
+jforms_htmleditor_default.js[]="$jelix/wymeditor/jquery.wymeditor.js"
+jforms_htmleditor_default.js[]="$jelix/js/jforms/htmleditors/wymeditor_default.js"
+jforms_htmleditor_default.require=jquery
+
+</code>
+
+You can see here that we are loading the Wymeditor javascript file, @@jquery.wymeditor.js@@,
+but also the instanciation script @@wymeditor_default.js@@.
+
+For WymEditor, there is also a webassets group for each "skin" that can be
+used with the editor. For some other editor that support theming, you can also
+declare such group. The group name has the following scheme:
+@@jforms_htmleditor_<configuration name>.skin.<skin name>@@.
+
+For example, to declare webassets of the skin @@default@@ for the configuration
+@@default@@, you create this group (which has only one CSS file):
+
+<code ini>
+jforms_htmleditor_default.skin.default.css="$jelix/wymeditor/skins/default/skin.css"
+</code>
+
+To use the "skin" @@silver@@ of Wymeditor, you declare:
+
+<code ini>
+jforms_htmleditor_default.skin.silver.css="$jelix/wymeditor/skins/silver/skin.css"
+</code>
+
+
+For the @@ckfull@@ configuraiton, you'll have :
+
+<code ini>
+[webassets_common]
+
+jforms_htmleditor_ckfull.js[]="$jelix/ckeditor/ckeditor.js"
+jforms_htmleditor_ckfull.js[]="$jelix/js/jforms/htmleditors/ckeditor_full.js"
+
+</code>
+
+No CSS file, nor theme here.
+
+Then you can use the configuration and the skin (if it exists) into a jforms file.
+Here we take the @@default@@ configuration with the skin @@silver@@:
+
 
 <code xml>
-  <htmleditor ref="description" config="full" skin="blue">
-	<label>Description du produit</label>
+  <htmleditor ref="description" config="default" skin="silver">
+	<label>Product description</label>
   </htmleditor>
 </code>
 
-===== Creating a configuration for an editor =====
 
-Most of existing wysiwyg HTML editors can be configured, and for each different editor, the way how we configured them is different. And this configuration is made in Javascript.
+===== Creating an instanciation script for an editor =====
 
-So to declare a configuration, you have to create a javascript function which will configure the editor you want to use. This function should be in a specific javascript file and you have to indicate the url of this file in the configuration of jelix, as you saw above.
+Most of existing wysiwyg HTML editors can be configured, and for each different
+editor, the way how we configured them is different. And this configuration is
+made in Javascript.
 
-For example, if you want to create a new configuration "myconfig" for wymeditor, you create a file @@F@www/js/wymeditor_myconfig.js@@ (you can choose any name). And then you indicate it in the configuration file:
+jForms should know how to instantiate them.
+
+So you have to create a javascript function which will configure the editor
+you want to use. This function should be in a specific
+javascript file and you have to indicate the url of this file in a webassets 
+group, as you saw above.
+
+For example, if you want to create a new configuration "wymfull" for wymeditor,
+you create a file @@F@www/js/wymeditor_wymfull.js@@ (you can choose any name).
+And then you indicate it in the configuration file:
 
 <code ini>
 [htmleditors]
-myconfig.engine.name = wymeditor
-myconfig.engine.file[] = jelix/jquery/jquery.js
-myconfig.engine.file[] = jelix/wymeditor/jquery.wymeditor.js
-myconfig.config = js/wymeditor_myconfig.js 
-myconfig.skin.default = jelix/wymeditor/skins/default/screen.css
+wymfull.engine.name=wymeditor
+
+[webassets_common]
+
+;...
+
+jforms_htmleditor_wymfull.js[]="$jelix/wymeditor/jquery.wymeditor.js"
+jforms_htmleditor_wymfull.js[]="js/wymeditor_wymfull.js"
+jforms_htmleditor_wymfull.require=jquery
 </code>
 
-The javascript function you must create should have a name which follows a specific scheme @@f@jelix_eee_ccc()@@, where @@L@eee@@ is the identifier of the editor (which is written into @@V@*.engine.name@@), and where @@L@ccc@@ is the identifier of the configuration. So in our example, the name should be @@f@jelix_wymeditor_full()@@. This function receives the id of the textarea, the id of the form, the skin name and an object containing configuration values from jelix (in jelix 1.1, it was only a string containing the language code of the application).
+The javascript function you must create should have a name which follows 
+a specific scheme @@f@jelix_<engine name>_<configuration name>()@@, where 
+@@L@<engine name>@@ is the identifier of the editor (which is written into
+@@V@*.engine.name@@), and where @@L@<configuration name>@@ is the identifier
+of the configuration. So in our example, the name should be 
+@@f@jelix_wymeditor_wymfull()@@. This function receives the id of the textarea, 
+the id of the form, the skin name and an object containing configuration values
+from jelix.
 
 This last parameter contains these properties :
 
@@ -109,51 +147,70 @@ This last parameter contains these properties :
   * @@P@jelixWWWPath@@: The URL path to the jelix-www content.
 
 
-Here is an example of this function, which add here a specific CSS file to wymeditor for the content to edit (this is not the skin of the editor):
+Here is an example of this function, which add here a specific CSS file to 
+wymeditor for the content to edit (this is not the skin of the editor):
 
 <code xml>
-function jelix_wymeditor_full(textarea_id, form_id, skin, config){
+function jelix_wymeditor_wymfull(textarea_id, form_id, skin, config){
    jQuery(function(){
         jQuery("#"+textarea_id).wymeditor({
-            updateSelector:    "#"+form_id,
-            updateEvent:       "jFormsUpdateFields"
+            basePath: config.jelixWWWPath+'wymeditor/',
+            jQueryPath: config.jqueryPath != '' ? config.jqueryPath+'jquery.js' : '',
+            lang: config.locale.substr(0,2).toLowerCase(),
+            preInit : function(wym) {
+                jQuery('#'+form_id).bind('jFormsUpdateFields', function(event){
+                    wym.update();
+                });
+            },
+
             stylesheet: '/css/stylesEditor.css'
-           })
-        }
+        });
 )}
 </code>
 
-Note that, for Wymeditor and in the context of Jelix, you must redefine the options @@V@updateSelector@@ and @@V@updateEvent@@ as indicated in this example.
+Note that, for Wymeditor and in the context of Jelix, you must redefine the
+option @@V@preInit@@ as indicated in this example.
 
-For more details about the configuration of wymeditor, see the documentation of this project: [[http://trac.wymeditor.org/trac/wiki/0.5/Customization]].
+For more details about the configuration of wymeditor, see [[https://wymeditor.readthedocs.io/en/v1.1.1/customizing_wymeditor/index.html|the documentation of the project]].
 
 ===== Using an other editor =====
 
-If you want to use tinymce or fckeditor, no problem. Declare javascript files of this editors in the configuration of Jelix, and a configuration file for the editor. Here are some examples with popular editors.
+If you want to use tinymce or fckeditor, no problem. Declare javascript files of
+this editors in the configuration of Jelix, and a configuration file for the
+editor. Here are some examples with popular editors.
 
-Careful about file names, it can be different. 
+Careful about JS file names, it can be different. 
 
 
 
 ==== CKEditor 3.x====
 
 
-To use CKEditor, some scripts are already provided in jelix-www, to have a "full" editor, a "default" editor and a "basic" editor. It is already declared in the jelix configuration. 
+To use CKEditor, some instanciation scripts are already provided in jelix-www, to have a
+"full" editor, a "default" editor and a "basic" editor. It is already declared
+in the jelix configuration. 
 
-So you just have to download CKEditor (it is a huge archive, so it is not included by default in jelix distribution), unarchive it into lib/jelix-www/,  and then you have to indicate "ckfull", "ckdefault" or "ckbasic" in the attribute @@A@config@@ of the element @@E@<htmleditor>@@. That's all !
+So you just have to download CKEditor (it is a huge archive, so it is not
+included by default in jelix distribution), unarchive it into @@www/@@,
+(you should then have @@www/ckeditor/ckeditor.js@@)
+and then you have to indicate "ckfull", "ckdefault" or "ckbasic" in the
+attribute @@A@config@@ of the element @@E@<htmleditor>@@. That's all !
 
-Of course, if you want to customize CKEditor, you can do it. Example:
- 
-In the file @@F@mainconfig.ini.php@@:
+Of course, if you want to customize CKEditor, you can do it.
+
+For example, in the file @@F@mainconfig.ini.php@@:
 
 <code ini>
 [htmleditors]
 ckmyconf.engine.name = ckeditor
-ckmyconf.engine.file[] = jelix/ckeditor/ckeditor.js
-ckmyconf.config = js/ckeditor_myconf.js
+
+[webassets_common]
+;...
+jforms_htmleditor_ckmyconf.js[]="ckeditor/ckeditor.js"
+jforms_htmleditor_ckmyconf.js[]="js/ckeditor_myconf.js"
 </code>
 
-in @@F@js/ckeditor_myconf.js@@:
+In @@F@js/ckeditor_myconf.js@@:
 
 <code js>
 function jelix_ckeditor_ckmyconf(textarea_id, form_id, skin, config) {
@@ -163,7 +220,16 @@ function jelix_ckeditor_ckmyconf(textarea_id, form_id, skin, config) {
     if (skin !='default')
         conf['skin'] = skin;
     conf["language"] = config.locale.substr(0,2).toLowerCase();
-    CKEDITOR.replace(textarea_id, conf);
+
+    var editor = CKEDITOR.instances[textarea_id];
+    if (editor){
+        editor.destroy(true);
+    }
+
+    editor = CKEDITOR.replace(textarea_id, conf);
+    jQuery('#'+form_id).bind('jFormsUpdateFields', function(event){
+        editor.updateElement();
+    });
 }
 </code>
 
@@ -172,12 +238,19 @@ function jelix_ckeditor_ckmyconf(textarea_id, form_id, skin, config) {
 
 <code ini>
 [htmleditors]
-default.engine.name = tinymce
-default.engine.file = tinymce/tinymce.js
-default.config = js/tinymce_default.js
-default.skin.default =  tinymce/skins/default/full.css
+tinymceconf.engine.name = tinymce
+
+[webassets_common]
+;...
+jforms_htmleditor_tinymceconf.js[]="tinymce/tinymce.js"
+jforms_htmleditor_tinymceconf.js[]="js/tinymce_default.js"
+jforms_htmleditor_tinymceconf.skin.default.css="tinymce/skins/default/full.css"
 </code>
 
 
-In @@F@js/tinymce_default.js@@, create a function @@f@jelix_tinymce_default()@@ as indicated in the previous section. 
+
+In @@F@js/tinymce_tinymceconf.js@@, create a function @@f@jelix_tinymce_tinymceconf()@@
+as indicated in the previous section. All forms where you want to
+use this configuration should have @@A@config="tinymceconf"@@ on their
+@@E@<htmleditor>@@ element.
 

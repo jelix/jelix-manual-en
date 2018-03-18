@@ -1,8 +1,16 @@
 ~~LANG:FR@frman:jforms/security~~
 
-By default, jForms has some security check. HTML Builders of jforms escape content during the display, to avoid some security issues like Cross Site scriptings.
+By default, jForms has some security check. HTML Builders of jforms escape
+content during the display, to avoid some security issues like Cross Site
+scriptings.
 
-It supports also protection against [[http://fr.wikipedia.org/wiki/Cross-Site_Request_Forgeries|CSRF]]. This protection don't allow the submission of the form from an origin other than your application. However, if you want to allow any web sites to submit data to your form, you can disable this protection. To do it, put an attribute @@A@allowAnyOrigin="true"@@ on the @@E@<form>@@ element. You can also change the @@P@securityLevel@@ property on your form object. It can take one of this two value
+It supports also protection against [[http://fr.wikipedia.org/wiki/Cross-Site_Request_Forgeries|CSRF]]. 
+This protection don't allow the submission of the form from an origin other 
+than your application. However, if you want to allow any web sites to submit 
+data to your form, you can disable this protection. To do it, put an attribute
+@@A@allowAnyOrigin="true"@@ on the @@E@<form>@@ element. You can also change 
+the @@P@securityLevel@@ property on your form object. It can take one of this 
+two value:
 
    * @@P@jFormsBase::SECURITY_CSRF@@ to enable the CSRF protection (default value)
    * @@P@jFormsBase::SECURITY_LOW@@ to disable it

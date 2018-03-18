@@ -1,10 +1,13 @@
 ~~LANG:FR@frman:jforms/affichage-donnees~~
 
-With jForms, you can also display not the form but only its data. It can be useful as a reporting of input steps for example. 
+With jForms, you can also display not the form but only its data. It can be
+useful as a reporting of input steps for example. 
 
 ===== Automatic or default display =====
 
-For you in hurry, this template plugin will fully display your form **data**. its name:  **formfull**. With it, you won't control how each controls labels and values are displayed. Just pass it your form object.
+For you in hurry, this template plugin will fully display your form **data**.
+its name:  @@formdatafull@@. With it, you won't control how each controls labels and
+values are displayed. Just pass it your form object.
 
 
 Here is an example, in a controller :
@@ -29,11 +32,11 @@ Form labels and values are displayed in a table.
 
 ===== Customized display =====
 
-As for [[display|form display]], you can control how your form data are displayed and
-precisely in which markup labels and values are wrapped.
+As for [[display|form display]], you can control how your form data 
+are displayed and precisely in which markup labels and values are wrapped.
 
-Use @@{formcontrols}@@ and @@{ctrl_label}@@ plugins similarly to form display and also @@{ctrl_value}@@
-instead of @@{ctrl_control}@@:
+Use @@{formcontrols}@@ and @@{ctrl_label}@@ plugins similarly to form display
+and also @@{ctrl_value}@@ instead of @@{ctrl_control}@@:
 
 <code html>
    <h1>Your form</h1>

@@ -13,26 +13,33 @@ jForms file format is an XML document with @@E@<form>@@ tag as root.
 </form>
 </code>
 
-Under root tag, you'll declare tags referencing all of your form controls (also know as form fields). Controls parsing, checking and display will follow the order of appearance of tags in this document.
+Under root tag, you'll declare tags referencing all of your form controls (also
+know as form fields). Controls parsing, checking and display will follow the
+order of appearance of tags in this document.
 
-**Note: namespace of this format is http://jelix.org/ns/forms/1.1**
+**Note: namespace of this format is @@http://jelix.org/ns/forms/1.1@@**
+
 
 ===== Common control properties =====
 
-
-
 ==== Identifier ====
 
-Each form control must have an identifier (a name). You'll use @@A@ref@@ attribute to set it. This Id will also correspond to a form variable whose value will reflect the user input. You'll likely use that variable in your submit action.
+Each form control must have an identifier (a name). You'll use @@A@ref@@
+attribute to set it. This Id will also correspond to a form variable whose value
+will reflect the user input. You'll likely use that variable in your submit
+action.
 
 Example:
+
 <code xml>
   <input ref="name">
   </input>
 </code>
 
 
-Note : In Jelix, there are methods to ease the use of DAO with forms, for automatic form-filling or data-saving. For this purpose, it is a good practice to use the same Id for DAO properties and associated form controls. 
+Note : In Jelix, there are methods to ease the use of DAO with forms, for
+automatic form-filling or data-saving. For this purpose, it is a good practice
+to use the same Id for DAO properties and associated form controls. 
 
 
 ==== Label ====
@@ -65,11 +72,11 @@ is useful when we use the form only to display data:
 
 ==== Required controls ====
 
-If some controls are required in your form just add them a @@A@required@@ attribute with value @@L@true@@.
+If some controls are required in your form just add them a @@A@required@@
+attribute with value @@L@true@@.
 
-@@E@<submit>@@, @@E@<checkbox>@@, @@E@<group>@@, @@E@<choice>@@, @@E@<hidden>@@ and @@E@<output>@@ controls do not support it.
-
-
+@@E@<submit>@@, @@E@<checkbox>@@, @@E@<group>@@, @@E@<choice>@@, @@E@<hidden>@@ and 
+@@E@<output>@@ controls do not support it.
 
 ==== Readonly controls ====
 
@@ -82,7 +89,9 @@ You can modify this property with the PHP object of the form.
 
 ==== Messages ====
 
-You can declare an optional help message using an @@E@<help>@@ tag: it will be displayed beside your control. Either write your message text in the tag content or define @@A@locale@@ attribute.
+You can declare an optional help message using an @@E@<help>@@ tag: it will be
+displayed beside your control. Either write your message text in the tag content
+or define @@A@locale@@ attribute.
 
 <code xml>
   <input ref="birthdate" type="date">
@@ -98,13 +107,23 @@ or
   </input>
 </code>
 
-In your HTML forms a question mark will be displayed at the right of the field and a click on it will show your help message.
+In your HTML forms a question mark will be displayed at the right of the field
+and a click on it will show your help message (this behavior can be changed
+by providing an other html form genreator).
 
-You could also declare an hint message which will be displayed as a tooltip on mouse hovering. This message is declared with an @@E@<hint>@@ tag. See @@E@<help>@@ tag for its content.
+You could also declare an hint message which will be displayed as a tooltip on
+mouse hovering. This message is declared with an @@E@<hint>@@ tag. See
+@@E@<help>@@ tag for its content.
 
 ==== Error Messages ====
 
-When user input is invalid on a field (it depends of its type) or just missing on a required field (see the @@A@required@@ attribute), Jelix  displays pre-defined error messages. You can redefine those pre-defined messages with an @@E@<alert>@@ tag. This tag must have a @@A@type@@ attribute telling if it is an //invalid// message or a //required// message. As for helper messages, you can use either a locale or an hard-coded message.
+When user input is invalid on a field (it depends of its type) or just missing
+on a required field (see the @@A@required@@ attribute), Jelix  displays
+pre-defined error messages.
+
+You can redefine those pre-defined messages with an @@E@<alert>@@ tag. This tag 
+must have a @@A@type@@ attribute telling if it is an @@invalid@@ message or a @@required@@
+ message. As for helper messages, you can use either a locale or an hard-coded message.
 
 <code xml>
   <input ref="birthdate" type="date">
@@ -121,9 +140,15 @@ When user input is invalid on a field (it depends of its type) or just missing o
 
 ==== Text input ====
 
-To declare an input field, use @@E@<input>@@ tag. Set its @@A@ref@@ attribute, and optionally @@E@<label>@@, @@E@<hint>@@, @@E@<alert>@@, @@E@<help>@@ tags as well as  @@A@readonly@@ and @@A@required@@ attributes. It supports also the following attributes: @@A@type@@, @@A@defaultvalue@@, @@A@size@@, @@A@minlength@@, @@A@maxlength@@ and @@A@pattern@@.
+To declare an input field, use @@E@<input>@@ tag. Set its @@A@ref@@ attribute,
+and optionally @@E@<label>@@, @@E@<hint>@@, @@E@<alert>@@, @@E@<help>@@ tags as
+well as  @@A@readonly@@ and @@A@required@@ attributes. It supports also the
+following attributes: @@A@type@@, @@A@defaultvalue@@, @@A@size@@,
+@@A@minlength@@, @@A@maxlength@@ and @@A@pattern@@.
 
-@@A@defaultvalue@@ indicates a default value displayed when form is empty. You can use @@L@"now"@@ if your input represents a date. Default value will be the current date. 
+@@A@defaultvalue@@ indicates a default value displayed when form is empty. You
+can use @@L@"now"@@ if your input represents a date. Default value will be the
+current date. 
 
 @@A@size@@ defines field length in terms of number of chars.
 
@@ -134,9 +159,13 @@ are only valid with @@A@type="string"@@.
 @@A@maxvalue@@ and @@A@minvalue@@ declare a constraint on the input value. Those attributes
 are only valid with @@A@type="integer"@@ and @@A@type="decimal"@@.
 
-@@A@pattern@@: It should contain a regular expression, compatible with PHP and JS. This attribute is allowed only when @@A@type="string"@@.
+@@A@pattern@@: It should contain a regular expression, compatible with PHP and
+JS. This attribute is allowed only when @@A@type="string"@@.
 
-@@A@type@@ defines which data format a user input shall match. On submit, a client-side javascript checking will be done, and also a server-side checking (case of javascript deactivated) with a call of @@M@check()@@ method on the form object.
+@@A@type@@ defines which data format a user input shall match. On submit, a
+client-side javascript checking will be done, and also a server-side checking
+(case of javascript deactivated) with a call of @@M@check()@@ method on the form
+object.
 
 Below a list of @@A@type@@ values and theirs constraints :
 
@@ -145,13 +174,18 @@ Below a list of @@A@type@@ values and theirs constraints :
   * @@L@"decimal"@@: a number with or without comma.
   * @@L@"integer"@@: an integer.
   * @@L@"hexadecimal"@@: an hexadecimal number (digits 0-9 and letters a-f).
-  * @@L@"datetime"@@, @@L@"date"@@, @@L@"time"@@: respectively a date and time, a date, a time. And their patterns are "yyyy-mm-dd hh:mm:ss", "yyyy-mm-dd", "hh:mm:ss".
-  * @@L@"localedatetime"@@, @@L@"localedate"@@, @@L@"localetime"@@: respectively a date and time, a date, a time, but in the locale user format. For example, for a french site, date should match "dd/mm/yyyy", and for an english site "mm/dd/yyyy".
+  * @@L@"datetime"@@, @@L@"date"@@, @@L@"time"@@: respectively a date and time, 
+    a date, a time. And their patterns are "yyyy-mm-dd hh:mm:ss", "yyyy-mm-dd", "hh:mm:ss".
+  * @@L@"localedatetime"@@, @@L@"localedate"@@, @@L@"localetime"@@: respectively a date 
+    and time, a date, a time, but in the locale user format. For example, for a french 
+    site, date should match "dd/mm/yyyy", and for an english site "mm/dd/yyyy".
   * @@L@"url"@@: user input must be a valid URL.
   * @@L@"email"@@: user input must be a valid email.
   * @@L@"ipv4"@@: an IP v4 address.
   * @@L@"ipv6"@@: an IP v6 address.
-  * @@L@"html"@@: it can contains html element. The HTML content will be filtered on the server side (javascript code is removed, some attributes and specific elements are removed etc.), to avoid security problems like CSS, XSS etc..
+  * @@L@"html"@@: it can contains html element. The HTML content will be filtered on
+    the server side (javascript code is removed, some attributes and specific elements 
+    are removed etc.), to avoid security problems like CSS, XSS etc..
 
 A simple example :
 
@@ -173,11 +207,18 @@ A example with attribute "pattern"
 
 ==== Multiline input ====
 
-To declare a multiline input field, use @@E@<textarea>@@ tag. Set its @@A@ref@@ attribute, a @@E@<label>@@ element, and optionally @@E@<hint>@@, @@E@<alert>@@, @@E@<help>@@ tags as well as  @@A@readonly@@ and @@A@required@@ attributes. It supports also the following attributes: @@A@type@@, @@A@defaultvalue@@, @@A@rows@@, @@A@cols@@, @@A@minlength@@ et @@A@maxlength@@.
+To declare a multiline input field, use @@E@<textarea>@@ tag. Set its @@A@ref@@
+attribute, a @@E@<label>@@ element, and optionally @@E@<hint>@@, @@E@<alert>@@,
+@@E@<help>@@ tags as well as  @@A@readonly@@ and @@A@required@@ attributes. It
+supports also the following attributes: @@A@type@@, @@A@defaultvalue@@,
+@@A@rows@@, @@A@cols@@, @@A@minlength@@ et @@A@maxlength@@.
 
-@@A@defaultvalue@@ indicates a default value displayed when form is empty. @@A@rows@@ and @@A@cols@@ defines respectively field width and height (as HTML textarea).
+@@A@defaultvalue@@ indicates a default value displayed when form is empty.
+@@A@rows@@ and @@A@cols@@ defines respectively field width and height (as HTML
+textarea).
 
 An example :
+
 <code xml>
   <textarea ref="message">
      <label locale="mymodule~myform.message.label" />
@@ -185,9 +226,14 @@ An example :
   </textarea>
 </code>
 
-@@A@maxlength@@ and @@A@minlength@@ declare a constraint on the input value: input value length shall be over minlength and under maxlength.
+@@A@maxlength@@ and @@A@minlength@@ declare a constraint on the input value:
+input value length shall be over minlength and under maxlength.
 
-@@A@type@@ attribute can contains only one value for the moment : @@L@"html"@@. Like the @@E@<input type="html">@@ element, the content will be filtered to remove some attributes which could contain javascript, and some specific elements (@@E@<script>@@ for example...). If you want wywsiwyg html editing see below.
+@@A@type@@ attribute can contains only one value for the moment : @@L@"html"@@.
+Like the @@E@<input type="html">@@ element, the content will be filtered to
+remove some attributes which could contain javascript, and some specific
+elements (@@E@<script>@@ for example...). If you want wywsiwyg html editing see
+below.
 
 ==== Wysiwyg HTML editor ====
 
@@ -199,13 +245,19 @@ To use an HTML editor in your form, you should use the @@E@<htmleditor>@@ elemen
   </htmleditor>
 </code>
 
-The default html builder of jforms uses Wymeditor. You can specify an other html editor by setting the @@A@engine@@ attribute. You can also indicate a configuration file with the @@A@config@@ attribute, and indicates a skin with the @@A@skin@@ attribute.
+The default html builder of jforms uses Wymeditor. You can specify an other html
+editor by setting the @@A@engine@@ attribute. You can also indicate a
+configuration file with the @@A@config@@ attribute, and indicates a skin with
+the @@A@skin@@ attribute.
 
-To know more about configuring a wysiwyg html editor, see [[xml/htmleditor|the dedicated section on htmleditor]].
+To know more about configuring a wysiwyg html editor, see [[xml/htmleditor|the dedicated section about htmleditor]].
 
 ==== wiki editor ====
 
-You can use a textarea to edit wiki content. There is a @@E@<wikieditor>@@ element to allow it. Generator could displays a toolbar with buttons to help to write wiki tags, and will use WikiRenderer (jWiki) to convert the content into HTML when displaying it.
+You can use a textarea to edit wiki content. There is a @@E@<wikieditor>@@
+element to allow it. Generator could displays a toolbar with buttons to help to
+write wiki tags, and will use WikiRenderer (jWiki) to convert the content into
+HTML when displaying it.
 
 <code xml>
   <wikieditor ref="description">
@@ -213,11 +265,13 @@ You can use a textarea to edit wiki content. There is a @@E@<wikieditor>@@ eleme
   </wikieditor>
 </code>
 
-You can indicate a configuration file with the @@A@config@@ attribute. To know more about how configuring this editor, read [[xml/wikieditor|the corresponding section]].
+You can indicate a configuration file with the @@A@config@@ attribute. To know
+more about how configuring this editor, read [[xml/wikieditor|the corresponding section]].
 
 ==== Datepickers ====
 
-The element @@E@<date>@@ and @@E@<datetime>@@ facilitate the entry of a date as opposed to a simple @@E@<input>@@.
+The element @@E@<date>@@ and @@E@<datetime>@@ facilitate the entry of a date as
+opposed to a simple @@E@<input>@@.
 
 <code xml>
   <date ref="birthday">
@@ -225,12 +279,17 @@ The element @@E@<date>@@ and @@E@<datetime>@@ facilitate the entry of a date as 
   </date>
 </code>
 
-The attribute @@A@ref@@ is required, and you can use the attributes @@A@defaultvalue@@, @@A@readonly@@, @@A@required@@, and also the elements @@E@<label>@@, @@E@<hint>@@, @@E@<alert>@@, and @@E@<help>@@.
+The attribute @@A@ref@@ is required, and you can use the attributes
+@@A@defaultvalue@@, @@A@readonly@@, @@A@required@@, and also the elements
+@@E@<label>@@, @@E@<hint>@@, @@E@<alert>@@, and @@E@<help>@@.
 
-You can use some specific attributes :  @@A@mindate@@, @@A@maxdate@@ and @@A@datepicker@@. To know more about them, see [[xml-1.1/datepicker|the dedicated page]].
+You can use some specific attributes :  @@A@mindate@@, @@A@maxdate@@ and 
+@@A@datepicker@@. To know more about them, see [[xml/datepicker|the dedicated page]].
 
 
-About @@A@mindate@@ and @@A@maxdate@@ attributes, you can use an absolute date in the classical database format, like '2009-01-01', or a string which contains a format supported by the @@F@sprintf@@ php function.
+About @@A@mindate@@ and @@A@maxdate@@ attributes, you can use an absolute date
+in the classical database format, like '2009-01-01', or a string which contains
+a format supported by the @@F@sprintf@@ php function.
 
 For instance, if we want a date of birth for persons aged 18 to 70 years old:
 
@@ -250,7 +309,10 @@ Other example, where we want a date between today and 2 month and one day old.
 
 ==== Password ====
 
-If you want your user to input a password or any values that should be kept hidden on input, use @@E@<secret>@@ tag. Set its @@A@ref@@ attribute, and optionally @@E@<label>@@, @@E@<hint>@@, @@E@<alert>@@, @@E@<help>@@ tags as well as  @@A@readonly@@ and @@A@required@@ attributes.
+If you want your user to input a password or any values that should be kept
+hidden on input, use @@E@<secret>@@ tag. Set its @@A@ref@@ attribute, and
+optionally @@E@<label>@@, @@E@<hint>@@, @@E@<alert>@@, @@E@<help>@@ tags as well
+as  @@A@readonly@@ and @@A@required@@ attributes.
 
 <code xml>
   <secret ref="password">
@@ -261,7 +323,11 @@ If you want your user to input a password or any values that should be kept hidd
 
 You can use @@A@size@@ attribute to indicate field size.
 
-It is often usefull to ask your user to confirm its password entry. jForms does it automatically. You just have to add @@E@<confirm>@@ tag as child of @@E@<secret>@@, and the HTML form generated will have two input fields. @@E@<confirm>@@ tag must contain either its hard-coded label, or a @@A@locale@@ attribute pointing to it.
+It is often usefull to ask your user to confirm its password entry. jForms does
+it automatically. You just have to add @@E@<confirm>@@ tag as child of
+@@E@<secret>@@, and the HTML form generated will have two input fields.
+@@E@<confirm>@@ tag must contain either its hard-coded label, or a @@A@locale@@
+attribute pointing to it.
 
 <code xml>
   <secret ref="newpassword">
@@ -294,7 +360,7 @@ well as @@A@readonly@@ and @@A@required@@ attributes.
   </checkbox>
 </code>
 
-Default values for a checkbox are @@L@"0"@@ if it was checked, or @@L@1@@ on the contrary.
+Default values for a checkbox are @@L@0@@ if it was not checked, or @@L@1@@ on the contrary.
 
 You can override those default values. Just add @@A@valueoncheck@@ and
 @@A@valueonuncheck@@ attributes (those equal respectively to 1 and 0 by default, if you
@@ -331,9 +397,13 @@ instead of @@label@@. And you can use the @@value@@ attribute on it instead of u
 
 ==== Checkboxes list ====
 
-You could have to display a series of checkboxes to reflect multiple choices. For example, you want your user to select a list of articles to search or buy. Use @@E@<checkboxes>@@ tag (with a terminal **S**).
+You could have to display a series of checkboxes to reflect multiple choices.
+For example, you want your user to select a list of articles to search or buy.
+Use @@E@<checkboxes>@@ tag (with a terminal **S**).
 
-Set its @@A@ref@@ attribute, its @@E@<label>@@ element, and optionally @@E@<hint>@@, @@E@<alert>@@, @@E@<help>@@ tags as well as  @@A@readonly@@ and @@A@required@@ attributes.
+Set its @@A@ref@@ attribute, its @@E@<label>@@ element, and optionally
+@@E@<hint>@@, @@E@<alert>@@, @@E@<help>@@ tags as well as  @@A@readonly@@ and
+@@A@required@@ attributes.
 
 You'll then declare its values and their associated labels.
 Check further section on datasource also but here is an example:
@@ -347,16 +417,24 @@ Check further section on datasource also but here is an example:
   </checkboxes>
 </code>
 
-With the control above, jForms will display a list of three checkboxes, labelled "sugar", "steack" and "orange juice". On submit, the value for "food" form variable will be a PHP array. This array will contain the values of all items checked. If user has checked "steack", you'll receive @@array(27)@@. If "sugar" is also checked, you'll receive @@array(54, 27)@@.
+With the control above, jForms will display a list of three checkboxes, labelled
+"sugar", "steack" and "orange juice". On submit, the value for "food" form
+variable will be a PHP array. This array will contain the values of all items
+checked. If user has checked "steack", you'll receive @@array(27)@@. If "sugar"
+is also checked, you'll receive @@array(54, 27)@@.
 
 (See [[usage|Using the form in a controller]])
 
 ==== Radio buttons ====
 
-Radio buttons are never standalone, there must be at mininum 2 of them. To declare a set of radio buttons, use the tag @@E@<radiobuttons>@@.
+Radio buttons are never standalone, there must be at mininum 2 of them. To
+declare a set of radio buttons, use the tag @@E@<radiobuttons>@@.
 
-Set its @@A@ref@@ attribute, a @@E@<label>@@ element, and optionally @@E@<hint>@@, @@E@<alert>@@, @@E@<help>@@ tags as well as  @@A@readonly@@ and @@A@required@@ attributes.
-As for other list controls, you must declare a list of possible values and associated labels. Check also further section on datasource.
+Set its @@A@ref@@ attribute, a @@E@<label>@@ element, and optionally
+@@E@<hint>@@, @@E@<alert>@@, @@E@<help>@@ tags as well as  @@A@readonly@@ and
+@@A@required@@ attributes. As for other list controls, you must declare a list
+of possible values and associated labels. Check also further section on
+datasource.
 
 Example :
 
@@ -370,13 +448,18 @@ Example :
   </radiobuttons>
 </code>
 
-jForms will display a set of 4 radio buttons and the selected value will be stored in a "color" form variable.
+jForms will display a set of 4 radio buttons and the selected value will be
+stored in a "color" form variable.
 
 
 ==== Menu list ====
 
-To display a menu list use the tag @@E@<menulist>@@ (@@E@<select size="1">@@ in HTML). A menu list allows only one choice. Set its @@A@ref@@ attribute, a @@E@<label>@@ element, and optionally @@E@<hint>@@, @@E@<alert>@@, @@E@<help>@@ tags as well as  @@A@readonly@@ and @@A@required@@ attributes.
-As for other list controls, you must declare a list of possible values and associated labels. Check also further section on datasource.
+To display a menu list use the tag @@E@<menulist>@@ (@@E@<select size="1">@@ in
+HTML). A menu list allows only one choice. Set its @@A@ref@@ attribute, a
+@@E@<label>@@ element, and optionally @@E@<hint>@@, @@E@<alert>@@, @@E@<help>@@
+tags as well as  @@A@readonly@@ and @@A@required@@ attributes. As for other list
+controls, you must declare a list of possible values and associated labels.
+Check also further section on datasource.
 
 Example :
 
@@ -392,7 +475,10 @@ Example :
 
 The selected value will be stored in a "country" form variable.
 
-By default, if there isn't an attribute @@A@required="true"@@, the user doesn't need to make a choice. So you have automatically a first empty choice in the list. If you want to indicate a label for this empty choice, you could use @@E@<emptyitem>@@.
+By default, if there isn't an attribute @@A@required="true"@@, the user doesn't
+need to make a choice. So you have automatically a first empty choice in the
+list. If you want to indicate a label for this empty choice, you could use
+@@E@<emptyitem>@@.
 
 <code xml>
    <menulist ref="ville">
@@ -415,8 +501,12 @@ Of course, you can use a locale:
 
 ==== List box ====
 
-Listbox (equivalent to @@E@<select>@@ in HTML), should be declared with tag @@E@<listbox>@@. Set its @@A@ref@@ attribute, a @@E@<label>@@ element,  and optionally @@E@<hint>@@, @@E@<alert>@@, @@E@<help>@@ tags as well as  @@A@readonly@@ and @@A@required@@ attributes.
-As for other list controls, you must declare a list of possible values and associated labels. Check also further section on datasource.
+Listbox (equivalent to @@E@<select>@@ in HTML), should be declared with tag
+@@E@<listbox>@@. Set its @@A@ref@@ attribute, a @@E@<label>@@ element,  and
+optionally @@E@<hint>@@, @@E@<alert>@@, @@E@<help>@@ tags as well as
+@@A@readonly@@ and @@A@required@@ attributes. As for other list controls, you
+must declare a list of possible values and associated labels. Check also further
+section on datasource.
 
 <code xml>
    <listbox ref="section">
@@ -427,17 +517,28 @@ As for other list controls, you must declare a list of possible values and assoc
   </listbox>
 </code>
 
-You can also add a @@A@size@@ attribute. It sets the number of list box items to display (hence the list box height). its default value is 4.
+You can also add a @@A@size@@ attribute. It sets the number of list box items to
+display (hence the list box height). its default value is 4.
 
-Listbox is one-choice only in its default behavior. However you can set @@A@multiple="true"@@ attribute to enable muti-items selection (in an HTML form, user has to hold @@K@Ctrl@@ key and click to select more than one element). In that situation, "section" form variable of the example above will be assigned to a PHP array of selected values instead of a single one. 
+Listbox is one-choice only in its default behavior. However you can set
+@@A@multiple="true"@@ attribute to enable muti-items selection (in an HTML form,
+user has to hold @@K@Ctrl@@ key and click to select more than one element). In
+that situation, "section" form variable of the example above will be assigned to
+a PHP array of selected values instead of a single one. 
 
 ==== File Upload ====
 
-If you want user to upload a file to your server, use the tag @@E@<upload>@@ (equivalent to @@E@<input type="file">@@ in HTML). Set its @@A@ref@@ attribute, a @@E@<label>@@ element, and optionally  @@E@<hint>@@, @@E@<alert>@@, @@E@<help>@@ tags as well as  @@A@readonly@@ and @@A@required@@ attributes.
+If you want user to upload a file to your server, use the tag @@E@<upload>@@
+(equivalent to @@E@<input type="file">@@ in HTML). Set its @@A@ref@@ attribute,
+a @@E@<label>@@ element, and optionally  @@E@<hint>@@, @@E@<alert>@@,
+@@E@<help>@@ tags as well as  @@A@readonly@@ and @@A@required@@ attributes.
 
-This control supports two specific attributes to control file type and size. Respectively @@A@mimetype@@ (its value has to be one or more mimetype) and @@A@maxsize@@ (size in octets).
+This control supports two specific attributes to control file type and size.
+Respectively @@A@mimetype@@ (its value has to be one or more mimetype) and
+@@A@maxsize@@ (size in octets).
 
-Warning : with IE, the mimetype of jpg and jpeg files is image/pjpeg. Be sure to set mimetype="image/pjpeg" with image/jpeg if you want allow this file format.
+Warning : with IE, the mimetype of jpg and jpeg files is image/pjpeg. Be sure to
+set @@mimetype="image/pjpeg"@@ with image/jpeg if you want allow this file format.
 
 <code xml>
   <upload ref="photo" mimetype="image/jpeg;image/pjpeg;image/png" 
@@ -445,7 +546,9 @@ Warning : with IE, the mimetype of jpg and jpeg files is image/pjpeg. Be sure to
   </upload>
 </code>
 
-Upon receiving file, jForms will check its type and its size. You'll see later that you can choose where to save it. "photo" form variable will have the filename as value.
+Upon receiving file, jForms will check its type and its size. You'll see later
+that you can choose where to save it. "photo" form variable will have the
+filename as value.
 
 ==== Grouping some controls ====
 
@@ -466,8 +569,9 @@ PHP API change properties of child controls.
 
 
 
-Since Jelix 1.6.2, it is possible to add a checkbox which appears near the label of the fieldset.
-It allows to the user to enable or disable all controls in the group. Use the attribute @@withcheckbox@@.
+Since Jelix 1.6.2, it is possible to add a checkbox which appears near the label
+of the fieldset. It allows to the user to enable or disable all controls in the
+group. Use the attribute @@withcheckbox@@.
 
 <code xml>
   <group ref="a_group" withcheckbox="true">
@@ -497,7 +601,10 @@ instead of @@label@@.
 
 ==== Extended choice ====
 
-Some times, we want to have a choice between many options, and for each options, to specify additional informations. jForms provides a powerful control, @@E@<choice>@@. This element should contain some @@E@<item>@@ elements, and this elements contains a @@E@<label>@@ element, but also zero or more  controls.
+Some times, we want to have a choice between many options, and for each options,
+to specify additional informations. jForms provides a powerful control,
+@@E@<choice>@@. This element should contain some @@E@<item>@@ elements, and this
+elements contains a @@E@<label>@@ element, but also zero or more  controls.
 
 <code xml>
   <choice ref="status">
@@ -519,7 +626,8 @@ Some times, we want to have a choice between many options, and for each options,
    </choice>
 </code>
 
-When a user selects one of this item (represented by radio buttons in HTML), controls of others items are deactivated.
+When a user selects one of this item (represented by radio buttons in HTML),
+controls of others items are deactivated.
 
 Each @@E@<item>@@ element should have a @@A@value@@ attribute.
 
@@ -543,12 +651,16 @@ The use of the captcha element is very simple:
  </captcha>
 </code>
 
-To know more on this control and to configure it, see [[xml-1.1/captcha|the dedicated section]].
+To know more on this control and to configure it, see [[xml/captcha|the dedicated section]].
 
 
 ==== Submit button ====
 
-In a form, you'll most of time need one or more submit buttons to validate user inputs and send form data to your server. Submit buttons are declared with tag @@E@<submit>@@. Set its @@A@ref@@ attribute, a @@E@<label>@@ element, and optionally @@E@<hint>@@, @@E@<alert>@@, @@E@<help>@@ tags (but not @@A@readonly@@ nor @@A@required@@ attributes).
+In a form, you'll most of time need one or more submit buttons to validate user
+inputs and send form data to your server. Submit buttons are declared with tag
+@@E@<submit>@@. Set its @@A@ref@@ attribute, a @@E@<label>@@ element, and
+optionally @@E@<hint>@@, @@E@<alert>@@, @@E@<help>@@ tags (but not
+@@A@readonly@@ nor @@A@required@@ attributes).
 
 <code xml>
   <submit ref="submit">
@@ -556,7 +668,10 @@ In a form, you'll most of time need one or more submit buttons to validate user 
   </submit>
 </code>
 
-Its form variable will not be useful except if you have more than one submit, like the common case of "preview" and "save" action. To define more than one submit, just use @@E@item@@ tags as in other //multi-values// controls. Check also further section on datasource. 
+Its form variable will not be useful except if you have more than one submit,
+like the common case of "preview" and "save" action. To define more than one
+submit, just use @@E@item@@ tags as in other //multi-values// controls. Check
+also further section on datasource. 
 
 Example:
 
@@ -568,7 +683,8 @@ Example:
   </submit>
 </code>
 
-"action" form variable will equal "preview" or "save" on submit. your HTML form will display 2 buttons labelled respectively "Preview" and "Save".
+"action" form variable will equal "preview" or "save" on submit. your HTML form
+will display 2 buttons labelled respectively "Preview" and "Save".
 
 ==== Reset button ====
 
@@ -595,7 +711,11 @@ action on the click event of the button.
 
 ==== Output values ====
 
-@@E@<output>@@ tag allows simply to display a value. It will be @@A@readonly@@. This  could serve when you want to edit a record without allowing every field to be editable. Set its @@A@ref@@ attribute, a @@E@<label>@@ element, and optionally @@E@<hint>@@, @@E@<alert>@@, @@E@<help>@@ tags (but not @@A@readonly@@ nor @@A@required@@ attributes).
+@@E@<output>@@ tag allows simply to display a value. It will be @@A@readonly@@.
+This  could serve when you want to edit a record without allowing every field to
+be editable. Set its @@A@ref@@ attribute, a @@E@<label>@@ element, and
+optionally @@E@<hint>@@, @@E@<alert>@@, @@E@<help>@@ tags (but not
+@@A@readonly@@ nor @@A@required@@ attributes).
 
 <code xml>
   <output ref="category">
@@ -605,7 +725,10 @@ action on the click event of the button.
 
 ==== Hidden field ====
 
-If you want to include hidden fields into your form (which is equal to @@E@<input type="hidden">@@ in HTML), you should use the @@E@<hidden>@@ element. It must have a @@A@ref@@ attribute, and you can also use the @@A@defaultvalue@@ attribute.
+If you want to include hidden fields into your form (which is equal to
+@@E@<input type="hidden">@@ in HTML), you should use the @@E@<hidden>@@ element.
+It must have a @@A@ref@@ attribute, and you can also use the @@A@defaultvalue@@
+attribute.
 
 <code xml>
   <hidden ref="product_id" />
@@ -613,16 +736,22 @@ If you want to include hidden fields into your form (which is equal to @@E@<inpu
 
 ===== Data sources =====
 
-@@E@<menulist>@@, @@E@<listbox>@@ and @@E@<radiobuttons>@@ and @@E@<checkboxes>@@ controls each define more than one choice. you must indicate jForms how to collect values and labels of those choices.
+@@E@<menulist>@@, @@E@<listbox>@@ and @@E@<radiobuttons>@@ and
+@@E@<checkboxes>@@ controls each define more than one choice. you must indicate
+jForms how to collect values and labels of those choices.
 
 jForms offers three ways to declare them:
+
   - choices can be hard-coded in XML file (static data)
   - choices can be retrieved through DAO.
   - choices can be retrieved through a class.
 
 ==== Static choice ====
 
- a choice is defined by an @@E@<item>@@ tag. its value is declared with the @@A@value@@ attribute. its label is simply the content of @@E@<item>@@. Alternatively you could use a locale by setting @@A@locale@@ attribute. When label is empty, jForms takes the choice value as label.
+A choice is defined by an @@E@<item>@@ tag. Its value is declared with the
+@@A@value@@ attribute. Its label is simply the content of @@E@<item>@@.
+Alternatively you could use a locale by setting @@A@locale@@ attribute. When
+label is empty, jForms takes the choice value as label.
 
 <code xml>
    <checkboxes ref="objects">
@@ -636,7 +765,8 @@ jForms offers three ways to declare them:
 
 ==== Dynamic data through DAO ====
 
-List choices can be filled through a DAO. To achieve this, you have to use a @@E@<datasource>@@ element with at least 3 attributes:
+List choices can be filled through a DAO. To achieve this, you have to use a
+@@E@<datasource>@@ element with at least 3 attributes:
 
    - @@A@dao@@, its value must be a dao selector
    - @@A@method@@, its value select a dao method retrieving choices 
@@ -644,7 +774,8 @@ List choices can be filled through a DAO. To achieve this, you have to use a @@E
 
 You can use also a @@A@profile@@ attribute to indicate the jDb profile to use.
 
-Each value choice will be the primary key property of the selected DAO. However, you can use another DAO property by setting the @@A@valueproperty@@ attribute.
+Each value choice will be the primary key property of the selected DAO. However,
+you can use another DAO property by setting the @@A@valueproperty@@ attribute.
 
 Example:
 
@@ -658,7 +789,8 @@ Example:
 
 === Indicating a DAO method with arguments ===
 
-If you want to use a dao method which needs parameters, you have to indicate them with the @@A@criteria@@ attribute or the @@A@criteriafrom@@ attribute.
+If you want to use a dao method which needs parameters, you have to indicate
+them with the @@A@criteria@@ attribute or the @@A@criteriafrom@@ attribute.
 
 You use the @@A@criteria@@ attribute for "static" parameters:
 
@@ -671,9 +803,20 @@ Here the method @@M@findByCat()@@ will be called with the "admin" value as param
 
 === For the display of values ===
 
-When the form is displayed with plugins @@{formdata}@@ or @@{formdatafull}@@, where only values are displayed (or more exactly, corresponding labels), jForms don't call the method indicated into @@A@method@@. By default, it calls the @@M@get@@ method of the dao, with the selected value. If there are some criterias, they are also passed to the method. It means that //the selected value and criteria values must correspond to the primary key// of the corresponding record.
+When the form is displayed with plugins @@{formdata}@@ or @@{formdatafull}@@,
+where only values are displayed (or more exactly, corresponding labels), jForms
+don't call the method indicated into @@A@method@@. By default, it calls the
+@@M@get@@ method of the dao, with the selected value. If there are some
+criterias, they are also passed to the method. It means that //the selected
+value and criteria values must correspond to the primary key// of the
+corresponding record.
 
-However, it is not always the case. These values could correspond to other fields of the record. You have then to indicate an other method than @@M@get@@, which allows to retrieve the record. This method should accept the selected value and all criterias, as parameters. Indicate the name of the method into the attribute @@A@labelmethod@@. The method should return only one record (type @@selectfirst@@).
+However, it is not always the case. These values could correspond to other
+fields of the record. You have then to indicate an other method than @@M@get@@,
+which allows to retrieve the record. This method should accept the selected
+value and all criterias, as parameters. Indicate the name of the method into the
+attribute @@A@labelmethod@@. The method should return only one record (type
+@@selectfirst@@).
 
 
 === Multiple values in attributes ===
@@ -686,9 +829,12 @@ You can set several values in the following attributes:
 
 Values should be separated by a comma.
 
-Since @@A@labelproperty@@ can display many values, it is necessary to indicate the separator which will be used to display this values. You then use the @@A@labelSeparator@@ attribute.
+Since @@A@labelproperty@@ can display many values, it is necessary to indicate
+the separator which will be used to display this values. You then use the
+@@A@labelSeparator@@ attribute.
 
-Let's improve the previous example: we want to display the list depending on date and a category, and we want to display the label like @@L@name = value@@:
+Let's improve the previous example: we want to display the list depending on
+date and a category, and we want to display the label like @@L@name = value@@:
 
 <code xml>
   <input ref="date">
@@ -706,7 +852,10 @@ Let's improve the previous example: we want to display the list depending on dat
 
 ==== Dynamic data through a class ====
 
-If a DAO doesn't suit your needs, you can use a class. This class should inherit from @@C@jIFormsDatasource@@ interface and stored in @@F@classes/@@ folder of a module. You'll declare this class with the @@E@<datasource>@@ element and the  @@A@class@@ attribute. 
+If a DAO doesn't suit your needs, you can use a class. This class should inherit
+from @@C@jIFormsDatasource@@ interface and stored in @@F@classes/@@ folder of a
+module. You'll declare this class with the @@E@<datasource>@@ element and the
+@@A@class@@ attribute. 
 
 Class example:
 
@@ -741,7 +890,8 @@ class listDatas implements jIFormsDatasource
 }
 </code>
 
-in jForms XML file :
+In jForms XML file:
+
 <code xml>
   <menulist ref="icon">
         <label locale="elements.crud.label.icon" />
@@ -799,9 +949,11 @@ You have to set the @@P@datasource@@ property on the field object, with a class.
 
 ==== Grouped data ====
 
-For @@E@<menulist>@@ or @@E@listbox@@, you can group data into "sections". It will produce @@E@optgroup@@ elements in HTML.
+For @@E@<menulist>@@ or @@E@listbox@@, you can group data into "sections". It
+will produce @@E@optgroup@@ elements in HTML.
 
-For static datasource, use the @@E@<itemsgroup>@@ element with an attribute @@A@label@@ or @@A@locale@@.
+For static datasource, use the @@E@<itemsgroup>@@ element with an attribute
+@@A@label@@ or @@A@locale@@.
 
 <code xml>
    <menulist ref="country">
@@ -817,17 +969,26 @@ For static datasource, use the @@E@<itemsgroup>@@ element with an attribute @@A@
   </menulist>
 </code>
 
-For dao datasource or class datasource, you have to set an attribute @@A@groupby@@ on the @@E@<datasource>@@ element. For a dao datasource, @@A@groupby@@ indicates a property of the dao which contains the label of a group on which the record belongs to. For a class datasource, the meaning of @@A@groupby@@ will depend of the implementation of the datasource.
+For dao datasource or class datasource, you have to set an attribute
+@@A@groupby@@ on the @@E@<datasource>@@ element. For a dao datasource,
+@@A@groupby@@ indicates a property of the dao which contains the label of a
+group on which the record belongs to. For a class datasource, the meaning of
+@@A@groupby@@ will depend of the implementation of the datasource.
 
 
 
 ==== Preselecting values ====
 
-On Controls displaying list of choices, you sometime want to select default values. Three ways to do so:
+On Controls displaying list of choices, you sometime want to select default
+values. Three ways to do so:
 
-   - add an attribute @@A@selected="true"@@ on selected @@E@<item>@@ tags. Only @@E@<listbox>@@ and @@E@<checkboxes>@@ support more than one @@A@selected@@ item.
-   - add an attribute @@A@selectedvalue@@ on your control tag, and set it to the value of choice. This way, you can only declare one default value.
-   - add a @@E@<selectedvalues>@@ tag and its child @@E@<value>@@. This way is preferred on @@E@<checkboxes>@@ and @@E@<listbox>@@ control when using a dao data source.
+   - add an attribute @@A@selected="true"@@ on selected @@E@<item>@@ tags. 
+     Only @@E@<listbox>@@ and @@E@<checkboxes>@@ support more than one @@A@selected@@ item.
+   - add an attribute @@A@selectedvalue@@ on your control tag, and set it to the 
+     value of choice. This way, you can only declare one default value.
+   - add a @@E@<selectedvalues>@@ tag and its child @@E@<value>@@. This way 
+     is preferred on @@E@<checkboxes>@@ and @@E@<listbox>@@ control when using 
+     a dao data source.
 
 Examples :
 

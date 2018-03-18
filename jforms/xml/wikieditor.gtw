@@ -6,64 +6,80 @@ for this, [[http://markitup.jaysalvat.com/home/|MarkItUp]] has been integrated.
 
 ===== Editor Configuration =====
 
-In the file @@F@mainconfig.ini.php@@ we will add:
+A configuration for Markitup should have a name, that will be used in the 
+@@<wikieditor>@@ element. This name is also used as prefix of parameters into
+the Jelix configuration in the @@wikieditors@@ section.
 
-<code>
+Here is the default configuration, named @@default@@:
+
+<code ini>
 [wikieditors]
+
 default.engine.name = wr3
 default.wiki.rules = wr3_to_xhtml
-; path to the engine file
-default.engine.file = jelix/markitup/jquery.markitup.js
-; define the path to the "internationalized" file to translate the label of each button
-default.config.path = jelix/markitup/sets/wr3/
-; define the path to the image of buttons of the toolbar
-default.image.path = jelix/markitup/sets/wr3/images/
-default.skin = jelix/markitup/skins/simple/style.css
-</code> 
+</code>
 
 where : 
   * "default" is the name of the editor
-  * **default.engine.name** is the name of the engine, used for the render
-  * **default.wiki.rules**  is the name of the rules transformation 
-  * **default.engine.file** is the path to the markitup javascript
-  * **default.config.path**  is the path to the lables translations of each button
-  * **default.image.path** is the path to the images of the buttons
-  * **default.skin** is the path to the CSS which handles the layout of the textarea
+  * @@default.engine.name@@ is the name of the engine, used for the render
+  * @@default.wiki.rules@@  is the name of the rules transformation 
 
-**default.config.path** could have the value of any //sets// supported by MarkitUp, like
-bbcode, dotclear etc... to use it you will add this set in the path of your choice and put
-this path in the @@F@mainconfig.ini.php@@ file.
+You have also to specify CSS and JS files. You should use the [[/views/view-html|webassets]].
+The webassets group for wikieditor should have a name with the configuration name (here @@default@@)
+and a prefix @@jforms_wikieditor_@@. The default web assets are:
 
-Here is an example (a little bit creazy, because the rules of transformation
-bbcode_to_xhtml does not exist, but you could create it ).
+<code ini>
+[webassets_common]
 
-You just need to download the "set" bbcode from the markitup website and install it and
-set the path as below:
+; path to markitup files
+jforms_wikieditor_default.js[]="$jelix/markitup/jquery.markitup.js"
 
-<code>
-[wikieditors]
-default.engine.name = bbcode
-default.wiki.rules = bbcode_to_xhtml
-; path to the engine file
-default.engine.file = jelix/markitup/jquery.markitup.js
-; define the path to the "internationalized" file to translate the label of each button
-default.config.path = jelix/markitup/sets/bbcode/
-; define the path to the image of buttons of the toolbar
-default.image.path = jelix/markitup/sets/bbcode/images/
-default.skin = jelix/markitup/skins/simple/style.css
+; path to translation files
+jforms_wikieditor_default.js[]="$jelix/markitup/sets/wr3/$locale.js"
+
+; path to a skin for MarkitUp
+jforms_wikieditor_default.css[]="$jelix/markitup/skins/simple/style.css"
+jforms_wikieditor_default.css[]="$jelix/markitup/sets/wr3/style.css"
+
+; dependency of markitup: the webassets group named "jquery"
+jforms_wikieditor_default.require=jquery
+
 </code> 
 
 
+You could use anoter "set" supported by MarkitUp, such as markdown. You have to create
+an other configuration, or to modify the default one. We could named it "md", and use
+the CSS and JS file of this "set".
 
-===== Configuration jForms =====
+<code>
+[wikieditors]
+md.engine.name = markdown
+md.wiki.rules = md_to_xhtml
+
+[webassets_common]
+
+jforms_wikieditor_md.js[]="$jelix/markitup/jquery.markitup.js"
+jforms_wikieditor_md.js[]="$jelix/markitup/sets/markdown/set.js"
+jforms_wikieditor_md.css[]="$jelix/markitup/skins/simple/style.css"
+jforms_wikieditor_md.css[]="$jelix/markitup/sets/markdown/style.css"
+jforms_wikieditor_md.require=jquery
+
+</code> 
+
+(rules @@md_to_xhtml@@ for Wikirenderer do not exist, you should create them).
 
 
-So to add a wiki editor to a form, we will writte in the @@F@*.form.xml@@ file:
+===== Configuration into jForms =====
+
+So to add a wiki editor to a form, we will write in the @@F@*.form.xml@@ file:
 
 <code xml>
 <wikieditor ref="message" config="default" required="true">
 </code>
-where : 
-  * **ref** is the name of the textarea, here //message//
-  * **config** is the config name used in the file @@F@mainconfig.ini.php@@
-  * **required** if you want this textarea is mandatory
+
+where: 
+
+  * @@ref@@ is the name of the textarea, here @@message@@
+  * @@config@@ is the config name used in the file @@F@mainconfig.ini.php@@
+  * @@required@@ if you want this textarea is mandatory
+
