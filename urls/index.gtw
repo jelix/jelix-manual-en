@@ -8,14 +8,7 @@ request occurs, jUrl analyzes the url to then deduce the module, the action, and
 the parameters, and this, whatever the type of request is. Mod_rewrite from
 apache is then not useful. 
 
-For this, jUrl relies on an url engine. Three are featured with Jelix :
 
-   * a "simple" url engine, which is deprecated since Jelix 1.4.
-   * a "basic_significant" url engine (the default one)
-   * a "significant" url engine
-
-You can even [[plugins/urls_engine|create your own url engine]] since a url
-engin is nothing more than a plugin.
 
 ===== A recall on urls =====
 

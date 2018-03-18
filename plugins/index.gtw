@@ -10,28 +10,50 @@ All plugins are located in plugins //repositories//.
 ===== Adding a plugins repository =====
 
 You can add one or more plugins repositories. It consists of a directory with a strict
-subtree structure. Each plugins repository must be added to @@pluginsPath@@ of your
-application [[config|configuration]]. Its default value is:
+subtree structure.
 
-<code ini>
-pluginsPath = lib:jelix-plugins/,app:plugins/
+Each plugins repository must be declared with @@C@jApp@@ or in the composer.json file
+(in previous version, it was in the @@pluginsPath@@ parameter in the configuration).
+
+Here is an example with @@C@jApp@@, into @@application.init.php@@:
+
+<code php>
+   jApp::declarePluginsDir(__DIR__.'/plugins/');
 </code>
 
-Different repositories are divided by a comma. Default value indicate two repositories :
-@@F@/lib/jelix-plugins@@ directory and your plugins application directory.
+Here the plugins directory of the application.
 
-Jelix also loads an implicit repository @@F@lib/jelix/plugins@@: it contains all plugins
-bundled with Jelix. It also loads all @@F@plugins/@@ directories found into modules. 
+Some directories are declared automatically. This is the case of @@F@lib/jelix/plugins/@@.
+it contains all plugins bundled with Jelix. It also loads all @@F@plugins/@@ directories 
+found into modules.
 
-Note : @@lib:@@ is a shortcut indicating base @@F@lib/@@ directory and @@app:@@ is a
-shortcut for your application directory. You can also use an absolute path but beware to
-check if you migrate your application from one host to another. A relative path is also
-permitted. it has to be relative to your entry point script (@@F@/var/www/index.php@@ for
-example).
+If you install some packages for Jelix with Composer, plugins directories
+can be declared automatically by specifying them into the composer.json file
+of the packages.
+
+
+<code json>
+{
+   ...
+   "extra" : {
+      "jelix": {
+         "plugins-dir" : [
+            "plugins/",
+         ]
+      }
+   }
+}
+</code>
+
+Here, this composer.json file declare the @@F@plugins/@@ which is in the
+same directory of composer.json.
+
+It works also with the composer.json of the application.
+
 
 ===== Repository structure and plugins creation =====
 
-Such a repository has one sub-directory for each plugin type. And within each
+A plugins repository has one sub-directory for each plugin type. And within each
 sub-directory, each plugin has its own folder. 
 
 Below is the list of plugins type and their respective directory:
@@ -41,13 +63,38 @@ Below is the list of plugins type and their respective directory:
     * jAuth drivers: @@F@auth/@@
     * jAcl2 drivers: @@F@acl2/@@
     * jDb drivers:  @@F@db/@@
+    * jDao drivers: @@F@daobuilder/@@
     * templates plugins: @@F@tpl/@@
-    * url engines: @@F@urls/@@
     * jForms generators: @@F@jforms/@@
     * jKVDb drivers: @@F@kvdb/@@
     * jCache drivers: @@F@cache/@@
     * plugins for the debugbar: @@F@debugbar/@@
     * plugins for jResponseHtml: @@F@htmlresponse/@@
+    * plugins for jProfiles: @@F@profiles/@@
+
+===== Plugins loading =====
+
+Components which are using plugins, load them with the method @@jApp::loadPlugin()@@. 
+You could need it too to load a plugin, in order to retrieve its configuration or to use it.
+
+To instancy it, you have several parameters. Th first is the plugin name, then, the plugin
+type ('db', 'acl'...), the suffix of the file name  ('.dbconnection.php'..), the class
+name ('mysqliDbConnection') and the last one: a parameter for the constructor.
+
+<code php>
+$plugin = jApp::loadPlugin('mysqli'', 'db', '.dbconnection.php', 'mysqliDbConnection', 'default');
+</code>
+
+You see that there is a limitation: you cannot give several parameters to the constructor.
+You could then simply load the plugin with  @@jApp::includePlugin()@@, and instancying
+it yourself. This method has same parameters as @@loadPlugin()@@, without the parameter 
+for the constructor of course.
+
+<code php>
+jApp::includePlugin('mysqli'', 'db', '.dbconnection.php', 'mysqliDbConnection');
+$plugin = new mysqliDbConnection('default');
+</code>
+
 
 ===== Plugins development =====
 
@@ -55,3 +102,4 @@ Jelix comes with a bunch of plugins within the standard package. They are locate
 @@F@lib/jelix/plugins/@@. However, it is often useful to create your own plugins to
 fulfill specific needs. And If your plugin is generic or useful enough, you're likely to
 push it to the developers team :-).
+

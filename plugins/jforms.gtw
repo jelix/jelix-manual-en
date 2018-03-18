@@ -4,19 +4,17 @@ As noted in [[/jforms/display|display jforms chapter]], you can select which
 plugin will generate forms content (in HTML, javascript and so on..) sent to
 clients. 
 
-Note: here we talk about new type of plugins of Jelix 1.5. Read the manual of
-Jelix 1.4 to know about older plugins.
-
-You have two kind of plugins: those that build a whole form, generators, and the plugins
-for the 'html' generator, to generate only a control.
+You have two kind of plugins: those that build a whole form, generators, and
+plugins for the 'html' generator, to generate only a control.
 
 ==== widget plugin ====
 
-The generator provided by Jelix is a plugin, that is itself extensible and use other type of plugins,
-"formwidget", to generate controls.
+The generator provided by Jelix is a plugin, that is itself extensible and use
+other type of plugins, "formwidget", to generate controls.
 
-A "formwidget" plugin generates the code of a specific control. You can provide your own formwidget plugin
-and use it for a particular control, if you want to have a different HTML construction.
+A "formwidget" plugin generates the code of a specific control. You can provide
+your own formwidget plugin and use it for a particular control, if you want to
+have a different HTML construction.
 
 A "formwidget" should follow the @@jelix\forms\HtmlWidget\WidgetInterface@@ interface, and so,
 it should provide these methods:
@@ -33,7 +31,8 @@ it should provide these methods:
 The plugin could inherits from the @@jelix\forms\HtmlWidget\WidgetBase@@ class so only few
 methods are needed to be implemented.
 
-The plugin should have a name. It should be stored into a file @@F@plugins/formwidget/{name}/{name}.formwidget.php@@.
+The plugin should have a name. It should be stored into a file
+@@F@plugins/formwidget/{name}/{name}.formwidget.php@@.
 
 See all existing plugins into @@F@lib/jelix/plugins/formwidget/@@ to know more about how
 it should be implemented.
@@ -42,13 +41,16 @@ it should be implemented.
 
 To create a such plugin, you should of course pick a name, say "moreforms". Then:
 
-  * Create a @@F@moreforms@@ directory  in a **jforms**  plugins repository.
-  * Create a @@F@moreforms.jformsbuilder.php@@
-  * In it, declare a @@C@moreformsJformsBuilder@@ class inheriting from jFormsBuilderBase
+  * Create a @@F@formbuilder/moreforms@@ directory  in a plugins repository.
+  * Create a @@F@moreforms.jformsbuilder.php@@ in it
+  * In it, declare a @@C@moreformsFormBuilder@@ class inheriting from 
+    @@C@\jelix\forms\Builder\BuilderBase@@ or from @@C@\jelix\forms\Builder\HtmlBuilder@@
+    if you want to generate a form similaire to the default html generator.
 
-@@C@moreformsJformsBuilder@@ should implement following list of methods. Those
-display form parts and don't return any value. They are called through jForms
-template plugins.
+
+@@C@moreformsFormBuilder@@ should implement following list of methods. Those
+methods display different form parts and don't return any value (they call @@echo@@). 
+They are called through jForms template plugins.
 
 After each modification of your generator, **don't forget to clear your temp directory**
 (by using the command @@cleartemp@@ for example).
@@ -56,6 +58,15 @@ After each modification of your generator, **don't forget to clear your temp dir
 
 
 <code php>
+
+    /**
+     * called during the meta content processing in templates
+     * This method should set things on the response, like adding
+     * css styles, javascript links etc.
+     * @param \jTpl $tpl the template object
+     */
+    abstract public function outputMetaContent($tpl);
+
     /**
      * output the header content of the form
      */
@@ -68,7 +79,6 @@ After each modification of your generator, **don't forget to clear your temp dir
 
     /**
      * displays all the form. outputMetaContent, outputHeader and outputFooters are also called 
-     * @since 1.1
      */
     abstract public function outputAllControls();
 
@@ -85,6 +95,13 @@ After each modification of your generator, **don't forget to clear your temp dir
      */
     abstract public function outputControlLabel($ctrl);
 
+    /**
+     * displays the value of the control (without the control)
+     * @param \jFormsControl $ctrl the control to display
+     * @param array $attributes  attribute to add on the generated code (html attributes for example)
+     */
+    abstract public function outputControlValue($ctrl, $attributes=array());
+
 </code>
 
 
@@ -96,17 +113,28 @@ to be included in the final response. Example:
 <code php>
    public function outputMetaContent($t) {
 
-        $resp = jApp::coord()->response;
+        $resp= jApp::coord()->response;
         if ($resp === null) {
             return;
         }
-        // if files are located in jelix folder
+        // si les fichiers sont dans le répertoire jelix
         $www = jApp::config()->urlengine['jelixWWWPath'];
-        // or in your app www folder        
-        $www = jApp::config()->urlengine['basePath'];
+        // ou si les fichiers sont dans un répertoire à vous dans www
+        $www = jApp::urlBasePath();
 
-        $resp->addJSLink($www.'js/file.js');
-        $resp->addCSSLink($www.'design/file.css');
+        $resp->addJSLink($www.'js/fichier.js');
+        $resp->addCSSLink($www.'design/fichier.css');
+
+        $resp->addAssets('my_web_assets');
+
+        //we loop on root control has they fill call the outputMetaContent recursively
+        foreach( $this->_form->getRootControls() as $ctrlref=>$ctrl) {
+            if($ctrl->type == 'hidden') continue;
+            if(!$this->_form->isActivated($ctrlref)) continue;
+
+            $widget = $this->getWidget($ctrl, $this->rootWidget);
+            $widget->outputMetaContent($resp);
+        }
    }
 </code>
 
@@ -125,18 +153,25 @@ This is the last method called by template plugins. As for HTML,
 
 === outputAllControls() ===
 
-This one is called by **formfull** template plugin. It has to generate all
-controls (apart of those generated by outputHeader and outputFooter).
+This one is called by @@{formfull}@@ template plugin. It has to generate all
+controls (apart of those generated by @@outputHeader()@@ and @@outputFooter()@@).
 
 === outputControlLabel() ===
 
-Called in {form} template block for fields labels, it generates labels tags. 
+Called by the @@{form}@@ template block for fields labels, it generates labels tags. 
 
 As argument, it receives a @@C@jFormsControl@@ object defining the control associated.
 
 === outputControl() ===
 
-Called in {form} template block for controls, it generates control tags.
+Called by the @@{form}@@ template block for controls, it generates control elements.
+
+As argument, it receives a @@C@jFormsControl@@ object defining the control associated,
+and the list of html attributes to add or other informations.
+
+=== outputControlValue() ===
+
+Called by the @@{formdata}@@ template block for fields values, it only output the value
+of a control. 
 
 As argument, it receives a @@C@jFormsControl@@ object defining the control associated.
-

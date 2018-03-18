@@ -1,23 +1,28 @@
 ~~LANG:FR@frman:plugins/auth~~
 
-If [[/authentication/drivers|standard drivers]] for [[/authentication|jAuth]] don't suit your needs, you can create one.
+If [[/authentication/drivers|standard drivers]] for [[/authentication|jAuth]] 
+don't suit your needs, you can create one.
 
 
 ===== Creation =====
 
 A jAuth driver must implements [[refclass:auth/jIAuthDriver|jIAuthDriver interface]].
-It is roughly equivalent to jAuth API (**but does not derive form it**).
+It is roughly equivalent to jAuth API (**but does not inherit from it**).
 
-jAuth loads drivers and the drivers do all low level jobs (database access or ldap acces or text file access and so on)
+jAuth loads drivers and the drivers do all low level jobs (database access or 
+ldap acces or text file access and so on)
 
-If //example// is your driver name:
-
-you create a classe //exempleAuthDriver//, in a file named //exemple.auth.php//, and locate it in //auth/example// directory of a [[/plugins#adding-a-plugins-repository|plugins repository]].
+If @@example@@ is your driver name: you create a classe @@exempleAuthDriver@@, 
+in a file named @@exemple.auth.php@@, and locate it in @@auth/example/@@ 
+directory of a [[/plugins#adding-a-plugins-repository|plugins repository]].
 
 
 ===== Activation =====
 
-To activate your driver, you have to set **driver** option in your [[/authentication|auth plugin configuration file]]. Still in this file, you can add  an //example// section and fill below all your driver specific options.
+To activate your driver, you have to set @@driver@@ option in your
+[[/authentication|auth plugin configuration file]]. Still in this 
+file, you can add  an @@example@@ section and fill below all your 
+driver specific options.
 
 <code ini>
    driver=example

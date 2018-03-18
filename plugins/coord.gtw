@@ -1,22 +1,21 @@
 ~~LANG:FR@frman:plugins/coord~~
 
-Adding coordinator (jelix core class) plugins allows you to customize different steps of the processing of any action.  
+Adding coordinator (jelix core class) plugins allows you to customize different
+steps of the processing of any action.  
 
-You can execute some code, at process start, before action execution, after action execution (but before display), at process end. 
+You can execute some code, at process start, before action execution, after
+action execution (but before display), at process end. 
 
-Note: Coordinator plugins are commonly named //plugin coord// in Jelix.
+Note: Coordinator plugins are commonly named //coord plugin// in Jelix.
 
 
-
-
-===== Activate a coord. plugin =====
+===== Activate a coord plugin =====
 
 You need to modify entry point configuration file. It could be
 @@F@var/config/index/config.ini.php@@ if it is for index.php.
 
   * [[/plugins#adding-a-plugins-repository|add its repository]] e.g the parent
-    directory of your plugin one to configuration. Set //pluginsPath// option as
-    this purpose.
+    directory of your plugin.
   * Add the plugin name to @@[coordplugins]@@ sections and set it ot "1" or
     to the configuration file name if needed.
 
@@ -24,8 +23,6 @@ Example: your plugin is located in //foo// folder of @@F@<application name>/plug
 Your config file should look like:
 
 <code ini>
-pluginsPath = app:plugins/
-
 [coordplugins]
 foo = foo.plugin.ini.php
 </code>
@@ -40,11 +37,11 @@ In that case, you should assign //1// to your plugin name:
 foo = 1
 </code>
 
-Since Jelix 1.3, @@"1"@@ means also that the configuration of the plugin can be inside
+The value @@"1"@@ means also that the configuration of the plugin can be inside
 the configuration file of the entry point. It should be into a @@[coordplugin_XXX]@@
 section (where XXX is the name of the plugin, like @@[coordplugin_foo]@@).
 
-**Important**: If you use several coordinator plugins, the order of the plugins
+**Important**: If you are using several coordinator plugins, the order of the plugins
 declaration in the config file matters. Hence the first declared plugin has precedence on the
 others. It means that if this first plugin returns an action, the other ones
 will not be executed. So you need to choose carefully the order of the plugins
@@ -60,15 +57,21 @@ bar = 1
 
 ===== Plugin configuration =====
 
+A plugin may need some configuration parameters
+
 In order to configure a plugin, you might have declared a specific configuration
 file (see above). It is an //ini// file, located in @@F@var/config/@@. Its content
-will be passed as argument to your plugin constructor as an array.
+will be passed as an array parameter to your plugin constructor.
+
+If this is only a section @@[coordplugin_XXX]@@ as indicated above, its content
+will be passed as an array parameter to your plugin constructor.
+
 
 ==== Plugin parameters ====
 
-As said before, your plugin might need some options or parameters. Those can be
-set in a config file but also within controllers. Indeed, your plugin might do
-different treatments for each controller actions. 
+As said before, your plugin might need some options or parameters. Some of one can
+be set within controllers. Indeed, your plugin might do different treatments for 
+each controller actions. 
 
 As an example, jAuth plugin checks if an action needs authentication or not.
 Each controller will set a parameter for each action indicating wether
@@ -88,8 +91,9 @@ public $pluginParams = array(
     );
 </code>
 
-Result: the plugin parameter //auth.required// is set to false for all methods.
+Result: the plugin parameter @@auth.required@@ is set to @@false@@ for all methods.
 
+See the documentation of the plugin to know which parameters you can use.
 
 ===== Plugin development =====
 

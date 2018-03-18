@@ -1,0 +1,37 @@
+~~LANG:FR@frman:plugins/daobuilder~~
+
+Plugins for jDao help the compiler of jDao to generate PHP classes
+that represents the content of xml files. A plugin is specific to a 
+database type. jDao generate SQL queries in methods of these classes.
+These queries can be different between databases type, so these plugins
+can generates them.
+
+Note: before Jelix 1.7, this plugins were only a class into plugins for jDb.
+
+===== Creating a plugin =====
+
+A plugin for jDao is a class inheriting from @@C@jDaoGenerator@@.
+
+==== Files and naming ====
+
+The name of the plugin is the name of the database type. So a plugin
+is specific to a SQL language.
+
+The plugin should be inside the directory @@F@daobuilder/@@ of a plugin
+repository. The file name has this scheme:
+@@F@daobuilder/<type>/<type>.daobuilder.php@@. And the class should be 
+named as @@<type>DaoBuilder@@. Where @@<type>@@ is the type name.
+
+The class should inherits from @@C@jDaoGenerator@@ and so it should
+redefines these methods if needed:
+
+  * @@M@genSelectPattern()@@
+  * @@M@_encloseName()@@
+  * @@M@genUpdateAutoIncrementPK()@@
+  * @@P@$propertiesListForInsert@@
+  * @@P@$trueValue@@, @@P@$falseValue@@
+  * @@M@_getAutoIncrementPKField()@@
+
+See [[refclass:dao/jDaoGenerator|the API reference of jDaoGenerator]].
+
+
