@@ -164,3 +164,10 @@ defaultPosition = right
 or on the @@right@@ of the web page. You could also change the position
 dynamically.
 
+
+===== Emails sending =====
+
+jMailer has parameters allowing to not send emails, or to send all of them to
+specific persons.
+
+See the chapter about [[/classes-utiles/jmailer|jMailer]].
