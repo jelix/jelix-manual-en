@@ -171,6 +171,15 @@ $resp->addMetaAuthor('Laurent');
 // change the meta generator name
 $resp->addMetaGenerator('My Super App 1.0');
 
+// set the compatibility mode for IE (since 1.6.17)
+$resp->IECompatibilityMode = 'IE=Edge'; // value by default in Jelix 1.7
+
+// set the viewport (since 1.6.17)
+$resp->metaViewport = 'width=device-width, initial-scale=1.0';
+
+// add a meta element (since 1.6.17)
+$resp->addMeta(array('name'=>'apple-touch-fullscreen', 'content'=>'yes'));
+
 </code>
 
 If you want to add custom content in the @@E@<head>@@ element, use @@M@addHeadContent()@@:

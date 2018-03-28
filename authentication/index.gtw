@@ -487,6 +487,7 @@ of authentication status and do some specific action related to user.
   * AuthLogout : a user has logged out
   * AuthErrorLogin : a user authentication has failed
   * AuthBeforeLogin : apply some process before a user authentication
+  * AuthChangePassword (since Jelix 1.6.17): the password of a user has changed.
 
 In response to some of these events, you can set some data:
 

@@ -207,6 +207,7 @@ Note that @@ctrl_label@@ and @@ctrl_control@@ also function outside of
 Lastname and firstname fields are displayed precisely in a table whereas other
 fields are displayed with @@formcontrols@@.
 
+To know more about how to customize the display of controls in HTML, see [[display/html-generator|the dedicated page]].
 
 ==== Customizing display of password controls ====
 

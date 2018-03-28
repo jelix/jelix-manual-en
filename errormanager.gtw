@@ -22,7 +22,7 @@ Note: all options in the @@[error_handling]@@ (except @@V@messageLogFormat@@ and
 
 ==== The message format ====
 
-The error message stored in files, syslog or mail, contains the error message itself, the stack trace and other useful informations. You can configure what should be store exactly. In the section @@[error_handling]@@ of the configuration, you have an option @@V@messageLogFormat@@ specifing the format of the message. This format supports some special keywords @@L@%date%@@, @@L@%ip%@@, @@L@%typeerror%@@, @@L@%code%@@, @@L@%msg%@@, @@L@%url%@@, @@L@%file%@@, @@L@%line%@@, @@L@\t@@ and @@L@\n@@.
+The error message stored in files, syslog or mail, contains the error message itself, the stack trace and other useful informations. You can configure what should be store exactly. In the section @@[error_handling]@@ of the configuration, you have an option @@V@messageLogFormat@@ specifing the format of the message. This format supports some special keywords @@L@%date%@@, @@L@%ip%@@, @@L@%typeerror%@@, @@L@%code%@@, @@L@%msg%@@, @@L@%url%@@, @@L@%file%@@, @@L@%line%@@, @@L@%http_error%@@, @@L@\t@@ and @@L@\n@@.
 
 ==== The error page ====
 
