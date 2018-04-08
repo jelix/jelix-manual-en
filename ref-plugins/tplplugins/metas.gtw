@@ -1,151 +1,193 @@
 ~~LANG:FR@frman:ref-plugins/tplplugins/metas~~
 
-see the API reference documentation
+Meta plugins allows to set meta properties on the template, usable by the template
+consumer code, or to modify automatically some other objects.
 
 ====== meta_html ======
- 
 
-===== jQuery =====
- 
-To add the links of jQuery in the header of your page, you just need to do as follow :
-<code html>
-{meta_html jquery}
-</code>
-this will load jQuery
-
-===== jQueryUI =====
-To add the links of jQueryUI in the header of your page, you just need to do as follow :
-<code html>
-{meta_html jquery_ui 'components', array('widget','dialog','position')}
-{meta_html jquery_ui 'theme'}
-</code>
-will load jquery, jqueryUI core and specified components + theme 
+This is a plugin allowing to modify and setup the current response object.
 
 
 ===== title =====
  
-to inform the @@E@<title>@@ tag of your page, you just need to do as follow :
+To setup the @@E@<title>@@ tag of your page, you just need to do as follow :
+
 <code html>
 {meta_html title 'Page Title'}
 </code>
 
+===== assets =====
+
+To use an [[view/view-html#using-webassets|assets group]], and so to integrate all of its JS
+and CSS links, use @@assets@@:
+
+<code html>
+{meta_html assets 'example'}
+</code>
+
+
+===== jQuery =====
+ 
+To add the links of jQuery in the header of your page, you just need to do as follow:
+
+<code html>
+{meta_html jquery}
+</code>
+
+
+===== jQueryUI =====
+
+To add the links of jQueryUI in the header of your page, you just need to do as follow :
+
+<code html>
+{meta_html jquery_ui 'components', array('widget','dialog','position')}
+{meta_html jquery_ui 'theme'}
+</code>
+
+will load jquery, jqueryUI core and specified components + theme 
+
+
 ===== js =====
  
-to load a javascript file, you just need to do as follow : 
+to load a javascript file, you just need to do as follow:
+
 <code html>
 {meta_html js $j_basepath.'js/global.js', array('charset'=> 'UTF-8')}
 </code>
-the second parameter has to be an array, it is optionnal, and allow to pass additionnal attributes to the  @@E@<script>@@ tag.
+
+The second parameter has to be an array, it is optionnal, and allow to pass
+additionnal attributes to the  @@E@<script>@@ tag.
 
 ===== jsie =====
  
-to load a javascript file targeting Internet Explorer, you just need to do as follow :
+To load a javascript file targeting Internet Explorer, you just need to do as follow:
+
 <code html>
 {meta_html jsie $j_basepath.'js/globalie.js', array('charset'=> 'UTF-8')}
 </code>
 
 ===== css =====
  
-to load a CSS stylesheet, you just need to do as follow :
+to load a CSS stylesheet, you just need to do as follow:
+
 <code html>
 {meta_html css $j_basepath.'css/screen.css', array('media'=>'screen, projection')}
 </code>
-the second parameter has to be an array, it is optionnal, and allow to pass additionnal attributes to the  @@E@<link>@@ tag.
+
+the second parameter has to be an array, it is optionnal, and allow to pass
+additionnal attributes to the  @@E@<link>@@ tag.
 
 ===== cssie =====
  
-to load a CSS stylesheet targeting Internet Explorer, you just need to do as follow :
+To load a CSS stylesheet targeting Internet Explorer, you just need to do as follow:
+
 <code html>
 {meta_html cssie $j_basepath.'css/ie.css', array('media'=>'screen, projection')}
 </code>
 
 ===== cssie7 =====
  
-to load a CSS stylesheet targeting Internet Explorer 7, you just need to do as follow :
+To load a CSS stylesheet targeting Internet Explorer 7, you just need to do as follow:
+
 <code html>
 {meta_html cssie7 $j_basepath.'css/ie7.css', array('media'=>'screen, projection')}
 </code>
 
 ===== cssltie7 =====
  
-to load a CSS stylesheet targeting Internet Explorer < 7, you just need to do as follow :
+To load a CSS stylesheet targeting Internet Explorer < 7, you just need to do as follow:
+
 <code html>
 {meta_html cssltie7 $j_basepath.'css/ielt7.css', array('media'=>'screen, projection')}
 </code>
 
 ===== csstheme =====
  
-to load a CSS stylesheet which is in the themes folder, you just need to do as follow :
+to load a CSS stylesheet which is in the themes folder, you just need to do as follow:
+
 <code html>
 {meta_html csstheme 'screen.css', array('media'=>'screen, projection')}
 </code>
 
 ===== cssthemeie =====
  
-to load a CSS stylesheet which is in the themes folder, targeting Internet Explorer, you just need to do as follow :
+to load a CSS stylesheet which is in the themes folder, targeting Internet
+Explorer, you just need to do as follow:
+
 <code html>
 {meta_html cssthemeie 'ie.css', array('media'=>'screen, projection')}
 </code>
 
 ===== cssthemeie7 =====
  
-to load a CSS stylesheet which is in the themes folder, targeting Internet Explorer 7, you just need to do as follow :
+to load a CSS stylesheet which is in the themes folder, targeting Internet
+Explorer 7, you just need to do as follow:
+
 <code html>
 {meta_html cssthemeie7 'ie7.css', array('media'=>'screen, projection')}
 </code>
 
 ===== cssthemeltie7 =====
  
-to load a CSS stylesheet which is in the themes folder, targeting Internet Explorer < 7, you just need to do as follow :
+to load a CSS stylesheet which is in the themes folder, targeting Internet
+Explorer < 7, you just need to do as follow:
+
 <code html>
 {meta_html cssthemeltie7 'ielt7.css', array('media'=>'screen, projection')}
 </code>
 
 ===== style =====
  
-to add inline CSS to your page, you just need to do as follow :
+to add inline CSS to your page, you just need to do as follow:
+
 <code html>
 {meta_html style array('body' => 'background-color: #b4d455')}
 </code>
 
 ===== bodyattr =====
  
-to add additionnal attributes to the @@E@<body>@@ tag, you just need to do as follow :
+to add additionnal attributes to the @@E@<body>@@ tag, you just need to do as follow:
+
 <code html>
 {meta_html bodyattr array('class' => 'special')}
 </code>
 
 ===== keywords =====
  
-to add words in a meta keywords tag, you just need to do as follow :
+to add words in a meta keywords tag, you just need to do as follow:
+
 <code html>
 {meta_html keywords 'foo, bar, foobar, barfoo')}
 </code>
 
 ===== description =====
  
-to add a description in a meta description tag, you just need to do as follow :
+to add a description in a meta description tag, you just need to do as follow:
+
 <code html>
 {meta_html description 'Cette page contient des informations sur blablahblah..')}
 </code>
 
 ===== author =====
  
-to add author(s) in a meta author tag, you just need to do as follow :
+to add author(s) in a meta author tag, you just need to do as follow:
+
 <code html>
 {meta_html author 'Jane Doe')}
 </code>
 
 ===== generator =====
  
-to indicate the generatorin a meta generator tag, you just need to do as follow :
+to indicate the generatorin a meta generator tag, you just need to do as follow:
+
 <code html>
 {meta_html generator 'Jelix'}
 </code>
 
 ===== others =====
  
-to add additionnal content in the header of your page, you just need to do as follow :
+to add additionnal content in the header of your page, you just need to do as follow:
+
 <code html>
 {meta_html others '<meta name="robots" content="index, follow" />'}
 </code>
@@ -156,7 +198,7 @@ this meta provides a shortcut to access to the own CSS, JS, and image content
 located in the www directory of the module.
 
 Like above you can use any combination of meta_htmlmodule with js, css or 
-others, example :
+others, example:
 
 <code html>
 {meta_htmlmodule css 'mymodule', 'css/screen.css', array('media'=>'screen, projection')}

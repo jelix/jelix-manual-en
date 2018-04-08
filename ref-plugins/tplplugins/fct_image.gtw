@@ -1,3 +1,274 @@
 ~~LANG:FR@frman:ref-plugins/tplplugins/fct_image~~
 
-See the API reference documentation
+If you need to display a picture, an @@<img>@@ element is often enough.
+
+But if you need to resize or transform this image, in different manners at
+several templates, the image plugin is very useful.
+
+It can resize and transform the given image, store the result in a cache, and
+set the link to this new image in the html.
+
+
+===== Using the plugin into a template =====
+
+The plugin is a template function, accepting at first parameter the source image.
+The given path is relative to the root web path (corresponding to your app/www directory).
+
+<code>
+  {image 'toupie.png'}
+</code>
+
+Here the image should be stored into @@yourapp/www/toupie.png@@.
+
+{{toupie.png|}}
+
+The html code:
+
+<code html>
+  <img src="./toupie.png" />
+</code>
+
+===== Some attributes =====
+
+You can add a CSS class:
+
+<code>
+  {image 'toupie.png', array('class'=>'right cadre')}
+</code>
+
+and/or an id:
+
+<code>
+  {image 'toupie.png', array('id'=>'image')}
+</code>
+
+and/or an alternate text:
+
+<code>
+  {image 'toupie.png', array('alt'=>'here picture of a whirligig')}
+</code>
+
+
+===== Some modifications =====
+
+You can transform the image in several ways. You can change for example its width.
+
+<code>
+  {image 'toupie.png', array('width'=>100)}
+</code>
+
+It will call the GD librairy to change the width and generate a new image 
+stored into "myapp/www/cache/images/"
+
+{{toupie_width100.png|}}
+
+So it will generate the following html with a link to the cached image (real url may be different):
+
+<code html>
+  <img src="cache/images/toupie_XXXXXXXXXXXXXXX.png"/>
+</code>
+
+If GD is not installed, the plugin just change the size with CSS. But the browser will
+load the original image.
+
+<code>
+  {image 'toupie.png', array('width'=>100)}
+</code>
+
+<code html>
+  <img src="toupie.png" style="width:100px;height:100px;"/>
+</code>
+
+
+==== Modifying the size ====
+
+You can set the width and/or the height. If you give only one of these measurement,
+the other will be calculated automatically.
+
+<code>
+  {image 'toupie.png', array('height'=>50)}
+  {image 'toupie.png', array('width'=>100)}
+</code>
+
+{{toupie_height50.png|}}
+
+You can set both, width and height, but probably the ratio will not be good
+and the image will be stretched.
+
+<code>
+  {image 'toupie.png', array('width'=>150, 'height'=>50)}
+</code>
+
+{{toupie_width150_height50.png|}}
+
+To change the size by indicating the width and the height, and by respecting
+the ratio, just add the @@omo@@ attribute. If the resulting width or height are
+higher than the expected with and height, the image will be cropped.
+
+<code>
+  {image 'toupie.png', array('width'=>150, 'height'=>50, 'omo'=>true)}
+</code>
+
+{{toupie_width150_height50_omo.png|}}
+
+You can also set new size of the image, by respecting the ratio and without
+cropping. Use maxheight and maxwidth instead of height and width. You can
+set a default background color for parts of the new image that are not part
+of the original image.
+
+<code>
+  {image 'toupie.png', array('maxwidth'=>100, 'maxheight'=>90,'background'=>'#0000ff')}
+  {image 'logo_1.png', array('maxwidth'=>100, 'maxheight'=>90)}
+  {image 'logo_2.png', array('maxwidth'=>100, 'maxheight'=>90,'background'=>'#ff0000')}
+</code>
+
+{{toupie_maxwidth100_maxheight90_bg.png|}}
+{{logo1_maxwidth100_maxheight90.png|}}\\
+{{logo2_maxwidth100_maxheight90_bg.png|}}
+
+
+
+==== Faire un zoom  ====
+
+Changing the size of the image allow to zoom in/out on the image. But for this 
+behavior, there is an other attribute: @@zoom@@.
+
+Give:
+  * 100 to display at the same original size (100%)
+  * 10 to display at 10% of the original size
+  * 110 to display at 110% of the original size
+
+<code>
+  {image 'toupie.png', array('width'=>100, 'zoom'=>50)}
+</code>
+
+{{toupie_width100_zoom50.png|}}
+
+
+==== Aligner et déplacer ====
+
+After cropping the image, you can indicate to "move" the image inside the
+new frame.
+
+You can align to the left:
+
+<code>
+  {image 'toupie.png', array('width'=>100, 'zoom'=>60, 'alignh'=>'left')}
+</code>
+
+{{toupie_width100_zoom50_alignh-left.png|}}
+
+or to the right:
+
+<code>
+  {image 'toupie.png', array('width'=>100, 'zoom'=>60, 'alignh'=>'right')}
+</code>
+
+At the top:
+
+<code>
+  {image 'toupie.png', array('width'=>100, 'zoom'=>60, 'alignh'=>'top')}*
+</code>
+
+{{toupie_width100_zoom50_alignh-top.png|}}
+
+At the bottom
+
+<code>
+  {image 'toupie.png', array('width'=>100, 'zoom'=>60, 'alignh'=>'bottom')}
+</code>
+
+
+
+==== Modifying the format and the quality l'extension et la qualité ====
+
+You may want to convert a png to jpg for example, and to reduce the 
+quality of the image (so the resulting image will take less bandwidth)
+
+<code>
+  {image 'toupie.png', array('width'=>100, 'ext'=>'jpg')}
+</code>
+
+{{toupie_width100_jpg.jpg|}}
+
+Note that the jpeg format does not support transparency
+
+<code>
+  {image 'toupie.png', array('width'=>100, 'ext'=>'jpg', 'quality'=>5)}
+</code>
+
+{{toupie_width100_jpg_quality5.jpg|}}
+
+
+
+==== Modifying the background color ====
+
+If you want to change transparent background of a png:
+
+
+<code>
+  {image 'toupie.png', array('width'=>100, 'background'=>'#ff5533')}
+</code>
+
+{{toupie_width100_bg.png|}}
+
+On a jpeg converting from a png:
+
+<code>
+  {image 'toupie.png', array('width'=>100, 'ext'=>'jpg', 'background'=>'#ff5533')}
+</code>
+
+{{toupie_width100_bg_jpg.jpg|}}
+
+
+==== Adding a box shadow ====
+
+You can add a box shadow on an image. Note that it is probably more interesting
+to add a box shadow with CSS instead of using this plugin. This feature was 
+developped years ago when browsers didn't support CSS shadows.
+
+<code>
+  {image 'toupie.png', array('width'=>100, 'shadow'=>true)}
+</code>
+
+{{toupie_width100_shadow.png|}}
+
+You can change the width and the angle of the shadow:
+
+<code>
+  {image 'toupie.png', array('width'=>100, 'shadow'=>true, 'soffset'=>20)}
+</code>
+
+{{toupie_width100_shadow_soffset.png|}}
+
+<code>
+  {image 'toupie.png', array('width'=>100, 'shadow'=>true, 'sangle'=>0)}
+</code>
+
+{{toupie_width100_shadow_sangle.png|}}
+
+To change the blur of the shadow (maximum 11):
+
+<code>
+  {image 'toupie.png', array('width'=>100, 'shadow'=>true, 'sblur'=>0)}
+</code>
+
+{{toupie_width100_shadow_sblur.png|}}
+
+Or to change its opacity (in %)
+
+<code>
+  {image 'toupie.png', array('width'=>100, 'shadow'=>true, 'sopacity'=>100)}
+</code>
+
+{{toupie_width100_shadow_sopacity.png|}}
+
+Or its color:
+
+<code>
+  {image 'toupie.png', array('width'=>100, 'shadow'=>true, 'scolor'=>'#ffff00')}
+</code>
+
+
+{{toupie_width100_shadow_scolor.png|}}
+

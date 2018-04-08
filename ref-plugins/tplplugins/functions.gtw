@@ -1,5 +1,7 @@
 ~~LANG:FR@frman:ref-plugins/tplplugins/fonctions~~
 
+Many plugins are simple function that display something.
+
 ===== zone =====
 
 Displays the content of a zone
@@ -24,7 +26,8 @@ this is equivalent to:
 
 ===== fetchzone =====
 
-With this plugin, you can get the content of a zone, so you can display it several times or you can test its content before the display.
+With this plugin, you can get the content of a zone, so you can display it
+several times or you can test its content before the display.
 
 
 <code html>
@@ -39,10 +42,206 @@ With this plugin, you can get the content of a zone, so you can display it sever
 </code>
 
 
+===== jlocale =====
+
+Display a localized string:
+
+<code>
+  {jlocale 'module~my.locale.key'}
+</code>
+
+The advantage to use it over the syntax @@{@module~my.locale.key@}@@, is that
+you can pass parameters if the content of the localized string is a formatted string
+for sprintf:
+
+<code>
+  {jlocale 'module~my.locale.key', array("str1", "str2")}
+</code>
+
+===== jurl =====
+
+Allow to display the url of a jelix action:
+
+<code>
+  {jurl 'module~controler:action', array('id'=>$id)}
+</code>
+
+There are three possible parameters
+
+  * the action selector: @@'module~controler:action'@@
+  * the optional parameters for the action @@array('id'=>$id)@@
+  * a boolean to say if you want that some characters should be escaped (true) or
+    note (false). @@true@@ by default.
+
+
+===== html : pagelinks =====
+
+When you need to display a long list of result on many pages, you can use this plugin
+which ease to display links to all pages.
+
+Here are parameters:
+
+<code>
+  {pagelinks <module~action>, <action parameters>, , 
+             <index of current result>, <number of results per page>, 
+             <offset parameter name>, <display properties>}
+</code>
+
+Example:
+
+<code html>
+  <p>{pagelinks 'myModule~default_index', array(),  283, 60, 15, "offset"}</p>
+</code>
+
+==== parameters ====
+
+  * @@module~action@@: selector of the action to display the next/previous page
+  * @@action parameters@@: an array containing some parameters for the url.
+    ex: @@array("param1" => 1, "param2" => "two")@@
+  * @@<total number of results>@@: total number of items that correspond to your query
+  * @@<index of current result>@@: offset of the first displayed item. For the first page, it is
+    0. For next pages, it is calculated automatically, and is stored into the parameter
+    @@<offset parameter name>@@.
+  * @@<number of results per page>@@: Number of result you want to display on a single page.
+
+
+
+@@<display properties>@@ is an array containing properties to display links. It is optional. 
+
+You can indicate several properties, like the number of page to display, the labels
+of some links (next, previous...).
+
+Example:
+
+<code html>
+  <p>{pagelinks 'myModule~default_index', array(),  283, 60, 15, "offset", 
+     array('start-label' => 'Start', 
+           'end-label' => 'End', 
+           'prev-label'  => 'Previous', 
+           'next-label'  => 'Next', 
+           'area-size'  => 5)}</p>
+</code>
+
+Here are possible parameters:
+
+  * @@start-label@ : Label of the link to the first page of results
+  * @@prev-label@@ : Label of the link to the previous page of results
+  * @@next-label@@ : Label of the link to the next page of results
+  * @@end-label@@ : Label of the link to the last page of results
+  * @@area-size@@ : Number of links to display, to pages that are before and after the current page. If 0 is given, all links are displayed.
+
+If a label is empty, the corresponding link will never be displayed.
+
+Don't forget you can give this array through a variable:
+
+
+<code php>
+  $properties = array('start-label' => '',
+                      'prev-label'  => 'preivous',
+                      'next-label'  => 'next',
+                      'end-label'   => '',
+                      'area-size'   => 5);
+  
+  $rep->body->assign('properties',$properties);
+</code>
+
+In the template:
+
+<code html>
+  <p>{pagelinks 'myModule~default_index', array(),  283, 80, 15, 
+              "offset", $properties}</p>
+</code>
+
+You can also localize labels:
+
+
+<code php>
+  $properties = array('start-label' => jLocale::get("bar~foo.pagelinks.start"),
+                      'prev-label'  => jLocale::get("bar~foo.pagelinks.prev"),
+                      'next-label'  => jLocale::get("bar~foo.pagelinks.next"),
+                      'end-label'   => jLocale::get("bar~foo.pagelinks.end"),
+                      'area-size'   => 0);
+</code>
+
+The plugin set some classes on generated html elements, so you can style them with CSS.
+
+  * @@ul.pagelinks@@ : css selector of the list of pages
+  * @@li.pagelinks-start@@ : css selector of the link to the first page
+  * @@li.pagelinks-prev@@ : css selector of the link to the previous page
+  * @@li.pagelinks-current@@ : css selector of the item showing the current page
+  * @@li.pagelinks-disabled@@ : css selector of disabled items (ex: the link to the next page is disabled when there is no more next pages)
+  * @@li.pagelinks-next@@ : css selector of the link to the next page
+  * @@li.pagelinks-end@@ : css selector of the link to the last page
+
+Example:
+
+
+<code css>
+  ul.pagelinks>li {
+      display: inline;
+  }
+  
+  ul.pagelinks>li:before {
+      content: ' | ';
+  }
+  
+  ul.pagelinks>li.pagelinks-start:before {
+      content: '';
+  }
+</code>
+
+===== html : urljsstring =====
+
+This plugin allow to generate javascript code that will construct an url to an action,
+and that may contain some dynamic parameters that are stored into variables.
+
+For example, we want this code:
+
+<code>
+  "/index.php/foo/default/bar?t=1547&param1=" + uneValeur + "&param2=" + (val*5)
+</code>
+
+Of course, you can write your javascript as is. But if the url is changed, you have to
+change this code.
+
+urljsstring allow to avoid this change. It accepts three parameters:
+
+   - an action selector (ex: "foo~default:bar")
+   - an array of static parameters
+   - an array of dynamic parameters. Keys are parameters names, values are Javascript expression.
+
+
+To generate the previous javascript code:
+
+<code html>
+    {urljsstring "foo~default:bar" , array('t'=>1547) , 
+                 array('param1'=>'uneValeur', 'param2'=>'(val*5)')}
+</code>
+
+To improve readability, you can use template variables:
+
+<code>
+    {assign $paramjs=array('param1'=>'uneValeur', 'param2'=>'(val*5)')}
+    {urljsstring $selecteur , $paramstatic , $paramjs}
+</code>
+
+
+__Note__ : urljsstring generates all the javascript code, including quotes for strings.
+
+<code javascript>
+   // this is incorrect
+   var foo = "{urljsstring $selecteur , $paramstatic , $paramjs}"
+   
+   // this is correct
+   var foo = {urljsstring $selecteur , $paramstatic , $paramjs}
+</code>
+
+
 
 ===== common : cycle =====
 
-The plugin @@cycle@@ allow to display cyclic values. It is useful in loops, when you want to display a different value at each step. Typical example:
+The plugin @@cycle@@ allow to display cyclic values. It is useful in loops, when
+you want to display a different value at each step. Typical example:
 
 <code html>
   {foreach $list as $item}
@@ -57,7 +256,9 @@ Here, the plugin will display 'odd', then 'even', then 'odd' etc.
 
 ==== Controlling a cycle ====
 
-There are two other plugins to have a better control on a cycle : @@cycle_init@@ to initialize a cycle, and @@cycle_reset@@ to reset the cycle (the next value will be the first value of the list).
+There are two other plugins to have a better control on a cycle: @@cycle_init@@
+to initialize a cycle, and @@cycle_reset@@ to reset the cycle (the next value
+will be the first value of the list).
 
 
 <code html>
@@ -78,7 +279,9 @@ Note that @@cycle_init@@ accepts a string with values separated by a comma, or a
 
 ==== Named cycles ====
 
-Perhaps you would want to reuse the same cycle in several places, or to use  differents cycles in the same loop. To do it, you should name your cycle, by given a name at the first argument.
+Perhaps you would want to reuse the same cycle in several places, or to use
+differents cycles in the same loop. To do it, you should name your cycle, by
+given a name at the first argument.
 
 <code html>
   {foreach $list as $item}
@@ -119,7 +322,7 @@ The result of the second loop will be:
 
 ===== resurl =====
 
-Allow to use a resource form a module. File must be present in a www directory in the module.
+Allow to use a resource form a module. File must be present in a www directory of the module.
 
 <code>
     {resurl 'module', 'example.png'}
@@ -146,6 +349,124 @@ Pass true, as third parameter to declare if the resource is in a theme (default 
 = Escape =
 
 Pass false as fourth parameter not to escape special characters (default to true)
+
+
+
+
+===== gravatar =====
+
+This modifier permits to display an avatar from the website http://gravatar.com/
+
+To do so, you just need to provide the email in the template as follow  :
+
+<code php>
+{gravatar 'foo@bar.com'}
+</code>
+
+Thus, your gravatar will be displayed at wanted place in the template.
+
+===== hook =====
+
+==== Introduction ====
+
+The Hook system permits to add in the templates of his choice, the
+fonctionnalities that we wish.
+
+To exploit the hooks we will write in the template:
+
+<code smarty>
+{hook 'eventname', $params}
+</code>
+
+where @@eventname@@ is the event name triggered the grabbing of all the
+functionalities and @@$params@@ is the array of parameters given to the listener
+answering to @@eventname@@.
+
+Example : 
+
+<code smarty>
+{hook 'SampleBannerAnnouncement'}
+</code>
+
+will display a banner of announcement in the template of your choice by
+answering to the event @@SampleBannerAnnouncement@@.
+
+==== Hooks naming convention ====
+
+This will permit you to understand, by reading the event name, to which page /
+template the hook is linked. It's not a rule written in the stone, but a way to
+organize your futur hooks.
+
+  * Before**TemplateName**
+  * **TemplateName**
+  * After**TemplateName**
+
+where :
+
+  * @@TemplateName@@ is the name of the template where the hook is used
+  * @@BeforeTemplateName@@ is the name of the hook called at the beginning of the template TemplateName
+  * @@TemplateName@@ is also the place where the hook is called (in the middle of the template)
+  * @@AfterTemplateName@@ is the name of the hook called at the end the template TemplateName
+
+==== How to respond to hooks ? ====
+
+We have to produce a module : 
+
+  * a listener 
+  * a zone 
+  * a template
+
+The Listener will be in charge of **responding** to the event in calling a zone:
+
+<code php>
+
+class hookListener extends jEventListener{
+    
+   function onhfbSampleBannerAnnouncement ($event) {
+        $event->add( jZone::get('hook~samplebanner_accouncement') );
+   } 
+}
+</code>
+
+The file events.xml to define the listener which will //respond// to the event:
+
+<code xml>
+<?xml version="1.0" encoding="iso-8859-1"?>
+<events xmlns="http://jelix.org/ns/events/1.0">
+   <listener name="hook">
+	<event name="hfbSampleBannerAnnouncement" />
+   </listener>
+</events>
+</code>
+
+The zone will exploit the data of your choice and will provide them to the template:
+
+<code php>
+class samplebanner_accouncementZone extends jZone {
+    protected $_tplname='zone.samplebanner_accouncement';
+    
+    protected function _prepareTpl(){    
+        $this->_tpl->assign('text',jLocale::get('hook~main.welcome'));
+    }        
+}
+</code>
+  
+The template will display the data:
+
+<code smarty>
+<div class="grid_16">
+    <div class="box">
+    <h2>Banner</h2>
+    {$text}
+    </div>
+</div>
+<div class="clear"></div>
+</code>
+
+All of this will be returned to the Hook in the wanted template at the place you
+want.
+
+
 
 
 ===== Others =====

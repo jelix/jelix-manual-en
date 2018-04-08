@@ -1,107 +1,140 @@
 ~~LANG:FR@frman:ref-plugins/tplplugins/modifiers~~
 
-All template modifiers bundled with Jelix.
+All template modifiers bundled with Jelix. Modifiers are functions which modify
+the display of the content of a variable in a template.
 
+===== cat =====
 
+This modifier allow to concatenate a string to a variable.
 
-===== gravatar =====
-
-this modifier permits to display an avatar from the website http://gravatar.com/
-
-To do so, you just need to provide the email in the template as follow  :
+Here is a variable @@$foo@@ having the value @@'bar'@@:
 
 <code php>
-{gravatar 'foo@bar.com'}
+$rep->body->assign('foo', 'bar');
 </code>
 
-Thus, your gravatar will be displayed at wanted place in the template.
+If we want to concatenate the string @@'hello'@@ to the variable @@$foo@@:
 
-===== hook =====
-
-==== Introduction ====
-The Hook system permits to add in the templates of his choice, the fonctionnalities that we wish.
-
-To exploit the hooks we will write in the template :
-
-<code smarty>
-{hook 'event', $params}
-</code>
-where **event** is the event name triggered the grabbing of all the functionalities and **$params** is the array of parameters given to the listener answering to **event**.
-
-Example : 
-<code smarty>
-{hook 'SampleBannerAnnouncement'}
+<code html>
+<p>{$foo|cat:'hello'}</p>
 </code>
 
-will display a banner of announcement in the template of your choice by answering to the event **SampleBannerAnnouncement**.
+The result will be:
 
-==== Hooks naming convention ====
+<code html>
+<p>barhello</p>
+</code>
 
-this will permit you to understand, by reading the event name, to which page / template the hook is linked. It's not a rule written in the stone, but a way to organize your futur hooks.
+===== count_* =====
 
-  * Before**TemplateName**
-  * **TemplateName**
-  * After**TemplateName**
+Several modifiers allow to count things into a variable:
 
-where :
-  * **TemplateName** is the name of the template where the hook is used
-  * BeforeTemplateName is the name of the hook called at the beginning of the template TemplateName
-  * TemplateName is also the place where the hook is called (in the middle of the template)
-  * AfterTemplateName is the name of the hook called at the end the template TemplateName
+* @@count_characters@@: to count characters
+* @@count_paragraphs@@: to count paragraphs
+* @@count_sentences@@: to count sentences
+* @@count_words@@: to count words.
 
-==== How to respond to hooks ? ====
+An example. Here is a variable @@$foo@@ having the value @@'bar'@@:
 
-We have to produce a module : 
-
-  * a listener 
-  * a zone 
-  * a template
-  * the Listener will be in charge of **responding** to the event in calling a zone
 <code php>
+$rep->body->assign('foo', 'bar');
+</code>
 
-class hookListener extends jEventListener{
-    
-   function onhfbSampleBannerAnnouncement ($event) {
-        $event->add( jZone::get('hook~samplebanner_accouncement') );
-   } 
-}
+In the template:
+
+<code html>
+<p>$foo contains {$foo|count_characters} characters</p>
 </code>
-  * file events.xml to define the listener which will //respond// to the event
-<code xml>
-<?xml version="1.0" encoding="iso-8859-1"?>
-<events xmlns="http://jelix.org/ns/events/1.0">
-   <listener name="hook">
-	<event name="hfbSampleBannerAnnouncement" />
-   </listener>
-</events>
+
+The result:
+
+<code html>
+<p>$foo contains 3 characters</p>
 </code>
-  * the zone will exploit the data of your choice and will provide them to the template
+
+With the other modifiers:
+
+<code html>
+<p>{$foo|count_paragraphs} paragraphs</p>
+<p>{$foo|count_sentences} sentences</p>
+<p>{$foo|count_words} words</p>
+</code>
+
+===== eschtml =====
+
+This is an important modifier: it escapes the content of a variable for HTML.
+In fact, it executes @@htmlspecialchars()@@.
+
+Use it on untrusted contents, to avoid XSS issues or else!
+
+
+===== indent =====
+
+This modifier add indentation into a text of a variable.
+
+Here is a text that we inject into a template:
+
 <code php>
-class samplebanner_accouncementZone extends jZone {
-    protected $_tplname='zone.samplebanner_accouncement';
-    
-    protected function _prepareTpl(){    
-        $this->_tpl->assign('text',jLocale::get('hook~main.welcome'));
-    }        
-}
-</code>
-  * the template will display the data
-<code smarty>
-<div class="grid_16">
-    <div class="box">
-    <h2>Banner</h2>
-    {$text}
-    </div>
-</div>
-<div class="clear"></div>
+$foo = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+Vivamus ornare, enim bibendum mollis interdum." 
+$rep->body->assign('foo', $foo);
 </code>
 
-all of this will be returned to the Hook in the wanted template at the place you want
+Let's display it into the template:
+
+code smarty>
+<pre>
+{$foo|indent}
+</pre>
+</code>
+
+The result will be:
+
+<code html>
+<pre>
+    Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+    Vivamus ornare, enim bibendum mollis interdum.
+</pre>
+</code>
+
+There are two optional parameters:
+
+  * the number of character to repeat. By default it is 4.
+  * the character to repeat. By default, a space.
+
+<code smarty>
+{$foo|indent:"15"}
+</code>
+
+Will be:
+
+<code>
+               Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+               Vivamus ornare, enim bibendum mollis interdum.
+</code>
+
+And 
+
+<code smarty>
+{$foo|indent:"5":"-"}
+</code>
+
+will be:
+
+<code>
+-----Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+-----Vivamus ornare, enim bibendum mollis interdum.
+</code>
+
 
 ===== jdatetime =====
 
-The jdatetime modifier permit to convert a date string in a format to another one. This modifier use the [[/class-utilities/jdatetime|jDateTime class]].
-Without parameter, this modifier expect a database string format(jDateTime::BD_DTFORMAT) and return a date in selected language format (jDateTime::LANG_DTFORMAT).
+The jdatetime modifier permit to convert a date string in a format to another
+one. This modifier use the [[/class-utilities/jdatetime|jDateTime class]].
+
+Without parameter, this modifier expect a database string
+format (@@jDateTime::BD_DTFORMAT@@) and return a date in selected language format
+(@@jDateTime::LANG_DTFORMAT@@).
 
 <code smarty>
   <p>this date are {$myDate|jdatetime}.</p>
@@ -127,7 +160,9 @@ To use another formats, you have to use one of this string in modifier parameter
 | 'full_lang_date' | jDateTime::FULL_LANG_DATE | full format date (i.e. day of week and month in letter) respecting language conventions (ex: thursday, may 27th 2017) |
 
 
-The first parameter is the format of date string to convert, the second one, the format to display.
+The first parameter is the format of date string to convert, the second one, the
+format to display.
+
 <code smarty>
   <p>this date are {$myDate|jdatetime:'db_date':'timestamp'}.</p>
 </code>
@@ -170,28 +205,174 @@ several options can be used for that:
 
 
 ===== number_format =====
-this modifier format a number to be displayed like explains in the PHP doc [[http://uk.php.net/number_format]] 
 
-for example :
+This modifier format a number to be displayed like explains in the PHP doc
+[[phpapi:number_format]] 
+
+For example :
+
 <code smarty>
 {number_format $number, 2, '.', ''}
 </code>
 
-===== truncate ===== 
+===== regexp_replace =====
 
-Modifier that truncates a string to a certain length if necessary, optionally splitting in the middle of a word, and appending the $etc string.
-<code smarty>
-{$mytext|truncate}
-{$mytext|truncate:40}
-{$mytext|truncate:45:'...'}
-{$mytext|truncate:60:'...':true}
+It replaces a string by an other by using a regular expression. 
+
+
+<code>
+$myVar = 'TOTOO';
+
+{$maVar|regex_replace:'/O/':'ii'}
 </code>
 
+The string @@TOTOO@@ will be transformed to @@tiitiiii@@.
+
+===== spacify =====
+
+It insert a letter between each letters.
+
+<code>
+{assign $mytext = 'Hello_everybody'}
+{$mytext|spacify:}
+</code>
+
+Result: @@H e l l o _ e v e r y b o d y@@.
+
+<code>
+{assign $mytext = 'Hello_everybody'}
+{$mytext|spacify:'.'}
+</code>
+
+Result: @@H.e.l.l.o._.e.v.e.r.y.b.o.d.y@@.
+
+===== printf =====
+
+Transform a string by using the sprintf function.
+
+<code>
+{assign $mytext = 'Hello everybody'}
+{$mytext|sprintf:'my format %s'}
+</code>
+
+Result : @@my format Hello everybody@@.
+
+===== strip =====
+
+It removes extra space from the string.
+
+<code>
+{assign $mytext = 'Bonjour  tout      le   monde'}
+{$mytext|strip}
+</code>
+
+Result : @@Bonjour tout le monde@@
+
+<code>
+{assign $mytext = 'Bonjour tout le     monde'}
+{$mytext|strip:';'}
+</code>
+
+Result : @@Bonjour tout le;monde@@
+
+
+===== truncate ===== 
+
+Modifier that truncates a string to a certain length if necessary, optionally
+splitting in the middle of a word, and appending an ending string like @@'...'@@.
+
+<code>
+{assign $mytext = 'Bonjour tout le monde'}
+{$mytext|truncate}
+</code>
+
+Result: @@Bonjour tout le monde@@
+
+<code>
+{assign $mytext = 'Bonjour tout le monde'}
+{$mytext|truncate:10}
+</code>
+
+Result: @@Bonjour...@@
+
+<code>
+{assign $mytext = 'Bonjour tout le monde'}
+{$mytext|truncate:10:'[...]'}
+</code>
+
+Result: @@Bonjour[...]@@
+
+If you are agree to cut at the middle of a word:
+
+<code>
+{assign $mytext = 'Bonjour tout le monde'}
+{$mytext|truncate:10:'...':true}
+</code>
+
+Result: @@Bonjour to...@@
+
 ===== truncatehtml ===== 
-Modifier that cuts a html formated string and close all opened tags so that it doesn't inpact on the rest of the page.
-You should use this modifier in a zone so that the return value is cached 
+
+
+Modifier that cuts a html formated string and close all opened tags so that it
+doesn't inpact on the rest of the page.
+
+You should use this modifier in a zone so that the return value is cached.
+
 <code smarty>
 {$mytext|wordwrap} 
 {$mytext|truncatehtml:150:"\n<a href="...">read full article</a>"} 
 {$mytext|truncatehtml:45} 
+</code>
+
+===== wiki =====
+
+This modifier convert a string having wiki content, to html. It uses the
+[[/class-utilities/jwiki|jWiki class]].
+
+By default it convert from the "wr3" syntax to html.
+
+
+<code smarty>
+  <p>{$message|wiki}</p>
+</code>
+
+If @@$message@@ is 
+
+<code>
+===== title =====
+
+A word in __bold__.
+</code>
+
+The result will be 
+
+<code html>
+<h1>title</h1>
+
+<p>A word in <strong>bold</strong></p>
+</code>
+
+
+===== html:nl2br =====
+
+It replace all line return characters by the html element @@<br/>@@.
+
+For example, here is a text:
+
+<code php>
+$foo = "Lorem ipsum dolor sit amet,\nconsectetuer adipiscing elit." 
+$rep->body->assign('foo', $foo);
+</code>
+
+And a template:
+
+<code smarty>
+<p>{$foo|nl2br}</p>
+</code>
+
+The result is:
+
+<code html>
+<p>Lorem ipsum dolor sit amet,<br/>consectetuer adipiscing elit.</p>
 </code>
