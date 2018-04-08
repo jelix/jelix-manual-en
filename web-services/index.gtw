@@ -1,7 +1,14 @@
 ~~LANG:FR@frman:services-web~~
 
-In addition to usual web contents (HTML, XML, and so on), Jelix also supports web services such as AJAX, with JSON or not, or more high level services such as XML-RPC or SOAP.
+In addition to usual web contents (HTML, XML, and so on), Jelix also supports
+web services such as AJAX, with JSON or not, or more high level services such as
+XML-RPC or SOAP.
 
-One of the Jelix strengths concerning web services is that you follow exactly the development model of classic content: get a response objet, transmit parameters and Jelix takes care of all that's left. You don't have to dive into protocol format or http headers.
+One of the Jelix strengths concerning web services is that you follow exactly
+the development model of classic content: get a response objet, transmit
+parameters and Jelix takes care of all that's left. You don't have to dive into
+protocol format or http headers.
 
-There is only one difference: some web services require a specific entry point (ie you cannot use @@F@index.php@@ but have to define a specific one for your web service).
+There is only one difference: some web services require a specific entry point
+(ie you cannot use @@F@index.php@@ but have to define a specific one for your
+web service).

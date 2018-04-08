@@ -2,7 +2,9 @@
 
 Although Ajax means an XML response (X in AJAX), it is commonly used with other formats.
 
-Depending on the client waiting either @@P@responseText@@ or @@P@responseXml@@ of an @@C@XmlHttpRequest@@ object, you should use differents jelix response types. 
+Depending on the client waiting either @@P@responseText@@ or @@P@responseXml@@
+of an @@C@XmlHttpRequest@@ object, you should use differents jelix response
+types. 
 
   * for any generic XML content, you will use [[/views/view-xml|jResponseXml]]
   * for json encoded content, you will use [[json|jResponseJson]]
@@ -10,11 +12,14 @@ Depending on the client waiting either @@P@responseText@@ or @@P@responseXml@@ o
   * Or, in other cases, you would use [[/views/view-text|jResponseText]].
 
 
-In your controller, you can use @@jApp::coord()->request->isAjax()@@ to verify that the request is a true AJAX request (eg, made with XMLHttpRequest).
+In your controller, you can use @@jApp::coord()->request->isAjax()@@ to verify
+that the request is a true AJAX request (eg, made with XMLHttpRequest).
 
 ===== Sending HTML fragments =====
 
-You can't use @@C@jResponseHtml@@ as it always generates a full well-formed HTML with @@E@<html>@@,@@E@<head>@@ and @@E@<body>@@... This is not what we want within an AJAX transaction.
+You can't use @@C@jResponseHtml@@ as it always generates a full well-formed HTML
+with @@E@<html>@@,@@E@<head>@@ and @@E@<body>@@... This is not what we want
+within an AJAX transaction.
 
 @@C@jResponseHtmlFragment@@ will serve your needs here:
 

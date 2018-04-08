@@ -9,8 +9,9 @@ The advantage to use Jelix to do SOAP is that you don't have to learn details of
 the protocol, nor to manipulate XML content of soap message, and it is well
 integrated into jelix: soap parameters are interpreted and available in
 controllers through the classical @@M@param()@@ method, and to return data for
-the response, you do like for all other response type. Jelix also generates
-automatically WSDL content.
+the response, you do like for all other response type.
+
+Jelix also generates automatically WSDL content.
 
 However, you have to create a specific entry point, and to follow a specific
 syntax in comments in your soap controllers.
@@ -45,24 +46,13 @@ $jelix->request->initService();
 $jelix->processSoap();
 </code>
 
-Don't forget to add this entry point in urls engine configuration section. If
-you have selected the "simple" url engine, in section
-//simple_urlengine_entrypoints// configuration file, just add: 
-
-<code ini>
-soap = "@soap"
-</code>
-
-//soap// is the name of the entry point, and //@soap// indicate the type of the
-entry point.
-
-If you have selected the [[/urls/significant|significant]] url engine, add:
+Don't forget to add this entry point into @@var/config/urls.xml@@:
 
 <code xml>
-<entrypoint type="soap" name="soap" default="true" />
+    <entrypoint type="soap" name="soap" default="true" />
 </code>
 
-Independently of url engines, you retrieve an url for a soap action like this:
+You then retrieve an url for a soap action like this:
 
 <code php>
   $url = jUrl::get("module~action@soap");
@@ -77,7 +67,7 @@ As you probably saw in the entry point, some classes are used from a "jsoap"
 module. It is provided by Jelix. You should activate it:
 
 <code>
-  php.exe cmd.php installmodule jsoap
+  php.exe cmd.php module:install jsoap
 </code>
 
 (see the chapter about [[/installing-a-module|installing a module]])
@@ -229,11 +219,9 @@ The jsoap module provides features to generate WSDL. It contains a controller
 named "WSDL" with a @@M@wsdl()@@ method. So, just indicate the url of this
 action to your soap client:
 
+<code>
    http://mysite.com/index.php/jsoap/WSDL/wsdl?service=aModule~aController
-
-or with the "simple" url engine:
-
-   http://mysite.com/index.php?module=jsoap&action=WSDL:wsdl&service=aModule~aController
+</code>
 
 Note that you should give a "service" parameter indicating the controller which
 contains the web services. You can have more than one soap controller, but there
@@ -243,8 +231,9 @@ implemented in your application.
 You can display a HTML version of the list of SOAP services, by calling the
 @@M@index()@@ method of the WSDL controller:
 
+<code>
   http://mysite.com/index.php/jsoap/WSDL?service=aModule~aController
-
+</code>
 
 ===== Calling a SOAP service with a client =====
 
@@ -325,7 +314,8 @@ classmap = '{"soaptype":"myclass", "soaptype2":"myclass2"}'
 The classes you indicate should be loaded before calling @@jSoapClient::get()@@. 
 
 Since Jelix 1.5, you can declare this mapping into a separate ini file. You should
-indicate this file into a @@classmap_file@@ property in the profile.
+indicate this file into a @@classmap_file@@ property in the profile. This file 
+should be into @@yourapp/app/config/@@.
 
 <code ini>
 [jsoapclient:default]

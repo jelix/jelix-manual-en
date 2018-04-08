@@ -1,8 +1,11 @@
 ~~LANG:FR@frman:services-web/json~~
 
-[[http://fr.wikipedia.org/wiki/JSON|JSON]] is a data format using javascript syntax. This ease greatly the use of JSON encoded data in HTML content. 
+[[http://fr.wikipedia.org/wiki/JSON|JSON]] is a data format using javascript
+syntax. This ease greatly the use of JSON encoded data in HTML content. 
 
-To send JSON data, there is a specific @@C@jResponseJson@@ object. Its alias is "json". All you need to do is to assign your encoded json to the @@P@$data@@ property:
+To send JSON data, there is a specific @@C@jResponseJson@@ object. Its alias is
+"json". All you need to do is to assign your encoded json to the @@P@$data@@
+property:
 
 <code php>
   $resp = $this->getResponse('json');
@@ -19,7 +22,7 @@ To call the action, in raw javascript :
    http.open("post", url, true);
 
    http.onreadystatechange = function(){
-	if(http.readyState == 4){
+	    if(http.readyState == 4){
 	    // Get the data from the server's response
             var json = http.responseText;
             var value;
@@ -32,13 +35,14 @@ To call the action, in raw javascript :
 
             // do something with your json data
          
-	}
+	    }
    };
    http.send(null);
 
 </code>
 
-or, with jQuery :
+or, with jQuery:
+
 <code javascript>
    $.getJSON( url, function (json) {
       // do something with your json data
@@ -73,6 +77,7 @@ foreach($countries as $country) {
 </code>
 
 The client will receive:
+
 <code javascript>
   { "id":20, "name":"Europe"}
 </code>
