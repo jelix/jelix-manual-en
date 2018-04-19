@@ -5,7 +5,7 @@ If [[/authentication/drivers|standard drivers]] for [[/authentication|jAuth]] do
 
 ===== Creation =====
 
-A jAuth driver must implements [[refclass:auth/jIAuthDriver|jIAuthDriver interface]].
+A jAuth driver must implements [[refclass:jIAuthDriver|jIAuthDriver interface]].
 It is roughly equivalent to jAuth API (**but does not derive form it**).
 
 jAuth loads drivers and the drivers do all low level jobs (database access or ldap acces or text file access and so on)

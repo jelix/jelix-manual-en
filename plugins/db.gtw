@@ -57,7 +57,7 @@ So the connection class should redefine some methods:
 
 If the driver doesn't support a feature, it should throw an exception.
 
-See [[refclass:db/jDbConnection|jDbConnection reference]].
+See [[refclass:jDbConnection|jDbConnection reference]].
 
 
 ==== Resultset Class ====
@@ -72,7 +72,7 @@ You should redefine these methods:
   * @@M@rowCount@@, which returns the number of results
   * @@M@bindColumn@@, bindParam, bindValue, columnCount and execute, for prepared queries
 
-See [[refclass:db/jDbResultSet|jDbResultSet reference]].
+See [[refclass:jDbResultSet|jDbResultSet reference]].
 
 
 ==== Schema classes ====
@@ -91,7 +91,7 @@ You should redefine this methods and properties:
   * @@P@$typesInfo@@, containing the correspondence between sql types and unified types.
 
 
-See [[refclass:db/jDbTools|jDbTools reference]].
+See [[refclass:jDbTools|jDbTools reference]].
 
 ==== SQL Query builder class ====
 
@@ -106,7 +106,7 @@ It must inherit from @C@@jDaoGenerator@@ and overload one or more of its methods
   * $trueValue, $falseValue
   * _getAutoIncrementPKField()
 
-See details in [[refclass:dao/jDaoGenerator|jDaoGenerator API reference]] .
+See details in [[refclass:jDaoGenerator|jDaoGenerator API reference]] .
 
 
 

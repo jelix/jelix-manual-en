@@ -93,6 +93,6 @@ For example, with a news DAO:
 
 It's possible to explicitely specify more informations about the RSS food or about each item.
 
-Check the API documentation about [[refclass:core_response/jRSS20Info|jRSS20Info]]
-and [[refclass:core_response/jRSSItem|jRSSItem]] to go deeper.
+Check the API documentation about [[refclass:jRSS20Info|jRSS20Info]]
+and [[refclass:jRSSItem|jRSSItem]] to go deeper.
 

@@ -89,7 +89,7 @@ For example, with a news DAO:
 
 It's possible to explicitely specify more informations about the RSS food or about each item.
 
-Check the API documentation about [[refclass:core_response/jAtom10Info|jAtom10Info]]
-and [[refclass:core_response/jAtom10Item|jAtom10Item]] to go deeper.
+Check the API documentation about [[refclass:jAtom10Info|jAtom10Info]]
+and [[refclass:jAtom10Item|jAtom10Item]] to go deeper.
 
 

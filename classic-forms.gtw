@@ -95,4 +95,4 @@ You can use also @@C@jFilter@@, which is a class to verify the format of the dat
     }
 </code>
 
-See [[refclass:utils/jFilter|the documentation reference jFilter]].
+See [[refclass:jFilter|the documentation reference jFilter]].

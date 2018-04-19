@@ -45,7 +45,7 @@ You can add any other properties and methods to the dao.
 
 ===== Class =====
 
-Class driver is a more universal driver than Db driver. You just have to assign a class to it, in which you do... what you want! Except that it has to implement [[refclass:auth_driver/jIAuthDriverClass|jIAuthDriverClass interface]]. This class is considered as other business classes and therefore should be located in @@F@classes/@@ folder of one of your modules.
+Class driver is a more universal driver than Db driver. You just have to assign a class to it, in which you do... what you want! Except that it has to implement [[refclass:jIAuthDriverClass|jIAuthDriverClass interface]]. This class is considered as other business classes and therefore should be located in @@F@classes/@@ folder of one of your modules.
 
 @@F@auth.plugin.ini.php@@ would declare:
 
