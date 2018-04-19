@@ -1,6 +1,4 @@
-~~LANG:FR@frman:urls/significant~~
-
-Here is how you can configure the significant engine for the [[/urls|url system of Jelix]].
+~~LANG:FR@frman:urls/mapping~~
 
 The configuration principle of this engine is to indicate in a
 @@F@var/config/urls.xml@@ file all the possible url forms in the application,
@@ -57,7 +55,7 @@ attribute is not present, the default value is @@classic@@.
 
 For compatibility reasons with older version of jelix, you can use other name
 for @@E@entrypoint@@ elements. Their exact name gives the type of request they
-are affected to : 
+are affected to: 
 
    * @@E@classicentrypoint@@ for classical request, 
    * @@E@xmlrpcentrypoint@@ for xmlrpc 
@@ -67,8 +65,68 @@ However this kind of names are now deprecated.
 
 ===== Url tag =====
 
-Each entry point defines one or more possible url forms, knowing that those that
-are not defined will be accepted on an entry point defined as the default one.
+Each module is accessible through a specific entry point, so you should declare
+urls of modules in the corresponding entry point element.
+
+==== Specify the default action, the homepage ====
+
+Every application has an homepage at the @@/@@ url. 
+
+So you have at least one url to define on each "classic" entry points:
+
+
+<code xml>
+<urls xmlns="http://jelix.org/ns/urls/1.0">
+    <entrypoint name="index" default="true">
+        <url pathinfo="/" module="main" action="default:index" />
+    </entrypoint>
+</url>
+</code>
+
+So here the url @@index.php/@@ correspond to the method @@index@@ of the controller
+@@default@@ in the module @@main@@.
+
+Before Jelix 1.7, the home page was defined in the @@startModule@@ and @@startAction@@
+parameters in the configuration of each entry points.
+
+==== Automatic urls for modules ====
+
+As you will see below, you can define url for each action. But it is not required.
+
+By default, urls are like @@<entrypoint>.php/<module>/<controller>/<method>@@.
+
+But you have at least to indicate on which entry point the module is
+accessible, and so to specify the ''url tag for module'': a @@<url>@@ indicating
+only a module name.
+
+<code xml>
+    <entrypoint name="index" default="true">
+        <url pathinfo="/" module="main" action="default:index" />
+        <url module="main" />
+    </entrypoint>
+    <entrypoint name="blog">
+        <url module="news" />
+    </entrypoint>
+</code>
+
+Here all urls of the @@news@@ module are like @@blog.php/news/<controller>/<method>@@.
+
+You can also indicate a pathinfo: it then replaces the module name into the url.
+
+With this example:
+
+
+<code xml>
+    <entrypoint name="index" default="true">
+        <url pathinfo="/" module="main" action="default:index" />
+        <url pathinfo="/awesome/informations/" module="news" />
+    </entrypoint>
+</code>
+
+The urls of the @@news@@ module are like @@index.php/awesome/informations/<controller>/<method>@@.
+
+If there isn't an ''url tag for module''.
+
 
 ==== Specify a complete url form ====
 
@@ -466,30 +524,6 @@ You have also to create a url file for each type of entry point, if needed.
 
 Perhaps you would prefer that the parsing of the urls will be done by the web
 server, by using for example the rewrite mod in Apache.
-
-==== Full use of mod_rewrite ====
-
-You can use mod_rewrite to parse the urls and so to rewrite urls to simple urls
-(index.php?module=...&action=...).
-
-For that, you should inform jelix that it doesn't have to parse the urls:
-
-<code ini>
- [urlengine]
-  ..
-  enableParser = off
-</code>
-
-However you should create a urls.xml file, so jelix can generate significant
-urls when your application need it.
-
-In your @@F@.htaccess@@ file, you should write all rewrite rules (see the apache
-manual).
-
-If you want to define urls which don't contain the entry point (index.php for
-example), you should tell to Jelix that it musn't insert the entry point into
-generated urls. So you you have to add @@A@noentrypoint="true"@@ on the
-@@E@<url>@@ element or on the @@E@<entrypoint>@@ element.
 
 ==== Just remove the entry point ====
 

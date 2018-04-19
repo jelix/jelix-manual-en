@@ -5,12 +5,11 @@ in the templates (or anywhere). For this, simply indicate the module, the
 action, the type of request and some other parameters if you need and jUrl
 handles the generation of the corresponding url. On the other hand, when a
 request occurs, jUrl analyzes the url to then deduce the module, the action, and
-the parameters, and this, whatever the type of request is. Mod_rewrite from
-apache is then not useful. 
+the parameters, and this, whatever the type of request is.
 
+For this task, jUrl is using a URL engine.
 
-
-===== A recall on urls =====
+===== A recall about urls =====
 
 An url is made of different parts :
 
@@ -30,63 +29,44 @@ You can have to configure some options in Apache. See
 
 ===== Configuration =====
 
-The configuration of jUrl is made in the ''urlengine'' section of the configuration file. Here are its parameters :
+The configuration of jUrl is made in the @@urlengine@@ section of the
+configuration file. Here are its parameters:
 
-; @@engine@@ : Indicates the type of engine to use. The three available values are
-  ''simple'', ''basic_significant'' and ''significant''.
-; @@enableParser@@ : Activates the url analyzing by the
-   url engine. If you prefer to use mod_rewrite of apache, you can then specify off. 
-; @@multiview@@ : Indicates if the multiview is activated or not in apache. this
-    specifies then to the url engine not to generate the extension of the entry
-    points (.php) in the moment of the creation of urls. Thus, we have "cleaner"
-    urls.
-; @@basePath@@ : Path to the www directory, or more exactly, the common part of the paths of all the entry points.
-   Thus, if you access @@index.php@@ with the url @@http://localhost/jelix/myapp/www/index.php@@, you specify: 
+; @@multiview@@: Indicates if the multiview is activated or not in apache. Then the
+    url engine does not generate the extension of the entry
+    points (.php) when creating urls. Thus, we have "cleaner" urls.
+; @@basePath@@: Path to the www directory, or more exactly, the common part of the paths 
+    of all the entry points. Thus, if you access @@index.php@@ with the url
+    @@http://localhost/jelix/myapp/www/index.php@@, you specify: 
 
 <code>
   basePath= /jelix/myapp/www/
 </code>
 
-On the other hand, if you have specified the documentRoot in apache, pointing on
-@@jelix/myapp/www@@, you will then specify:
-
-<code>
-  basePath= /
-</code>
-
+On the other hand, if you have specified the documentRoot in Apache/Nginx, pointing on
+@@jelix/myapp/www@@, you will then specify @@/@@.
 
 Be careful, the basePath value must always begin with a @@/@@. If you leave
 basePath empty, Jelix will try to guess its value.
 
-; @@defaultEntrypoint@@ : Default entry point of the application. @@index@@ by default. You must not indicate the suffix (.php).
-; @@entrypointExtension@@ : Extension of the entry points. It's @@.php@@ by default, but it may be @@.php5@@.
 ; @@notfoundAct@@ : The action to do when a url do not correspond to anything.
-    Indicate it under the form of a selector : @@module~action@@ This action should
+    Indicate it under the form of a selector : @@module~action@@. This action should
     display an error message, and return a 404 http code.
-    **Carefull**: for development, activate logging of errors in files, it allows
-    you to know if this "404" page is displayed because of an error or not.
+
+**Carefull**: for development, activate logging of errors in files, it allows
+you to know if this "404" page is displayed because of an error or not.
 
 ===== Configuration of URL engines =====
 
-Jelix comes bundled with three URL engines :
+You should indicate to the URL engine, which URLs correspond to which controller
+and method. In fact, this is a mapping between a pathinfo and a controller.
 
-  * the "simple" engine, the fastest of all. However, the urls are //ugly// as
-    the query string is used. This engine is deprecated and you shouldn't used it
-  * the "basic_significant" engine. It is faster than the
-    "significant" engine but slower than the "simple" one. The urls are prettier
-    than with the simple engine but not as pretty as with the significant
-    engine.
-  * the "significant" engine, is slightly slower than the others. However, it
-    enable the use of custom urls and enables the hiding of the entrypoint
-    (index.php).
+There is at lease one URL to specify: the homepage url, which is obviously
+@@/@@.
 
-Each engine as its own configuration documentation: 
+This is done into the file @@F@app/config/urls.xml@@.
 
-  * the [[urls/basic_significant|"basic_significant" engine]]
-  * the [[urls/significant|"significant" engine]]
-  * the [[urls/simple|"simple" engine]]
-
-
+See [[/urls/mapping|the page about how to setting up the mapping]].
 
 ===== Using jUrl =====
 
@@ -97,12 +77,12 @@ several applications at the same time because urls can be different according to
 the configuration of the applications. And if the module is reused anywhere
 else, you would have to modify the templates etc.
 
-The urls must be built by Jelix. For this, you have two available tools.
+So the urls must be built by Jelix. For this, you have two available tools.
 
-==== jUrl::get ====
+==== jUrl::get() ====
 
-The jUrl object has a static method, get(), which, according to an action and
-other parameters, returns the corresponding url for the current application :
+The jUrl object has a static method, @@get()@@, which, according to an action and
+other parameters, returns the corresponding url for the current application:
 
 <code php>
    $string_url = jUrl::get("news~view@classic", array("id_news"=>"54"));
@@ -110,15 +90,12 @@ other parameters, returns the corresponding url for the current application :
 
 The first parameter of the function is an action selector. Here, we ask the url
 corresponding to the view action of the news module, for the classic type of
-request with an id_news parameter. With the simple url engine, the corresponding
-url will probably be @@index.php?module=news&action=view&id_news=54@@.
-
-If the [[urls/significant|significant url engine]] is used, this can be anything
-else, according to what is configured in the urls.xml file.
+request with an id_news parameter. If there is no specific mapping for this action,
+the corresponding url will be @@index.php/news/default/view?id_news=54@@.
 
 ==== jUrl template plugin ====
 
-In the templates, you can use the jUrl plugin. The syntax is the same as
+In templates, you can use the @@jurl@@ plugin. The syntax is the same as
 @@jUrl::get()@@. Example:
 
 <code html>
@@ -128,8 +105,8 @@ In the templates, you can use the jUrl plugin. The syntax is the same as
 The result with the simple url engine will then be:
 
 <code html>
-  <p><a href="index.php?module=news&amp;action=view&amp;id_news=54">Details of the news</a></p>
+  <p><a href="index.php/news/default/view?id_news=54">Details of the news</a></p>
 </code>
 
-You can use @@{jfullurl}@@ instead of @@{jurl}@@ to have a full url with the
+You can use @@{jfullurl}@@ instead of @@{jurl}@@ to have a url with the
 domain name (useful for example into a template for an email).
