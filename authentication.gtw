@@ -287,7 +287,7 @@ your own controllers.
 
 If you want other features, like registering and clearing account forms,
 changing passwords or lost password forms, you may use the jcommunity module.
-See [[http://bitbucket.org/laurentj/jcommunity|jCommunity]].
+See [[https://github.com/jelix/jcommunity-module|the jCommunity website]].
 
 ==== Classic configuration ====
 

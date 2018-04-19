@@ -1,6 +1,6 @@
 ~~LANG:FR@frman:tests_unitaires~~
 
-See the definition of unit-test on wikipedia: http://en.wikipedia.org/wiki/Unit-testing .
+See the definition of unit-test on wikipedia: https://en.wikipedia.org/wiki/Unit-testing .
 
 
 ===== Creating tests with PHPUnit =====

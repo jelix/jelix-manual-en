@@ -408,7 +408,7 @@ plugins = debugbar, minify
 
 ==== Minifying css and javascript files ====
 
-Jelix provides [[http://code.google.com/p/minify/|Minify]], which allow to
+Jelix provides [[https://www.minifier.org/|Minify]], which allow to
 concatenate and minify CSS and JS files. It improves performance during the load
 of the page.
 

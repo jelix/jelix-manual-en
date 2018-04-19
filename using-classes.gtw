@@ -148,8 +148,8 @@ The module name is required in selectors.
 Since Jelix 1.4, it is possible to use an autoload system, based on the autoload
 function of PHP (the class file is loading automatically when the class is
 used). It avoids to use @@C@jClasses@@. The autoload system of Jelix supports
-the [[http://www.php-fig.org/psr/psr-0/|PSR0 specification]] and the
-[[http://www.php-fig.org/psr/psr-4/|PSR-4 specification]].
+the [[https://www.php-fig.org/psr/psr-0/|PSR0 specification]] and the
+[[https://www.php-fig.org/psr/psr-4/|PSR-4 specification]].
 
 Simply declares, in the @@F@module.xml@@ file, the classes that will be loaded
 automatically, with specific tags in the @@E@<autoload>@@ element.
@@ -248,7 +248,7 @@ can use it into a Jelix application.
 
 ==== with Composer ====
 
-[[http://getcomposer.org|Composer]] is a package manager for PHP. You can install
+[[https://getcomposer.org|Composer]] is a package manager for PHP. You can install
 easily many vendors libraries. We recommand to use this tool (Next version of
 Jelix 1.6+ will be installable with Composer ;-)).
 

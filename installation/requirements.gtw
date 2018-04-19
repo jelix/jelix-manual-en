@@ -7,8 +7,8 @@ version 1.6.14.
 The **dom**, **simplexml**, **pcre**, **session**, **tokenizer** and **spl** extensions are required (they
 are generally turned on in a standard PHP 5.3 installation).
 
-Note about DOM and XML: verify that the [[http://www.php.net/manual/en/intro.dom.php|DOM extension]]
-is installed and the [[http://www.php.net/manual/en/intro.domxml.php|DOM-XML extension]]
+Note about DOM and XML: verify that the [[https://www.php.net/manual/en/intro.dom.php|DOM extension]]
+is installed and the [[https://www.php.net/manual/en/intro.domxml.php|DOM-XML extension]]
 is **not** installed. Some distribution includes both (or only DOM-XML), and
 then there are some PHP errors within Jelix.
 

@@ -3,7 +3,7 @@
 
 REST principles consist of using HTTP protocol features to access and manipulate a resource. It is true that POST and GET method are very-well known HTTP requests but HTTP also defines PUT and DELETE methods. Thus RESTful says a resource should be identified by a unique URI and the four HTTP methods should be used to create, modify, delete and display it. 
 
-See [[http://en.wikipedia.org/wiki/Representational_State_Transfer|RESTful on wikipedia]].
+See [[https://en.wikipedia.org/wiki/Representational_State_Transfer|RESTful on wikipedia]].
 
 Now, let's dive into RESTful with Jelix
 

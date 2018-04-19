@@ -87,7 +87,7 @@ require(LIB_PATH.'jelix-tests/phpunit.inc.php');
 
 ==== If you want to use PHPUnit installed by composer ====
 
-Install [Composer](http://getcomposer.org). Then create a composer.json file
+Install [[https://getcomposer.org|Composer]]. Then create a composer.json file
 into your app (at the same level of your project.xml).
 
 <code json>
