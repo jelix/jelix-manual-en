@@ -6,7 +6,7 @@ don't suit your needs, you can create one.
 
 ===== Creation =====
 
-A jAuth driver must implements [[refclass:auth/jIAuthDriver|jIAuthDriver interface]].
+A jAuth driver must implements [[refclass:jIAuthDriver|jIAuthDriver interface]].
 It is roughly equivalent to jAuth API (**but does not inherit from it**).
 
 jAuth loads drivers and the drivers do all low level jobs (database access or 

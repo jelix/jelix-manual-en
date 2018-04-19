@@ -279,7 +279,7 @@ your own controllers.
 
 If you want other features, like registering and clearing account forms,
 changing passwords or lost password forms, you may use the jcommunity module.
-See [[https://github.com/jelix/jcommunity-module|jCommunity]].
+See [[https://github.com/jelix/jcommunity-module|the jCommunity website]].
 
 ==== Classic configuration ====
 
@@ -348,7 +348,7 @@ In this case, of course, you may not install the jauth module...
 @@C@jAuth@@ is the main class for authentication. All its methods are static. It
 manages users, connect or disconnect them. Its methods must be called to
 authenticate either by jAuth module or in your own controllers. Read
-[[refclass:auth/jAuth.html|its reference description]].
+[[refclass:jAuth|its reference description]].
 
 Some methods needs a user object as an argument. @@C@jAuth@@ itself provides it
 to you. It contains user datas and has no defined class. Its type depends on the
@@ -403,7 +403,7 @@ You can also just verify a login/password, without "connecting" a user :
   $ok = jAuth::verifyPassword('the_login', 'the_password');
 </code>
 
-Read [[refclass:auth/jAuth|the reference documentation of jAuth]] to know about
+Read [[refclass:jAuth|the reference documentation of jAuth]] to know about
 other methods.
 
 ==== Creating a user ====

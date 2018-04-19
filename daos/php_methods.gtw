@@ -50,7 +50,7 @@ Below is a list of properties and methods, you should use for the more maintanab
 
 On a record object, @@getProperties()@@ and @@getPrimaryKeyNames()@@ are also defined.
 
-For details, see [[refclass:db/jDaoFactoryBase|reference documentation]].
+For details, see [[refclass:jDaoFactoryBase|reference documentation]].
 
 ==== Prepare values ====
 

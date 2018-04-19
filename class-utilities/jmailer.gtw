@@ -224,7 +224,7 @@ $mail->Send();
 
 ===== Advanced features =====
 
-Since jMailer inherits from the PHPmailer class, read [[http://phpmailer.github.io/PHPMailer/|the API documentation of PHPMailer]]
+Since jMailer inherits from the PHPmailer class, read [[https://phpmailer.github.io/PHPMailer/|the API documentation of PHPMailer]]
 to know more about its features.
 
 ===== Debug mode =====

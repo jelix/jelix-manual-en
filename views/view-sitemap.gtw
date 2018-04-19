@@ -1,6 +1,6 @@
 ~~LANG:FR@frman:vues/vue-sitemap~~
 
-jResponseSitemap allow you to generate a [[http://sitemaps.org/|sitemap]], used by search engines like Google.
+jResponseSitemap allow you to generate a [[https://www.sitemaps.org/|sitemap]], used by search engines like Google.
 
 Retrieve the response object in the controller:
  

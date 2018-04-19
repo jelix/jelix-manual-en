@@ -72,7 +72,7 @@ So the connection class should redefine some methods:
 
 If the driver doesn't support a feature, it should throw an exception.
 
-See [[refclass:db/jDbConnection|jDbConnection reference]].
+See [[refclass:jDbConnection|jDbConnection reference]].
 
 
 ==== Resultset Class ====
@@ -92,7 +92,7 @@ You should redefine these methods:
   * @@M@bindColumn@@, @@M@bindParam@@, @@M@bindValue@@, @@M@columnCount@@ et
     @@M@execute@@, for prepared queries.
 
-See [[refclass:db/jDbResultSet|jDbResultSet reference]].
+See [[refclass:jDbResultSet|jDbResultSet reference]].
 
 ==== Schema classes ====
 
@@ -113,7 +113,7 @@ You should redefine this methods and properties:
     unified types.
 
 
-See [[refclass:db/jDbTools|jDbTools reference]].
+See [[refclass:jDbTools|jDbTools reference]].
 
 ==== Existing drivers  ====
 

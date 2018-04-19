@@ -1,7 +1,7 @@
 ~~LANG:FR@frman:classes-utiles/jwiki~~
 
 jWiki is a class transforming wiki text to other formats. XHTML for example.
-This class inherits from [[http://wikirenderer.jelix.org|Wikirenderer]] version 3.1.
+This class inherits from [[https://wikirenderer.jelix.org|Wikirenderer]] version 3.1.
 
 In order to transform, Wikirenderer needs some precise objects, which grouped
 together become the //transform rules//.
@@ -32,5 +32,5 @@ into the file @@F@your_app/plugins/wr_rules/superwiki_to_xhtml/superwiki_to_xhtm
 In this file you should have a class @@C@superwiki_to_xhtml@@ inheriting
 from @@C@WikiRendererConfig@@ or the class of an other rule.
 
-For more informations, browse the [[http://wikirenderer.jelix.org|Wikirenderer Documentation]].
+For more informations, browse the [[https://wikirenderer.jelix.org|Wikirenderer Documentation]].
 

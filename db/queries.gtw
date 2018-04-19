@@ -198,7 +198,7 @@ it with the @@setFetchMode()@@:
   } 
 </code>
 
-For other methods of jDbResultSet, see the [[refclass:db/jDbResultSet|API reference]].
+For other methods of jDbResultSet, see the [[refclass:jDbResultSet|API reference]].
 
 
 ==== Using results in a template ====

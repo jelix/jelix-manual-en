@@ -1,7 +1,7 @@
 ~~LANG:FR@frman:vues/vue-tcpdf~~
 
 A @@C@jResponseTcpdf@@ object allows you to generate a PDF and is based on the
-[[http://tcpdf.sourceforge.net/|TCPDF class]] (which enhances the famous FPDF).
+[[https://tcpdf.org/|TCPDF class]] (which enhances the famous FPDF).
 
 ==== Download and Install ====
 

@@ -7,7 +7,7 @@ requests but HTTP also defines PUT, DELETE and other methods. Thus RESTful says 
 resource should be identified by a unique URI and the four HTTP methods should
 be used to create, modify, delete and display it.
 
-See [[http://en.wikipedia.org/wiki/Representational_State_Transfer|RESTful on wikipedia]].
+See [[https://en.wikipedia.org/wiki/Representational_State_Transfer|RESTful on wikipedia]].
 
 Now, let's dive into REST with Jelix.
 

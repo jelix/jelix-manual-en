@@ -1,6 +1,6 @@
 ~~LANG:FR@frman:services-web/json~~
 
-[[http://fr.wikipedia.org/wiki/JSON|JSON]] is a data format using javascript
+[[https://en.wikipedia.org/wiki/JSON|JSON]] is a data format using javascript
 syntax. This ease greatly the use of JSON encoded data in HTML content. 
 
 To send JSON data, there is a specific @@C@jResponseJson@@ object. Its alias is
