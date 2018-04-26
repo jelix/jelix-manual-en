@@ -1,6 +1,33 @@
 ~~LANG:FR@frman:vues/vue-sitemap~~
 
-jResponseSitemap allow you to generate a [[https://www.sitemaps.org/|sitemap]], used by search engines like Google.
+jResponseSitemap allow you to generate a [[https://www.sitemaps.org/|sitemap]],
+used by search engines like Google.
+
+===== Download and install =====
+
+Since Jelix 1.7, the class jResponseSitemap and its dependencies are in a separate
+module, that you have to download and install. A zip file is available, or you 
+can install it with Composer: 
+[[https://packagist.org/packages/jelix/sitemap-module|package jelix/sitemap-module]].
+
+<code bash>
+composer require "jelix/sitemap-module"
+</code>
+
+Then declare the module into the configuration:
+
+<code ini>
+[modules]
+jsitemap.access=1
+</code>
+
+Then launch the installer:
+
+<code bash>
+php yourapp/cmd.php install
+</code>
+
+===== Usage =====
 
 Retrieve the response object in the controller:
  
@@ -51,7 +78,8 @@ return $resp;
 
 ===== Index generation =====
 
-If you have a big web site, it is prefered to have many files, and declare them in an index. You declare by calling this method:
+If you have a big web site, it is prefered to have many files, and declare them
+in an index. You declare by calling this method:
 
 <code php>
 $resp->addSitemap($loc, $lastmod)
@@ -76,9 +104,11 @@ return $resp;
 
 ===== Registering your sitemap into search engines =====
 
-To give the address of your sitemap to search engines, you can do it manually by filling the corresponding form on the web site of the search engine.
+To give the address of your sitemap to search engines, you can do it manually by
+filling the corresponding form on the web site of the search engine.
 
-You can also do it automatically, by giving the URL of the registration process of the search engine, to the @@M@ping()@@ method:
+You can also do it automatically, by giving the URL of the registration process
+of the search engine, to the @@M@ping()@@ method:
 
 <code php>
 $sitemapurl = jUrl::get('mymodule~sitemap:index');

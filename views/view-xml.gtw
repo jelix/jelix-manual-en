@@ -19,7 +19,8 @@ set it in the content you give. If you really want to, just write:
   $resp->sendXMLHeader = false;
 </code>
 
-The mime type by default is @@text/xml@@. You can change it by calling @@M@addHttpHeader@@:
+The mime type by default is @@text/xml@@. You can change it by 
+calling @@M@addHttpHeader()@@:
 
 <code php>
   $rep->addHttpHeader('Content-Type', 'application/xml');
@@ -28,7 +29,7 @@ The mime type by default is @@text/xml@@. You can change it by calling @@M@addHt
 ===== Generation with a template =====
 
 The @@P@$content@@ property contains a @@C@jTpl@@ object by default : it's up to
-you to set the template-selector in property @@P@$contentTpl@@.
+you to set the template selector in property @@P@$contentTpl@@.
 
 <code php>
   $resp->contentTpl = 'myModule~myxml';

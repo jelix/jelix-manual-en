@@ -1,18 +1,22 @@
 ~~LANG:FR@frman:vues/vue-zip~~
 
-jResponseZip can generate zip file and send it for download to the client. its alias is "zip":
+jResponseZip can generate zip file and send it for download to the client. its
+alias is "zip":
 
 <code php>
 $rep = $this->getResponse('zip');
 </code>
 
-You can now indicate $zipFilename property. it will be the zip name proposed to the user for download. Note that it may not be an existing file on the server hard disk.  
+You can now indicate $zipFilename property. it will be the zip name proposed to
+the user for download. Note that it may not be an existing file on the server
+hard disk.  
 
 <code php>
-$rep->zipFilename='myCrazyPackage.zip';
+$rep->zipFilename = 'myCrazyPackage.zip';
 </code>
 
-Then, you have to create the zip. //$content// property is a jZipCreator creator.
+Then, you have to create the zip. @@P@$content@@ property is a @@C@jZipCreator@@
+creator.
 All its methods can be used to add content to the zip result.
 See [[refclass:jZipCreator|reference documentation of jZipCreator]].
 
@@ -31,5 +35,7 @@ $rep->addContentFile('dynamic.txt', 'generated content as we like');
 
 And you're done :-)
 
-The user will see a dialog asking him to save or open myCrazyPackage.zip, containing  a machin.txt file, an examples directory, and a dynamic.txt file.
+The user will see a dialog asking him to save or open @@F@myCrazyPackage.zip@@,
+containing a @@F@machin.txt@@ file, an @@F@examples/@@ directory, and a 
+@@F@dynamic.txt@@ file.
 
