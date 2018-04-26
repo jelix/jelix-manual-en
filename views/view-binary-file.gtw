@@ -1,14 +1,18 @@
 ~~LANG:FR@frman:vues/vue-binary~~
 
-To send binary content to the user (a graphic, a video, some sound, an archive, etc.), @@C@jResponseBinary@@ should be used. To use it, set 'binary' as the type of response used.
+To send binary content to the user (a graphic, a video, some sound, an archive, etc.),
+@@C@jResponseBinary@@ should be used. To use it, indicate @@'binary'@@ as the type of
+response.
 
 <code php>
 $resp = $this->getResponse('binary');
 </code>
 
-Afterwards, some variables need to be set to a correct value before content is displayed.
+Afterwards, some variables need to be set to a correct value before content is
+displayed.
 
-First, you have to set @@P@outputFileName@@ property. @@P@outputFileName@@ will be the name shown to the user. 
+First, you have to set @@P@outputFileName@@ property. @@P@outputFileName@@ will
+be the name shown to the user. 
 
 <code php>
  $resp->outputFileName = 'filename.gif';
@@ -20,7 +24,9 @@ Next, you can define the mime type of your content:
  $resp->mimeType = 'image/gif';
 </code>
 
-You have an option for files you want the user to download (particularly, files not rendered by common browsers - archives, for example). To force the download of the file, simple set @@P@doDownload@@ to true.
+You have an option for files you want the user to download (particularly, files
+not rendered by common browsers - archives, for example). To force the download
+of the file, simple set @@P@doDownload@@ to true.
 
 <code php>
  $resp->doDownload = true;

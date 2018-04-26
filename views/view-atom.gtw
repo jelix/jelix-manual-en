@@ -1,6 +1,8 @@
 ~~LANG:FR@frman:vues/vue-atom~~
 
-[[view-rss|In addition to RSS feeds]], Jelix allows to generate an Atom 1.0 feed with @@C@jResponseAtom10@@ (alias : 'atom1.0'); which handles most of the [[http://tools.ietf.org/html/rfc4287|Atom 1.0 RFC]].
+[[view-rss|In addition to RSS feeds]], Jelix allows to generate an Atom 1.0 feed 
+with @@C@jResponseAtom10@@ (alias : 'atom1.0'); which handles most of 
+the [[http://tools.ietf.org/html/rfc4287|Atom 1.0 RFC]].
 
 <code php>
   $rep = $this->getResponse('atom1.0');
@@ -8,9 +10,12 @@
 
 jResponseAtom10 and jResponseRss20 have a similar signature.
 
+Note: these objects are provided by the jfeeds module, included into Jelix.
+
 ===== ATOM Feed Informations =====
 
-jResponseAtom10's property @@P@infos@@ is an object allowing to set the ATOM feed's properties: title, website url, copyright, description, etc.
+jResponseAtom10's property @@P@infos@@ is an object allowing to set the ATOM feed's 
+properties: title, website url, copyright, description, etc.
 
 For example:
 
@@ -23,13 +28,17 @@ For example:
    $rep->infos->selfLink=jUrl::get();
 </code>
 
-The @@P@updated@@ property is the date of the update of the atom feed. It is determined by the date of the last item inserted into the feed.
+The @@P@updated@@ property is the date of the update of the atom feed. It is 
+determined by the date of the last item inserted into the feed.
 
 The @@P@seflink@@ property is the url of this atom feed.
 
 
-Property @@P@description@@ should be a string; however it's possible to specify the format (HTML or XHTML) in property @@P@descriptionType@@.
-Property @@P@descriptionType@@ expects any of the following values: "html", "xhtml" ou "text".
+Property @@P@description@@ should be a string; however it's possible to specify 
+the format (HTML or XHTML) in property @@P@descriptionType@@.
+
+Property @@P@descriptionType@@ expects any of the following values: "html", "xhtml" 
+or "text".
 
 
 ===== Items =====
@@ -56,12 +65,12 @@ For example, with a news DAO:
 
   foreach($list as $news){
 
-    if($first){
+    if ($first) {
         /*
         The first record allow to fetch channel's date
         */
         $rep->infos->updated = $news->date_create;
-        $first=false;
+        $first = false;
     }
 
     // Fetch the URL from the news article
@@ -74,11 +83,11 @@ For example, with a news DAO:
     $item->authorName = $news->author;
 
     $item->summary = $news->summary;
-    $item->summaryType='html';
+    $item->summaryType = 'html';
 
     // Item's contents
     $item->content = $news->content;
-    $item->contentType ='html';
+    $item->contentType = 'html';
 
     // Add this item to the feed.
     $rep->addItem($item);
@@ -87,7 +96,8 @@ For example, with a news DAO:
 
 ===== Other informations =====
 
-It's possible to explicitely specify more informations about the RSS food or about each item.
+It's possible to explicitely specify more informations about the RSS food or about 
+each item.
 
 Check the API documentation about [[refclass:jAtom10Info|jAtom10Info]]
 and [[refclass:jAtom10Item|jAtom10Item]] to go deeper.
