@@ -8,9 +8,9 @@ application.
 ===== How a module is installed =====
 
 
-When you install a module with the @@installmodule@@ or the @@installapp@@ command :
+When you install a module with the @@module:install@@ or the @@app:install@@ command:
 
-
+   * Jelix keep a backup of @@F@var/config/installer.ini.php@@
    * jelix looks at the @@modules@@ section inside the configuration of each
      entry point, and retrieve the access value of the module
    * It will launch the installation of the module **for each entry points**
@@ -27,11 +27,10 @@ When you install a module with the @@installmodule@@ or the @@installapp@@ comma
 
 Of course, installation scripts or scripts of update are not required.
 
-But if you provide them, **it is very important to store into the module.xml
-file, a good version number and the date of the release ** !
+But if you provide them, **it is very important to store into the** @@module.xml@@
+file, **a good version number and the date of the release **!
 
 == Why is an installation script called several time? ==
-
 
 Your installation probably needs to do some modifications specifically to each
 entry points. But the installation system doesn't know if your script will do
@@ -52,20 +51,24 @@ points or profile configuration.
 This is a file, @@F@install.php@@, that you store into the @@F@install/@@
 directory of the module.
 
-It should contain a class, inheriting from @@C@jInstallerModule@@, and named
+It should contain a class, inheriting from @@C@jInstallerModule2@@, and named
 @@C@{module}ModuleInstaller@@, where @@{module}@@ should be the name of the
 module. Ex: @@C@mainModuleInstaller@@ for the @@main@@ module.
 
-In this class, you need to create a method @@M@install@@ where you'll do all
+Note: @@C@jInstallerModule2@@ is a new class in Jelix 1.7, and the @@C@jInstallerModule@@ class
+is now deprecated. These two classes have not the same methods. 
+
+In your new class, you need to create a method @@M@installEntryPoint@@ where you'll do all
 things to install the module: database modifications, file copies, configuration
-changes etc..
+changes etc.. It receives a @@C@jInstallerEntryPoint2@@ object as parameter and contain
+all methods needed to modify the entry point configuration.
 
 
 <code php>
 <?php
-class newsModuleInstaller extends jInstallerModule {
+class newsModuleInstaller extends jInstallerModule2 {
 
-    function install() {
+    function installEntryPoint(jInstallerEntryPoint2 $entryPoint) {
        if ($this->firstDbExec()) {
            $db = $this->dbConnection();
            $db->exec('CREATE TABLE...');
@@ -75,38 +78,118 @@ class newsModuleInstaller extends jInstallerModule {
 
 </code>
 
-You can redefine the methods @@M@preInstall@@ and @@M@postInstall@@, which are
+You can redefine the methods @@M@preInstallEntryPoint@@ and @@M@postInstallEntryPoint@@, which are
 executed respectively before and after the installation of all modules.
-In @@preInstall()@@ you can prepare some data or files, or you can check that
+In @@preInstallEntryPoint()@@ you can prepare some data or files, or you can check that
 conditions to install the module are met. It not, you can create an exception
 which will stop the whole installation.
 
 <code php>
 <?php
-class newsModuleInstaller extends jInstallerModule {
+class newsModuleInstaller extends jInstallerModule2 {
 
-    function preInstall() {
+    function preInstallEntryPoint(jInstallerEntryPoint2 $entryPoint) {
     }
 
-    function install() {
+    function installEntryPoint(jInstallerEntryPoint2 $entryPoint) {
     }
 
-    function postInstall() {
+    function postInstallEntryPoint(jInstallerEntryPoint2 $entryPoint) {
 
     }
 } 
 
 </code>
 
+You can also redefines methods that allow to disinstall the module:
 
-@@C@jInstallerModule@@ contains a number of properties and method which helps
+<code php>
+<?php
+class newsModuleInstaller extends jInstallerModule2 {
+
+    function preUninstallEntryPoint(jInstallerEntryPoint2 $entryPoint) {
+    }
+
+    function uninstallEntryPoint(jInstallerEntryPoint2 $entryPoint) {
+    }
+
+    function postuninstallEntryPoint(jInstallerEntryPoint2 $entryPoint) {
+    }
+}
+</code>
+
+They will be called when the command @@php cmd.php module:uninstall <module>@@ is executed.
+
+
+@@C@jInstallerModule2@@ contains a number of properties and method which helps
 you to access to the database, to the configuration file etc..
+
+==== modifying configuration files ====
+
+A Jelix application [[config|has several ini files]]. You should not modify these
+files yourself, but you should use objects like @@\Jelix\IniFile\IniModifierArray@@
+that the install component gives to you.
+
+An object @@IniModifierArray@@ contains some objects @@\Jelix\IniFile\IniModifier@@,
+each of them correspond to an ini file. @@IniModifierArray@@ is an aggregator of ini 
+files which allows to see values as Jelix sees them when it merges ini files.
+
+   * @@$this->globalSetup->getConfigIni()@@ aggregate @@defaultconfig.ini.php@@ (provided by jelix)
+     with your @@app/config/mainconfig.ini.php@@.
+   * @@$this->globalSetup->getLocalConfigIni()@@, like @@getConfigIni()@@ with
+     @@var/config/localconfig.ini.php@@
+   * @@$entryPoint->getConfigIni()@@: aggregate @@defaultconfig.ini.php@@, @@mainconfig.ini.php@@
+     and the entrypoint configuration file (like @@app/config/index/config.ini.php@@).
+   * @@$entryPoint->getLocalConfigIni()@@ : like  @@$entryPoint->getConfigIni()@@,
+     with the additionnal @@localconfig.ini.php@@ and the local file of the entry point
+     like @@var/config/index/config.ini.php@@.
+
+With these objects, you can read and modify the files:
+
+<code>
+    $value = $this->globalSetup->getConfigIni()->getValue('disableCache', 'zones');
+
+    $this->globalSetup->getConfigIni()->setValue('disableCache', false, 'zones');
+</code>
+
+When you modify a value, it modify the last file of the aggregator. So for 
+@@$this->globalSetup->getConfigIni()@@, it will be @@mainconfig.ini.php@@;
+For @@$entryPoint->getConfigIni()@@ it will be @@app/config/index/config.ini.php@@ etc..
+
+If you want to read or modify a specific file, you can access from the aggregator by using
+a key, as if the aggregator was an array.
+
+   * @@$this->globalSetup->getConfigIni()['default']@@ for @@lib/jelix/core/defaultconfig.ini.php@@
+   * @@$this->globalSetup->getConfigIni()['main']@@ for @@mainconfig.ini.php@@
+   * @@$this->globalSetup->getLocalConfigIni()['local']@@ for @@var/config/localconfig.ini.php@@
+     (ainsi que @@['default']@@, @@['main']@@)
+   * @@$entryPoint->getConfigIni()['entrypoint']@@ for @@app/config/index/config.ini.php@@
+     (ainsi que @@['default']@@, @@['main']@@)
+   * @@$entryPoint->getLocalConfigIni()['localentrypoint']@@ for @@var/config/index/config.ini.php@@
+     (as well as @@['default']@@, @@['main']@@, @@['entrypoint']@@ and @@['local']@@)
+
+It returns an object @@\Jelix\IniFile\IniModifier@@ that have same methods, @@getValue()@@, @@setValue()@@...
+
+See the documentation of [[https://github.com/jelix/inifile|this library jelix/Inifile]] for
+details.
 
 ==== Main properties or methods ====
 
-Here are some of methods or properties you can use:
+Here are some of methods or properties you can use on the parameter @@jInstallerEntryPoint2@@:
 
+  * @@$entryPoint->declareWebAssets()@@: declare web assets
+  * @@$entryPoint->execSQLScript()@@: execute an SQL script which is in a module of the entry points
+    (see similar method on @@jInstallerModule2@@).
+  * @@$entryPoint->getUrlMap()@@ to read/modify URL mapping for the entry point.
+  * @@$entryPoint->getType()@@, @@$entryPoint->getScriptName()@@, @@$entryPoint->getFileName()@@ 
+    to know properties of the entry point.
 
+Your install class has these following methods and properties:
+
+  * @@$this->globalSetup@@ is a @@jInstallerGlobalSetup@@ object allowing to access
+    to the global configuration, url configuration and other global data
+    * @@$this->globalSetup->getUrlModifier()@@ is an object @@XmlMapModifier@@ to read/modify url
+    * @@$this->globalSetup->declareNewEntryPoint()@@ to declare a new entry point.
   * @@$this->dbConnection()@@: it returns a @@C@jDbConnection@@ object. Don't
     call @@jDb::getConnection()@@, because you don't really know which is the
     profile used for the module.
@@ -118,20 +201,20 @@ Here are some of methods or properties you can use:
     @@F@sql/install.mysql.sql@@. You can indicate the full name of the sql
     script, but it should be compatible to all databases supported by your
     application.
-  * @@$this->copyDirectoryContent()@@ to copy some files, from the install
-    directory to another place, typically to the @@F@www/@@ of the application
-  * @@$this->config@@: the @@C@jIniMultifilesModifier@@ object corresponding to
-    the configuration file of the current entry point. With this object, you can
-    retrieve content of the configuration file or to set parameters.
+  * @@$this->declareDbProfile()@@ to declare a new connection profile
+  * @@$this->getCoordPluginConf()@@ to get the configuration of a plugin for the coordinator
+  * @@$this->declareGlobalWebAssets()@@ to declare web assets
+  * @@$this->copyFile()@@ to copy a file, from the @@install/@@ directory 
+    to an other directory of your project. The first parameter is the path of 
+    the file to copy, relative to the @@install/@@ directory. The second parameter
+    is the target path. The target path can be an absolute path, or a prefixed path.
+    Prefixes can be @@www:@@ indicating the www/ directory, @@appconfig:@@ indicating app/config, 
+    or @@config@@ indicating var/config.
+  * @@$this->copyDirectoryContent()@@ to copy content of a directory, from the install
+    directory to another place, typically to the @@F@www/@@ of the application. It works
+    like @@$this->copyFile()@@
 
-**Warning**: with @@$this->config@@ you get only values of parameters which are
-in the mainconfig.ini.php file and the configuration file of the entrypoint. So
-you may miss parameters that are in localconfig.ini.php. It's probably better to
-retrieve the Ini modifier of the entrypoint object
-@@$this->entrypoint->localConfigIni@@ which is a combination between
-mainconfig.ini.php, localconfig.ini.php and the entrypoint configuration.
-
-Don't hesitate to read the reference API of @@C@jInstallerModule@@ and
+Don't hesitate to read the reference API of @@C@jInstallerModule2@@ and
 @@C@jInstallerBase@@, and to look at the installation script of modules provided
 by Jelix. You'll certainly learn many things.
 
@@ -146,12 +229,11 @@ installation script is called for each entry points (read above).
 You have also the method @@M@firstConfExec@@ to know if you did already have some changes
 to the current configuration file (some entry points can share the same configuration
 file, other than @@mainconfig.ini.php@@). If it returns true, you can then access to
-the configuration file, by retrieving the @@P@config@@ property, which is a
-@@C@jIniMultifilesModifier@@ object.
+the configuration file, by retrieving the configuration object with @@$entrypoint->getConfigIni()@@.
 
 Then you have the method @@M@firstExec@@. You pass a keyword to this method. And it tells
 you if you already call this method with this keyword (false) or not (true). You call this
-method to determine yourself, in some conditions, if you want to execut severalt time a
+method to determine yourself, in some conditions, if you want to execut several time a
 part of your installation script.
 
 ==== Database profile used for the installation ====
@@ -195,7 +277,7 @@ for a boolean). If the parameter does not exists in the installparam option, it
 returns @@null@. Example:
 
 <code php>
-  function install() {
+  function installEntryPoint(jInstallerEntryPoint2 $entryPoint) {
      if ($this->getParameter('enablecategories')) {
         // here some code to create the categories table for example...
         // ...
@@ -245,7 +327,7 @@ will be executed, in this order:
 
 A script for update should contain a class, named
 @@{module}ModuleUpgrader_{label}@@, where @@{module}@@ should be the module
-name, and @@{label}}@@, the label indicated in the filename of the script.
+name, and @@{label}@@, the label indicated in the filename of the script.
 
 Because several scripts for update can be executed for the module, then class
 name must be different (else PHP won't like it). This is why we use a label,
@@ -253,9 +335,9 @@ which **should be different for each script of a module**. (Jelix developers
 could use the version number instead of a label, but unfortunately, PHP doesn't
 like characters like "." or "-" in a class name).
 
-The class should inherit from @@M@jInstallerModule@@, so you have exactely same
+The class should inherit from @@M@jInstallerModule2@@, so you have exactely same
 behaviors and methods as in installation script. So you must implements a method
-@@M@install@@, you can call @@M@firstDbExec@@, @@M@getParameter@@ etc..
+@@M@installEntryPoint()@@, you can call @@M@firstDbExec@@, @@M@getParameter@@ etc..
 
 As we saw, a class is doing an update for a specific version. You must indicate
 the version number into the property @@P@$targetVersions@@ (which is an array),
@@ -264,12 +346,12 @@ and a date in the property @@P@$date@@ with the format 'yyyy-mm-dd' or
 
 <code php>
 <?php
-class newsModuleUpgrader_fff extends jInstallerModule {
+class newsModuleUpgrader_fff extends jInstallerModule2 {
 
     public $targetVersions = array('1.2');
     public $date = '2001-06-21';
 
-    function install() {
+    function installEntryPoint(jInstallerEntryPoint2 $entryPoint)  {
        // ....
     }
 
@@ -279,8 +361,9 @@ class newsModuleUpgrader_fff extends jInstallerModule {
 You'll guess that you can indicate several versions in @@P@$targetVersions@@. It
 is useful when you have several branch in a project, and when an update script
 should be executed for several branch. With the date of the release, Jelix can
-determinate if, during an update, it can execute the script or not. For
-instance, you have a script for an update for versions 1.24 and 1.35. If the
+determinate if, during an update, it can execute the script or not. 
+
+For instance, you have a script for an update for versions 1.24 and 1.35. If the
 user update from the version 1.2.3 or from the version 1.3.4, the script will be
 called. If he update from the version 1.2.5 to the version 1.3.6, the script
 won't be called because the 1.2.6 version contains modifications brought by the
