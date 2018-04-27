@@ -1,59 +1,76 @@
 ~~LANG:FR@frman:creer-un-module~~
 
-
 A module is a directory with a precise file-system hierarchy. Modules are
 groupped in one or several directories called //modules group//, or repository
 of modules.
 
-Since Jelix 1.6.9, it is also possible to declare some modules
-outside from modules group.
-
 ===== Declaring a modules group =====
 
-Module groups are declared in the configuration property @@V@modulesPath@@. It's
-possible to set a value of one or several relative or absolute paths separated
-by commas. It's also possible to use directory codes with a particular notation:
+Module groups are declared with @@C@jApp@@ or into the composer.json file if you
+installed Jelix with Composer. (In Jelix 1.6 and lower, it made into the
+configuration, in the properties @@V@modulesPath@@).
 
-<code>
-   directorycode:relative/path/
+An example with @@C@jApp@@ in the @@application.init.php@@ file:
+
+<code php>
+   jApp::declareModulesDir(__DIR__.'/modules/');
 </code>
 
-The following directory codes are available:
+Here the directory @@F@modules/@@ is declared as a module repository.
 
-; @@lib@@ : @@F@lib/@@ directory
-; @@app@@ : application directory
+Modules from this directory could be activated and installed in your application.
 
-This prevents from having really relative paths and is easier to maintain. For
-example:
+If you installed Jelix with Composer, you have an other solution: declare the directories
+into the composer.json file of your application. This solution is highly recommanded also
+for Composer packages which provide modules for Jelix. Declare directories and modules
+into the composer.json of the package, and it will be automatically taken account.
 
-<code ini>
-   modulesPath = lib:jelix-modules/,app:modules/
+<code json>
+{
+   ...
+   "extra" : {
+      "jelix": {
+         "modules-dir" : [
+            "modules/",
+         ]
+      }
+   }
+}
 </code>
 
-It declares two module groups :
+Here it declares the @@modules/@@ directory that is in the same directory of the
+composer.json.
 
-  * @@F@jelix-modules@@, subdirectory of jelix's @@F@lib/@@
-  * @@F@modules@@, subdirectory of your application path.
+Note that modules directories provided with jelix are automatically declared.
 
-Modules from both directories could be activated and installed in your application.
 
 ===== Declaring a single module =====
 
-Since Jelix 1.6.9, it is possible to have a module outside a modules group (for
-example, in a Composer package). So you can indicate its path directly into
-the Jelix configuration.
+Like for groups of modules, you can declare directly a module directory with @@C@jApp@@
+or into the composer.json file of the application or the composer.json file of the
+Composer package which provides the module.
 
-It is done into the @@modules@@ section (and not in @@modulesPath@@), with a
-parameter @@.path@@:
+<code php>
+   jApp::declareModule(__DIR__.'/my_module/');
+</code>
 
-<code ini>
-[modules]
-my_module.access = 2
-my_module.path = app:vendor/my_vendor_name/my_package/the_module
+or:
+
+<code json>
+{
+   ...
+   "extra" : {
+      "jelix": {
+         "modules" : [
+            "my_module/",
+         ]
+      }
+   }
+}
 </code>
 
 
-===== Directories of a module =====
+===== Directories inside a module =====
 
 A module is a directory having at least one file, [[config#the-module.xml-file|module.xml]],
 containing some informations about the module: version, dependencies...
@@ -85,7 +102,7 @@ The @@c@createmodule@@ command helps you to create all this directories, and to
 activate and install automatically the new module:
 
 <code bash>
-   php cmd.php createmodule mymodule
+php cmd.php module:create mymodule
 </code>
 
 This command creates the module "mymodule" in your application's sub-directory
@@ -99,18 +116,16 @@ A-Z, 0-9 and @@_@@.
 
 By default, the module is created in the @@F@modules/@@ directory of the
 application. Perhaps you would like to create it into an other modules group. In
-this case, indicate the path of the repository after the module name. You can
-use the same syntax as in @@modulesPath@@ (an absolute path or a relative path
-with "lib:" or "app:".
+this case, indicate the path of the repository after the module name. 
 
 This example creates a "supermodule" module into the @@F@shared-modules/@@
 directory which is itself into the @@F@lib@@ directory provided with jelix.
 
 <code bash>
-php cmd.php createmodule supermodule lib:shared-modules/
+php cmd.php module:create supermodule ../lib/shared-modules/
 </code>
 
-See the online help of the @@c@createmodule@@ command to know other options.
+See the online help of the @@c@module:create@@ command to know other options.
 
 
 ===== Setting the version and dependencies =====
@@ -119,10 +134,10 @@ After creating the module, you should verify if the default initial version is
 ok for you (0.1), and set dependencies. It is very important for the
 installation system of Jelix.
 
-You can indicate the version to the @@createmodule@@ command, with the @@-ver@@ option:
+You can indicate the version to the @@module:create@@ command, with the @@--ver@@ option:
 
 <code bash>
-php cmd.php createmodule -ver 1.0 supermodule
+php cmd.php module:create --ver 1.0 supermodule
 </code>
 
 You can also modify the version in the @@F@module.xml@@ file generated in the module, if needed.
