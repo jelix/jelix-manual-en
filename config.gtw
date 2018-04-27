@@ -9,10 +9,19 @@ A Jelix application have several configuration files:
     application is installed
   * A @@F@config.ini.php@@ file for each entry points
   * A @@F@profiles.ini.php@@ for connections profiles (database configuration for example).
+  * A @@F@urls.xml@@ file that defines the mapping between URLS and controllers.
 
 All are automatically generated when you create an application or a module (except localconfig.ini.php).
 However, you have to modify them to bring additionnal information or to change
 parameters. 
+
+Except @@F@project.xml@@ and @@F@module.xml@@ files, configuration files are in @@F@app/config/@@ 
+for default parameters (@@F@mainconfig.ini.php@@, @@F@config.ini.php@@, @@F@urls.xml@@...),
+or @@F@var/config/@@ for parameters specific to the server environment (@@F@localconfig.ini.php@@,
+@@F@profiles.ini.php@@...).
+
+Note: before Jelix 1.7, all files were into @@F@var/config/@@).
+
 
 This chapter presents these files. See [[configuration-details|the chapter on configuration details]] to know more.
 
@@ -36,15 +45,8 @@ example:
         <homepageURL>http://jelix.org</homepageURL>
     </info>
     <dependencies>
-       <jelix minversion="1.6.0" maxversion="1.6.*" />
+       <jelix minversion="1.7.0" maxversion="1.7.*" />
     </dependencies>
-    <directories>
-        <config>var/config</config>
-        <log>var/log</log>
-        <var>var</var>
-        <www>www</www>
-        <temp>../temp/testapp</temp>
-    </directories>
     <entrypoints>
         <entry file="index.php" config="index/config.ini.php" />
         <entry file="soap.php" config="soap/config.ini.php" type="soap"/>
@@ -66,7 +68,7 @@ describes some general information, and dependencies with other modules.
         <description>unit tests for jelix</description>
     </info>
     <dependencies>
-        <jelix minversion="1.6.0" maxversion="1.6.*" />
+        <jelix minversion="1.6.0" maxversion="1.7.*" />
         <module name="testurls" minversion="1.0.2" maxversion="1.1b1" />
         <module name="jauthdb" />
         <module name="jacl2db" />
@@ -75,6 +77,18 @@ describes some general information, and dependencies with other modules.
 </module>
 </code>
 
+===== The file app/config/urls.xml =====
+
+It defines the mapping between URLS and controllers. 
+
+You don't have to define all urls, since default urls are 
+@@index.php/<module>/<controller>/<method>@@.
+
+See [[urls|the dedicated chapter]].
+
+Note: before Jelix 1.7, this files was optional, because different URLs engine
+were available. Since Jelix 1.7, it is mandatory, and should contain at least
+the mapping for the url @@/@@.
 
 ===== Configuration ini files =====
 
@@ -83,29 +97,25 @@ structured by sections (@@[section name]@@). Each section is a collection of
 @@parameter-name=value@@ pairs. There is a generic section, un-named, usually at
 the start of such file.
 
-Configuration files are stored in @@F@var/config@@.
+The main configuration file is @@F@app/config/mainconfig.ini.php@@. However you could have
+different parameters for each entry point, and for each environment. This is why 
+there are additionnal ini files, which are merged with the main configuration file
+at runtime.
 
-=== mainconfig.ini.php ===
+==== @@app/config/mainconfig.ini.php@@ ====
 
 As said before, each entry point may have its specific config file. Although in
 practice, many parameters can be shared between them. To prevent wasteful
-repeats defines a common config file : @@F@mainconfig.ini.php@@ (called @@defaultconfig.ini.php@@
-as of Jelix 1.5). Jelix automatically read its entries in addition to each config file
-related to an entry point. No need to tell jelix about it in an entry point.
+repeats defines a common config file : @@F@mainconfig.ini.php@@.
 
-=== localconfig.ini.php ===
 
-Since Jelix 1.6, an additionnal file @@F@localconfig.ini.php@@ may exist. It can be
-different in different environment (development, integration, production...). This file
-should be specific to the server where the application is installed. Instead of modifying
-the @@F@mainconfig.ini.php@@ to set some parameters specific to the installation, put them in
-@@F@localconfig.ini.php@@. Parameters in this file override those set in @@F@mainconfig.ini.php@@.
-Of course, this file should not be stored into your code repository.
-
-=== <entrypoint>/config.ini.php ===
+==== @@<entrypoint>/config.ini.php@@ ====
 
 Then, should lay in an entry point related config file, only specific parameters
 or overloaded parameters already defined in @@F@mainconfig.ini.php@@. 
+
+You can have a file into @@F@app/config/@@ but also into @@F@var/config@@
+if you have parameters for the environment.
 
 A glimpse at @@F@mainconfig.ini.php@@ (abstract): 
 
@@ -114,9 +124,6 @@ locale = "fr_FR"
 charset = "ISO-8859-1"
 timeZone = "Europe/Paris"
 theme = default
-
-pluginsPath = lib:jelix-plugins/,app:plugins/
-modulesPath = lib:jelix-modules/,app:modules/
 
 [modules]
 mymodule=2
@@ -131,16 +138,13 @@ jauth=2
 </code>
 
 Example: a classic request with index.php as entry point should define
-@@F@var/config/index/config.ini.php@@ file. Storing under an //index//
+@@F@app/config/index/config.ini.php@@ file. Storing under an //index//
 sub-directory serves only a better organization (As each entry point may have
-its config file, @@F@var/config@@ would quickly become a mess).
+its config file, @@F@app/config@@ would quickly become a mess).
 
 A specific config should only define or redefine a small amount of properties:
 
 <code ini>
-startModule = "testapp"
-startAction = "main:index"
-
 [coordplugins]
 autolocale = index/autolocale.ini.php
 
@@ -148,18 +152,17 @@ autolocale = index/autolocale.ini.php
 html=myHtmlResponse
 </code>
 
-take xmlrpc.php entry point, its config file could be :
+==== @@var/config/localconfig.ini.php@@ ====
 
-<code ini>
+A file @@F@localconfig.ini.php@@ may exist. It can be
+different in different environment (development, integration, production...). This file
+should be specific to the server where the application is installed. Instead of modifying
+the @@F@mainconfig.ini.php@@ to set some parameters specific to the installation, put them in
+@@F@localconfig.ini.php@@. Parameters in this file override those set in @@F@mainconfig.ini.php@@.
 
-  startModule = "testapp"
-  startAction = "xmlrpc:index"
+Of course, this file should not be stored into your code repository.
 
-</code>
-
-And so on for others entry points.
-
-=== How it is readed ===
+==== How configuration file are readed ====
 
 You have to know that an other configuration file @@F@defaultconfig.ini.php@@ exists into the
 @@F@lib/jelix/core/@@ directory. It contains all possible parameters and some comments.
@@ -167,13 +170,16 @@ You have to know that an other configuration file @@F@defaultconfig.ini.php@@ ex
 So, to known the full configuration, Jelix reads these files in this order and merge them:
 
   - @@F@lib/jelix/core/defaultconfig.ini.php@@,
-  - @@F@mainconfig.ini.php@@
-  - @@F@localconfig.ini.php@@
-  - @@F<entrypoint>/config.ini.php@@
+  - @@F@app/config/mainconfig.ini.php@@
+  - @@F@var/config/localconfig.ini.php@@
+  - @@F@app/config/<entrypoint>/config.ini.php@@
+  - @@F@var/config/<entrypoint>/config.ini.php@@
 
 Values of a configuration file override values of the previous configuration file.
 
-=== Using environment variables ===
+The resulting content is stored in a cache for each entry point.
+
+==== Using environment variables ====
 
 Ini files are readed by the @@parse_ini_file@@ function, and so specific syntaxes
 are available to indicate values coming from outside the ini file.
@@ -209,7 +215,7 @@ login= ${MYAPP_MYSQL_LOGIN}
 password= ${MYAPP_MYSQL_PASSWORD}
 </code>
 
-===== The profiles.ini.php file =====
+===== The var/config/profiles.ini.php file =====
 
 This file contains all connections parameters of some Jelix Components: SQL and
 NoSQL databases, SOAP web services, cache etc.

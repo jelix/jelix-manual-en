@@ -13,8 +13,6 @@ cache.
 jCache is a class to store any data in a cache system like memcache, Redis... It
 supports other kind of storage like files or a SQL database.
 
-Note that jCache doesn't use jKVDb as a backend, but it could use it in next versions.
-
 ==== Configuration ====
 
 You should declare storages in a @@F@var/config/profiles.ini.php@@ file. See
@@ -31,6 +29,7 @@ Each profile must declare these properties:
      @@0@@). You can then disable the cache without modifying your classes, when
      you develop or want to debug something.
    * @@ttl@@: the default time to live of data, in seconds. 0 means no timeout.
+   * @@automatic_cleaning_factor@@ : indice for the automatic cleanup of the cache backend
 
 Depending of the driver, you may have additional parameters.
 
@@ -66,11 +65,12 @@ This driver stores data in a Redis database.
 
 In fact, there are two plugins:
 
+   * "redis_ext": it uses the API of the PHP extension Redis (plugin introduced
+     in Jelix 1.6.14)
    * "redis_php": it uses a pure PHP class, PHPRedis to communicate with Redis.
      (plugin introduced into Jelix 1.6.8 under the name "redis" and renamed to
-      "redis_php" in Jelix 1.6.14)
-   * "redis_ext": it uses the API of the PHP extension Redis (plugin introduced
-     into Jelix 1.6.14)
+      "redis_php" in Jelix 1.6.14). Since Jelix 1.7, it is available in a separate
+      module, in the Composer package "jelix/php-redis-plugin".
 
 Possible parameters:
 
@@ -84,7 +84,7 @@ Example:
 
 <code>
 [jcache:myredis]
-driver=redis_php
+driver=redis_ext
 ttl=360
 enabled=1
 host=192.168.0.1
@@ -152,7 +152,8 @@ create the table.
 
 Configuration parameters:
 
-  * @@dao@@: indicates the dao to use. By default, jelix~cache.
+  * @@driver=db@@: value is "db".
+  * @@dao@@: indicates the dao to use. By default, @@jelix~cache@@.
   * @@dbprofile@@: the jDb profile to use.
 
 
@@ -177,9 +178,11 @@ To store and read from the cache system, call one of the static methods of jCach
      $fnargs, which should return a value. This value is then put into the
      cache.
 
-All this static methods accept as last argument a profile. By default, the "default" profile will be used.
+All this static methods accept as last argument a profile. By default, the
+"default" profile will be used.
 
-Only these charaacters should be used for key names : letters, numbers, @@/@@, @@_@@, @@-@@, @@:@@, @@.@@.
+Only these charaacters should be used for key names : letters, numbers, @@/@@,
+@@_@@, @@-@@, @@:@@, @@.@@.
 
 
 ===== jResponse and HTTP cache =====
@@ -192,14 +195,13 @@ In the server side, we can then know if we have to regenerate the resource, or i
 we can say that the browser must use the content in its cache. It then saves
 bytes and bandwidth.
 
-Jelix 1.4 integrate some new methods in the class @@C@jResponse@@ to manage easily
-the HTTP cache. These methods are available for all responses, so you can activate
+The class @@C@jResponse@@ has methods to manage easily the HTTP cache. These methods
+are available for all responses, so you can activate
 HTTP cache for HTML page, images, JSON content etc. Don't forget that the cache is
 client side, not server side.
 
 There are two ways to manage the browser cache: cache by expiration and cache by
 validation.
-
 
 Warning: in most of cases, except if you use the method @@M@setLifeTime@@ with a private cache,
 the HTTP cache should be used only for content that is not personnalized. The content
@@ -220,7 +222,8 @@ date, (method @@M@setExpires@@), or by indicating an mount of time (method @@M@s
 The method @@M@setExpires@@ allows to specify the date of the end of the validity of the cache.
 It adds an "Expires" HTTP header.
 
-In the controller:
+In the controller:4
+
 <code php>
 $rep->setExpires($date);
 
