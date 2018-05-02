@@ -21,7 +21,9 @@ more specific "loggers".
 
 ==== Configuring jLog ====
 
-To specify loggers, you must fill the @@[logger]@@ section (in @@F@var/config/mainconfig.ini.php@@ or @@F@var/config/localconfig.ini.php@@). By default:
+To specify loggers, you must fill the @@[logger]@@ section (in
+@@F@app/config/mainconfig.ini.php@@ or @@F@var/config/localconfig.ini.php@@). By
+default:
 
 <code ini>
 
@@ -36,10 +38,12 @@ strict=
 debug=
 </code>
 
-Options names are types of messages. You can choose any name for type of message, although some are reserved:
+Options names are types of messages. You can choose any name for type of
+message, although some are reserved:
 
    * @@default@@: logger by default
-   * @@error@@, @@warning@@, @@notice@@, @@deprecated@@, @@strict@@: used by the error manager, for error messages.
+   * @@error@@, @@warning@@, @@notice@@, @@deprecated@@, @@strict@@: used 
+     by the error manager, for error messages.
    * @@sql@@, for jDb (in dev edition), to log sql queries
    * @@soap@@, for jSoapClient, to log soap messages
 
@@ -47,11 +51,12 @@ And values are list of loggers (names of corresponding plugins). You can indicat
 
    * @@file@@ to store in files. File names are indicated in a @@[filelogger]@@ section.
    * @@syslog@@ to send messages to syslog
-   * @@firebug@@, to displays messages into the extension Firebug of Firefox.
+   * @@firebug@@, to displays messages into the javascript console of the browser (years before,
+     it was possible only with the extension Firebug of Firefox, this is why its name).
    * @@mail@@, to send messages in a mail box
-   * @@memory@@, to store messages in memory (temporary). It is needed for the debugbar or other components.
+   * @@memory@@, to store messages in memory (temporary). It is needed for the 
+     debugbar or other components.
    * and any other plugin names you created or installed for jLog.
-
 
 ==== To not output sensitive data into logs ====
 
@@ -124,7 +129,8 @@ Date and time can also be used in log filenames. Just include some of : @@%Y%@@
 
 ==== mail logger ====
 
-To configure the mail logger, you should indicate the email and some headers, in the configuration:
+To configure the mail logger, you should indicate the email and some headers, in
+the configuration:
 
 <code ini>
 
@@ -133,7 +139,8 @@ email = root@localhost
 emailHeaders = "Content-Type: text/plain; charset=UTF-8\nFrom: webmaster@yoursite.com\nX-Mailer: Jelix\nX-Priority: 1 (Highest)\n"
 </code>
 
-Avoid to use the mail logger, unless you know that your application is stable and errors are rare. Else you could receive tons of mails.
+Avoid to use the mail logger, unless you know that your application is stable
+and errors are rare. Else you could receive tons of mails.
 
 
 ===== The debug bar =====
@@ -158,12 +165,16 @@ plugins = debugbar
 [debugbar]
 plugins = sqllog,sessiondata,defaultlog
 defaultPosition = right
+errors_openon=error
 </code>
 
 @@defaultPosition@@ indicate if you want to display the debugbar on the @@left@@
 or on the @@right@@ of the web page. You could also change the position
 dynamically.
 
+@@errors_openon@@ indicates the error level that triggers the opening of the list
+of messages. Possible values, separated by a coma, are @@error@@, @@warning@@, 
+@@notice@@, @@deprecated@@ and @@strict@@, or @@*@@ to say "all levels". 
 
 ===== Emails sending =====
 
