@@ -131,6 +131,9 @@ retrieve the Ini modifier of the entrypoint object
 @@$this->entrypoint->localConfigIni@@ which is a combination between
 mainconfig.ini.php, localconfig.ini.php and the entrypoint configuration.
 
+Since Jelix 1.6.18, you have also @@$this->entrypoint->liveConfigIni@@ to
+modify the @@liveconfig.ini.php@@ file.
+
 Don't hesitate to read the reference API of @@C@jInstallerModule@@ and
 @@C@jInstallerBase@@, and to look at the installation script of modules provided
 by Jelix. You'll certainly learn many things.

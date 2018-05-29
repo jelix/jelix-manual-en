@@ -65,7 +65,7 @@ Improvements provided by 1.6.7:
   * The legacy builder of jForms (jFormsBuilderHtml) is now deprecated too. It
     will disappear in the next release (1.7).
 
-Improvements provided by 1.6.8
+Improvements provided by 1.6.8:
 
   * jAcl2: new driver dbcache. It is like the db driver, but it also stores
     results in a cache via jCache to improve performance.
@@ -76,21 +76,21 @@ Improvements provided by 1.6.8
   * Redis jKvDb driver: support of db index and key prefixes options
   * new method jInstallerEntryPoint::getEpConfigIni()
 
-Improvements provided by 1.6.9 :
+Improvements provided by 1.6.9:
 
   * jForms, HtmlBuilder: possibility to redefine the display of errors with
     the @@ouputError()@@ method, in child classes.
   * Possibility to declare the path of a single module (outside from a modules group),
     with the @@<module>.path@@ parameter of the section @@modules@@.
 
-Improvements provided by 1.6.11 :
+Improvements provided by 1.6.11:
 
   * jAuth: support of an action for errors in Ajax requests, with the
     @@on_ajax_error_action@@ parameters (see default configuration of the "jauth"
     plugin).
   * jDb, mysqli : support of SSL connections.
 
-Improvements provided by 1.6.14 :
+Improvements provided by 1.6.14:
 
   * Plugins "redis" for jCache and jKvdb have been renamed "redis_php"
   * new Redis plugins, named “redis_ext”, for jCache and jKvDb, using the API
@@ -100,7 +100,7 @@ Improvements provided by 1.6.14 :
     own Captcha. See [[jforms/xml-1.1/captcha|the Captcha page]].
   * New catcha plugin: Recaptcha
 
-Improvements provided by 1.6.16 :
+Improvements provided by 1.6.16:
 
   * jDao: the @@groupby@@ attribute on @@<method>@@ is deprecated because its
     SQL implementation is not compatible with recent version of Mysql, and is
@@ -116,5 +116,29 @@ Improvements provided by 1.6.16 :
     one user having these rights.
   * new @@soapfile@@ logger for SOAP logs
   * PHP 7.2 support.
+
+Improvements provided by 1.6.17:
+
+  * New AuthChangePassword event when jAuth::changePassword() is called
+  * jInstaller: better error messages about bad version number
+  * jResponseHtml: new properties for IE mode, viewport and metas
+  * jResponseHtml: new method addMeta() and outputMetaTag()
+  * jRequest: new method isPostMethod()
+  * jDaoConditions: add support of BETWEEN operator
+  * jForms: support of placeholder default value in ctrl_control
+  * jForms: possibility to redefine the html of the help on the form builder
+  * jForms: possibility to configure a default error decorator for all forms
+  * jForms: improved http errors when retrieving data for dynamic lists
+  * jMailer: new debug mode, allowing to specify receivers and sender for every mails
+  * jMailer: possibility to store SMTP credentials into profiles.ini.php
+  * jInstallerBase::insertDaoData(): allowing to use data from an other module
+  * Master_admin: check unchanged password for every users
+  * Add support of http_method variable into format of error messages
+
+Improvements provided by 1.6.18:
+
+  * Support of a new configuration file @@liveconfig.ini.php@@, to store
+    parameters modified during the live of the application.
+
 
 Main contributors of Jelix 1.6:  Olivier Demah, Philippe Villiers, Eric D., JulienI, Couac, Brice Tence, Khena, René-luc D'hont.
