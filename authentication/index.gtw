@@ -257,7 +257,8 @@ To configure persistence use the parameters below:
    * @@persistant_enable@@: set it to @@L@on@@ to activate authentication persistence
    * @@persistant_crypt_key@@: this one is mandatory. Since 1.6.8 it is filled
      automatically by the installer, with a random key, and is stored into
-     the section @@coordplugin_auth@@ of the localconfig.ini.php file. It will
+     the section @@coordplugin_auth@@ of the localconfig.ini.php file or in the
+     liveconfig.ini.php file (1.6.18+). It will
      be used as an encrypt key for cookie datas. If you change key value, be
      aware that all users will have to re-authenticate to benefit of persistence.
 

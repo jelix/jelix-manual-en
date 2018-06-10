@@ -8,6 +8,8 @@ A Jelix application have several configuration files:
   * A @@F@localconfig.ini.php@@ for configuration specific to environment where your
     application is installed
   * A @@F@config.ini.php@@ file for each entry points
+  * A @@F@liveconfig.ini.php@@ file to store parameters that are changed during
+    the live of the application
   * A @@F@profiles.ini.php@@ for connections profiles (database configuration for example).
   * A @@F@urls.xml@@ file that defines the mapping between URLS and controllers.
 
@@ -162,7 +164,13 @@ the @@F@mainconfig.ini.php@@ to set some parameters specific to the installation
 
 Of course, this file should not be stored into your code repository.
 
-==== How configuration file are readed ====
+=== liveconfig.ini.php ===
+
+Since Jelix 1.6.18, a new configuration file @@F@liveconfig.ini.php@@ allows to
+store parameters that are modified during the live of the application. It should
+not be stored into you source code repository.
+
+=== How configuration file are readed ===
 
 You have to know that an other configuration file @@F@defaultconfig.ini.php@@ exists into the
 @@F@lib/jelix/core/@@ directory. It contains all possible parameters and some comments.
@@ -174,6 +182,7 @@ So, to known the full configuration, Jelix reads these files in this order and m
   - @@F@var/config/localconfig.ini.php@@
   - @@F@app/config/<entrypoint>/config.ini.php@@
   - @@F@var/config/<entrypoint>/config.ini.php@@
+  - @@F@var/config/liveconfig.ini.php@@
 
 Values of a configuration file override values of the previous configuration file.
 
