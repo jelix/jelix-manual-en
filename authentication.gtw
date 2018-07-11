@@ -81,8 +81,17 @@ To configure the authentication system, edit the file
 You must assign the @@driver@@ option with a driver name and fill a section
 containing the driver parameters.
 
+With Jelix 1.6.18+, you can also set the driver name into the mainconfig or
+localconfig file like this:
+
+<code ini>
+[coordplugin_auth]
+driver=Db
+</code>
+
 Read the [[authentication/drivers|jAuth drivers documentation]] to know which
 driver you can use and how to activate it.
+
 
 ==== Function to hash password ====
 
