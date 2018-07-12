@@ -3,9 +3,11 @@
 
 ===== project.xml =====
 
-The file @@F@project.xml@@ contains some informations on the application. Some of these are important because they are used by the installer.
+The file @@F@project.xml@@ contains some informations on the application. Some
+of these are important because they are used by the installer.
 
-It is an XML file with a @@E@<project>@@ as root element, and which contains 4 elements:
+It is an XML file with a @@E@<project>@@ as root element, and which contains 4
+elements:
 
 <code xml>
 <project xmlns="http://jelix.org/ns/project/1.0">
@@ -15,19 +17,21 @@ It is an XML file with a @@E@<project>@@ as root element, and which contains 4 e
     <dependencies>
      ...
     </dependencies>
-    <directories>
-     ...
-    </directories>
     <entrypoints>
      ...
     </entrypoints>
 </project>
 </code>
 
+Note: in Jelix 1.6 and older version, there was a section  @@<directories>@@
+which does not exists anymore.
 
 ==== info ====
 
-Int the element @@E@info@@, there are some informations indicative only about the application, like its name, a description, the copyright, the creator name etc. Note that this element can be used also in @@F@module.xml@@ files to identify a module. Here is an example:
+In the element @@E@info@@, there are some purely indicative informations about
+the application, like its name, a description, the copyright, the creator name
+etc. Note that this element can be used also in @@F@module.xml@@ files to
+identify a module. Here is an example:
 
 <code xml>
 <info id="testapp@jelix.org" name="testapp" createdate="2017-01-01">
@@ -42,15 +46,20 @@ Int the element @@E@info@@, there are some informations indicative only about th
 </info>
 </code>
 
-Only the @@E@<version>@@ element and attributes  @@A@id@@ and @@A@name@@ on @@E@<info>@@ are required. Others are optionals.
+Only the @@E@<version>@@ element and attributes @@A@id@@ and @@A@name@@ on
+@@E@<info>@@ are required. Others are optionals.
 
-The id attribute should be a unique identifiant. That's why it is recommanded to use an email as an identifiant (or a UUID but it is less readable).
+The id attribute should be a unique identifiant. That's why it is recommended to
+use an email as an identifiant (or a UUID but it is less readable).
 
-The attribute @@A@name@@ should be a "technical" name (the name of the directory of the application or of the module for instance). The @@E@label@@ element can contain a displayable name. 
+The attribute @@A@name@@ should be a "technical" name (the name of the directory
+of the application or of the module for instance). The @@E@label@@ element can
+contain a displayable name.
 
 ==== dependencies ====
 
-The element @@E@<directories>@@ should contain informations about dependencies of the application. For the moment, only the jelix version is required.
+The element @@E@<directories>@@ should contain informations about dependencies
+of the application. For the moment, only the jelix version is required.
 
 <code xml>
 <dependencies>
@@ -58,30 +67,10 @@ The element @@E@<directories>@@ should contain informations about dependencies o
 </dependencies>
 </code>
 
-This element can be used in a @@F@module.xml@@ file, and can contain additionnaly one or more @@E@<module>@@ elements, which indicate modules that the installer should install in order to execute correctly the modules.
-
-<code xml>
-  <module name="testurls" minversion="2.2" maxversion="2.3" />
-  <module name="jauthdb" />
-  <module name="jacl2db" />
-</code>
-
-==== directories ====
-
-This element indicate paths of some directories. all elements in this example are required:
-<code xml>
-    <directories>
-        <config>var/config</config>
-        <log>var/log</log>
-        <var>var</var>
-        <www>www</www>
-        <temp>../temp/testapp</temp>
-    </directories>
-</code>
-
 ==== entrypoints ====
 
-The @@E@entrypoints@@ element list all entry points of the application (in @@F@www/@@ or @@F@scripts/@@), with their configuration file and their type.
+The @@E@entrypoints@@ element list all entry points of the application (in
+@@F@www/@@ or @@F@scripts/@@), with their configuration file and their type.
 
 <code xml>
     <entrypoints>
@@ -95,7 +84,9 @@ The @@E@entrypoints@@ element list all entry points of the application (in @@F@w
 
 ===== module.xml =====
 
-A @@F@module.xml@@ file must be present in each directory of modules. It contains a root element @@E@module@@ which should contain a @@E@<info>@@ element and @@E@<dependencies>@@ element. See above to know how to write these elements.
+A @@F@module.xml@@ file must be present in each directory of modules. It
+contains a root element @@E@module@@ which should contain a @@E@<info>@@ element
+and @@E@<dependencies>@@ element. See above to know how to write these elements.
 
 <code xml>
 <module xmlns="http://jelix.org/ns/module/1.0">
@@ -114,61 +105,101 @@ A @@F@module.xml@@ file must be present in each directory of modules. It contain
 </module>
 </code>
 
+In a module.xml file, the @@E@<dependencies>@@ element can contain
+additionnaly one or more @@E@<module>@@ elements, which indicate modules that
+the installer should install in order to execute correctly the module.
 
+In the previous example, the installation of the module jelix_tests will trigger
+the installation of the modules jacl2db, jacldb, jauthdb and testsurls. And
+only version between 1.0.2 and 1.1b1 of testsurls are allowed.
+
+Sometimes the module can be compatible with some modules that are similar
+but only one of them is allowed at a time. For example, jauthdb and jcommunity
+are modules providing same main feature, so your module could propose the
+choice between them. You use then the  @@E@<choice>@@ element to list of
+alternative modules:
+
+<code xml>
+  <dependencies>
+      <choice>
+         <module name="jauthdb" />
+         <module name="jcommunity" />
+      </choice>
+  </dependencies>
+</code>
+
+It is possible to indicate modules that are in conflicts with the module.
+You should use the @@E@<conflict>@@ element listing modules that cannot be
+installed with the module.
+
+<code xml>
+  <dependencies>
+      <conflict>
+         <module name="supertest" />
+      </conflict>
+  </dependencies>
+</code>
+
+Here, you try to install the module although the supertest is already installed,
+the installation will fail. Or if your module is already installed and you
+try to install supertest, the installation will fail too.
 
 ===== configuration ini files=====
 
-See @@F@lib/jelix/core/defaultconfig.ini.php@@ for the whole list of parameters.
-This file is the "source" of the @@F@var/config/mainconfig.ini.php@@ file of your application.
+They are files @@F@mainconfig.ini.php@@, @@F@<entrypoint>/config.ini.php@@
+@@F@localconfig.ini.php@@ and @@F@liveconfig.ini.php@@.
+
+You can set in them all parameters you find into the file @@F@lib/jelix/core/defaultconfig.ini.php@@.
+This file contains all parameters and their default values.
+
+There can be also other parameters dedicated to some modules (see their documentation).
 
 Below is a tour of all configuration sections.
 
 ==== global section ====
 
-Usually its parameters are at the beginning of file. They define default or global values of the framework.
+Usually its parameters are at the beginning of file. They define default or
+global values of the framework.
 
 
 <code ini>
-startModule = "jelix"
-startAction = "default:index"
 locale = "en_US"
 charset = "UTF-8"
 timeZone = "US/Pacific"
-
-pluginsPath = lib:jelix-plugins/,app:plugins/
-modulesPath = lib:jelix-modules/,app:modules/
 
 theme = default
 use_error_handler = on
 </code>
 
 Parameters in details :
-  * **startModule, startAction** : default module and action (generally re-defined for each response type. see  [[config#organization|preceding section]])
-  * **locale, charset** : default language and encoding of responses 
+  * **locale, charset** : default language and encoding of responses
   * **timeZone** : set the time zone for every date and time functions
-  * **pluginsPath** : path list to plugins. learn more in [[plugins|plugins]] documentation. 
-  * **theme** : default selected theme. Read [[themes|theme]] system description.   
-  * **use_error_handler** : this option shoud stay //on// for Jelix to return useful and detailed errors or exceptions.
+  * **theme** : default selected theme. Read [[themes|theme]] system description.
+  * **use_error_handler** : this option shoud stay //on// for Jelix to return
+    useful and detailed errors or exceptions.
 
 ==== modules section ====
 
 Contains the list of all used modules, and their access level
 
    * 0 means the module is not used and must not be installed
-   * 1 means the module is used, but only by other modules (its daos, forms etc), but is not accessible directly from the web (so it has no controllers or existing controllers will never be called)
+   * 1 means the module is used, but only by other modules (its daos, forms etc),
+     but is not accessible directly from the web (so it has no controllers or
+     existing controllers will never be called)
    * 2 means the module is installed and usuable normally.
-
 
 ==== coordplugins section ====
 
-List all coordinator plugins Jelix has to activate. They will be loaded from the list of path defined by the pluginsPath option.
+List all coordinator plugins Jelix has to activate. They will be loaded from the
+list of path declared with @@jApp::declarePluginsDir()@@ in the file @@F@application.init.php@@.
 
 
-The example below demonstrates the activation of an authentication plugin. Its own set of options are defined in @@F@auth.coord.ini.php@@ file. Learn more about [[authentification|authentication]].
+The example below demonstrates the activation of an authentication plugin. Its
+own set of options are defined in @@F@auth.coord.ini.php@@ file. Learn more
+about [[authentification|authentication]].
 
 <code ini>
 [coordplugins]
-;plugin name = ini filename
 auth = "auth.coord.ini.php"
 </code>
 
@@ -176,11 +207,14 @@ auth = "auth.coord.ini.php"
 ==== responses section ====
 
 this section allows to customize each response type and its alias. 
-each line consists of a couple <response alias>=<response class>.
+each line consists of a couple @@<response alias>=<response class>@@.
 
-As for example, it is usual to overload html default response (jResponseHtml) by such a line : //html=myhtmlresponse//. Find more details in [[common-processes#customizing-common-response|customizing common response]] 
+As for example, it is usual to overload html default response (jResponseHtml) by
+such a line @@html=myhtmlresponse@@. Find more details in
+[[common-processes#customizing-common-response|customizing common response]]
 
 Below are the default alias and response types:
+
 <code ini>
 [responses]
 html = jResponseHtml
@@ -196,57 +230,13 @@ zip = jResponseZip
 rss2.0 = jResponseRss20
 atom1.0 = jResponseAtom10
 css= jResponseCss
-tcpdf = jResponseTcpdf
 </code>
-
-
-==== error_handling section ====
-
-Those parameters are used to configure notifications occuring during an application script execution. Details can be found in [[errormanager|error manager]] documentation.
-
-Notifications have different levels. Jelix defined levels corresponding to PHP error_reporting levels: 
-  * //default//     = selected level if no other level corresponds
-  * //error//       = notify an error stopping a script execution
-  * //warning//     = notifu an error which doesn't stop a script 
-  * //notice//      = notify a possible error  
-  * //deprecated//  = notify a deprecated function (php 5.3)
-  * //strict//      = notify core PHP messages about compatibility and interoperability 
-
-Below are the whole list of parameters:
-<code ini>
-[error_handling]
-messageLogFormat = "%date%\t%ip\t[%code%]\t%msg%\t%file%\t%line%\n"
-logFile = error.log
-email = root@localhost
-emailHeaders = "Content-Type: text/plain; charset=UTF-8\nFrom: webmaster@yoursite.com\nX-Mailer: Jelix\nX-Priority: 1 (Highest)\n"
-quietMessage="A technical error has occured. Sorry for this trouble."
-
-showInFirebug = off
-
-; keywords you can use : ECHO, ECHOQUIET, EXIT, LOGFILE, SYSLOG, MAIL, TRACE
-default      = ECHO EXIT
-error        = ECHO EXIT
-warning      = ECHO
-notice       = ECHO
-deprecated   = ECHO
-strict       = ECHO
-; exceptions implicitly use EXIT
-exception    = ECHO
-</code>
-
-  * **messageLogFormat** and **logFile** configure a log file output (LOGFILE or SYSLOG)
-  * **email** et **emailHeaders** configure mail ouptut (MAIL)
-  * **quietMessage** defines a neutral message for user (ECHOQUIET)
-  * **showInFirebug** : if //on//, all notifications will be redirected to firebug extension of firefox browser using its //console// api.
-
-The last set of options allows to associate ouptut formats to each level of notification.  Each level can have more than one output format. 
-For example, in production, you'll probably want to set ://error = ECHOQUIET EXIT LOGFILE// and so on.
-
-
 
 ==== compilation section ====
 
-Defines the template behavior of Jelix template engine. And more precisely of its compilation step. Find in-depth details in [[templates|templates]].
+Defines the behavior of some components which "compile" some files into the
+temp directory. This is the case of the template engine (Find in-depth details
+in [[templates|templates]]), but also jDao, jForms...
 
 <code ini>
 [compilation]
@@ -254,34 +244,81 @@ checkCacheFiletime  = on
 force  = off
 </code>
 
-  * **checkCacheFiletime ** : if //on// template will be compiled if its file modification date is more recent than its already PHP compiled file.
+  * **checkCacheFiletime ** : if //on// the source file will be compiled if its
+    file modification date is more recent than its already PHP compiled file.
   * **force** : if //on//, template is systematically compiled
 
 ==== section zone ====
 
-There is an option to globally disable zone caching. It is useful during development environment but should be set to off in production.
+There is an option to globally disable zone caching. It is useful during
+development environment but should be set to off in production.
 
 To disable zone caching : 
 <code ini>
 [zones]
-disableCache = on  // default to off
+disableCache = on  # default to off
 </code>
 
 ==== urlengine section ====
 
-@TODO : to complete
 
+Configuration du moteur d'urls
 
+<code ini>
+[urlengine]
 
+multiview = off
 
+scriptNameServerVariable =
+pathInfoInQueryParameter =
 
+basePath = ""
+jelixWWWPath = "jelix/"
+
+</code>
+
+Détails des paramètres :
+
+  * **multiView**: if the parameter multiview or acceptpathinfo is activated
+    into the Apache configuration, est activé dans
+    Apache, vous ne devez pas indiquez le suffix ".php", alors activez ce
+    paramètre
+  * **scriptNameServerVariable**: contain the variable name @@$_SERVER@@ that
+    contain the script name. Example: if you call @@http://mysite.com/foo/index.php@@,
+    this is the variable which contain @@/foo/index.php@@. This name could be
+    SCRIPT_NAME, ORIG_SCRIPT_NAME, PHP_SELF or REDIRECT_SCRIPT_URL. Most of time
+    it is automatically detected by Jelix, but sometime it could fail, so you
+    must indicate the name here.
+  * **pathInQueryParameter**: if you are using some rewrite rules that move the
+    pathinfo into a query parameter, like @@RewriteRule ^(.*)$ index.php/?jpathinfo=$1 [L,QSA]@@
+    then you should indicate into @@pathInfoInQueryParameter@@ the name of the
+    parameter, here @@jpathinfo@@. Keep empty if you are not using such rewrite rules.
+  * **basePath**: this parameter is the web path to your @@index.php@@. Example:
+    if you access to your application by @@http://foo.com/aaa/bbb/www/index.php@@ then
+    your base path is @@/aaa/bbb/www/@@. Or if the url is @@http://foo.com/index.php@@,
+    then just indicate @@/@@. Keep empty to let Jelix to detect it automatically.
+  * **jelixWWWPath** : contains web path to web ressources of Jelix, those which
+    are stored into lib/jelix-www/.
+
+=== notfound ===
+
+You can indicate the action which display a specific page for 404 errors,
+when Jelix doesn't find the controller corresponding to a given URL. By default
+it is @@jelix~error:notfound@@.
+
+Use the selector syntax, without forgeting to use double quote:
+
+<code ini>
+notfoundAct ="mymodule~main:errornotfound"
+</code>
 
 ==== logfiles section ====
 
 This section defines how log calls through [[debugging|jLog]] api will be output.
-Log files are created and stored in @@F@var/log/@@ application folder. 
 
-A per-module log file can be defined by setting a couple @@<module name>=<log filename>@@ and calling jLog methods with <module name> as last argument.
+Log files are created and stored in @@F@var/log/@@ application folder.
+A per-module log file can be defined by setting a couple @@<module name>=<log filename>@@
+and calling jLog methods with @@<module name>@@ as last argument.
 
 <code ini>
 ; default log
@@ -291,7 +328,10 @@ A per-module log file can be defined by setting a couple @@<module name>=<log fi
   news = news.log
 </code>
 
-Another example shows how you can use firebug extension as a log output (useful for quickly debugging). Still you can log to a classic file calling jLog methods with //file// as last argument (for dumping huge content for example).
+Another example shows how you can use firebug extension as a log output
+(useful for quickly debugging). Still you can log to a classic file calling
+jLog methods with //file// as last argument (for dumping huge content for example).
+
 <code ini>
 [logfiles]
 default="!firebug"
@@ -302,43 +342,16 @@ Learn more about Jelix debugging through [[debugging|jLog]] documentation.
 
 
 ==== mailer section ====
-Parameters required to send mails through application scripts. As for example, authentication or notifications can send emails.
 
-<code ini>
-[mailer]
-webmasterEmail = root@localhost
-webmasterName =
+Contains parameters required to send mails through application scripts.
 
-; How to send mail : "mail" (mail()), "sendmail" (call sendmail), or "smtp" (send directly to a smtp)
-mailerType = mail
-; Sets the hostname to use in Message-Id and Received headers
-; and as default HELO string. If empty, the value returned
-; by SERVER_NAME is used or 'localhost.localdomain'.
-hostname =
-sendmailPath = "/usr/sbin/sendmail"
-
-; if mailer = smtp , fill the following parameters
-
-; SMTP hosts.  All hosts must be separated by a semicolon : "smtp1.example.com:25;smtp2.example.com"
-smtpHost = "localhost"
-; default SMTP server port
-smtpPort = 25
-; SMTP HELO of the message (Default is hostname)
-smtpHelo =
-; SMTP authentication
-smtpAuth = off
-smtpUsername =
-smtpPassword =
-; SMTP server timeout in seconds
-smtpTimeout = 10
-
-</code>
-
-
-
+See the chapter about [[/class-utilities/jmailer|jMailer]].
 
 ==== acl section ====
-Defines options of access control list (ACL) or rights management. See [[/rights2|rights management]]. You can use jAcl ou jAcl2, but not both at the same time. Indicate a driver to enable it.
+
+Defines options of access control list (ACL) or rights management. See
+[[/rights2|rights management]]. You can use jAcl ou jAcl2, but not both at the
+same time. Indicate a driver to enable it.
 
 <code ini>
 [acl]
@@ -352,7 +365,9 @@ driver =
 </code>
 
 ==== sessions section ====
-Determines how PHP sessions are stored (file or databse). Find more details in [[/classe-utilities/jsession|sessions]] documentation. 
+
+Determines how PHP sessions are stored (file or databse). Find more details
+in [[/classe-utilities/jsession|sessions]] documentation.
 
 <code ini>
 [sessions]

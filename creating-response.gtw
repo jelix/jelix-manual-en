@@ -57,7 +57,7 @@ defines an API that you can use by default: it instantiates a template, it has a
 title property for setting an HTML page title, it defines methods to fill the
 @@E@<head>@@ block, etc. 
 
-Dive into @@F@lib/jelix/response/@@ and pick a response
+Dive into @@F@lib/jelix/core/response/@@ and pick a response class
 to inherit if your format is closed to this existing response.
 
 ===== Class location =====
@@ -71,7 +71,7 @@ application or in @@F@responses/@@ of a module.
 ===== Declare a response =====
 
 Last step, your new response must be declared and given an alias in
-configuration file. Just add this line @@alias=class@@ in @@[responses]@@
+configuration file. Just add this line @@<alias>=<class>@@ in @@[responses]@@
 section of config.ini.php.
 
 Here is an example of a response for your application:

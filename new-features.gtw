@@ -83,6 +83,9 @@ to remove some configuration parameters, to delete some files etc...
 During an upgrade, jInstaller does a backup of @@F@installer.ini.php@@, so if
 something goes wrong, you can restore it.
 
+An other new feature, is the possibility to indicate into module.xml files,
+some alternative modules or some incompatible modules, in the dependencies section.
+
 ==== New assets system: webassets ====
 
 Jelix 1.7 offers a new way to declare in the HTML, assets like JS and CSS.

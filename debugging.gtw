@@ -181,4 +181,4 @@ of messages. Possible values, separated by a coma, are @@error@@, @@warning@@,
 jMailer has parameters allowing to not send emails, or to send all of them to
 specific persons.
 
-See the chapter about [[/classes-utiles/jmailer|jMailer]].
+See the chapter about [[/class-utilities/jmailer|jMailer]].
