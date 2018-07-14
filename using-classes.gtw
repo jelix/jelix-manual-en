@@ -113,7 +113,7 @@ Then to include this interface, stored in the module @@commons@@, into file that
 need it:
 
 <code php>
-jClasses::inIface('commons~interfaces/IStockUtils');
+jClasses::incIface('commons~interfaces/IStockUtils');
 
 class stockUtils implements IStockUtils {
     […]
@@ -127,16 +127,17 @@ Sometimes, you may want to store some of your business object in sessions. But
 then your classes should be loaded before the @@f@session_start()@@ call, so PHP
 can unserialize this objects.
 
-Before the autoload system (see below), Jelix provided a way to indicates which
-classes to load before the @@f@session_start()@@. In the configuration, in the
-@@sessions@@ section, you should indicate the selectors of this classes in the
-@@V@loadClasses@@ options:
+Before the autoload system (see below) was born into Jelix, Jelix provided a
+way to indicates which classes to load before the @@f@session_start()@@.
+In the configuration, in the @@sessions@@ section, you should indicate the
+selectors of this classes in the @@V@loadClasses@@ options:
 
 <code ini>
 [sessions]
 
 loadClasses = "mymodule~bar,mymodule~subdir/foo, shop~shoesProduct"
 </code>
+
 The module name is required in selectors.
 
 **Note: this @@loadClasses@@ parameter is now deprecated. You must declare**
@@ -145,7 +146,7 @@ The module name is required in selectors.
 
 ===== Autoloading =====
 
-Since Jelix 1.4, it is possible to use an autoload system, based on the autoload
+It is possible to use an autoload system, based on the autoload
 function of PHP (the class file is loading automatically when the class is
 used). It avoids to use @@C@jClasses@@. The autoload system of Jelix supports
 the [[https://www.php-fig.org/psr/psr-0/|PSR0 specification]] and the
@@ -190,10 +191,13 @@ suffix for the filename:
 </code>
 
 To declare a set of classes that have a specific namespace, indicate the
-namespace and a directory:
+namespace and a directory. You can use either @@<namespace>@@ (old name) or @@<psr0>@@,
+they are equal.
 
 <code xml>
   <namespace name="jelixTests\foo" dir="autoloadtest" />
+  <!-- or -->
+  <psr0 name="jelixTests\foo" dir="autoloadtest" />
 </code>
 
 This behavior follows the PSR0 specification. So the namespace should correspond
@@ -202,11 +206,14 @@ class @@C@jelixTests\foo\bar\baz@@, it will include the file
 @@F@autoloadtest/jelixTests/foo/bar/baz.php@@.
 
 Jelix have an other namespace support, which follow PSR-4 specification
-(implemented before the release of PSR-4, this is why the tag name is not
-really good):
+(implemented before the release of PSR-4, this is why the tag name "namespacePathMap" is not
+really good).  You can use either @@<namespacePathMap>@@ (old name) or @@<psr4>@@,
+they are equal.
 
 <code xml>
    <namespacePathMap name="jelixTests\bar" dir="autoloadtest/barns" suffix=".class.php" />
+   <!-- or -->
+   <psr4 name="jelixTests\bar" dir="autoloadtest/barns" suffix=".class.php" />
 </code>
 
 The class path does not correspond to the name of the namespace. It indicates
@@ -236,7 +243,7 @@ autoloader. This autoloader should use the function
 
 Use the autoload system only for classes that are often used, or that
 share a common namespace. Declaring dozen classes that does not share
-a namespace, does not have a sens, and will slow the autoload system of PHP,
+a namespace, does not have sens, and will slow the autoload system of PHP,
 because it should verify then many name and path.
 So prefer to use jClasses, for classes used only by the module or used only few
 times, or create classes which share same root namespace.
@@ -249,21 +256,21 @@ can use it into a Jelix application.
 ==== with Composer ====
 
 [[https://getcomposer.org|Composer]] is a package manager for PHP. You can install
-easily many vendors libraries. We recommand to use this tool (Next version of
-Jelix 1.6+ will be installable with Composer ;-)).
+easily many vendors libraries. We recommand to use this tool.
 
 To integrate Composer packages into your Jelix application, it is very simple:
 
   * create your composer.json file into your application (see Composer documentation)
   * install packages indicated into your composer.json: @@php composer.phar install@@.
     It generates a @@F@vendor/@@ directory into your application
-  * Include the file @@F@vendor/autoload.php@@ into @@F@application.init.php@@
+  * Include the file @@F@vendor/autoload.php@@ into your @@F@application.init.php@@
 
 <code php>
 require (__DIR__.'/vendor/autoload.php');
-require (__DIR__.'/../lib/jelix/init.php');
+require_once (__DIR__.'/../lib/jelix/init.php');
 jApp::initPaths( /* ... */ );
 jApp::setTempBasePath( /* ... */ );
+//...
 </code>
 
 

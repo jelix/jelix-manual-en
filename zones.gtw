@@ -2,13 +2,18 @@
 
 ===== Zone's principles =====
 
-Zones in Jelix represent small parts of the final response. They are intended to manage and generate the content of a part of the screen, the web page. A web page is then primarily made of zones.
+Zones in Jelix represent small parts of the final response. They are intended to
+manage and generate the content of a part of the screen, the web page. A web
+page is then primarily made of zones.
 
 What is interesting in using zones is to :
 
-    * be able to reuse a zone in different pages : a zone is in theory independent from the context : it calls business classes  by itself and has its own template.
+    * be able to reuse a zone in different pages : a zone is in theory independent
+      from the context : it calls business classes  by itself and has its own template.
     * have a generation of content that accept parameters.
-    * be able to generate pages faster, activating the zone's cache : only the zones whose parameters have changed (the main zone in general) are regenerated (or those whose cache hase been deleted).
+    * be able to generate pages faster, activating the zone's cache : only the
+      zones whose parameters have changed (the main zone in general) are
+      regenerated (or those whose cache hase been deleted).
     * make the code of controllers lighter.
 
 ===== Using zones =====
@@ -23,13 +28,16 @@ class ZoneTest extends jZone {
 }
 </code>
 
-It must be placed in a @@F@name_of_zone.zone.php@@ file, in the @@F@zones/@@ directory of the module. In our example : it is the @@F@zones/test.zone.php@@ file.
+It must be placed in a @@F@name_of_zone.zone.php@@ file, in the @@F@zones/@@
+directory of the module. In our example: it is the @@F@zones/test.zone.php@@ file.
 
 A @@C@jZone@@ object instantiates its own template by default.
 
 === Using it without template ===
 
-If you don't want to use a template for your zone, you have to overload the @@M@_createContent@@ method, which must return the content of the zone in the form of string. You mustn't use an echo or print !
+If you don't want to use a template for your zone, you have to overload the
+@@M@_createContent@@ method, which must return the content of the zone in the
+form of string. You mustn't use an echo or print !
 
 <code php>
 class testZone extends jZone {
@@ -42,7 +50,11 @@ class testZone extends jZone {
 
 === Using it with a template ===
 
-Most of the time, you will use a template. You have to indicate in the @@P@$_tlpname@@ property the template that you will use (using a selector), and overload the @@M@_prepareTpl()@@ method. This method is in charge  of the initialization of the @@C@jTpl@@ object automatically instantiated by jZone and placed in the @@P@_tpl@@ property.
+Most of the time, you will use a template. You have to indicate in the
+@@P@$_tlpname@@ property the template that you will use (using a selector), and
+overload the @@M@_prepareTpl()@@ method. This method is in charge of the
+initialization of the @@C@jTpl@@ object automatically instantiated by jZone and
+placed in the @@P@_tpl@@ property.
 
 <code php>
 class testZone extends jZone {
@@ -56,21 +68,46 @@ class testZone extends jZone {
 </code>
 
 And the template (placed in @@F@templates/template_test.tpl@@):
+
 <code xml>
 <p>This is a template. And foo = {$foo}.</p>
 </code>
 
-==== Calling it ====
 
-There are several ways to retrieve the content of a zone according to what we want to do.
+=== Creating a zone using a jelix script ===
 
-If you simply want to retrieve its content (in a controller), you do :
+You can use [[/installation/jelix-scripts|jelix-scripts]] to create easily a zone
+with or without a template.
+
+<code>
+php cmd.php module:create-zone <MyModule> <MyZone> [<MyTemplate>]
+</code>
+
+where the parameter <MyTemplate> is optional. The template name is
+equal to the name of the zone in this case.
+
+To no create template, just use the option @@--notpl@@.
+
+<code>
+php cmd.php module:create-zone --notpl <MyModule> <MyZone>
+</code>
+
+
+==== Calling a zone object ====
+
+There are several ways to retrieve the content of a zone according to what we
+want to do.
+
+If you simply want to retrieve its content (in a controller), you do:
 
 <code php>
    $content = jZone::get('test'); // or 'TheModule~test'...
 </code>
 
-However, you will often have to affect the content of the zone to a main template variable, when the response has a main template (which is the case of html responses, through its @@P@$body@@ property which is a jTpl object).  In the controller, we will thus be able to use the @@M@assignZone@@ method of jTpl:
+However, you will often have to affect the content of the zone to a main
+template variable, when the response has a main template (which is the case of
+html responses, through its @@P@$body@@ property which is a jTpl object).  In
+the controller, we will thus be able to use the @@M@assignZone@@ method of jTpl:
 
 <code php>
     $rep = $this->getResponse('html');
@@ -120,9 +157,13 @@ class testZone extends jZone {
 }
 </code>
 
-In this example we pass the 'foo' variable with 'bar' value as parameter of the zone. We have retrieved the 'foo' variable in the zone to process it (here: to make it upper case) and we affected 'foo' to the template of the zone.
+In this example we pass the 'foo' variable with 'bar' value as parameter of the
+zone. We have retrieved the 'foo' variable in the zone to process it (here: to
+make it upper case) and we affected 'foo' to the template of the zone.
 
-Don't forget that Jelix affects automatically the variables passed as parameters of the zone to the template of the zone if it exists. You then can avoid to write :
+Don't forget that Jelix affects automatically the variables passed as parameters
+of the zone to the template of the zone if it exists. You then can avoid to
+write :
 
 <code php>
    protected function _prepareTpl(){
@@ -140,13 +181,15 @@ If you use the zone plugin template, you pass the parameters to the zone this wa
 
 ==== Using the cache  ====
 
-It is possible to put the generated content in a cache. And you can have a cache for each parameter value of the zone.
+It is possible to put the generated content in a cache. And you can have a cache
+for each parameter value of the zone.
 
 
 === Enabling the cache ===
 
 
-By default, a zone does not cache the generated content, so you should activate it in your class, via the property ''_useCache'':
+By default, a zone does not cache the generated content, so you should activate
+it in your class, via the property @@P@$_useCache@@:
 
 <code php>
 Class testZone extends jZone {
@@ -154,21 +197,37 @@ Class testZone extends jZone {
 }
 </code>
 
-If the zone is called without parameters, there will be a single cache file. If you have several parameters, then there will be a cache file for each given value in parameters. For example, if you have an 'article_id' parameter, there will have some cache file for each value of article_id.
+If the zone is called without parameters, there will be a single cache file. If
+you have several parameters, then there will be a cache file for each given
+value in parameters. For example, if you have an 'article_id' parameter, there
+will have some cache file for each value of article_id.
 
-**Carefull**: a cache is a file in the temp directory of the application. If you have thousands of articles, it can generate as many files into your temporary directory. You should avoid to enable the cache if for example you have a limited number of files in your web hosting.
+**Carefull**: a cache is a file in the temp directory of the application. If you
+have thousands of articles, it can generate as many files into your temporary
+directory. You should avoid to enable the cache if for example you have a
+limited number of files in your web hosting.
 
-Use the cache wisely. For example, a moderately popular application (the same article read only about once a day), it is not necessary to activate the cache. You be the judge ...
+Use the cache wisely. For example, a moderately popular application (the same
+article read only about once a day), it is not necessary to activate the cache.
+You be the judge ...
 
 === Refreshing the cache ===
 
-It is necessary to regenerate the cache when the information is obsolete. This regeneration can be done automatically regularly (all //n// seconds), or be forced manually.
+It is necessary to regenerate the cache when the information is obsolete. This
+regeneration can be done automatically regularly (all //n// seconds), or be
+forced manually.
 
-You use one or the other methods as appropriate. The second method is less greedy in resource since the cache is regenerated when you do it. The disadvantage is that you should explicitly clear the cache in your business code. The first method avoids this job, but consumes more resources, and the content of the zone is not up to date during a laps of time. But it could not be vital if cached informations are not important.
+You use one or the other methods as appropriate. The second method is less
+greedy in resource since the cache is regenerated when you do it. The
+disadvantage is that you should explicitly clear the cache in your business
+code. The first method avoids this job, but consumes more resources, and the
+content of the zone is not up to date during a laps of time. But it could not be
+vital if cached informations are not important.
 
 == Automatic refresh ==
 
-For an automatic refresh, you have just to indicate the time in @@P@$_cacheTimeout@@, in seconds:
+For an automatic refresh, you have just to indicate the time in
+@@P@$_cacheTimeout@@, in seconds:
 
 <code php>
 Class testZone extends jZone {
@@ -179,13 +238,19 @@ Class testZone extends jZone {
 }
 </code>
 
-Here, the cache will be regenerated every 60 seconds. If you put 0, there won't be automatic refresh.
+Here, the cache will be regenerated every 60 seconds. If you put 0, there won't
+be automatic refresh.
 
 == Forced refresh ==
 
-The "manual" removal of cache is done via static methods @@M@clear()@@ and @@M@clearAll()@@..
+The "manual" removal of cache is done via static methods @@M@clear()@@ and
+@@M@clearAll()@@..
 
-For example, in the business class which manage your article, during the update of the article (in a database, for example) or when you delete it, you are going to call @@C@jZone@@ to delete the corresponding cache, so that it will be regenerated in the next display. Of course you should indicate the parameters values which identify the cache. In our example, therefore, ''id_article''.
+For example, in the business class which manage your article, during the update
+of the article (in a database, for example) or when you delete it, you are going
+to call @@C@jZone@@ to delete the corresponding cache, so that it will be
+regenerated in the next display. Of course you should indicate the parameters
+values which identify the cache. In our example, therefore, ''id_article''.
 
 <code php>
     jZone::clear ( 'mymodule~product', array ( 'id_article' => 546));
@@ -205,9 +270,14 @@ And if you want to delete all caches of all zone:
 
 === Prevent temporarily caching ===
 
-It should be noted that the methods @@M@_createContent()@@ and @@M@_prepareTpl()@@ (that you can override), are called only when the cache must be regenerated. It may be that for some reason or another (depending on the value of a parameter for example), you don't want sometimes to use the cache of the zone.
+It should be noted that the methods @@M@_createContent()@@ and
+@@M@_prepareTpl()@@ (that you can override), are called only when the cache must
+be regenerated. It may be that for some reason or another (depending on the
+value of a parameter for example), you don't want sometimes to use the cache of
+the zone.
 
-To do it, in @@M@_createContent()@@ or @@M@_prepareTpl()@@, you just have to set @@P@$_cancelCache@@ property to @@true@@:
+To do it, in @@M@_createContent()@@ or @@M@_prepareTpl()@@, you just have to set
+@@P@$_cancelCache@@ property to @@true@@:
 
 <code php>
     protected function _prepareTpl {
@@ -220,7 +290,8 @@ To do it, in @@M@_createContent()@@ or @@M@_prepareTpl()@@, you just have to set
 
 === Disable cache during development ===
 
-To disable all zone cache, and thus be able to build your zone contents and see directly the results, you can set a config parameter, in [zones] section : 
+To disable all zone cache, and thus be able to build your zone contents and see
+directly the results, you can set a config parameter, in @@[zones]@@ section :
 
 <code ini>
 [zones]
@@ -229,7 +300,13 @@ disableCache = on
 
 ==== Automatics parameters ====
 
-The display of a zone may depend explicitly given parameters, but also on "external" parameters  implicitly. One example is a zone which displays the version of an article based on the language set in the app. You can of course indicate the code language at each call of the zone, but it is not practical. It might not have to indicate the parameters, and recover them in @@M@_createContent()@@ or @@M@_prepareTpl()@@, but then it is not possible for this implicit parameters to be criterions for the cache system.
+The display of a zone may depend explicitly given parameters, but also on
+"external" parameters  implicitly. One example is a zone which displays the
+version of an article based on the language set in the app. You can of course
+indicate the code language at each call of the zone, but it is not practical. It
+might not have to indicate the parameters, and recover them in
+@@M@_createContent()@@ or @@M@_prepareTpl()@@, but then it is not possible for
+this implicit parameters to be criterions for the cache system.
 
 The solution is to override the constructor, and initialize this parameter:
 
