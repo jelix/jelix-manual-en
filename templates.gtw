@@ -467,7 +467,7 @@ You can then inject this content into an other template for example.
 
 ===== Templates dedicated to a locale =====
 
-In a template, we saw that we can use @@{@foo.bar@}@@ to include localized string.
+In a template, we saw that we can use @@ {@foo.bar@} @@ to include localized string.
 However, you can have many localized string, and so the template is less
 readable, and performance are lower.
 

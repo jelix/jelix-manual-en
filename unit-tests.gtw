@@ -5,12 +5,12 @@ See the definition of unit-test on wikipedia: https://en.wikipedia.org/wiki/Unit
 
 ===== Creating tests with PHPUnit =====
 
-Using PHPUnit to create tests is the prefered method in jelix 1.3 and higher.
+Using PHPUnit to create tests is the prefered method.
 See [[https://github.com/sebastianbergmann/phpunit/|the manual of PHPUnit]] to
 know how to use it. You must install PHPUnit, it is not provided in the Jelix
 package.
 
-Jelix brings some helpers. The @@createapp@@ command has created a
+Jelix brings some helpers. The @@create-jelix-app@@ command has created a
 @@F@tests/runtests.php@@ in your application (or copy the file
 @@F@lib/jelix-scripts/templates/tests/runtests.php@@). You will launch this file
 instead of PHPUnit. It then discover your tests files in all modules. It avoids
@@ -22,7 +22,9 @@ To do so:
    * store them in files with the suffix @@.pu.php@@ (and not @@Tests.php@@ as usual with PHPUnit)
    * launch @@php runtests.php --all-modules@@ to run tests in all modules
    * launch @@php runtests.php --module foo@@ to run tests only in the module foo
-   * you can add the option @@--testtype xxxx@@ and it launches only @@*.xxxx.pu.php@@ files. That way, you can separate unit tests, functional tests etc..
+   * you can add the option @@--testtype xxxx@@ and it launches only
+     @@*.xxxx.pu.php@@ files. That way, you can separate unit tests,
+     functional tests etc..
 
 You can use all others options of PHPUnit with runtests.php.
 
