@@ -1,6 +1,6 @@
 ~~LANG:FR@frman:installer-un-module~~
 
-This section is not targeting new modules created with the @@c@createmodule@@
+This section is not targeting new modules created with the @@c@module:create@@
 command, as this command activate and install the new module except if you want
 to change the access level.
 
@@ -11,45 +11,52 @@ install an existing module, provided with Jelix or by an other project.
 ===== Declaring a single module =====
 
 In the chapter about the module creation, we saw taht we could declare directories
-of several modules (modules groups), in the @@modulesPath@@ parameter.
+of several modules (modules groups), in the @@application.init.php@@ file.
 
-Since Jelix 1.6.9, it is possible to have a module outside a modules group (for
-example, in a Composer package). So you can indicate its path directly into
-the Jelix configuration.
-
-It is done into the @@modules@@ section (and not in @@modulesPath@@), with a
-parameter @@.path@@:
-
-<code ini>
-[modules]
-my_module.access = 2
-my_module.path = app:vendor/my_vendor_name/my_package/the_module
+<code php>
+jApp::declareModulesDir(__DIR__.'/vendor-modules/');
 </code>
+
+
+It is possible to have a module outside a modules group (for
+example, in a Composer package). So you can indicate its path directly into
+the @@application.init.php@@ file.
+
+<code php>
+jApp::declareModule(__DIR__.'/somewhere/mymodule/');
+</code>
+
 
 ===== Access level of a module =====
 
-Modules inside modules group can be used only if there are activated and then installed, in order to improve the security and to avoid unneeded behaviors. Indeed you could have a module groups, shared between many application, and there are certainly some of this modules you don't want to use in your application.
+Modules inside modules group can be used only if there are activated and then
+installed, in order to improve the security and to avoid unneeded behaviors.
+Indeed you could have a module groups, shared between many application, and
+there are certainly some of this modules you don't want to use in your
+application.
 
 To activate a module, you should indicate it in the "modules" section of the file
 @@F@mainconfig.ini.php@@, with an access level. In this section each keys are the name of
 a module + ".access", and the value the access level:
 
    * 0: if the module is not used at all (default value if the module is not listed in the modules section)
-   * 1: the module is used (you use its dao, forms, business classes etc from an other module), but is not publicly available (it is not accessible from the web).
+   * 1: the module is used (you use its dao, forms, business classes etc from
+     an other module), but is not publicly available. It is not accessible from
+     the web even if URLs are definied into the urls.xml file.
    * 2: the module is used and is accessible from the web
 
 Example:
+
 <code ini>
 [modules]
 testapp.access = 2
-junittests.access = 2
 jacldb.access = 0
 jacl2db.access = 1
 jauthdb.access = 1
 jauth.access = 2
 </code>
 
-In this example, modules testapp, junittessts and jauth are activated normally.
+In this example, modules testapp and jauth are activated normally.
 jacl2db and jauthdb are activated, but only their resources (forms, daos,
 business classes...) are usable, and you cannot access to it from the web.
 jacldb is not used at all and is "invisible".
@@ -59,13 +66,11 @@ entry points and not for others. So you have to create a "modules" section in
 configuration files of each entry points. Values in @@F@mainconfig.ini.php@@ are considered
 as default values, if there are not defined in configuration files of entry points.
 
-Don't forget to [[urls|configure correctly the url engine]], so Jelix could generate
+Don't forget to [[/urls|configure correctly the url engine]], so Jelix could generate
 modules URLS correctly with their respective entrypoints.
 
-Note that when you use the @@c@createmodule@@ command, the new module is automatically
-activated with the access level 2. Further more, configuration options like
-@@V@checkTrustedModules@@, @@V@trustedModules@@ and @@V@unusedModules@@ do not exist
-anymore (since jelix 1.2).
+Note that when you use the @@c@module:create@@ command, the new module is automatically
+activated with the access level 2.
 
 
 Note: if you want all modules accessible (access=2), you can set this option in the global
@@ -86,7 +91,8 @@ section "modules": @@themodule.installparam=something@@. Example for a module "n
 
 Parameters, separated by a coma, can be simple keyword, or some key/value.
 
-If you don't want to execute the installation script of a module, indicate it with the skipinstaller option and the value "skip".
+If you don't want to execute the installation script of a module, indicate it
+with the @@skipinstaller@@ option and the value @@skip@@.
 
 <code>
 news.skipinstaller=skip
@@ -96,15 +102,15 @@ news.skipinstaller=skip
 ===== Installation =====
 
 After defining the access level of a module, you should "install" it. You do this with the
-command @@c@installmodule@@, which executes the installation script provided with the
-module, if it exists (this script could create some SQL tables...), and activates the
-module in the @@F@var/config/installer.ini.php@@.
+command @@c@module:install@@, which executes the installation script provided within the
+module, if it exists (this script could create some SQL tables...), and which
+activates the module in the @@F@var/config/installer.ini.php@@.
 
 For example, to use the jauth module provided with jelix, and after declaring it into the
 modules section in the configuration file, do it:
 
 <code bash>
-php cmd.php installmodule jauth
+php cmd.php module:install jauth
 </code>
 
 
@@ -118,16 +124,15 @@ it only on some specific project.
 ===== Updating a module =====
 
 To update a module, replace current sources of the module by the new sources, then launch
-the command @@c@installmodule@@ with the name of the module. The installation system of
+the command @@c@module:install@@ with the name of the module. The installation system of
 jelix will execute update scripts of the module if they exist, and update the
 @@F@var/config/installer.ini.php@@ file. Of course, it works well only if the version of
 the module is well indicated into the module.xml file of the module.
 
-If you have several modules to update, you can indicate several name to the
-@@c@installmodule@@ command, or launch the @@c@installapp@@ command. It is useful to
-update an application on a production server.
+If you have several modules to update, you can launch the @@c@app:install@@ command.
+It is useful to update an application on a production server.
 
 Note: If you have deactivate the installation system with @@disableInstallers=on@@, you
-don't have to execute installmodule. Update the sources of the module, and update all
-things needed by the module, "by hand". That's all (but it is less easy).
-
+don't have to execute @@app:install@@ or @@module:install@@. Update the sources
+of the module, and update all things needed by the module, "by hand".
+That's all (but it is less easy).
