@@ -7,7 +7,7 @@ A module is a directory which contains:
   * controllers
   * response objects (views)
   * templates
-  * business classes
+  * domain/business classes
   * ORM files (jDao)
   * form files (jForm)
   * localization files

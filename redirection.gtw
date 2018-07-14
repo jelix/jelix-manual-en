@@ -36,7 +36,8 @@ return $resp;
 
 ===== jResponseRedirectUrl =====
 
-This type of response ("redirectUrl") is used to redirect to an external url (or an url which is not pointing to your application).
+This type of response ("redirectUrl") is used to redirect to an external url (or
+an url which is not pointing to your application).
 
 <code php>
 $resp = $this->getResponse('redirectUrl');
@@ -51,7 +52,9 @@ return $resp;
 
 ===== Temporary or permanent redirection =====
 
-By default, redirections are temporary redirection (http status code: 303). If you want to indicate a permanent redirection, you have to set the property @@P@$temporary@@ to false.
+By default, redirections are temporary redirection (http status code: 303). If
+you want to indicate a permanent redirection, you have to set the property
+@@P@$temporary@@ to false.
 
 <code php>
 $resp->temporary = false;
