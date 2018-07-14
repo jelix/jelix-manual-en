@@ -3,15 +3,16 @@
 Jelix implements a simple inter-module communication system. It is based on
 **events**, and is called jEvent.
 
-Anywhere in the code, it's possible to emit an event, to let the modules respond, and to use the response.
+Anywhere in the code, it's possible to emit an event, to let the modules respond to,
+and to use the response.
 
-The @@C@jEvent@@ component is similar to the client-server scheme. The client
-(your code) emits a request (an event). The server (the listeners in the
-modules) waits for a request, treats it, and returns something (a response).
+The @@C@jEvent@@ component is follow a broadcast scheme. Some code
+emits a request (an event). Some listeners are awaiting for this event,
+and when it is emitted, they process it, and return something (a response).
 
 So basically we have, on the one hand, the @@C@jEvent@@ class that emits events
 and that gathers and return the responses, and on the other hand, some
-//Listener// classes, located in modules, that treat and respond to events. 
+//Listener// classes, located in modules, that respond to events.
 
 ===== Emiting an event =====
 
@@ -22,7 +23,7 @@ event you want to send (alphanumeric characters only), and the second one is an
 array of event parameters. As with most functions accepting parameters, the
 second argument is optional.
 
-@@M@jEvent::notify@@ returns a @@C@jEvent@@ object, containing all the related
+@@M@jEvent::notify@@ returns a @@C@jEvent@@ instance, containing all the related
 responses. Responses are some data returned by the listeners (don't confuse with
 the @@C@jResponse@@ objects returned by controllers). The structure and value of
 responses depend solely on each event, the number of modules that responded and
@@ -30,12 +31,12 @@ how the data is structured in the listeners.
 
 For example:
 <code php>
-   //first way
-   $authCLEventParams = array('user' => $userObject);
-   $authCLEvent = jEvent::notify('authCanLogin', $authCLEventParams);
+   //first way, with parameters
+   $eventParams = array('user' => $userObject);
+   $theEvent = jEvent::notify('authCanLogin', $authCLEventParams);
 
-   //second way
-   $authCL2Event = jEvent::notify('authCanLogin2');
+   //second way, without parameters
+   $theEvent = jEvent::notify('authLogin');
 </code>
 
 To get access to the responses returned by the modules, use the
@@ -43,7 +44,7 @@ To get access to the responses returned by the modules, use the
 emission.
 
 <code php>
-  $reponses = $authCLEvent->getResponse();
+  $reponses = $theEvent->getResponse();
 </code>
 
 The result is an array containing all data returned by listeners.
@@ -53,10 +54,12 @@ The result is an array containing all data returned by listeners.
 Since there is no default listener in the modules, each module that wants to
 respond to events need to create a listener and declare it in the
 @@F@events.xml@@ file of the same module. There is no limit in the number of
-listeners. The creation of the listener is broken down in two parts: the
+listeners.
+
+The creation of the listener is splitten in two parts: the
 creation of the listener and the declaration of the listener.
 
-==== Create a listener ====
+==== Creating a listener ====
 
 First, choose a name. We will use 'auth' as an example. Then create a listener
 class. Note that the class name is a concatenation of the name and of
@@ -66,14 +69,15 @@ class. Note that the class name is a concatenation of the name and of
 from @@C@jEventListener@@. 
 
 The listener needs to implement one method for each event it is supposed to
-respond to. Those methods should follow this convertion : 'on' + 'event name'.
-They need to accept as single argument a @@C@jEvent@@ object. 
+respond to. Those methods should follow this convertion : @@on@@ following by
+the event name. They need to accept as single argument a @@C@jEvent@@ object.
 
 Example:
+
 <code php>
 //file auth.listener.php
 
-class authListener extends jEventListener{
+class authListener extends jEventListener {
 
    function onAuthCanLogin ($event) {
         //retrive user parameter
@@ -81,7 +85,7 @@ class authListener extends jEventListener{
 
         //the actual processing
         $ok = true;
-        if(isset($user->active)){
+        if (isset($user->active)) {
             $ok = ($user->active == '1');
         }
         $ok = $ok && ($user->password != '');
@@ -98,8 +102,8 @@ event object. Next, it does it's internal processing, and finally, it adds some
 data to the response by calling @@M@$event->Add@@.
 
 Note: the convention of the name of methods and the calling of methods
-corresponding to events can be changed by redefining the method
-@@M@performEvent@@.
+corresponding to events can be changed by redefining the method @@M@performEvent@@
+of your listener.
 
 
 ==== Declare a listener ====
