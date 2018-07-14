@@ -5,9 +5,8 @@ SQL databases.
 
 You have a @@C@jKVDb@@ from which you retrieve a connector to a key-value
 database. Like jDb, there are some "profiles", stored in the
-@@F@profiles.ini.php@@ file (See [[config#the-profiles.ini.php-file|the
-corresponding chapter]]), where you define parameters to connect to these
-databases.
+@@F@profiles.ini.php@@ file (See [[config#the-profiles.ini.php-file|the corresponding chapter]]),
+where you define parameters to connect to these databases.
 
 jKVDb works with some "drivers" to access to "key-value" data. Jelix provides
 drivers for simple files (file and file2), memcache, redis, and... sql. See
@@ -47,9 +46,12 @@ database. Here are some methods you can call:
 
 ===== Other specific operations =====
 
-Some drivers can implement additionnal methods, depending of the capabilites of the database. One of this interface is @@I@jIKVttl@@, where values have a limited life time.
+Some drivers can implement additionnal methods, depending of the capabilites of
+the database. One of this interface is @@I@jIKVttl@@, where values have a
+limited life time.
 
-To store such values, you should call the method @@M@setWithTtl($key, $value, $ttl)@@, where $ttl must be a value in seconds.
+To store such values, you should call the method @@M@setWithTtl($key, $value,
+$ttl)@@, where $ttl must be a value in seconds.
 
 You can call also the @@M@garbage@@ method to delete all keys which are not anymore valid.
 
@@ -58,9 +60,11 @@ You can call also the @@M@garbage@@ method to delete all keys which are not anym
 
 ==== memcache ====
 
-It uses the Memcache API of PHP (don't confuse with the other API, memcached). It supports only the version 3.0.1 of memcache or lower.
+It uses the Memcache API of PHP (don't confuse with the other API, memcached).
+It supports only the version 3.0.1 of memcache or lower.
 
-In the profile, you have to indicate a host and a port, or several host/port. Example with a single server:
+In the profile, you have to indicate a host and a port, or several host/port.
+Example with a single server:
 
 <code ini>
 [jkvdb:mymemcacheserver]
@@ -82,7 +86,8 @@ host[]=memcache_server2:11212
 
 </code>
 
-You can also set the parameter @@compress=1@@, so values will be compressed during the storage.
+You can also set the parameter @@compress=1@@, so values will be compressed
+during the storage.
 
 
 This driver supports the @@I@jIKVttl@@ interface.
@@ -93,16 +98,17 @@ This driver allows to access to a Redis database.
 
 In fact, there are two plugins:
 
-   * "redis_php": it uses a pure PHP class, PHPRedis to communicate with Redis.
-     (this plugin was named "redis" before Jelix 1.6.14)
    * "redis_ext": it uses the API of the PHP extension Redis (plugin introduced
      into Jelix 1.6.14)
+   * "redis_php": it uses a pure PHP class, PHPRedis to communicate with Redis.
+     (this plugin was named "redis" before Jelix 1.6.14). This plugin is
+     available separatly, by installing the Composer package "jelix/php-redis-plugin".
 
 For the configuration, indicate a @@host@@ and a @@port@@ parameter.
 
 <code ini>
 [jkvdb:myredis]
-driver=redis_php
+driver=redis_ext
 host = localhost
 port = 6379
 </code>
@@ -147,7 +153,6 @@ You can launch it with systemd/sysinit/supervisord for example. The command is:
 Replace @@<profile>@@ by the profile name of jKvDb. It waits after incoming
 prefixes in the list, and delete corresponding keys. If you launch it by hand on
 the command line, just hit @@<ctrl>+C@@ to stop it.
-
 
 
 ==== db ====
