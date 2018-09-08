@@ -2,7 +2,7 @@
 
 Jelix provides some few CLI scripts:
 
-  - @@F@bin/create-jelix-app.php@@, allowing you to create a new application,
+  - @@F@bin/create-jelix-app@@, allowing you to create a new application,
   - and @@F@cmd.php@@ inside your application allowing to execute commands
     on your application. Particularly, you are able to create and modify some
     files easily and automatically.
@@ -137,23 +137,6 @@ Use the @@list@@ command to see the list of all available commands.
    php cmd.php list
 </code>
 
-
-
-==== The option --ep ====
-
-For some commands, it is useful to indicate for which entrypoint the command
-should be applied. To do it, you have to indicate the name of the entrypoint
-after the option @@--ep@@:
-
-<code bash>
-  php cmd.php module:install --ep admin foo
-</code>
-
-It will install the foo module, only for the entry point "admin" of the
-application. (you can write admin or admin.php)
-
-The entry point should be declared in the project.xml file of the application.
-
 ==== option -v ====
 
 This is an option available for all commands. It allows you to
@@ -195,7 +178,7 @@ here is a list of some commands
 
    * Main commands
 <code>
-php cmd.php COMMAND [-v] [--ep ENTRYPOINT] [OPTIONS] [PARAMETERS]
+php cmd.php COMMAND [-v] [OPTIONS] [PARAMETERS]
 </code>
    * Creation of one module
 <code>
@@ -222,3 +205,5 @@ php cmd.php module:create-zone [--notpl] <MyModule> <MyZone> <MyTemplate>
 php cmd.php module:create-dao-crud <module> <table> <controller_name>
 </code>
 
+Type @@php cmd.php list@@ to have the full list. Some other chapter of the
+manual will talk about some commands and how to use it.

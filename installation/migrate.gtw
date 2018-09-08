@@ -209,8 +209,8 @@ So all parameters and options names have changed.
 If you are using the cmd.php script into other scripts, cron or else were, you should 
 change parameters and options. See @@php cmd.php help@@ to know the new syntax.
 
-Moreover, the script @@createapp.php@@ has been moved to @@bin/create-jelix-app.php@@
-or to @@vendor/bin/create-jelix-app.php@@ if your are using Composer.
+Moreover, the script @@createapp.php@@ has been moved to @@bin/create-jelix-app@@
+or to @@vendor/bin/create-jelix-app@@ if your are using Composer.
 
 ==== About your scripts using jCmdLineRequest ====
 
@@ -284,6 +284,7 @@ For your own modules, in @@F@module.xml@@ files, indicate that the module is com
 Some few classes, modules and plugins are now available separatly, with Composer or with a zip file.
 If you are using them, you have to install them with Jelix 1.7.
 
+  * jSoap module: [[https://packagist.org/packages/jelix/soap-server-module|jelix/soap-server-module]]
   * jtcpdf module: [[https://packagist.org/packages/jelix/tcpdf-module|jelix/tcpdf-module]].
   * plugin Minify plugin for jResponseHtml: [[https://packagist.org/packages/jelix/minify-module|jelix/minify-module]].
   * plugin Redis using PhpRedis, for jKVDb and jCache: [[https://packagist.org/packages/jelix/php-redis-plugin|jelix/php-redis-plugin]].

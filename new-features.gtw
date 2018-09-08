@@ -144,7 +144,7 @@ and parameters of these commands have been changed.
 Commands about jAcl2 have been migrated into the module jacl2db, and are now
 callable with the new console.php script.
 
-The createapp.php script has been moved to a bin/ directory, renamed as  @@create-jelix-app@@
+The createapp.php script has been moved to a bin/ directory, renamed as @@create-jelix-app@@
 and is based on Symfony Console. This script asks now parameters to the user,
 because of the configuration system.
 
@@ -246,6 +246,7 @@ via Composer.
 
 Here are these modules and plugins
 
+  * jSoap module: [[https://packagist.org/packages/jelix/soap-server-module|jelix/soap-server-module]]
   * jtcpdf module: [[https://packagist.org/packages/jelix/tcpdf-module|jelix/tcpdf-module]].
   * Minify plugin for jResponseHtml: [[https://packagist.org/packages/jelix/minify-module|jelix/minify-module]].
   * redis plugin for jKVDb: [[https://packagist.org/packages/jelix/php-redis-plugin|jelix/php-redis-plugin]].
@@ -256,7 +257,7 @@ Some other components, modules and plugins are now in their own repository, alth
 there are available with the Jelix package via Composer dependencies.
 
   * [[https://packagist.org/packages/jelix/fakeserverconf|FakeServerConf]]
-  * [[https://packagist.org/packages/jelix/soap-server-module|jSoap module]]
+
   * [[https://packagist.org/packages/jelix/feeds-module|new module jFeeds]] containing classes
     and responses object to generate RSS and ATOM feeds
   * [[https://packagist.org/packages/jelix/castor|Standalone version of jTpl: Castor]]

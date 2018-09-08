@@ -39,31 +39,25 @@ $jelix = new jCoordinator($config_file);
 $jelix->process(new jClassicRequest());
 </code>
 
-You need also to modify the @@F@myapp/project.xml@@ file in order to update the path
-of each directory, so commands of jelix-scripts will work fine (path should be 
-relative to the project.xml path). See the path of @@www@@:
+You need also to modify the @@F@myapp/application.init.php@@ file in order to
+update the path of each directory given to @@jApp@@. Path should be
+relative to the file. See the path of @@www@@:
 
-<code xml>
-<project xmlns="http://jelix.org/ns/project/1.0">
-    <!-- ...  -->
-    <directories>
-        <config>./var/config/</config>
-        <log>./var/log/</log>
-
-        <var>./var/</var>
-        <www>../</www>
-        <temp>../temp/myapp/</temp>
-    </directories>
-    <entrypoints>
-        <!-- ... -->
-    </entrypoints>
-</project>
+<code php>
+jApp::initPaths(
+    __DIR__.'/'
+    __DIR__.'/../www/',
+    __DIR__.'/var/',
+    __DIR__.'/var/log/',
+    __DIR__.'/var/config/'
+);
+jApp::setTempBasePath(realpath(__DIR__.'../temp/').'/');
 </code>
 
 ==== Moving the content of jelix-www/ ====
 
-It is finally necessary to move the @@F@lib/jelix-www@@ directory to the root and to 
-rename it in @@F@jelix/@@. You will obtain: 
+If the application does not already contain a www/jelix directory, you should
+create it by copying the directory @@F@lib/jelix-www@@. You will obtain:
 
 <code>
   mysite/
@@ -72,30 +66,19 @@ rename it in @@F@jelix/@@. You will obtain:
      myapp/
 </code>
 
-Note: you can choose another name for the @@F@jelix-www@@ directory. If you do this, you
+Note: you can choose another name for the @@F@www/jelix@@ directory. If you do this, you
 have to change the @@V@jelixWWWPath@@ option in the configuration file of the application
-(@@F@myapp/var/config/mainconfig.ini.php@@)
+(@@F@myapp/var/config/localconfig.ini.php@@)
 
 
-**WARNING: it highly recommanded to not store your own scripts/CSS/whatever in this directory or in jelix-www.**
-Else futur update will be difficult, because other colleague will be confused, and may have difficult to know
-what it comes from Jelix, and what it comes from your application. So don't modify the content of jelix-www or
-of its copies, and store your own script in an other directory, for instance, @@F@mysite/js/@@.
+**WARNING: it highly recommanded to not store your own scripts/CSS/whatever in
+this directory or in jelix-www.** Else futur update will be difficult, because
+other colleague will be confused, and may have difficult to know
+what it comes from Jelix, and what it comes from your application. So don't
+modify the content of jelix-www or of its copies, and store your own script in
+an other directory, for instance, @@F@mysite/js/@@.
 
-Finally, in the file @@F@myapp/application.ini.php@@, you must change the path (second parameter
- to @@jApp::initPaths@@):
-
-<code php>
-jApp::initPaths(
-    $appPath
-    $appPath.'../',
-    //$appPath.'var/',
-    //$appPath.'var/log/',
-    //$appPath.'var/config/',
-    //$appPath.'scripts/'
-);
-</code>
-
+==== End ====
 
 You can then enter the address of your site (http://www.mysite.com for example, or 
 http://localhost/)

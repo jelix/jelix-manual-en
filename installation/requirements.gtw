@@ -9,12 +9,6 @@ was not installed with the PHP package, install the corresponding package.
 You can install a database connector too. Jelix deals with mysql 5.5+, postgresql 9.0+,
 sqlite 3, Oracle (oci), SQL server and PDO.
 
-**To test the compatibility of your server** with Jelix, install the file
-@@F@lib/jelix_check_server.php@@ provided into the jelix archive, on your web hosting
-(without jelix, the framework is not needed), and call this page with your browser
-(example : @@http://example.com/jelix_check_server.php@@). The page displays all missing PHP
-extensions, check the PHP version etc.
-
-Jelix provides scripts to use in the command line, @@F@create-jelix-app.php@@ and @@F@cmd.php@@
-(in the application), which help you to develop a Jelix application. So you also
-should install the command line version of PHP (CLI, php.exe under windows).
+Jelix needs the command line version of PHP (CLI, php.exe under windows). So
+you can launch @@F@create-jelix-app@@, and into application you created,
+@@F@cmd.php@@ and @@F@console.php@@.

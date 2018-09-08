@@ -36,8 +36,9 @@ is the @@www/@@ directory. You can indicate it by modifying configuration files 
 or by using the web interface provided by some hosting vendor.
 
 The content of  @@F@lib/jelix-www/@@ should also be accessible from the web, through the path
-@@jelix/@@. It can be an alias in the server configuration, or a symbolic link in the @@www/@@
-directory.
+@@jelix/@@. Since Jelix 1.7, by default, its content is copied into the www/ directory
+of the application. If this is not the case, you should set an alias in the server
+configuration, or a symbolic link in the @@www/@@ directory.
 
 Jelix needs to receive a "pathinfo" in the url: this is a path after a script file. The web
 server should then be configured to support pathinfo.
@@ -74,6 +75,8 @@ In a @@F@mysite.com.conf@@ file, you set the configuration like this:
         # comment this line if you use Apache 2.2 or lower
         Require all granted
       </Directory>
+
+      # set a jelix alias, if there is no directory myapp/www/jelix
 
       # ----- "jelix" alias to jelix-wwww if jelix is installed with Composer
       Alias /jelix/ "/srv/mysite/myapp/vendor/jelix/jelix/lib/jelix-www/"
@@ -126,6 +129,7 @@ server {
         try_files $uri $uri/ =404;
     }
 
+    # remove it if there is a myapp/www/jelix directory
     location /jelix/ {
         alias /srv/mysite/myapp/vendor/jelix/jelix/lib/jelix-www/;
 
