@@ -61,7 +61,7 @@ configuration. There is not anymore a plugin system for url engines, so
        * it is required to indicate an action for the url "/". It replace the
          deprecated @@startModule@@ and @@startAction@@ configuration parameters.
        * an empty pathinfo  in @@<url>@@ is equivalent to "/".
-       * Errors during the parsing of urls.xml have been improvemed
+       * Errors during the parsing of urls.xml have been improved
        * it is possible to declare an url for a controller, without declaring
          all of its methods.
 
@@ -69,16 +69,39 @@ The migration tools generates the new urls.xml for you.
 
 ==== Improvements of the installer ====
 
-A new API for installation scripts has been created, allowing to separate
-installation and configuration for each entrypoints, and installation and configuration
-for the whole application, in particulary about configuration files.
-New classes @@jInstallerModule2@@ and @@jInstallerEntryPoint2@@ have been created.
-Your scripts can still inherits from @@jInstallerModule@@ and
-@@jInstallerEntryPoint@@ but they are deprecated.
+Until Jelix 1.6, the installation system called installation script of modules
+for each entry point. This is not the case anymore. Installation script are called
+only one time.
 
-It is also possible to deinstall a module with a new command @@php cmd.php module:uninstall@@.
-You can then implements @@uninstallEntrypoint()@@ in your install class,
-to remove some configuration parameters, to delete some files etc...
+So modules declarations ( @@[modules]@@ section) is not possible anymore in
+entry point configuration, but only in @@mainconfig.php@@, and a new API for
+installation scripts has been created.
+
+The new installation system introduces a new step for the installation of a module:
+configuration. A module can provide a class that will modify configuration
+and install files when the developer import the module into the application.
+The installation will just have to finish to initialize in the application instance.
+
+A module can also provide a class for the deinstallation. There is no anymore
+@@uninstall()@@ methods into installation class. The deinstallation class is
+copied outside the module when the developer "deconfigure" the module, so it
+allows to execute some tasks in an application instance to remove properly
+things created by the installer, even if the source code of the module has been
+removed (this is the case when it was installed with Composer and then removed).
+
+For the update of a module, you can now provide an @@upgrade.php@@ script, similar
+to @@install.php@@, which will be called at each update of the module, after
+update scripts dedicated to a specific version. It allows to do repetitive
+tasks at each update, and avoid to rewrite them in all update scripts.
+
+All this changes imply changes into API and new class to inherit from into
+module scripts. However classes written for the previous installation system
+(based on @@jInstallerModule@@ and @@jInstallerEntryPoint@@) are still
+supported, even if they are deprecated and won't be supported in next versions
+of Jelix.
+
+There are new commands, like @@module:configure@@ and @@module:unconfigure@@,
+but some other have disappear, like @@installmodule@@ and @@migrate@@.
 
 During an upgrade, jInstaller does a backup of @@F@installer.ini.php@@, so if
 something goes wrong, you can restore it.
@@ -100,6 +123,30 @@ modifying the module itself. It could be very useful with external modules,
 or even modules provided by Jelix. For example, you can indicate other version of
 bundled library, ou you can change CSS and JS depending of the environment
 (demo vs production).
+
+==== Command line script in modules ====
+
+In Jelix 1.6 and lower, it was possible to create command line scripts by
+creating a controller inheriting of @@jControllerCmdLine@@ and an entry point
+using jCmdLineCoordinator etc.. This mecanisme is still usable but is deprecated.
+
+A new mecanism is available : the module can provide commands implemented with
+the component Symfony Console, and are callable with a new script @@console.php@@
+provided by the application, and which will discover (almost) automatically
+all of these commands.
+
+==== Jelix Scripts ====
+
+Commands that help the developer, are callable with the script cmd.php of the
+application. They have been totally rewritten by using Symfony Console. Names
+and parameters of these commands have been changed.
+
+Commands about jAcl2 have been migrated into the module jacl2db, and are now
+callable with the new console.php script.
+
+The createapp.php script has been moved to a bin/ directory, renamed as  @@create-jelix-app@@
+and is based on Symfony Console. This script asks now parameters to the user,
+because of the configuration system.
 
 ==== jDb and jDao ====
 
@@ -165,12 +212,12 @@ bundled library, ou you can change CSS and JS depending of the environment
 
 ==== Other new features ====
 
-  * Scripts Jelix-scripts (cmd.php): all commands to help building
-    an application and its components are now based on the component Symfony Console.
-    Command names and their parameters have been changed.
-  * Jelix-scripts createapp:
-    * createapp.php script has been moved to a bin/ directory and is based on Symfony Console.
-    * new option @@--modulename@@ to indicate the name of the newly created module.
+  * by default, in all new application, the content of jelix-www is duplicated
+    into the directory www/jelix/ of the application, so it ease the start
+    of the developpement of the application. You can keep the old behavior:
+    having a web alias to jelix-www/ in the web server configuration. You can
+    also create a symbolic link. This is configurable by launching the configurator
+    of the module jelix, with the new command @@module:configure@@.
 
   * jAuth: persistant_crypt_key has been renamed to persistant_encryption_key
    and use a stronger random generation algorithm.

@@ -26,8 +26,8 @@ Here are all steps to follow to migrate your application.
 
 ==== Requirements ====
 
-Jelix 1.7 needs PHP 5.6 minimum. Verify that you have the right version of PHP on your
-server.
+Jelix 1.7 needs PHP 5.6 minimum. Verify that you have this version of PHP on your
+server, or an higher one. PHP 7 is recommanded.
 
 
 ==== Backup ====
@@ -53,7 +53,7 @@ this is still possible.
 So to migrate to Jelix 1.7, you have two choices: with Composer, or "by hand".
 
 
-=== You want to use Composer ===
+=== If you want to use Composer ===
 
 Install Composer by [[https://getcomposer.org|reading its instructions]].
 
@@ -106,12 +106,12 @@ require (__DIR__.'/vendor/jelix_app_path.php');
 
 Skip the following section.
 
-=== You don't want to use Composer ===
+=== If you don't want to use Composer ===
 
 Download the Jelix package from the download site of Jelix, as usual.
 
-Replace the @@lib/@@ directory by the new one. Take care about librairies stored in the previous
-lib/ that were not provided by Jelix.
+Replace the @@lib/@@ directory by the new one. Take care about librairies stored
+in the previous lib/ that were not provided by Jelix.
 
 In the @@F@application.init.php@@ file, you should then replace:
 
@@ -176,7 +176,8 @@ For "sqlite", you must migrate by hand, sqlite2 databases are not compatible wit
 So you should convert your sqlite2 files. For example, in your system that have both
 sqlite (2) and sqlite3, you can do:  @@sqlite OLD.db .dump | sqlite3 NEW.db@@.
 
-Even it is not recommended, you can still use old drivers, by installing them from [[https://github.com/jelix/legacy-db-plugins|the dedicated repository]] 
+Even it is not recommended, you can still use old drivers, by installing them
+from [[https://github.com/jelix/legacy-db-plugins|the dedicated repository]]
 or with Composer ("jelix/legacy-db-plugins" package). You should install also the PECL
 extension for sqlite2 and the old mysql PHP extension.
 
@@ -202,8 +203,8 @@ to support the pathinfo.
 
 ==== Changes about the cmd.php script ====
 
-Commands of cmd.php have been rewritten by using the Symfony Console component. So all parameters
-and options names have changed.
+Commands of cmd.php have been rewritten by using the Symfony Console component.
+So all parameters and options names have changed.
 
 If you are using the cmd.php script into other scripts, cron or else were, you should 
 change parameters and options. See @@php cmd.php help@@ to know the new syntax.
@@ -218,6 +219,10 @@ jCmdLineRequest constructor, the module and the action to execute, in addition o
 @@true@@ parameter. In 1.6, module and action values were those stored into the
 configuration parameters @@startModule@@ et @@startAction@@. These parameters are not
 supported anymore.
+
+However, it is recommended to migrate your scripts controllers to new commands
+by using Symfony Console, as @@jCmdLineCoordinator@@ and @@jCmdLineController@@
+are deprecated.
 
 ====  Custom plugin for jDb and jDao ====
 
@@ -235,18 +240,18 @@ to crypt data in the cookie for the authentication persistance, has changed.
 
 ==== Changes in installation scripts of your modules ====
 
-Because of changes in the organization of configuration files, some new classes 
-@@jInstallerModule2@@ and @@jInstallerEntryPoint2@@ are available for your install scripts.
+Because of changes in the organization of configuration files and the change
+in how the installation is done, some new classes @@\Jelix\Installer\Module\Installer@@,
+@@\Jelix\Installer\Module\Uninstaller@@, and @@\Jelix\Installer\Module\Configurator@@
+are available for your install scripts.
 
 In future version, old classes @@jInstallerModule@@ and @@jInstallerEntryPoint@@
 will be deprecated so your are encouraged to migrate your install script to the
 new API, even if your current script still work with Jelix 1.7.
 
-The main difference between the old and the new API are the renaming of methods
-@@install()@@, @@preInstall()@@ etc, to @@installEntryPoint()@@, @@preInstallEntryPoint()@@ etc.
-This new methods accept a @@jInstallerEntryPoint2@@ object as parameter. So you have
-access to methods about an entry point (@@jInstallerEntryPoint2@@), and methods about
-the application (on @@jInstallerModule2@@).
+The main difference between the old and the new API is about the visibility
+of some properties (from @@public@@ to @@protected@@), about methods @@first*()@@
+which have gone, and about the access to the configuration files.
 
 ==== Move of the themes files, overload files... ====
 
@@ -321,20 +326,24 @@ jApp::setEnv('install');
 jAppManager::close();
 
 // launch the low-level migration
-$migrator = new \jInstallerMigration(new textInstallReporter('notice', 'Low-level migration'));
+$migrator = new \Jelix\Installer\Migration(new \Jelix\Installer\Reporter\SimpleConsole('notice', 'Low-level migration'));
 $migrator->migrate();
 
 // we can now launch the installer/updater
-$installer = new jInstaller(new textInstallReporter());
-$installer->installApplication();
-
+$installer = new \Jelix\Installer\Installer(new \Jelix\Installer\Reporter\SimpleConsole());
+if (!$installer->installApplication()) {
+    exit (1);
+}
 try {
     jAppManager::clearTemp();
 }
 catch(Exception $e) {
     echo "WARNING: temporary files cannot be deleted because of this error: ".$e->getMessage().".\nWARNING: Delete temp files by hand immediately!\n";
+    exit (1);
 }
 jAppManager::open();
+exit (0);
+
 </code>
 
 
@@ -349,6 +358,7 @@ The migration system will do many changes for you:
     * migration of the Url configuration
     * migration of configuration parameters @@startModule@@ and @@startAction@@ into @@urls.xml@@
     * Remove useless configuration parameters
+    * Move @@[modules]@@ sections of entry point configuration to @@mainconfig.ini.php@@
     * Move the directory @@responses/@@ to @@app/responses@@
     * move configuration files to app/config:
        * @@mainconfig.ini.php@@, @@urls.xml@@, @@preferences.ini.php@@
