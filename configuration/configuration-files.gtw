@@ -1,4 +1,4 @@
-~~LANG:FR@frman:configuration~~
+~~LANG:FR@frman:configuration/fichiers-configuration~~
 
 A Jelix application have several configuration files:
 
@@ -111,15 +111,7 @@ practice, many parameters can be shared between them. To prevent wasteful
 repeats defines a common config file : @@F@mainconfig.ini.php@@.
 
 
-==== @@<entrypoint>/config.ini.php@@ ====
-
-Then, should lay in an entry point related config file, only specific parameters
-or overloaded parameters already defined in @@F@mainconfig.ini.php@@. 
-
-You can have a file into @@F@app/config/@@ but also into @@F@var/config@@
-if you have parameters for the environment.
-
-A glimpse at @@F@mainconfig.ini.php@@ (abstract): 
+A glimpse at @@F@mainconfig.ini.php@@ (abstract):
 
 <code ini>
 locale = "fr_FR"
@@ -138,6 +130,14 @@ jauth=2
 ...
 
 </code>
+
+==== @@<entrypoint>/config.ini.php@@ ====
+
+Then, should lay in an entry point related config file, only specific parameters
+or overloaded parameters already defined in @@F@mainconfig.ini.php@@. 
+
+You can have a file into @@F@app/config/@@ but also into @@F@var/config@@
+if you have parameters for the environment.
 
 Example: a classic request with index.php as entry point should define
 @@F@app/config/index/config.ini.php@@ file. Storing under an //index//
@@ -164,13 +164,13 @@ the @@F@mainconfig.ini.php@@ to set some parameters specific to the installation
 
 Of course, this file should not be stored into your code repository.
 
-=== liveconfig.ini.php ===
+==== liveconfig.ini.php ====
 
 Since Jelix 1.6.18, a new configuration file @@F@liveconfig.ini.php@@ allows to
 store parameters that are modified during the live of the application. It should
 not be stored into you source code repository.
 
-=== How configuration file are readed ===
+==== How configuration file are readed ====
 
 You have to know that an other configuration file @@F@defaultconfig.ini.php@@ exists into the
 @@F@lib/jelix/core/@@ directory. It contains all possible parameters and some comments.
@@ -179,8 +179,8 @@ So, to known the full configuration, Jelix reads these files in this order and m
 
   - @@F@lib/jelix/core/defaultconfig.ini.php@@,
   - @@F@app/config/mainconfig.ini.php@@
-  - @@F@var/config/localconfig.ini.php@@
   - @@F@app/config/<entrypoint>/config.ini.php@@
+  - @@F@var/config/localconfig.ini.php@@
   - @@F@var/config/<entrypoint>/config.ini.php@@
   - @@F@var/config/liveconfig.ini.php@@
 

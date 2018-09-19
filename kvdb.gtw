@@ -5,7 +5,7 @@ SQL databases.
 
 You have a @@C@jKVDb@@ from which you retrieve a connector to a key-value
 database. Like jDb, there are some "profiles", stored in the
-@@F@profiles.ini.php@@ file (See [[config#the-profiles.ini.php-file|the corresponding chapter]]),
+@@F@profiles.ini.php@@ file (See [[/configuration/configuration-files#the-profiles.ini.php-file|the corresponding chapter]]),
 where you define parameters to connect to these databases.
 
 jKVDb works with some "drivers" to access to "key-value" data. Jelix provides

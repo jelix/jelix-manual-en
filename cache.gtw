@@ -16,7 +16,7 @@ supports other kind of storage like files or a SQL database.
 ==== Configuration ====
 
 You should declare storages in a @@F@var/config/profiles.ini.php@@ file. See
-[[config#the-profiles.ini.php-file|the corresponding chapter]] to know how to
+[[/configuration/configuration-files#the-profiles.ini.php-file|the corresponding chapter]] to know how to
 use this file. It may contain some section, corresponding to a "profile", like
 for jDb or jKVDb.
 

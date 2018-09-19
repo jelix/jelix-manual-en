@@ -1,0 +1,69 @@
+~~LANG:FR@frman:configuration/repertoires-de-modules~~
+
+Modules are grouped in one or several directories called //modules group//,
+or repository of modules.
+
+===== Declaring a modules group =====
+
+Module groups are declared with @@C@jApp@@ or into the composer.json file if you
+installed Jelix with Composer. (In Jelix 1.6 and lower, it made into the
+configuration, in the properties @@V@modulesPath@@).
+
+An example with @@C@jApp@@ in the @@application.init.php@@ file:
+
+<code php>
+   jApp::declareModulesDir(__DIR__.'/modules/');
+</code>
+
+Here the directory @@F@modules/@@ is declared as a module repository.
+
+Modules from this directory could be activated and installed in your application.
+
+If you installed Jelix with Composer, you have an other solution: declare the directories
+into the composer.json file of your application. This solution is highly recommanded also
+for Composer packages which provide modules for Jelix. Declare directories and modules
+into the composer.json of the package, and it will be automatically taken account.
+
+<code json>
+{
+   ...
+   "extra" : {
+      "jelix": {
+         "modules-dir" : [
+            "modules/",
+         ]
+      }
+   }
+}
+</code>
+
+Here it declares the @@modules/@@ directory that is in the same directory of the
+composer.json.
+
+Note that modules directories provided with jelix are automatically declared.
+
+===== Declaring a single module =====
+
+Like for groups of modules, you can declare directly a module directory with @@C@jApp@@
+or into the composer.json file of the application or the composer.json file of the
+Composer package which provides the module.
+
+<code php>
+   jApp::declareModule(__DIR__.'/my_module/');
+</code>
+
+or in a composer.json file:
+
+<code json>
+{
+   ...
+   "extra" : {
+      "jelix": {
+         "modules" : [
+            "my_module/",
+         ]
+      }
+   }
+}
+</code>
+

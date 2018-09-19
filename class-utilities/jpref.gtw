@@ -11,11 +11,10 @@ and other are technical preferences that don't supposed to change.
 ==== Configuration ====
 
 @@C@jPref@@ is a class provided by the "jpref" module. Activate it
-in your configuration:
+with the configurator:
 
-<code ini>
-[modules]
-jpref.access = 1
+<code>
+php cmd.php module:configure jpref
 </code>
 
 And run the application installer.

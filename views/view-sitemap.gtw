@@ -14,11 +14,10 @@ can install it with Composer:
 composer require "jelix/sitemap-module"
 </code>
 
-Then declare the module into the configuration:
+Then activate and declare the module into the configuration:
 
-<code ini>
-[modules]
-jsitemap.access=1
+<code bash>
+php cmd.php module:configure jsitemap
 </code>
 
 Then launch the installer:

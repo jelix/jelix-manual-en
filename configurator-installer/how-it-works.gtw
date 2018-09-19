@@ -1,0 +1,84 @@
+~~LANG:FR@frman:configurateur-installer/principes-fonctionnement~~
+
+===== Configurator and installer components =====
+
+The installation system of Jelix allow to distinct two steps when integrating
+a module:
+
+1. The installation of the sources of modules, their main configuration to
+   specify their behavior, and the generic configuration of the framework
+   (not tied to the runtime environment)
+2. The installation of the application on a server and its update, meaning
+   the initialization of databases, initialization of some data and other
+   configuration settings related to the runtime environment. And also the migration
+   of all of these data and files.
+
+Note: in Jelix 1.6, these two notions were indistinct.
+
+So for the first step, we have the configurator of Jelix, and for the second one,
+we have the installer of Jelix.
+
+==== The configuration ====
+
+The first step is executed by the developer of the application. It is independant
+from the runtime environment. The developer has to integrate and parameter
+modules and framework in order to have the wanted behavior.
+
+So he install the sources of a module, and launch the configurator for this module
+(command  @@module:configure@@).
+
+At the end, some files from the directory @@app/@@, in particulary the configuration
+files into @@app/config@@ will be modified, and probably some new files will
+be created in some directory of the application, like CSS and JS files into www/.
+It happens only if the module provides a specific class for the configurator.
+If this class does not exist, probably you will have to install some files
+and modify the configuration by hand. See the documentation of the module.
+
+Whatever, the configurator of Jelix will modify at least the mainconfig.ini.php
+file to declare and activate the module.
+
+All new files and modified files should then be saved into your source code
+repository and should be deployed on servers.
+
+==== The installation ====
+
+The second step is executed by the person who install the application on a server.
+He may be the developer on his local machine, or a system administor on some
+production server.
+
+The installation has these process:
+
+1. to install the source code of the application, including files from app/config
+   modified by the first step
+2. to parameter the local configuration of the application, in particulary files
+   into var/config, which should be created (they should not be saved into the
+   source code repository).
+
+Local parameters include:
+
+1. database access properties or any other credentials to access to some services.
+2. settings which modify some behavior according to the runtime environment
+  (into localconfig.ini.php for instance). On a development server, it could be
+  settings to activate debug feature like the debug bar.
+
+After setting the local configuration, the installer of Jelix should be
+executed. It is the script @@install/installer.php@@, or the command @@app:install@@
+if it is not provided.
+
+The installer will execute all installation or migration classes provided by
+modules. These classes may create tables in a database, initialize some data etc.
+In fact, they initialize all things that allow the application to be executed
+correctly in the current runtime environment.
+
+===== To know more about the configuration/installation system =====
+
+See the section about [[installing-a-module|the installation of a module]] which
+details commandes and actions to execute in order to configure and install
+a 'vendor' module.
+
+See the chapter about the [[/installation/deployment|deployment of an application]]
+to learn how to use the installer.
+
+And when you will be familiar with the development of a module, you will
+create [[create-install-scripts|some configuration and installation scripts]].
+

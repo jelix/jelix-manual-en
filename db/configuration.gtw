@@ -2,7 +2,7 @@
 
 To be able to access a database, you need of course to specify the connection parameters
 in a configuration file. This file is @@F@profiles.ini.php@@ in @@F@var/config/@@. See
-[[/config#the-profiles.ini.php-file|the corresponding chapter]] to know how to use this
+[[/configuration/configuration-files#the-profiles.ini.php-file|the corresponding chapter]] to know how to use this
 file.
 
 You can define several connections named profiles. Thus, you can define connection for the
