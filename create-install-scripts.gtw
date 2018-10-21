@@ -102,6 +102,14 @@ class newsModuleInstaller extends jInstallerModule {
 @@C@jInstallerModule@@ contains a number of properties and method which helps
 you to access to the database, to the configuration file etc..
 
+Note: in Jelix 1.7, the installer API has changed, but even if it can still support
+the old API available in Jelix 1.6, developers may want to use the new API, and
+at the same time they may want to keep the compatibility with Jelix 1.6. The
+solution is to have two scripts: install.php for Jelix 1.7, and install_1_6.php
+(which could be a previous install.php made for 1.6). Since Jelix
+1.6.19, Jelix 1.6 execute install_1_6.php if it exists instead of install.php.
+
+
 ==== Main properties or methods ====
 
 Here are some of methods or properties you can use:

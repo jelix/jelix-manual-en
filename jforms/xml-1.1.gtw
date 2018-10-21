@@ -433,11 +433,20 @@ Listbox is one-choice only in its default behavior. However you can set @@A@mult
 
 ==== File Upload ====
 
-If you want user to upload a file to your server, use the tag @@E@<upload>@@ (equivalent to @@E@<input type="file">@@ in HTML). Set its @@A@ref@@ attribute, a @@E@<label>@@ element, and optionally  @@E@<hint>@@, @@E@<alert>@@, @@E@<help>@@ tags as well as  @@A@readonly@@ and @@A@required@@ attributes.
+If you want user to upload a file to your server, use the tag @@E@<upload>@@
+(equivalent to @@E@<input type="file">@@ in HTML). Set its @@A@ref@@ attribute,
+a @@E@<label>@@ element, and optionally  @@E@<hint>@@, @@E@<alert>@@, @@E@<help>@@ tags
+as well as  @@A@readonly@@ and @@A@required@@ attributes.
 
-This control supports two specific attributes to control file type and size. Respectively @@A@mimetype@@ (its value has to be one or more mimetype) and @@A@maxsize@@ (size in octets).
+This control supports two specific attributes to control file type and size.
+Respectively @@A@mimetype@@ (its value has to be one or more mimetype) and
+@@A@maxsize@@ (size in octets).
 
-Warning : with IE, the mimetype of jpg and jpeg files is image/pjpeg. Be sure to set mimetype="image/pjpeg" with image/jpeg if you want allow this file format.
+Since 1.6.19, it can supports also @@A@accept@@ and @@A@capture@@ attributes,
+the same as in HTML.
+
+Warning : with IE, the mimetype of jpg and jpeg files is image/pjpeg. Be sure
+to set mimetype="image/pjpeg" with image/jpeg if you want allow this file format.
 
 <code xml>
   <upload ref="photo" mimetype="image/jpeg;image/pjpeg;image/png" 

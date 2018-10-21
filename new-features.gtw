@@ -140,5 +140,16 @@ Improvements provided by 1.6.18:
   * Support of a new configuration file @@liveconfig.ini.php@@, to store
     parameters modified during the live of the application.
 
+Improvements provided by 1.6.19:
+
+  * support of a script @@install_1_6.php@@ for modules that should have an installer
+    compatible with Jelix 1.7 and 1.6.
+  * support of a @@upgrade.php@@ in modules to execute upgrade code at each
+    new version of the module.
+  * jForms: support of @@capture@@ and @@accept@@ attributes on @@<upload>@@
+  * jForms: improvements on properties of HtmlBuilder and WidgetBase to ease
+    the creation of new builders and widgets
+  * new plugins for templates: dumptolog, vardump, ifctrl_value, json_encode, jurlpattern
+
 
 Main contributors of Jelix 1.6:  Olivier Demah, Philippe Villiers, Eric D., JulienI, Couac, Brice Tence, Khena, René-luc D'hont.
