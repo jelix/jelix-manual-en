@@ -151,5 +151,13 @@ Improvements provided by 1.6.19:
     the creation of new builders and widgets
   * new plugins for templates: dumptolog, vardump, ifctrl_value, json_encode, jurlpattern
 
+Improvements provided by 1.6.20:
+
+  * New jelix script inifile.php. It allows to modifie an ini file from the commande line
+  * CRUD controller: inject the record into the view template. It allows to access to some properties that are not into the form.
+  * List of jQuery/jQueryUI files is entirely configurable. There is not anymore jquery.js filename or other jQueryUI filenames hardcoded into jforms plugins or other files. Path to these files are now indicated into the configuration, in a new jquery section.
+  * Datepicker: add locales for jforms
+
+
 
 Main contributors of Jelix 1.6:  Olivier Demah, Philippe Villiers, Eric D., JulienI, Couac, Brice Tence, Khena, René-luc D'hont.
