@@ -10,10 +10,10 @@ Dao which has to be indicated in the authentication configuration file.
 Jelix provides a module, jauthdb, which contains a default dao. If you want to use it, you can install it:
 
 <code bash>
-php cmd.php installmodule jauthdb
+php dev.php installmodule jauthdb
 
 # or if you want to add a default user "admin" at the same time, (with the password "admin")
-php cmd.php installmodule -p defaultuser jauthdb
+php dev.php installmodule -p defaultuser jauthdb
 </code>
 
 The jauthdb installer will create a jlx_users table into your database. You can

@@ -139,7 +139,8 @@ all of these commands.
 
 Commands that help the developer, are callable with the script cmd.php of the
 application. They have been totally rewritten by using Symfony Console. Names
-and parameters of these commands have been changed.
+and parameters of these commands have been changed. Dans the cmd.php script has
+been renamed to dev.php.
 
 Commands about jAcl2 have been migrated into the module jacl2db, and are now
 callable with the new console.php script.

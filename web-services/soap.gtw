@@ -67,7 +67,7 @@ As you probably saw in the entry point, some classes are used from a "jsoap"
 module. It is provided by Jelix. You should activate it:
 
 <code>
-  php.exe cmd.php module:install jsoap
+  php.exe dev.php module:install jsoap
 </code>
 
 (see the chapter about [[/installing-a-module|installing a module]])

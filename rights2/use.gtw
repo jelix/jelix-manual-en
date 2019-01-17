@@ -16,7 +16,7 @@ authentication system.
 First step: you must install the jacl2 module.
 
 <code php>
-php cmd.php module:install jacl2
+php dev.php module:install jacl2
 </code>
 
 You must also indicate the driver to use.

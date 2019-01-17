@@ -80,7 +80,7 @@ go into the @@F@testapp/install/@@ directory, and then type @@php installer.php@
 
 If there isn't wizard or dedicated installation script, you have to configure
 @@F@profiles.ini.php@@ and in @@F@localconfig.ini.php@@, then, with a console,
-go into the @@F@testapp/@@ directory and type @@php.exe cmd.php app:install@@.
+go into the @@F@testapp/@@ directory and type @@php.exe dev.php app:install@@.
 Read [[/installation/jelix-scripts|the chapter about jelix commands]] to have more
 informations about this command line.
 

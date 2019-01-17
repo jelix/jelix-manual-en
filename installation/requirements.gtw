@@ -11,4 +11,4 @@ sqlite 3, Oracle (oci), SQL server and PDO.
 
 Jelix needs the command line version of PHP (CLI, php.exe under windows). So
 you can launch @@F@create-jelix-app@@, and into application you created,
-@@F@cmd.php@@ and @@F@console.php@@.
+@@F@dev.php@@ and @@F@console.php@@.

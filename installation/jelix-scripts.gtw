@@ -3,7 +3,7 @@
 Jelix provides some few CLI scripts:
 
   - @@F@bin/create-jelix-app@@, allowing you to create a new application,
-  - and @@F@cmd.php@@ inside your application allowing to execute commands
+  - and @@F@dev.php@@ inside your application allowing to execute commands
     on your application. Particularly, you are able to create and modify some
     files easily and automatically.
 
@@ -82,11 +82,11 @@ Then you have to check two things:
    * check the PHP version you have in the command line: @@php --version@@
    * sometimes, some superglobals variables are not set correctly. @@$_SERVER['SCRIPT_NAME']@@
      may be missing. You then have to set some variables from the command line:
-     @@export SCRIPT_NAME=cmd.php@@.
+     @@export SCRIPT_NAME=dev.php@@.
 
 Read the documentation of your hosting provider.
 
-===== Using cmd.php =====
+===== Using dev.php =====
 
 Open a console (cmd.exe under windows), and go to the
 directory of your application, @@F@myapp/@@:
@@ -108,13 +108,13 @@ Then, type this kind of command line:
 With Windows:
 
 <code bash>
-php.exe cmd.php <command_name> [options] [parameters]
+php.exe dev.php <command_name> [options] [parameters]
 </code>
 
 With linux:
 
 <code bash>
-php cmd.php <command_name> [options] [parameters]
+php dev.php <command_name> [options] [parameters]
 </code>
 
 In next examples, we only show for linux, but parameters will be identical for windows.
@@ -122,19 +122,19 @@ In next examples, we only show for linux, but parameters will be identical for w
 
 ==== Command name ====
 
-You should always call @@F@cmd.php@@ with a "jelix command" name, and optionally
+You should always call @@F@dev.php@@ with a "jelix command" name, and optionally
 some options and/or parameters.
 
 First, you access help on all available commands with the @@help@@ command:
 
 <code bash>
-   php cmd.php help
+   php dev.php help
 </code>
 
 Use the @@list@@ command to see the list of all available commands.
 
 <code bash>
-   php cmd.php list
+   php dev.php list
 </code>
 
 ==== option -v ====
@@ -178,32 +178,32 @@ here is a list of some commands
 
    * Main commands
 <code>
-php cmd.php COMMAND [-v] [OPTIONS] [PARAMETERS]
+php dev.php COMMAND [-v] [OPTIONS] [PARAMETERS]
 </code>
    * Creation of one module
 <code>
-php cmd.php module:create <MyModule>
+php dev.php module:create <MyModule>
 </code>
    * Creation of one dao
 <code>
-php cmd.php module:create-dao <MyModule> <MyDao> <MyTable>
+php dev.php module:create-dao <MyModule> <MyDao> <MyTable>
 </code>
    * Creation of one class based upon a dao
 <code>
-php cmd.php module:create-class-dao <MyModule> <MyClass> <MyDao>
+php dev.php module:create-class-dao <MyModule> <MyClass> <MyDao>
 </code>
    * Creation of one form (empty of from a dao, with or without locales)
 <code>
-php cmd.php module:create-form <MyModule> <MyForm> <MyDao>
+php dev.php module:create-form <MyModule> <MyForm> <MyDao>
 </code>
    * Creation of a zone (with or without a template)
 <code>
-php cmd.php module:create-zone [--notpl] <MyModule> <MyZone> <MyTemplate>
+php dev.php module:create-zone [--notpl] <MyModule> <MyZone> <MyTemplate>
 </code>
    * Creation of one CRUD, create dao, form and CRUD controller
 <code>
-php cmd.php module:create-dao-crud <module> <table> <controller_name>
+php dev.php module:create-dao-crud <module> <table> <controller_name>
 </code>
 
-Type @@php cmd.php list@@ to have the full list. Some other chapter of the
+Type @@php dev.php list@@ to have the full list. Some other chapter of the
 manual will talk about some commands and how to use it.

@@ -14,7 +14,7 @@ and other are technical preferences that don't supposed to change.
 with the configurator:
 
 <code>
-php cmd.php module:configure jpref
+php dev.php module:configure jpref
 </code>
 
 And run the application installer.

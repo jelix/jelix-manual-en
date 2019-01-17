@@ -80,7 +80,7 @@ You can use [[/installation/jelix-scripts|jelix-scripts]] to create easily a zon
 with or without a template.
 
 <code>
-php cmd.php module:create-zone <MyModule> <MyZone> [<MyTemplate>]
+php dev.php module:create-zone <MyModule> <MyZone> [<MyTemplate>]
 </code>
 
 where the parameter <MyTemplate> is optional. The template name is
@@ -89,7 +89,7 @@ equal to the name of the zone in this case.
 To no create template, just use the option @@--notpl@@.
 
 <code>
-php cmd.php module:create-zone --notpl <MyModule> <MyZone>
+php dev.php module:create-zone --notpl <MyModule> <MyZone>
 </code>
 
 

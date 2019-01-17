@@ -16,7 +16,7 @@ The @@c@module:create@@ command helps you to create all directories of a module,
 and it activates and installs automatically the new module:
 
 <code bash>
-php cmd.php module:create mymodule
+php dev.php module:create mymodule
 </code>
 
 This command creates the module "mymodule" in your application's sub-directory
@@ -35,7 +35,7 @@ This example creates a "supermodule" module into the @@F@shared-modules/@@
 directory which is itself into the @@F@lib@@ directory provided with jelix.
 
 <code bash>
-php cmd.php module:create supermodule ../lib/shared-modules/
+php dev.php module:create supermodule ../lib/shared-modules/
 </code>
 
 See the online help of the @@c@module:create@@ command to know other options.
@@ -49,7 +49,7 @@ installation system of Jelix.
 You can indicate the version to the @@module:create@@ command, with the @@--ver@@ option:
 
 <code bash>
-php cmd.php module:create --ver 1.0 supermodule
+php dev.php module:create --ver 1.0 supermodule
 </code>
 
 You can also modify the version in the @@F@module.xml@@ file generated in the module, if needed.

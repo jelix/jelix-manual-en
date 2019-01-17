@@ -17,13 +17,13 @@ composer require "jelix/sitemap-module"
 Then activate and declare the module into the configuration:
 
 <code bash>
-php cmd.php module:configure jsitemap
+php dev.php module:configure jsitemap
 </code>
 
 Then launch the installer:
 
 <code bash>
-php yourapp/cmd.php install
+php yourapp/dev.php install
 </code>
 
 ===== Usage =====

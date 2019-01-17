@@ -201,13 +201,14 @@ Example: @@/index.php?module=foo&action=ctrl:act@@ become
 If urls does not work after the migration, verify that your server is well configured
 to support the pathinfo.
 
-==== Changes about the cmd.php script ====
+==== Changes about the cmd.php script, renamed to dev.php ====
 
 Commands of cmd.php have been rewritten by using the Symfony Console component.
-So all parameters and options names have changed.
+So all parameters and options names have changed. And its name too, which is
+now dev.php.
 
 If you are using the cmd.php script into other scripts, cron or else were, you should 
-change parameters and options. See @@php cmd.php help@@ to know the new syntax.
+change its name, parameters and options. See @@php dev.php help@@ to know the new syntax.
 
 Moreover, the script @@createapp.php@@ has been moved to @@bin/create-jelix-app@@
 or to @@vendor/bin/create-jelix-app@@ if your are using Composer.

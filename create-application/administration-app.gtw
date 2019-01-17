@@ -13,7 +13,7 @@ To create this administration interface, first, [[/db/configuration|you have to 
 Then you can run in your application:
 
 <code bash>
-   php cmd.php app:initadmin index
+   php dev.php app:initadmin index
 </code>
 
 @@index@@ is the name of the entry point (without the extension @@.php@@)

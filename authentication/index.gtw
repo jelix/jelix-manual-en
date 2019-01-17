@@ -42,7 +42,7 @@ To activate it, if you want to use ressources of the module @@jauth@@
 Use the command @@module:install@@ of jelix to install the module:
 
 <code bash>
-$ php cmd.php module:install jauth
+$ php dev.php module:install jauth
 </code>
 
 It will activate the module, and create a new file @@F@var/config/index/auth.coord.ini.php@@,

@@ -86,14 +86,14 @@ such a controller can be created using jelix-scripts :
 
 <code bash>
 # module foo creation, with a cmdline controller inside
-php cmd.php module:create --cmdline foo
+php dev.php module:create --cmdline foo
 </code>
 
 or
 
 <code bash>
 # create bar cmdline controller inside foo module
-php cmd.php module:create-ctrl --cmdline foo bar 
+php dev.php module:create-ctrl --cmdline foo bar
 </code>
 
 === Manually ===

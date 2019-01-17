@@ -61,10 +61,10 @@ controller, the dao and the form at the same time, just by indicating the table
 name.
 
 <code bash>
-php cmd.php module:create-dao-crud <the_module> <the_table> <controller_name>
+php dev.php module:create-dao-crud <the_module> <the_table> <controller_name>
 </code>
 
-See the help of this command to know options (@@php cmd.php help module:create-dao-crud@@).
+See the help of this command to know options (@@php dev.php help module:create-dao-crud@@).
 
 ===== Customizing the CRUD controller =====
 

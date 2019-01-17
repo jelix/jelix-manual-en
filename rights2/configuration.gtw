@@ -42,13 +42,13 @@ force_encoding=true
 To create and initialise tables needed by the driver, you should install the module **jacl2db**.
 
 <code php>
-php cmd.php module:install jacl2db
+php dev.php module:install jacl2db
 </code>
 
 If you want to initialize rights for a first user/group named "admin":
 
 <code php>
-php cmd.php module:install -p defaultuser jacl2db
+php dev.php module:install -p defaultuser jacl2db
 </code>
 
 Once created, you can start configuring rights.
@@ -87,7 +87,7 @@ indicating what it is about precisely. Your code is then more readable.
 Let's start by listing aleady existing subjects:
 
 <code bash>
-$ php cmd.php acl2:subjects-list
+$ php console.php acl2:subjects-list
 </code>
 
 You should have an empty list:
@@ -105,11 +105,11 @@ be existing locale key identifiers.
 Let's create your subjects:
 
 <code bash>
-$ php cmd.php acl2:subject-create "cms.articles.create" "cms~acl2.articles.create"
-$ php cmd.php acl2:subject-create "cms.articles.update" "cms~acl2.articles.update"
-$ php cmd.php acl2:subject-create "cms.articles.delete" "cms~acl2.articles.delete"
-$ php cmd.php acl2:subject-create "cms.articles.list" "cms~acl2.articles.list"
-$ php cmd.php acl2:subject-create "cms.articles.read" "cms~acl2.articles.read"
+$ php console.php acl2:subject-create "cms.articles.create" "cms~acl2.articles.create"
+$ php console.php acl2:subject-create "cms.articles.update" "cms~acl2.articles.update"
+$ php console.php acl2:subject-create "cms.articles.delete" "cms~acl2.articles.delete"
+$ php console.php acl2:subject-create "cms.articles.list" "cms~acl2.articles.list"
+$ php console.php acl2:subject-create "cms.articles.read" "cms~acl2.articles.read"
 </code>
 
 If you don't use a module allowing to manage rights with jAcl2 (like jacl2db_admin)
@@ -120,7 +120,7 @@ It the command fails, you have an error message, else the output is empty.
 Now list again the subjects:
 
 <code bash>
-$ php cmd.php acl2:subjects-list
+$ php console.php acl2:subjects-list
 +---------------+---------------------+--------------------------+
 | Subject Group | id                  | label key                |
 +---------------+---------------------+--------------------------+
@@ -135,7 +135,7 @@ $ php cmd.php acl2:subjects-list
 You can delete a subject with the following command:
 
 <code bash>
-$ php cmd.php acl2:subject-delete  <subject id>
+$ php console.php acl2:subject-delete  <subject id>
 </code>
 
 
@@ -147,21 +147,21 @@ create user groups. Use the @@acl2group:@@ commmands type.
 Let's create a writers group for our users. You should indicate an key and optionaly a label.
 
 <code bash>
-$ php cmd.php acl2group:create "writers" "Writers"
+$ php console.php acl2group:create "writers" "Writers"
 </code>
  
 Let's create a second group and make it the default one with @@--default@@.
 A default group is a group where every new user will be added to.
 
 <code bash>
-$ php cmd.php acl2group:create --default  "readers" "Readers"
+$ php console.php acl2group:create --default  "readers" "Readers"
 </code>
 
 
 You can now list your groups with @@acl2group:list@@:
 
 <code bash>
-$ php cmd.php acl2group:list
+$ php console.php acl2group:list
 +---------+---------+---------+
 | Id      | label   | default |
 +---------+---------+---------+
@@ -173,21 +173,21 @@ $ php cmd.php acl2group:list
 You can switch the "default" group with the @@acl2group:default@@ command:
 
 <code bash>
-$ php cmd.php acl2group:default readers
+$ php console.php acl2group:default readers
 # or
-$ php cmd.php acl2group:default --no-default readers
+$ php console.php acl2group:default --no-default readers
 </code>
 
 You can change a group name with @@acl2group:name@@:
 
 <code bash>
-$ php cmd.php acl2group:name writers "Authors"
+$ php console.php acl2group:name writers "Authors"
 </code>
 
 Or delete a group with @@acl2group:delete@@ (it doesn't delete users):
 
 <code bash>
-$ php cmd.php acl2group:delete writers
+$ php console.php acl2group:delete writers
 </code>
 
 ==== Managing users into groups ====
@@ -195,7 +195,7 @@ $ php cmd.php acl2group:delete writers
 In groups, you should add users. To add a user, you should declare him:
 
 <code bash>
-$ php cmd.php acl2user:register  laurent
+$ php console.php acl2user:register  laurent
 </code>
 
 Note that it doesn't create the user into jAuth, just in jAcl2. A private group is created.
@@ -204,25 +204,25 @@ Then you can add him to a group. You should use the command @@acl2user:addgroup@
 bye indicating the group name and the user.
 
 <code bash>
-$ php cmd.php acl2user:addgroup readers laurent
+$ php console.php acl2user:addgroup readers laurent
 </code>
 
 To remove a user from a group:
 
 <code bash>
-$ php cmd.php acl2user:removegroup laurent readers
+$ php console.php acl2user:removegroup laurent readers
 </code>
 
 To see the list of users of a group:
 
 <code bash>
-$ php cmd.php acl2user:list readers
+$ php console.php acl2user:list readers
 </code>
 
 To see the list of all users:
 
 <code bash>
-$ php cmd.php acl2user:list
+$ php console.php acl2user:list
 </code>
 
 ==== Rights creation ====
@@ -233,14 +233,14 @@ You want to add readers the right to read and list articles. Let's associate
 subjects @@cms.articles.list@@ and @@cms.articles.read@@ to the readers group:
 
 <code bash>
-$ php cmd.php acl2:add readers "cms.articles.list"
-$ php cmd.php acl2:add readers "cms.articles.read"
+$ php console.php acl2:add readers "cms.articles.list"
+$ php console.php acl2:add readers "cms.articles.read"
 </code>
 
 Check rights list with @@cl2:list@@ command:
 
 <code bash>
-$ php cmd.php acl2:list
+$ php console.php acl2:list
 +----------+------------+-------------------+----------+
 | Group id | Group name | Subject           | Resource |
 +----------+------------+-------------------+----------+
@@ -255,17 +255,17 @@ a right that is applied on any resource.
 Now, you want to deal with writers and give them all rights on @@cms.articles@@.
 
 <code bash>
-$ php cmd.php acl2:add writers "cms.articles.list"
-$ php cmd.php acl2:add writers "cms.articles.read"
-$ php cmd.php acl2:add writers "cms.articles.create"
-$ php cmd.php acl2:add writers "cms.articles.delete"
-$ php cmd.php acl2:add writers "cms.articles.update"
+$ php console.php acl2:add writers "cms.articles.list"
+$ php console.php acl2:add writers "cms.articles.read"
+$ php console.php acl2:add writers "cms.articles.create"
+$ php console.php acl2:add writers "cms.articles.delete"
+$ php console.php acl2:add writers "cms.articles.update"
 </code>
 
 Again, let's list all rights:
 
 <code bash>
-$ php cmd.php acl2:list
+$ php console.php acl2:list
 +----------+------------+---------------------+----------+
 | Group id | Group name | Subject             | Resource |
 +----------+------------+---------------------+----------+
@@ -284,12 +284,12 @@ to edit. You should add the right to update this specific article to readers
 group. Let's create a right on the resource "advices" with @@acl2:add@@ command:
 
 <code bash>
-$ php cmd.php acl2:add readers "cms.articles.update" "advices"
+$ php console.php acl2:add readers "cms.articles.update" "advices"
 </code>
 
 checking of rights list: 
 <code bash>
-$ php cmd.php acl2:list
+$ php console.php acl2:list
 +----------+------------+---------------------+----------+
 | Group id | Group name | Subject             | Resource |
 +----------+------------+---------------------+----------+
@@ -310,7 +310,7 @@ similarly to @@acl2:add@@ (and optionally a resource if one is involved).
 Say you change your mind about the "advices" article, because there is too much crap ;-):
 
 <code bash>
-$ php cmd.php acl2:remove readers "cms.articles.update" "advices"
+$ php console.php acl2:remove readers "cms.articles.update" "advices"
 </code>
 
 Once all rights are injected, your application is able to work following your
