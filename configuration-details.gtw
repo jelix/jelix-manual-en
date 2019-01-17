@@ -269,12 +269,75 @@ disableCache = on  // default to off
 
 ==== urlengine section ====
 
-@TODO : to complete
+Defines how the url engine works.
+
+<code ini>
+[urlengine]
+engine        = significant
+
+enableParser = on
+multiview = off
+
+scriptNameServerVariable =
+pathInfoInQueryParameter =
+
+basePath = ""
+jelixWWWPath = "jelix/"
+
+defaultEntrypoint= index
+
+simple_urlengine_https =
+</code>
+
+Details:
+
+  * **engine** : name of the used engine. Available engines are: simple,
+    basic_significant and significant
+  * **enableParser** : activate the parsing of the url. Deactivate it if
+    the url is parsed by the web server (with the mod_rewrite of Apache for
+    exemple), and is given to Jelix as a simple url without pathinfo, like
+    for the simple url engine.
+  * **multiView** : indicate if the ".php" part of the entrypoints name should
+    be added or not into generated url. It is possible to activate it if
+    the multiview option in Apache is activated or if there is a rewrite rule
+    into the web server that adds the ".php".
+  * **scriptNameServerVariable** : the name of the variable into $_SERVER
+    containing the script name. Example: for the url http://mysite.com/foo/index.php,
+    it is the variable which contains "/foo/index.php". The name can be
+    SCRIPT_NAME, ORIG_SCRIPT_NAME, PHP_SELF or REDIRECT_SCRIPT_URL. It is
+    automatically detected by jelix, but in some server configuration, it
+    may not work and you should indicate the variable name.
+  * **pathInQueryParameter** : if the webserver has some rewrite rules that move
+   the pathinfo into a query parameter (like @@RewriteRule ^(.*)$ index.php/?jpathinfo=$1 [L,QSA]@@)
+    then you must indicate the name of this query parameter into pathInfoInQueryParameter (here "jpathinfo").
+  * **basePath** : this parameter is the web path to your index.php. It is
+    automatically detected, but some time the detection fails, and you should
+    indicate it.
+    For example, if the url of the index.php is @@http://foo.com/aaa/bbb/www/index.php@@,
+    then you should indicate @@/aaa/bbb/www/@@. If the url is simply
+    @@http://foo.com/index.php@@, then the base path is @@/@@.
+  * **jelixWWWPath** : contains the web path to the lib/jelix-www/ content.
+    If you modify it, modify also path into the htmleditors, wikieditors, datepickers,
+    jquery. See below.
+  * **jqueryPath** : contains the web path to the directory having jQuery/jQueryUI
+    files of jelix (typically, web path to lib/jelix-www/jquery/). You can
+    modify it, if you want to provide your own jQuery/jQueryUI files. But in this
+    case, the content should have same filenames. However, @@jqueryPath@@ is
+    deprecated since Jelix 1.6.20, as there is a new way to define your own jQuery
+    files. See the jquery section below.
+  * **defaultEntrypoint** : contains the default entrypoint name
+  * **simple_urlengine_https** : contains the list of actions that need HTTPS
 
 
+=== notfound ===
 
+The default page to display when a page is not find. @@notfoundAct@@ should
+contains the action selector which will display the 404 error. By default,
+it is @@jelix~error:notfound@@
 
-
+<code ini>
+notfoundAct =
+</code>
 
 ==== logfiles section ====
 
@@ -369,4 +432,116 @@ shared_session = off
 ; storage = "dao"
 ; dao_selector = "jelix~jsession"
 ; dao_db_profile = ""
+</code>
+
+
+
+==== section forms ====
+
+Contains parameters for widgets of jForms.
+
+First parameters for the datepicker:
+
+<code ini>
+[forms]
+; define input type for datetime widgets : "textboxes" or "menulists"
+controls.datetime.input = "menulists"
+
+; define the way month labels are displayed widgets: "numbers", "names" or "shortnames"
+controls.datetime.months.labels = "names"
+
+; define the default config for datepickers in jforms
+datepicker = default
+datetimepicker = default
+</code>
+
+Then parameters for the captcha. All type of captcha are defined here (@@simple@@
+and @@recaptcha@@), with for each, the name of the class which validate the
+captcha, and the widget name.
+
+<code ini>
+captcha.simple.validator=\jelix\forms\Captcha\SimpleCaptchaValidator
+captcha.simple.widgettype=captcha
+
+captcha.recaptcha.validator=\jelix\forms\Captcha\ReCaptchaValidator
+captcha.recaptcha.widgettype=recaptcha
+</code>
+
+You define the default type of captcha you want to use into @@captcha@@:
+
+<code ini>
+; default captcha type
+captcha = simple
+</code>
+
+
+==== jquery section ====
+
+This section exists since Jelix 1.6.20. It is possible to indicate the web
+path of jQuery files and jQueryUI files, allowing to use your own version
+of jQuery.
+
+<code ini>
+[jquery]
+jquery = $jqueryPath/jquery.js
+jqueryui.js[] = $jqueryPath/ui/jquery-ui-core-widg-mous-posi.custom.min.js
+jqueryui.css[] = $jqueryPath/themes/base/jquery.ui.all.css
+</code>
+
+@@jqueryui.js[]@@ means an array of files.
+
+You can use some "variables", like @@$jqueryPath@@, which will be replaced
+by the value of @@jqueryPath@@ of the urlengine section. You can use also
+@@$jelix@@ which will be replaced by the value of @@jelixWWWPath@@.
+You can also indicate a simple path relative to the base path, or an absolute
+path.
+
+==== datepickers and datetimepickers section ===
+
+For each type of datepickers, you indicate the path of the initialisation script
+for jforms (the parameter name is the type name, @@<type>=...@@).
+Since Jelix 1.6.20, you indicate also the list of JS and CSS files that the
+widget will declare into the html page. Parameters names are @@<type>.js[]=...@@
+and @@<type>.css[]=...@@.
+
+<code ini>
+[datepickers]
+default = jelix/js/jforms/datepickers/default/init.js
+default.js[]=$jqueryPath/ui/jquery-ui-core-widg-mous-posi.custom.min.js
+default.js[]=$jqueryPath/ui/jquery.ui.datepicker.min.js
+default.js[]=$jelix/js/jforms/datepickers/default/ui.$lang.js
+default.js[]=$jqueryPath/ui/i18n/jquery.ui.datepicker-$lang.js
+default.css[]=$jqueryPath/themes/base/jquery.ui.all.css
+</code>
+
+====  htmleditors section ====
+
+define for each type of htmleditor, its name, the list of js files,
+the web path to the script that initialize the html editor for jForms, and
+its CSS file.
+
+Here for the "default" html editor.
+
+<code ini>
+[htmleditors]
+default.engine.name = wymeditor
+default.engine.file[] = $jelix/jquery/jquery.js
+default.engine.file[] = $jelix/wymeditor/jquery.wymeditor.js
+default.config = $jelix/wymeditor/config/default.js
+default.skin.default  = $jelix/wymeditor/skins/default/screen.css
+</code>
+
+====  wikieditors section ====
+
+<code ini>
+[wikieditors]
+default.engine.name = wr3
+default.wiki.rules = wr3_to_xhtml
+; path to the engine file
+default.engine.file = jelix/markitup/jquery.markitup.js
+; define the path to the "internationalized" file to translate the label of each button
+default.config.path = jelix/markitup/sets/wr3/
+; define the path to the image of buttons of the toolbar
+default.image.path = jelix/markitup/sets/wr3/images/
+default.skin = jelix/markitup/skins/simple/style.css
 </code>
