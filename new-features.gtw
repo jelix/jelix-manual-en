@@ -28,11 +28,11 @@ those that are specific to a server (in @@F@var/@@).
 
 This is the case for:
 
-   * main configuration. It is now in @@F@app/config@@, containing
+   * main configuration. It is now in @@F@app/system@@, containing
      @@F@mainconfig.ini.php@@, @@F@urls.xml@@,
      configuration files of plugins, of SOAP etc. Other files like @@F@localconfig.ini.php@@,
      @@F@profiles.ini.php@@ stay in @@F@var/config@@.
-   * @@F@config.ini.php@@ of entry points can be in both @@F@app/config@@ and
+   * @@F@config.ini.php@@ of entry points can be in both @@F@app/system@@ and
      @@F@var/config@@
    * @@F@overloads@@, @@F@themes@@ and @@F@locales@@ directories. They should
      be in @@F@app/@@. @@F@var/overloads@@,

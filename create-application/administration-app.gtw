@@ -57,7 +57,7 @@ share both modules code and databases of course).
 
 Administration modules should be accessible only through the entry point
 dedicated to the administration. So you must declare these modules
-in the right @@<entrypoint>@@ element into the @@F@app/config/urls.xml@@.
+in the right @@<entrypoint>@@ element into the @@F@app/system/urls.xml@@.
 
 <code xml>
  <entrypoint name="admin">

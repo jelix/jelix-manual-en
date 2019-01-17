@@ -68,7 +68,7 @@ You can retrieve them with these specific methods:
   $path = jApp::appPath();      // the full path of the application directory
   $path = jApp::varPath();      // the full path of the var directory of the application (var/)
   $path = jApp::logPath();      // the full path of the log directory of the application (var/log)
-  $path = jApp::appConfigPath();// the full path of the static config directory of the application (app/config)
+  $path = jApp::appSystemPath();// the full path of the static config directory of the application (app/system)
   $path = jApp::varConfigPath();// the full path of the variable config directory of the application (var/config)
   $path = jApp::wwwPath();      // the full path of the web directory of the application (app/www)
   $path = jApp::scriptsPath();  // the full path of the scripts directory of the application (app/scripts)

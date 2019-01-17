@@ -17,7 +17,7 @@ All are automatically generated when you create an application or a module (exce
 However, you have to modify them to bring additionnal information or to change
 parameters. 
 
-Except @@F@project.xml@@ and @@F@module.xml@@ files, configuration files are in @@F@app/config/@@ 
+Except @@F@project.xml@@ and @@F@module.xml@@ files, configuration files are in @@F@app/system/@@
 for default parameters (@@F@mainconfig.ini.php@@, @@F@config.ini.php@@, @@F@urls.xml@@...),
 or @@F@var/config/@@ for parameters specific to the server environment (@@F@localconfig.ini.php@@,
 @@F@profiles.ini.php@@...).
@@ -79,7 +79,7 @@ describes some general information, and dependencies with other modules.
 </module>
 </code>
 
-===== The file app/config/urls.xml =====
+===== The file app/system/urls.xml =====
 
 It defines the mapping between URLS and controllers. 
 
@@ -99,12 +99,12 @@ structured by sections (@@[section name]@@). Each section is a collection of
 @@parameter-name=value@@ pairs. There is a generic section, un-named, usually at
 the start of such file.
 
-The main configuration file is @@F@app/config/mainconfig.ini.php@@. However you could have
+The main configuration file is @@F@app/system/mainconfig.ini.php@@. However you could have
 different parameters for each entry point, and for each environment. This is why 
 there are additionnal ini files, which are merged with the main configuration file
 at runtime.
 
-==== @@app/config/mainconfig.ini.php@@ ====
+==== @@app/system/mainconfig.ini.php@@ ====
 
 As said before, each entry point may have its specific config file. Although in
 practice, many parameters can be shared between them. To prevent wasteful
@@ -136,13 +136,13 @@ jauth=2
 Then, should lay in an entry point related config file, only specific parameters
 or overloaded parameters already defined in @@F@mainconfig.ini.php@@. 
 
-You can have a file into @@F@app/config/@@ but also into @@F@var/config@@
+You can have a file into @@F@app/system/@@ but also into @@F@var/config@@
 if you have parameters for the environment.
 
 Example: a classic request with index.php as entry point should define
-@@F@app/config/index/config.ini.php@@ file. Storing under an //index//
+@@F@app/system/index/config.ini.php@@ file. Storing under an //index//
 sub-directory serves only a better organization (As each entry point may have
-its config file, @@F@app/config@@ would quickly become a mess).
+its config file, @@F@app/system@@ would quickly become a mess).
 
 A specific config should only define or redefine a small amount of properties:
 
@@ -178,8 +178,8 @@ You have to know that an other configuration file @@F@defaultconfig.ini.php@@ ex
 So, to known the full configuration, Jelix reads these files in this order and merge them:
 
   - @@F@lib/jelix/core/defaultconfig.ini.php@@,
-  - @@F@app/config/mainconfig.ini.php@@
-  - @@F@app/config/<entrypoint>/config.ini.php@@
+  - @@F@app/system/mainconfig.ini.php@@
+  - @@F@app/system/<entrypoint>/config.ini.php@@
   - @@F@var/config/localconfig.ini.php@@
   - @@F@var/config/<entrypoint>/config.ini.php@@
   - @@F@var/config/liveconfig.ini.php@@

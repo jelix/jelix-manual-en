@@ -6,7 +6,7 @@ Once you have created a [[/controllers|controller]], you can call one of its
 public method. So you have to indicate the needed information in the urls.
 
 There is a mapping between an URL and an action (module/controller/method).
-All mapping is stored into the @@app/config/urls.xml@@ file.
+All mapping is stored into the @@app/system/urls.xml@@ file.
 
 If an url is not indicated to a specific action into @@urls.xml@@ then
 to access to the action is made with an url like that:

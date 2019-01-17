@@ -20,8 +20,8 @@ section of the configuration, but you should also indicate from which entry
 point it is accessible.
 
 If your admin interface has a specific entry point, like admin.php (by default),
-and if your module is for the admin interface, you should indicate in the configuration
-that your module is accessible only via this entry point.
+and if your module is for the admin interface, you should indicate its urls
+into the urls.xml, in the section corresponding to the admin.php entry points.
 
 For exemple, here is a basic configuration in the @@var/config/urls.xml@@, 
 for an admin interface in which you want to manage users and rights with the

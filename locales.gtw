@@ -266,7 +266,7 @@ locale as usual:
 $lang = jApp::config()->locale;
 </code>
 
-To use autolocale plugin, add the given section into @@F@app/config/mainconfig.ini.php@@
+To use autolocale plugin, add the given section into @@F@app/system/mainconfig.ini.php@@
 or into the configuration file of one of entry points:
 
 <code ini>

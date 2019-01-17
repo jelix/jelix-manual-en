@@ -22,7 +22,7 @@ more specific "loggers".
 ==== Configuring jLog ====
 
 To specify loggers, you must fill the @@[logger]@@ section (in
-@@F@app/config/mainconfig.ini.php@@ or @@F@var/config/localconfig.ini.php@@). By
+@@F@app/system/mainconfig.ini.php@@ or @@F@var/config/localconfig.ini.php@@). By
 default:
 
 <code ini>

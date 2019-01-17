@@ -64,7 +64,7 @@ and method. In fact, this is a mapping between a pathinfo and a controller.
 There is at lease one URL to specify: the homepage url, which is obviously
 @@/@@.
 
-This is done into the file @@F@app/config/urls.xml@@.
+This is done into the file @@F@app/system/urls.xml@@.
 
 See [[/urls/mapping|the page about how to setting up the mapping]].
 

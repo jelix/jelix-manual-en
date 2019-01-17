@@ -360,8 +360,9 @@ The migration system will do many changes for you:
     * migration of configuration parameters @@startModule@@ and @@startAction@@ into @@urls.xml@@
     * Remove useless configuration parameters
     * Move @@[modules]@@ sections of entry point configuration to @@mainconfig.ini.php@@
+    * in the @@[modules]@@ section, rename properties @@*.access@@ to @@*.enabled@@
     * Move the directory @@responses/@@ to @@app/responses@@
-    * move configuration files to app/config:
+    * move configuration files to app/system:
        * @@mainconfig.ini.php@@, @@urls.xml@@, @@preferences.ini.php@@
        * entry point configuration files
        * configuration files of plugins for the coordinator

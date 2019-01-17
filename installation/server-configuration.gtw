@@ -172,7 +172,7 @@ should see "/foo/bar".
 
 You can choose an other name for the alias of @@F@jelix-www@@. If you do this, you have to 
 change the @@V@jelixWWWPath@@ option into the section @@urlengine@@ of the configuration file 
-@@F@var/config/localconfig.ini.php@@ or @@F@app/config/mainconfig.ini.php@@.
+@@F@var/config/localconfig.ini.php@@ or @@F@app/system/mainconfig.ini.php@@.
 
 ==== Specifying the basePath ====
 

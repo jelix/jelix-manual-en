@@ -315,7 +315,7 @@ The classes you indicate should be loaded before calling @@jSoapClient::get()@@.
 
 Since Jelix 1.5, you can declare this mapping into a separate ini file. You should
 indicate this file into a @@classmap_file@@ property in the profile. This file 
-should be into @@yourapp/app/config/@@.
+should be into @@yourapp/app/system/@@.
 
 <code ini>
 [jsoapclient:default]

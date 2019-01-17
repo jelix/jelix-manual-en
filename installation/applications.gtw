@@ -20,7 +20,7 @@ server. Here the directories you have:
       modules/      modules of the application
       plugins/      plugins of the application
       app/responses/  common responses for the application
-      app/config/    static configuration files of the application
+      app/system/    static configuration files of the application
       temp/         where temporary files will be stored
       var/          contain all the files created or that can be modified by Jelix during execution
          config/    configuration files of the application depending of the environment
