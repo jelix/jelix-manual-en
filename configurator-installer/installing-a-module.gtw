@@ -1,4 +1,4 @@
-~~LANG:FR@frman:configurateur-installer/installer-un-module~~
+~~LANG:FR@frman:configurateur-installateur/installer-un-module~~
 
 This section is not targeting new modules created with the @@c@module:create@@
 command, as this command activate and install the new module.
@@ -51,7 +51,7 @@ If the module declares some dependencies, the configurator will enable the
 dependent modules, and will launch their configurators too.
 
 Of course, if you have several entry points, the module should be accessible
-only from a one of them. So don't forget to [[/urls|configure correctly the url engine]],
+only from a one of them. So don't forget to [[/components/urls|configure correctly the url engine]],
 and so Jelix could generate modules URLS correctly with their respective entrypoints.
 
 Note: if you want to enable all modules, you can set this option in the global

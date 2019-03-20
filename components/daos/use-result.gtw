@@ -1,0 +1,281 @@
+~~LANG:FR@frman:recuperation-enregistrements~~
+
+Creating, modifying and deleting records in a database is very useful. However,
+it's not as useful as being able to fetch records and use them. The page on the
+[[use|use of a dao factory and record]] showed you the create, the delete and the
+update. This is the page on the fetch, or the "select data" part of jDao.
+
+Depending on how and how much results are needed, the method is somewhat different.
+
+===== Retrieve a single record =====
+
+To retrieve a single record by specifying it's key (the primary key in the database),
+the method to use is called @@M@get()@@.
+
+There is no need to further parse the return value of the @@M@get()@@ function since
+it will fetch the specified record and return it as an object. The object is design
+so that each column name is the name of a variable, and the column value, the variable value.
+
+<code php>
+    // instantiation of the factory
+    $myFactory = jDao::get("foo");
+   
+    // retrieve a record whose content corresponds
+    // to the record with identifier = 3
+    $baz = $myFactory->get(3);
+
+    // the id of the record is 3, as we specified
+    echo $baz->id;
+</code>
+
+In the case where the primary key is several fields, declared like this in your
+xml file, @@A@primarykey="key1,key2"@@, you have to give all key values at te same time:
+
+<code php>
+  $myFactory = jDao::get("foo");
+
+  // 3 and 4 are values of key1 and key2
+  $baz = $myFactory->get(3, 4);
+</code>
+
+or
+
+<code php>
+  $myFactory = jDao::get("foo");
+
+  // 3 and 4 are values of key1 and key2
+  $baz = $myFactory->get(array(3, 4));
+</code>
+
+Careful: the order of the value should be the same as the order of the declaration
+of keys in the primarykey attribute. Eg, @@$myFactory->get(4, 3)@@ is different
+from @@$myFactory->get(3, 4)@@.
+
+The @@M@delete()@@ method works in the same way.
+
+===== Retrieving several records =====
+
+When all the records are needed, the @@M@findAll()@@ method is used. This method
+will return a result set, (@@C@jDbResultSet@@ class) containing all the results
+from the database in the order they where added to the database. Remember that
+this class implements the @@C@Iterator@@ interface, so it can be used into a
+foreach statement.
+
+<code php>
+    // instantiation of the factory
+    $myFactory = jDao::get("foo");
+   
+    // retrieve a complete list of the foo type records
+    $list = $myFactory->findAll();
+   
+    foreach ($list as $row) {
+        // $row content a record
+        echo $row->id;
+    }
+</code>
+
+You can use also two other methods to retrieve records. The first one being @@M@fetch()@@
+which fetches one row from the result set as an object and advances the internal
+pointer one step. 
+
+<code php>  
+    // fetch the records one at the time
+    while ($row = $list->fetch) {
+        // do something with the record
+        echo $row->id;
+    }
+</code>
+
+The second one being @@M@fetchAll()@@ which returns an array containing an object
+for each row in the result set.
+
+<code php>
+    // fetch all the records as an array of objects
+    $rows = $list->fetchAll();
+
+    foreach ($rows as $rowID => $row) {
+        // do something with the record
+        echo $row->id;
+    }
+</code>
+
+You can make other retrieving methods by specifying them in the xml file (see
+[[/components/daos/xml_methods|Declaring methods in the XML file]] and [[/components/daos/php_methods|Adding PHP methods to the factory]]) .
+
+===== Retrieve record(s) through criteria =====
+
+To retrieve record(s) through criteria, there are three simple methods available,
+@@M@findBy()@@, @@M@countBy()@@ and @@M@deleteBy()@@. These methods have one
+required parameter, a @@jDaoConditions@@ object, which contains all the conditions.
+
+<code php>
+   $a_name = "something";
+
+   // create the jDaoConditions object
+   $conditions = jDao::createConditions();
+   $conditions->addCondition('label', '=', $a_name);
+   $conditions->addCondition('status', '=', 5);
+   
+   $list = $myFactory->findBy($conditions);
+   $count = $myFactory->countBy($conditions);
+</code>
+
+In the same way as the @@M@findAll()@@ method, @@M@findBy()@@ returns a
+@@C@jDbResultSet@@ object, which gives you  the list of records corresponding
+to indicated criteria.
+
+The @@M@addCondition()@@ method take as parameter a property name, an operator
+(SQL), and a value.
+
+You can specify an order of select with the method @@M@addItemOrder()@@, and group
+various criterion together with @@M@startGroup()@@ and @@M@endGroup()@@:
+
+<code php>   
+   $conditions = jDao::createConditions();
+   
+   // condition : label = $a_name AND (status=5 OR status=4) ORDER BY label desc
+   $conditions->addCondition('label','=',$a_name);   
+   $conditions->startGroup('OR');
+        $conditions->addCondition('status','=',5);
+        $conditions->addCondition('status','=',4);
+   $conditions->endGroup(); 
+   $conditions->addItemOrder('label','desc');
+   
+   $list = $myFactory->findBy($conditions);
+</code>
+
+To add a limit, you can specify additional parameters to the @@M@findBy()@@ method:
+the offset and the number of records to fetch.
+
+<code php>
+$list = $myFactory->findBy($conditions, 0, 15);
+</code>
+
+As for the @@M@countBy()@@ method it takes one additional parameter: the property
+name that we want to apply a DISTINCT clause.
+
+<code php>
+// SELECT COUNT(DISTINCT table.label)...
+$count = $myFactory->countBy($conditions, 'label');
+</code>
+
+Lastly, the @@M@deleteBy()@@ method allow to delete records corresponding to indicated
+criteria, it returns the number of deleted records:
+
+<code php>
+$nb_deleted = $myFactory->deleteBy($conditions);
+</code>
+
+You will see that you can get the same result by defining methods in the xml file.
+However, you will choose @@M@findBy()@@ or a xml-defined method, depending of the context.
+
+Criteria-based retrieving is best used when you don't know the number of criterion
+and their type. This includes things such as a complex search form, where the user
+can choose which criterion are applied. Criteria-based retrieving is also best used
+when the query is used only one time or very rarely. This is because the xml-defined
+methods are compiled to PHP, and thus are included each time you call the factory.
+It may not be useful to always include some code which is seldomly used. Using
+criteria-based retrieving will improve the global performances in that case.
+
+In the other cases, it is recommended to use xml methods, especially when you know
+the criteria by advance (without forcibly knowing their value of course), and when
+it is an often used research. jDao generates SQL queries during the generation of
+the PHP file, so this is a process it has not to do when executing the page. 
+
+For example, we often redefine the @@M@findAll@@ method in XML, to be able to specify
+a retrieving order...
+
+=== SQL operators ===
+
+As explained before, @@M@addCondition()@@ tak a sql operator as a second parameter.
+Here are the operators supported:
+
+  * LIKE, NOT LIKE, ILIKE,
+  * IN, NOT IN,
+  * IS, IS NOT,
+  * IS NULL, IS NOT NULL,
+  * MATCH, REGEXP, NOT REGEXP, RLIKE, SOUNDS LIKE, BETWEEN
+  * @@~@@, @@!~@@, @@~*@@, @@!~*@@  (operators for regular expression for postgresql)
+
+== Special case with NULL ==
+
+To test a (non) NULL value, you can use any supported operators, even "=" or "!=".
+Don't forget to pass the php @@V@null@@, not the string @@V@"NULL"@@.
+
+<code php>
+    $conditions->addCondition('status','=', null); // equivalent to IS NULL
+    $conditions->addCondition('status','!=', null);  // equivalent to IS NOT NULL
+    $conditions->addCondition('status','IS', null);
+    $conditions->addCondition('status','IS NOT', null);
+    $conditions->addCondition('status','IS NULL', null);
+    $conditions->addCondition('status','IS NOT NULL', null);
+    $conditions->addCondition('status','LIKE', null);
+    $conditions->addCondition('status','NOT LIKE', null);
+    ...
+</code>
+
+== Regular expressions ==
+
+Some databases like Postgresql support regular expressions. For postgresql you can then use keywords @@~@@, @@!~@@, @@~*@@, @@!~*@@.
+
+<code php>
+    $conditions->addCondition('status','~', '^test');
+    ...
+</code>
+
+Other operator like @@REGEXP@@, @@NOT REGEXP@@ are also supported. Verify first if it is compatible with your database.
+
+==== Adding methods on record objects ====
+
+If you need to add some PHP methods on record objects (to
+calculate values from field values for example), you can
+define a base class for the dao.
+
+You have to use the @@extends@@ attribut on the @@record@@
+element. Its value is the selector of your base class:
+
+
+<code xml>
+ <!-- fichier mymodule/daos/mydao.dao.xml -->
+ ...
+ <record extends="mymodule~myrecord">
+  ...
+ </record>
+ ...
+</code>
+
+Your base class should be store in a file which have the class name
+and the suffix @@.daorecord.php@@, in the @@daos/@@ directory of your module.
+The class should follow these rules:
+
+   * the class should be abstract
+   * the name of the class should have the suffix @@DaoRecord@@
+     (but this suffix is not indicated in the selector)
+   * the class should inherits from @@C@jDaoRecordBase@@
+
+
+
+<code php>
+// file mymodule/daos/myrecord.daorecord.php
+
+abstract class myrecordDaoRecord extends jDaoRecordBase {
+    function calculateTotal() {
+       return $this->amount + $this->vat;
+       // ...
+    }
+}
+</code>
+
+Then you can call this method on each records:
+
+<code php>
+
+   $maFactory = jDao::get("mymodule~myrecord");
+   $list = $maFactory->findAll();
+
+   foreach ($list as $row) {
+        $total = $row->calculateTotal();
+        //...
+   }
+</code>
+

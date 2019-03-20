@@ -1,0 +1,112 @@
+~~LANG:FR@frman:composants/daos/utilisation~~
+
+You have seen how to describe a dao in a xml file (see [[file]]). You have to
+place this file in a @@F@daos/@@ directory of a module and name it like this :
+@@F@name.dao.xml@@ where //name// is the name of your dao.
+
+Remember that you actually define two objects:
+
+   * a dao object which is a factory, and inheriting from @@C@jDaoFactoryBase@@:
+     it allows you to retrieve, insert, modify, delete one ore several records.
+     It proposes basic methods, but also has the methods that you will have
+     described in the xml file in the @@E@<factory>@@ section.
+   * a dao record object, inheriting form @@C@jDaoRecordBase@@, representing a
+     database record whose properties are described in the xml file.
+
+===== Retrieving the factory and an empty DAO record =====
+
+To be able to retrieve these objects, you have to use the @@C@jDao@@ object
+which proposes several static methods:
+
+   * @@M@get()@@: allows to get a factory. Always return the same instance (use a singleton)
+   * @@M@create()@@: allows to get a new instance of a factory. Rarely useful.
+   * @@M@createRecord()@@: allows to get an empty dao record object.
+   * @@M@createConditions@@: allows to get a @@C@jDAOConditions@@ object which
+     is useful to specify some select conditions to retrieve a set of record objects.
+
+@@M@get()@@, @@M@create()@@ and @@M@createRecord()@@ all take a dao file
+selector as parameter and an optional parameter which is the name of the
+[[/components/database|jDb profile]] to use (if this parameter is not specified, it will use the
+default one).
+
+If the used jDb profile specifies a table prefix, then all used tables in the
+dao file will be prefixed.
+
+If we have @@F@foo.dao.xml@@ dao file in the //bar// module :
+
+<code php>
+   $myDao = jDao::get("bar~foo");
+   // or if this line of code is in a file of the bar module :
+   $myDao = jDao::get("foo");
+   
+   $myRecord = jDao::createRecord("foo");
+</code>
+
+@@V@$myDao@@ contains a factory of //foo//, and @@V@$myRecord@@ an empty record
+of //foo// type.
+
+
+===== Create, modify, delete a record =====
+
+The @@M@insert()@@, @@M@update()@@, and @@M@delete()@@ methods of the factory
+are made for this. You specify a record to the first two methods. For
+@@M@delete@@, you specify the keys of the record.
+
+==== Create ====
+
+You should get a new record, fill it and then call the @@M@insert@@ method of
+the factory.
+
+<code php>
+   // get the factory
+   $myFactory = jDao::get("foo");
+
+   // create a new record
+   $record = jDao::createRecord("foo");
+
+   // fill the record
+   $record->foo = "hello";
+   $record->bar = "...";
+
+   // save the record
+   $myFactory->insert($record);   
+
+</code>
+
+If there are some autoincremented fields, the corresponding properties will be
+updated by the @@M@insert@@ methode with the new value.
+
+
+==== Update ====
+
+The process is the same as record creation: you retrieve a record, you modify
+its properties, then you call the @@M@update@@ method of the factory:
+
+<code php>
+   // get the factory
+   $myFactory = jDao::get("foo");
+
+   // retrieve the record which have 3 as primary key
+   $record = $myFactory->get(3);
+
+  // fill the record
+   $record->foo = "hello";
+   $record->bar = "...";
+
+   // save the record
+   $myFactory->update($record);   
+
+</code>
+
+
+==== Delete ====
+
+You should call the @@M@delete@@ method of the factory, by giving the primary key of the record to delete.
+
+<code php>
+   // get the factory
+   $myFactory = jDao::get("foo");
+
+   // delete the record which have 3 as id
+   $myFactory->delete(3);
+</code>

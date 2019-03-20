@@ -1,0 +1,84 @@
+~~LANG:FR@frman:composants/daos/evenements~~
+
+A DAO factory can automatically generate [[/components/events|events]] on methods call.
+
+===== Native methods events =====
+
+@@update@@, @@insert@@, @@delete@@ and @@deleteby@@ methods can generate events,
+either before or after execution, or both. To activate event dispatching,
+you have to declare which events your application want to catch in the @@events@@
+attribute of the @@<factory>@@ element. Event names are separated by a comma. Full event list includes:
+@@deletebefore@@, @@deleteafter@@, @@updatebefore@@, @@updateafter@@,
+@@insertbefore@@, @@insertafter@@, @@deletebybefore@@, @@deletebyafter@@.
+
+Below is a detailed list of each event and its parameters. Every event has a
+@@dao@@ parameter corresponding to their dao selector.
+
+  * @@daoDeleteBefore@@ : @@key@@ (key values of the to be deleted record)
+  * @@daoDeleteAfter@@ : @@key@@, @@result@@ (1 if record is truely deleted)
+  * @@daoDeleteByBefore@@ : @@key@@, @@criterias@@ (objet jDaoConditions)
+  * @@daoDeleteByAfter@@ : @@key@@, @@criterias@@, @@result@@ (number of deleted records)
+  * @@daoUpdateBefore@@ : @@record@@ (to be updated record object)
+  * @@daoUpdateAfter@@ : @@record@@
+  * @@daoInsertBefore@@ : @@record@@ (to be inserted record object)
+  * @@daoInsertAfter@@ : @@record@@
+
+Here an example.
+
+
+==== Dao file =====
+
+You have to add the property @@events@@ to the element @@E@<factory>@@ (event names should be lowercase).
+
+<code xml>
+  <factory events="deleteAfter, insertAfter"> ...
+</code>
+
+==== Listener ====
+
+In the directory @@F@classes/@@ of the module, create a file @@F@my.listener.php@@ which defines listeners:
+
+<code php>
+class myListener extends jEventListener{
+ 
+   function onDaoDeleteAfter ($event) {
+        $dao = $event->getParam('dao');
+        if ($dao == 'mymodule~thedao') {
+            $keys = $event->getParam('keys');
+            //...
+        }
+   }
+</code>
+
+If you want to modify a property of the given record:
+
+<code>
+$event->getParam("record")->myPropriety = $Variable;
+</code>
+
+==== events.xml ====
+
+The file @@F@events.xml@@ of your module declares your listeners:
+
+<code xml>
+<events xmlns="http://jelix.org/ns/events/1.0">
+   <listener name="my">
+       <event name="daoInsertAfter" />
+       <event name="daoDeleteAfter" />
+   </listener>
+</events>
+</code>
+
+===== Customized method events =====
+
+Customized @@update@@ or @@delete@@ methods (XML or PHP methods) can declare
+@@eventbefore@@ and/or @@eventafter@@ attributes and set them to @@true@@ or @@false@@.
+
+Generated events will be: @@daoSpecificUpdateBefore@@, @@daoSpecificUpdateAfter@@,
+@@daoSpecificDeleteBefore@@ et @@daoSpecificDeleteAfter@@.
+
+They will be emitted with those parameters:
+
+  * @@dao@@: dao selector
+  * @@method@@: method name
+  * @@params@@: parameters list

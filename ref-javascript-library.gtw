@@ -3,7 +3,7 @@ This chapter describes the javascript library used inside Jelix.
 ====== jQuery and jQuery UI ======
 
 
-Jelix uses [[https://jquery.com/|jQuery]] inside the framework, and more with [[jforms|jForms]].
+Jelix uses [[https://jquery.com/|jQuery]] inside the framework, and more with [[/components/jforms|jForms]].
 
 Versions used are the following :
 
@@ -18,7 +18,7 @@ The HTML editor provided into Jelix is [[https://wymeditor.github.io/|Wymeditor]
 
 ====== MarkitUp ======
 
-Jelix uses [[https://markitup.jaysalvat.com/home/|MarkitUp]] inside the framework, as a [[jforms/xml/wikieditor|wikieditor]].
+Jelix uses [[https://markitup.jaysalvat.com/home/|MarkitUp]] inside the framework, as a [[/components/jforms/xml/wikieditor|wikieditor]].
 
 The current version is 1.1.14.
 

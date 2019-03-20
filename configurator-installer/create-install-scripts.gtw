@@ -1,4 +1,4 @@
-~~LANG:FR@frman:configurateur-installer/creer-script-installation~~
+~~LANG:FR@frman:configurateur-installateur/creer-script-installation~~
 
 Jelix provides a configuration and installation system, which allows to execute
 scripts when you integrate a module into your application, or when you install

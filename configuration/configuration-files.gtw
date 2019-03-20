@@ -86,7 +86,7 @@ It defines the mapping between URLS and controllers.
 You don't have to define all urls, since default urls are 
 @@index.php/<module>/<controller>/<method>@@.
 
-See [[urls|the dedicated chapter]].
+See [[/components/urls|the dedicated chapter]].
 
 Note: before Jelix 1.7, this files was optional, because different URLs engine
 were available. Since Jelix 1.7, it is mandatory, and should contain at least

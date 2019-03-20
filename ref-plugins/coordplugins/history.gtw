@@ -1,0 +1,172 @@
+~~LANG:FR@frman:ref-plugins/coordplugins/history~~
+
+History is a coordinator plugin, it brings some features related with user browsing history.
+
+===== Plugin declaration =====
+
+To activate History plugin, set indicate it into the @@[coordplugins]@@ section.
+
+<code ini>
+[coordplugins]
+history = 1
+</code>
+
+If you use several coordinator plugins, the order of the plugins declaration in
+the config file matters. See the [[/plugins/coord|documentation of coordinator plugins]].
+Keep that in mind when declaring the History plugin.
+
+
+=====  Principle =====
+
+History plugin records couples of actions/parameters.
+
+To have 'myapp~default:index' taken into account and registered by the History
+plugin, you must ask it specifically with the help of @@$pluginParams@@ into the
+controller.
+
+By default no record is performed if you don't request it that way.
+
+<code php>
+public $pluginParams = array(
+    '*'     => array('history.add'=>false),
+    'index' => array('history.add'=>true,
+    'history.label'=>'Home', 'history.title'=>'Go to Homepage')
+);
+</code>
+
+  * @@history.add@@ (Boolean): If true allows to add a couple to the history
+  * @@history.label@@ (String): A name for this couple
+  * @@history.title@@ (String): A description for this couple
+
+===== Configuration =====
+
+All the configuration parameters should be set into a @@[coordplugin_history]@@
+section of the configuration file (@@mainconfig.ini.php@@).
+
+==== Size limit ====
+
+The size of the History is limited to a certain number of couples
+(default is 10), this limit is customizable in the plugin parameters.
+
+<code ini>
+[coordplugin_history]
+; max size of the history
+maxsize = 20
+</code>
+
+==== Avoid duplicates ====
+
+By default, History records couples one after another keeping the duplicates.
+If you wish the duplicates to be deleted from the History, you must set it in the parameters.
+
+<code ini>
+[coordplugin_history]
+; if single = true then each page will be registered only once in history
+; the latter will be retained.
+single = true
+</code>
+
+
+==== Keep record of reloads ====
+
+When you execute twice the same couple it is added only once.
+If you want the reloads to be visible in the History you must modify the 'double' parameter.
+
+<code ini>
+[coordplugin_history]
+; If double = false pages will not appear twice a follow time in history.
+double = false
+</code>
+
+===== Change attributes of a couple when executing =====
+
+If you use only @@$pluginParams@@ to declare the couples, you are soon limited
+for instance to modify the label according to the parameters.
+
+Example: 
+
+We want to have the @@'Page Hello'@@ label for the value @@"foo"@@ of a @@var@@
+parameter (@@myapp.com/index.php/myapp/default/index?var=foo@@) and we want to
+have the @@'Page Bye'@@ label for the value @@var@@. (@@myapp.com/index.php/myapp/default/index?var=bar@@).
+
+If we use the basic declaration:
+
+<code php>
+public $pluginParams = array(
+        '*'     => array('history.add'=>false),
+        'index' => array('history.add'=>true, 'history.label'=>'Page Hello')
+);
+</code>
+
+we will have the same label @@'Page Hello'@@ for both URL.
+
+To get what we want, we must write:
+
+<code php>
+public $pluginParams = array(
+        '*'     => array('history.add'=>false),
+        'index' => array('history.add'=>true)
+);
+
+function index() {
+    $rep = $this->getResponse('html');
+    
+    if( $this->param('var') !== null ) {
+        $values = array('foo'=>'Hello', 'bar'=>'Bye');
+        jApp::coord()->getPlugin('history')->change('label', 'Page '.$values[$this->param('var')]));
+    }
+    
+    $rep->body->assign('MAIN', $rep->body->fetch('myapp~page'));
+    return $rep;
+}
+</code>
+
+===== Use History to reload the page =====
+
+One frequent case is: you want to execute an action (after a keystroke for example) and come back to the same page.
+
+To perform this, History plugin provides a simple command.
+
+<code php>
+$history = jApp::coord()->getPlugin('history');
+return $history->reload( $this->getResponse('redirect') );
+</code>
+
+If you would like to reload the page modifying one or two parameters, you have just to do this:
+
+<code php>
+$history = jApp::coord()->getPlugin('history');
+$ret = $history->reload( $this->getResponse('redirect') );
+
+$ret->params['foo'] = 'bar';
+
+return $ret;
+</code>
+
+===== Use History to come back to previous page =====
+
+Another frequent case is: get the link to come back to previous page.
+
+<code php>
+$history = jApp::coord()->getPlugin('history');
+return $history->back( $this->getResponse('redirect') );
+</code>
+
+==== Use History to know how long the internet user has been visiting the site =====
+
+To get this, you must give parameters to the time and session_time_name variables,
+so that the entrance time on the site is recorded.
+
+<code ini>
+; if time = true a variable record time spent on site
+time = true
+; the name of this variable
+session_time_name = "HISTORYTIME"
+</code>
+
+Then to catch the time spent on the site, you have just to do
+
+<code php>
+$history = jApp::coord()->getPlugin('history');
+$delais = $history->time();
+</code>

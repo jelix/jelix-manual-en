@@ -29,7 +29,7 @@ In your profiles.ini.php:
 
 </code>
 
-To know more about configuration of jKvdb, see [[/kvdb#drivers|its documentation]].
+To know more about configuration of jKvdb, see [[/components/kvdb#drivers|its documentation]].
 
 ==== Usage ====
 
@@ -49,7 +49,7 @@ $val = jPref::get('nb.items.per.page');
 
 A module jpref_admin is provided, to manage preferences from the
 administration interface. Pages are directly accessible from the "System"
-menu of [[/create-application/administration-app|master_admin]].
+menu of [[/application/administration-app|master_admin]].
 
 However you should fill the file  @@var/config/preferences.ini.php@@ to
 add preferences that are editable, and how : their label, default value,

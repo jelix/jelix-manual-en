@@ -3,7 +3,7 @@
 @@master_admin@@ is a module providing a web interface dedicated to
 administration.
 
-Before to custom the user interface, [[/create-application/administration-app|you should create it]].
+Before to custom the user interface, [[/application/administration-app|you should create it]].
 
 The module contains three zones:
 

@@ -1,7 +1,0 @@
-~~LANG:EN@frman:autres-vues~~
-
-Some external modules can provide other type of views.
-
-  * To generate XUL content, there is [[https://github.com/jelix/jelix-contrib/tree/master/modules/jelix/xul/|the XUL module]].
-  * To generate RDF content, there is [[https://github.com/jelix/jelix-contrib/tree/master/modules/jelix/rdf/|the RDF module]].
-  * To generate PDF from Latex content, there is [[https://github.com/jelix/jelix-contrib/tree/master/modules/jelix/latex2pdf/|the latex2pdf module]].

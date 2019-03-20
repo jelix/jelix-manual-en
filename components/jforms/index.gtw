@@ -1,0 +1,33 @@
+~~LANG:FR@frman:composants/jforms~~
+
+jForms is a form system which makes easier the creation of forms. Forms are
+described in an XML file, and used throughout an API and template-plugins. it
+allows you to automatically:
+
+   * generate the HTML form, by displaying required fields, help etc, and in a flexible manner
+   * display labels in an accessible manner
+   * generate javascript validation script
+   * validate data in the server side
+   * display verbose error-reporting and helper messages
+   * manage several instances of a form at the same time - allowing to edit several records 
+     at the same time
+   * initialize a form from one or several DAO's data (with inputs, listbox, radios etc ...)
+   * save data with DAOs
+   * save uploaded files.
+   * generate other types of forms (with ajax, XForms etc ...) using some jforms plugins
+   * support complex field like native captcha-fields, Wysiwyg editing field, groups, 
+     complex choices and so on..
+   * modify dynamically the form (add, remove, modify some controls)
+
+jForms includes three distinct parts:
+
+   * [[xml|XML files]] describing the forms,
+   * server-side API to [[usage|manage a form and it's data]],
+   * template plugins to [[display|display an instance of a form]].
+
+jForms generates an object (which inherits from jFormsBase) from the XML
+description, allowing to initialize the form's contents, to save it, to
+add/remove some controls etc ... The object contains all the input in it's
+properties.
+
+The jFormsBase object is also used by template-plugins to display the appropriate HTML elements.

@@ -2,7 +2,7 @@
 
 ===== URLs: identifying an action =====
 
-Once you have created a [[/controllers|controller]], you can call one of its
+Once you have created a [[/modules/controllers|controller]], you can call one of its
 public method. So you have to indicate the needed information in the urls.
 
 There is a mapping between an URL and an action (module/controller/method).
@@ -97,4 +97,4 @@ index.php file, the type is "@classic."
 
 If in an action selector, we just indicate the type of request, it refers to the
 module and the action indicated for the URL "/" into the configuration.
-To know more, read [[/urls|configuration and use of urls in Jelix]].
+To know more, read [[/components/urls|configuration and use of urls in Jelix]].

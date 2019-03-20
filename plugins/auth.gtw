@@ -1,6 +1,6 @@
 ~~LANG:FR@frman:plugins/auth~~
 
-If [[/authentication/drivers|standard drivers]] for [[/authentication|jAuth]] 
+If [[/components/authentication/drivers|standard drivers]] for [[/components/authentication|jAuth]]
 don't suit your needs, you can create one.
 
 
@@ -20,7 +20,7 @@ directory of a [[/plugins#adding-a-plugins-repository|plugins repository]].
 ===== Activation =====
 
 To activate your driver, you have to set @@driver@@ option in your
-[[/authentication|auth plugin configuration file]]. Still in this 
+[[/components/authentication|auth plugin configuration file]]. Still in this
 file, you can add  an @@example@@ section and fill below all your 
 driver specific options.
 

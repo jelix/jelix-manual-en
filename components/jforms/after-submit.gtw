@@ -1,0 +1,218 @@
+~~LANG:FR@frman:composants/jforms/apres-submit~~
+
+Once a form has been created, displayed and then filled by the user, it is submitted to an action.
+
+This action should retrieve form data, check their values and process them (saving for example).
+
+===== Fill your form =====
+
+Remember that @@M@jForms::fill()@@ method return your form object **and** fill it with user input data:
+
+<code php>
+    $form = jForms::fill("main~contact");
+</code>
+
+Which is the same as: 
+
+<code php>
+    $form = jForms::get("main~contact");
+    $form->initFromRequest();
+</code>
+
+You can again use @@M@setData()@@ to overload user inputs or fill some empty controls for example.
+
+<code php>
+    $form = jForms::get("main~contact");
+    $form->setData('name', $this->param('name'));
+</code>
+
+
+===== Check data =====
+
+Once you have a form object filled with submitted data, you should check
+precisely if this is what you expect before going on processing. @@M@check()@@
+method does basic checkings based on what you described in your XML file (if a
+field is required, if field data type is correct, etc...). @@M@check()@@ returns
+true if all checkings pass, false otherwise. 
+
+If data validation fails, you'll generally display your form again with error
+messages. if you do so, @@M@check()@@ will have automatically displayed error
+messages on your form and your user will have to correct them.
+
+<code php>
+    $form = jForms::fill("main~contact");
+    if (!$form->check()) {
+        // invalid: redirect to "show" action
+        $rep = $this->getResponse('redirect');
+        $rep->action='module~default:show';
+        return $rep;
+    }
+</code>
+
+You can, of course, implement more complex checkings on data. In order to access
+control data, call @@M@getData()@@ method. In order to set an error on a
+particular field, use @@M@setErrorOn()@@.
+
+<code php>
+    $form = jForms::fill("main~contact");
+    if (!$form->check()) {
+        // invalid : redirect to "show" action
+        $rep = $this->getResponse('redirect');
+        $rep->action='module~default:show';
+        return $rep;
+    }
+    $ok = true;
+    $valeur = $form->getData('nom');
+    if( strpos($value, 'qwerty') !== null) {
+        $ok = false;
+        $form->setErrorOn('name', 'you should spell your real name !');
+    }
+     // other checks
+     //....
+
+    if (!$ok) {
+        // invalid : redirect to "show" action
+        $rep = $this->getResponse('redirect');
+        $rep->action='module~default:show';
+        return $rep;
+    }
+</code>
+
+
+===== Get the list of modified values =====
+
+When a form has been initialized or reset, edited and then submitted, It can be
+useful to get the list of modified values.
+
+This is a 2 step process : 
+  * Before displaying your form to a user, call @@M@initModifiedControlsList()@@ method. 
+    Thus, you tell jForm you want to track modified records. If you don't need it, do not
+    call it since all data values are cloned and stored in session, occupying memory.
+  * Upon submit, call @@M@getModifiedControls()@@ method. It returns an arrays of 
+    modified controls. its keys are control names and its values are old control values.
+
+
+<code php>
+    // in your prepare action
+    $form = jForms::create("main~contact");
+    $form->initFromDao(...);
+    $form->initModifiedControlsList();
+
+
+    // in your submit action
+    $form = jForms::fill("main~contact");
+    if (!$form->check()) {
+        ...
+    }
+    $list = $form->getModifiedControl();
+
+</code>
+
+
+
+===== Storing data =====
+
+Once all checkings are ok, you can extract data of your form object through
+calls of @@M@getData()@@ method or simply @@M@getAllData()@@ call which
+retrieves all form data under a PHP array. And then, you could save them to
+database with jDao or jDb, send some parts by mail, and so on.
+
+
+==== Storing through DAO ====
+
+Reflecting @@M@initFromDao@@ which fills a form, @@M@saveToDao@@ allows you to
+save user inputs via DAO. Values of fields whose name equals dao properties are
+affected to said dao, on a record. Record key is your form id. If you haven't
+set a form id, a new record will be created instead of updating an existing
+record.
+
+<code php>
+   $form->saveToDao('shop~products');
+</code>
+
+If your primary key is not an auto-increment, and it is a new record, you should
+transmit its value as second argument of @@M@saveToDao()@@. It also accepts an
+optional jDb profile argument.
+
+Note that @@M@saveToDao()@@ method returns primary key of the processed record.
+
+<code php>
+   $primaryKey = $form->saveToDao('shop~products');
+</code>
+
+
+@@saveToDao()@@ is really handy, but if you just want to fill a dao record with your
+form contents and then set/edit its properties and save it after use
+@@M@prepareDaoFromControls()@@ method. It is an identical signature as
+@@saveToDao()@@, ie. same arguments except that it returns an array containing a dao
+record (@@L@daorec@@), its dao factory (@@L@dao@@), and a boolean
+(@@L@toInsert@@) telling if the record already exists or not.
+
+<code php>
+   $result = $form->prepareDaoFromControls('shop~products');
+   $result['daorec']->other_field='bla';
+   if($result['toInsert'])
+      $result['dao']->insert($result['daorec']);
+   else
+      $result['dao']->update($result['daorec']);
+</code>
+
+
+==== Storing values of a multiple choices control ====
+
+As well as @@M@saveToDao()@@, @@M@saveControlToDao()@@ does the opposite of
+@@M@initControlFromDao()@@. It then save selected values of checkboxes or
+multpile choices listbox in a //join// table.
+
+<code php>
+   $form->saveControlToDao('categories', 'shop~products_categories');
+</code>
+
+First arg is a field name and the second a dao selector which will be used for storage.
+
+
+==== Storing files ====
+
+If your form has file upload controls, you'll have to store those files upon
+submit. jForms API has two methods dedicated: @@M@saveFile()@@ and
+@@M@saveAllFiles()@@. The first one deals with one file and the latter deals
+with every file uploaded and save them in a same directory. Be aware that you'll
+find original filename in its control data (which you access calling @@getData()@@).
+Use @@setData()@@ to modify this name if needed.
+
+@@M@saveFile()@@ take your control name as argument. Its default behaviour will
+store file in @@F@var/uploads/module_name~form_name/@@ folder. An optional
+second argument is supported to override @@M@saveFile()@@ default behaviour and
+store your file in your folder of choice. And a third one, if you want to modify
+its filename.
+
+Example :
+<code php>
+    $form->saveFile('photo');
+    $form->saveFile('photo', jApp::wwwPath('images/photos/'));
+    $form->saveFile('photo', jApp::wwwPath('images/photos/'), $id.'.png');
+    $form->saveFile('photo', '', $id.'.png');
+</code>
+
+@@M@saveAllFiles@@ copy all uploaded files to a directory. The default one is
+@@F@var/uploads/module_name~form_name/@@, but you can override it by providing a
+second argument:
+
+<code php>
+    $form->saveAllFiles();
+    $form->saveAllFiles(jApp::wwwPath('images/photos/'));
+</code>
+
+
+===== Destroy a form object =====
+
+When a form object is no more used (inputs done, submitted, data checked and
+treated/stored), you are advised to destroy your form object to lighten session
+data. Use @@M@jForms::destroy@@ and give it your form selector and your form id
+(if there is one).
+
+<code php>
+   jForms::destroy("main~contact");
+   jForms::destroy('shop~products');
+   jForms::destroy('shop~products', $product_id);
+</code>

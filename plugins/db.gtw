@@ -5,7 +5,7 @@ A driver allows to access to a specific database.
 
 ===== Activation =====
 
-See the [[/db|chapter about jDb]] tp know how to activate a driver for jDb.
+See the [[/components/database|chapter about jDb]] tp know how to activate a driver for jDb.
 
 ===== Creating a jDb driver =====
 

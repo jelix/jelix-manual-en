@@ -1,0 +1,80 @@
+~~LANG:FR@frman:composants/droits/concepts~~
+
+jAcl2 covers every feature about rights management or access control lists
+(ACL). Access control lists are a way to manage application permissions in a
+fine-grained, yet easily maintainable and manageable way. But what is a right?
+A right in jAcl2 is defined with three elements.
+
+
+===== Right elements =====
+
+You must distinguish between different elements composing a right:
+
+  * a subject, or a role if you prefer
+  * a user
+  * a resource (optional)
+
+Group one of each elements listed above and you have a right. 
+
+==== subject/role ====
+
+It is a label referencing a thing that the user has right to do/access.
+It is a role. As for example, "**cms.articles.create**" could reference the right
+to create a CMS article.
+
+To prevent conflicts between modules, a subject should start with its module
+name followed by a controller name and eventually a right label. But it is of
+course not mandatory.
+
+Example:
+<code>
+    cms.articles.read
+    cms.articles.create
+    cms.articles.update
+    cms.articles.delete
+</code>
+
+==== user ====
+
+A right or permission is always related to one or more users. The jAcl2 API
+defines this notion transparently. Only the ACL "driver" is in charge of knowing
+really the current user (through jauth of course). A driver could even manage
+user groups to which it applies rights or permissions (as in jAcl2.db). But
+don't bother about that. 
+
+==== Resource ====
+
+In most cases, associating a //subject// and a //user// is enough. But a more
+fine-grained control is sometimes needed.
+
+As for example, in a CMS, you want to give an author the right to modify its
+articles but not the other ones. In that case, the right must be defined as a
+combination of a subject, a user and an article id. See below:
+
+   * "cms.articles.create" for "authors" group
+   * "cms.articles.update" on "myarticle" for "Bob" of "authors" group.
+
+===== functional description =====
+
+In fact, jAcl2 core only contains links or relations between two/three element types. 
+
+Storing this relations between a user, a subject and optionally a resource
+defines a right. Note that the non-existence of such a relation between some
+elements does not mean no rights apply.
+
+Imagine the list of rights below:
+
+   * "cms.articles.read" for user "laurent"
+   * "cms.articles.create" for user "laurent"
+   * "cms.articles.update" for user "laurent"
+
+Then, //laurent// will have the right to read, create and modify CMS articles
+but NOT the right to delete ("cms.articles.delete") because there is no relation
+of that subject with laurent.
+
+A CMS admin module would ask jAcl2 about what a user can do. For example, it
+could ask if the currently authenticated user has the right to
+"cms.article.update". If the answer is yes, the module could display an edit
+button. (of course, it should also check this right upon saving to prevent
+"frauds" ;-) ).
+

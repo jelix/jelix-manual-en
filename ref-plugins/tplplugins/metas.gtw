@@ -18,7 +18,7 @@ To setup the @@E@<title>@@ tag of your page, you just need to do as follow :
 
 ===== assets =====
 
-To use an [[view/view-html#using-webassets|assets group]], and so to integrate all of its JS
+To use an [[/modules/view/view-html#using-webassets|assets group]], and so to integrate all of its JS
 and CSS links, use @@assets@@:
 
 <code html>

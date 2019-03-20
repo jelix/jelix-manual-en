@@ -1,0 +1,159 @@
+~~LANG:FR@frman:composants/droits/utilisation~~
+
+If a module has to implement access control or right management, you have to:
+
+  * determine which subjects you'll use.
+  * optionnaly store them with the driver setup for jAcl2, an LDAP driver or a database driver [[configuration|like jAcl2.db]]
+  * then, use jAcl2 static methods to check if the current user has this or that right on this or that subject.
+
+If your jAcl2 driver supports user groups, you don't have to bother about them,
+your driver will take care of. Of course a jAcl2 driver can use jAuth as
+authentication system.
+
+
+===== Configuration =====
+
+First step: you must install the jacl2 module.
+
+<code php>
+php dev.php module:install jacl2
+</code>
+
+You must also indicate the driver to use.
+
+Drivers are plugins in jAcl2 system. They are stored in @@V@acl2@@ folder of a
+plugins repository. A jAcl2 plugin is a class @@C@fooAcl2Driver@@ (@@foo@@ being
+the plugin name) implementing @@I@jIAcl2Driver@@ interface and located in
+@@F@foo.acl2.php@@ file. As for example, "db" driver is the class
+@@C@dbAcl2Driver@@ in @@F@db/db.acl2.php@@ file. 
+
+To set the driver, you have two choices:
+
+   * if it is provided by a module, like jacl2db, just install the module. If
+     you want to use jAcl2.db, see [[configuration|configuration of jAcl2.db]]
+     for details.
+   * If a plugin is provided without a module, just indicate its name into
+     an @@acl2@@ section in your application configuration:
+
+<code ini>
+[acl2]
+driver=db
+</code>
+
+Since Jelix 1.6.8, there is also a "dbcache" driver, which is similar to the
+"db" driver (it works with jAcl2.db) but stores also rights result into a cache
+using jCache.
+
+===== Check a right with jAcl2 =====
+
+As jAcl2 discovers on its own the current user, you have on 99% cases only one
+method to use: @@M@jAcl2::check()@@.
+
+==== jAcl2::check ====
+
+
+It will probably be the most used method for checking rights. It returns right or false, of course. Example:
+
+<code php>
+if( jAcl2::check("cms.articles.create")){
+   // current user has the right to create an article
+}else{
+   // current user has no right to create an article
+}
+</code>
+
+If you want to check a right about a precise resource:
+
+<code php>
+$article_id = "opinions";
+
+if( jAcl2::check("cms.articles.update", $article_id)){
+   // current user has the right to modify THIS article
+}else{
+   // current user has no right to modify THIS article
+}
+</code>
+
+If the value of the resource is empty or equal to "-", it means "every resources".
+
+
+==== Automatic checking ====
+
+The installer of the jacl2 module, setup a coordinator plugin for jAcl2. This plugin
+check rights automatically before calling a controller.
+
+You should have this configuration:
+
+<code ini>
+[coordplugins]
+jacl2 = "1"
+</code>
+
+The plugin have a configuration in a @@coordplugin_jacl2@@ section:
+
+<code ini>
+[coordplugin_jacl2]
+on_error=2
+error_message="jacl2~errors.action.right.needed"
+on_error_action="jelix~error:badright"
+</code>
+
+   * @@on_error@@ should be equals to 1 for web service entry points (soap, jsonrpc, xmlrpc...)
+   * @@error_message@@ indicates the selector of the localized string containing the error message
+   * @@on_error_action@@ indicates the selector of the action where the application should redirect when check fails.
+
+The plugin will try to retrieve these plugin parameters in your controllers: @@jacl2.right@@, @@jacl2.rights.and@@, @@jacl2.rights.or@@.
+
+To check only one right, use @@jacl2.right@@:
+
+<code php>
+
+   public $pluginParams = array(
+        '*' => array( 'jacl2.right'=>'subject', ...)
+        ...
+   );
+</code>
+
+Or, to check a sequence of rights about the current user, use @@jacl2.rights.and@@:
+
+<code php>
+
+   public $pluginParams = array(
+     '*' => array( 'jacl2.rights.and'=>array('subject1', 'subject2', ..)
+            ),
+        ...
+   );
+</code>
+
+Or else, to check if current user has any of a sequence of rights, use @@jacl2.rights.or@@:
+
+<code php>
+
+   public $pluginParams = array(
+     '*' => array( 'jacl2.rights.or'=>array('subject1', 'subject2', ..)
+            ),
+        ...
+   );
+</code>
+
+==== template plugins ifacl2 and ifnotacl2 ====
+
+jAcl2 comes with two template plugins useful to conditionnally generate content
+upon rights criteria. Their arguments are the same of @@M@jAcl2::check()@@.
+
+<code>
+  {ifacl2 "cms.articles.create"}
+    <input type="button" value="create an article" />
+  {else}
+   <p>You cannot create an article.</p>
+  {/ifacl2}
+</code>
+
+@@{ifnotacl2}@@ is of course the contrary to @@{ifacl2}@@, ie. it tests if the user does NOT have the given right.
+
+You can also indicate resources:
+<code>
+  {ifacl2 "cms.articles.update", $article_id}
+    <input type="button" value="Edit article" />
+  {/ifacl2}
+</code>

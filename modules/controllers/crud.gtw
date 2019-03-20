@@ -1,0 +1,309 @@
+~~LANG:FR@frman:modules/controleurs/crud~~
+
+===== Introduction =====
+
+A CRUD controller is provided by Jelix: jControllerDaoCrud.
+
+CRUD acronym means "Create, Read, Update, Delete". As a result,
+jControllerDaoCrud defines all actions needed to list records and to
+individually read, update, create or delete one of them.
+
+All you have to specify is a jDao and a jForm selector. With that,
+jControllerDaoCrud will offer you a full operational interface to manage the
+content of an SQL result set.
+
+This is a must to quickly create admin interfaces.
+
+This controller only works with tables whom primary key is composed of one
+field. If your table has a primary key composed of two fields you have to use
+jControllerDaoCrudDfk. Other cases, code your own controller.
+
+===== Creating a CRUD =====
+
+To use all possibilities of the CRUD controller, you have to create a controller
+in your module, which inherits from jControllerDaoCrud.
+
+Example, in a samplecrud.classic.php file:
+
+<code php>
+class sampleCrudCtrl extends jControllerDaoCrud {
+
+}
+</code>
+
+Then, you have to specify a jDao selector, which maps the result set you want to
+manage. And also a jForm selector to edit your records through a form:
+
+<code php>
+class sampleCrudCtrl extends jControllerDaoCrud {
+
+    protected $dao = 'testapp~products';
+
+    protected $form = 'testapp~products';
+
+}
+</code>
+
+That's all folks! Hard isn't it? ;-)
+
+Imagine this controller is in a "main" module, display the
+page: @@index.php/main/samplecrud/index@@. Then you can now manage/administrate
+all your products.
+
+
+Essential: the CRUD controller uses the common "html" response. So, you have to create
+[[/application/common-processes#customizing-common-response|a custom response object]]. If you
+don't do it, nothing will appear in your browser. If you don't want to create
+such a response, you have to redefine the @@_getResponse()@@ method (see below).
+
+Note : You can also use the command @@module:create-dao-crud@@ which allows to create the
+controller, the dao and the form at the same time, just by indicating the table
+name.
+
+<code bash>
+php dev.php module:create-dao-crud <the_module> <the_table> <controller_name>
+</code>
+
+See the help of this command to know options (@@php dev.php help module:create-dao-crud@@).
+
+===== Customizing the CRUD controller =====
+
+You certainly have some things to change in the controller, because it doesn't
+fit exactly to your needs. The CRUD controller can be customize by setting some
+properties or overriding some methods.
+
+
+==== Setting the jDb profile ====
+
+If a specific profileto access to the database should be used, set the @@$dbProfile@@ value:
+
+<code php>
+  protected $dbProfile = 'admin';
+</code>
+
+==== Setting the response ====
+
+By default, the controller retrieves the "html" response defined in your jelix
+configuration (so, a custom html response if you have one).
+
+This is done in the @@_getResponse()@@ method of the CRUD controller:
+
+<code php>
+    protected function _getResponse(){
+        return $this->getResponse('html');
+    }
+</code>
+
+This response is used by all actions of the controller.
+
+As you can see, nothing else is done on the response (except that, in each
+action, an assignment of a "MAIN" template variable with the content of a CRUD
+page). So, no style sheets, no declaration of a main template (@@bodyTpl@@) or
+anything else. The controller expect to have a response already configured
+in the @@app/responses@@ directory and declared in the configuration (by yourself).
+
+If you want to change this, redefine this method and change what you want. Example:
+
+<code php>
+    protected function _getResponse(){
+        $rep = $this->getResponse('html');
+        $rep->addCSSLink('admin.css');
+        $rep->body->assignZone('menu', 'adminmenu');
+        return $rep;
+    }
+</code>
+
+As a result, all pages of the controller, will include an @@admin.css@@ stylesheet and an admin menu.
+
+If you want to customize a response of particular actions, you can redefine those methods:
+
+   * @@_index($resp, $tpl)@@: for listing records page
+   * @@_view($form, $resp, $tpl)@@: for details of a record
+   * @@_create($form, $resp, $tpl) @@: for editing a new record
+   * @@_editUpdate($form, $resp, $tpl)@@: for editing an existing record
+
+In each of these methods, you can modify the response object passed as parameter @@$resp@@.
+
+
+==== Setting the form ====
+
+jControllerDaoCrud uses a jForm form to add new record or edit existing record.
+If you want to modify dynamically the content of the form (adding or removing
+some controls...), you can redefine two methods, @@_createForm@@ and
+@@_getForm@@. Those methods should call respectively @@jForms::create()@@ and
+@@jForms::get()@@ (You mustn't call @@jForms::fill()@@).
+
+By default, this methods are:
+
+<code php>
+    protected function _createForm($formId = null) {
+        return jForms::create($this->form, $formId);
+    }
+
+    protected function _getForm($formId = null) {
+        return jForms::get($this->form, $formId);
+    }
+</code>
+
+If you want to modify the form in specific actions, you can redefine @@_view@@,
+@@_create@@ and @@_editUpdate@@ methods already described above.
+
+==== Setting templates ====
+
+Default templates used in actions of the controller are defined by this properties:
+
+<code php>
+    protected $listTemplate = 'jelix~crud_list';
+    protected $editTemplate = 'jelix~crud_edit';
+    protected $viewTemplate = 'jelix~crud_view';
+</code>
+
+You can [[/application/themes|overload those templates in the default theme]] if you want to
+apply same changes for all CRUD controller, or you can change their values to
+select templates of your own.
+
+=== Variables of template ===
+
+See the source of default templates (in @@lib/jelix/core-modules/jelix/templates@@)
+to have a comple list of template variables.
+
+Here are the specific variables of list template :
+
+   * @@list@@: result set list (returned by the dao)
+   * @@primarykey@@: name of the primary key
+   * @@properties@@: list of dao properties to be displayed
+   * @@controls@@: list of controls of the jforms form, so you can get each fields label
+   * @@listPageSize@@: value of @@$listPageSize@@ member
+   * @@page@@: value of "offset" url parameter, which is the number of the first displayed record in list
+   * @@recordCount@@: count number of all records
+   * @@offsetParameterName@@: name of offset parameter in the url (value of $offsetParameterName property)
+
+=== Adding other variables ===
+
+If you want to transmit some additional variables to a template, you can
+redefine @@_index@@, @@_view@@, @@_create@@ and @@_editUpdate@@ methods
+(already described above). In these methods use the jTpl API over given $tpl
+object (a jTpl object) to assign new values.
+
+
+=== Assign CRUD action responses to a specific template variable ===
+
+Each action of the CRUD controller which displays a HTML page, assign their
+specific content to MAIN template variable, like so:
+
+<code php>
+    $rep->body->assign('MAIN', $resultatTemplateAction);
+</code>
+
+If your main template does not have a MAIN template variable, you can pick one
+of your own default response and indicate its name in @@$templateAssign@@
+property:
+
+<code php>
+class sampleCrudCtrl extends jControllerDaoCrud {
+   //...
+    protected $templateAssign = 'MYMAIN_VARIABLE';
+   //...
+}
+</code>
+
+==== Page: Record list ====
+
+Displayed by @@index@@ action. You can use some specific properties of the
+controller to configure its list display.
+
+=== Number of record per page ===
+
+This is the property @@$listPageSize@@ :
+
+<code php>
+    protected $listPageSize = 20;
+</code>
+
+=== List of the record fields ===
+
+By default, all DAO fields are displayed. If you want to display only some of
+them, setup the @@$propertiesForList@@ property:
+
+<code php>
+    protected $propertiesForList = array('title','date_create','author');
+</code>
+
+=== Order and criteria controlling list display ===
+
+To indicate an order in the record list :
+
+<code php>
+    protected $propertiesForRecordsOrder = array('date'=>'desc', 'title'=>'asc');
+</code>
+
+array keys must correspond to dao properties name.
+
+If it isn't enough, you can redefine the method @@_indexSetConditions()@@, which
+accept a jDaoConditions object. There, you can setup this object to specify your
+criteria or order of choice.
+
+=== Advanced configuration of the list ===
+
+@@index@@ method call protected method @@_index@@, which you can redefine to
+finish customizing list display. @@_index@@ receives the response object and the
+template object. So you can specify additional things on the response, and
+define other template variables on the template.
+
+==== Page: create a record ====
+
+Displayed by @@precreate@@, @@create@@ and @@savecreate@@ actions .
+
+@@precreate@@ prepares the form and redirects to @@create@@ action. @@create@@
+action displays the new record form, and submits data to @@savecreate@@ action.
+The latter checks submitted data, and stores it if all constraints are verified.
+
+In addition to @@_create@@ method described above, you can overload this set of
+methods to customize your action :
+
+   * @@_preCreate($form)@@: to prepare the form just after its creation.
+   * @@_checkData($form, $calltype)@@: to check some additional constraints. This method is also called by @@saveupdate@@, see below.
+   * @@_beforeSaveCreate($form, $form_daorec)@@: to do additional stuff just before saving a new record.
+   * @@_afterCreate($form, $id, $resp)@@: to do additional stuff after saving a new record.
+
+==== Page: update a record ====
+
+Displayed by @@preupdate@@, @@editupdate@@ and @@saveupdate@@ actions.
+
+@@preupdate@@ creates a form and fill it with current record data, then
+redirects to @@editupdate@@ action. @@editupdate@@ action displays the created
+form and current record can be edited. form data are submitted to @@saveupdate@@
+action. The latter action checks form submitted content and stores data if all
+constraints are verified.
+
+Like in previous section, you can overload some methods:
+
+   * @@_preUpdate($form)@@: to prepare the form just after its creation.
+   * @@_checkData($form, $calltype)@@: to verify additional constraints. This method is also called by @@savecreate@@.
+   * @@_beforeSaveUpdate($form, $form_daorec, $id)@@: to do additional stuff just before saving the edited record.
+   * @@_afterUpdate($form, $id, $resp)@@: to do additional stuff after saving the edited record.
+
+==== Page: delete of a record ====
+
+Displayed by @@delete@@ action. This one calls @@_delete@@ method which you can
+overload.
+
+===== Configuring URLs =====
+
+If you have activated significant URLs, here is the content that you can add to
+your @@F@urls.xml@@ file in your module. Here the controller is "mycrud", and we
+want urls that begin with "/thedata/".
+
+<code xml>
+<url pathinfo="/thedata/" action="mycrud:index" />
+<url pathinfo="/thedata/view/:id" action="mycrud:view" />
+<url pathinfo="/thedata/precreate" action="mycrud:precreate" />
+<url pathinfo="/thedata/create" action="mycrud:create" />
+<url pathinfo="/thedata/savecreate" action="mycrud:savecreate" />
+<url pathinfo="/thedata/preedit/:id" action="mycrud:preupdate" />
+<url pathinfo="/thedata/edit/:id" action="mycrud:editupdate" />
+<url pathinfo="/thedata/save/:id" action="mycrud:saveupdate" />
+<url pathinfo="/thedata/delete/:id" action="mycrud:delete" />
+</code>
+
+So, for a crud controller, you have to define 9 URLs.

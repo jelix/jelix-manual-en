@@ -1,0 +1,228 @@
+~~LANG:FR@frman:application/cmdline~~
+
+FIXME
+
+
+On the server-side, an application could need to process some jobs silently and
+perhaps repeatedly. This is often done in shell or perl scripts using cron
+utility. As PHP is a scripting language, it is also well suited for those jobs. 
+
+Thanks to Jelix, you can develop actions specifically for the command line. As a
+result, all processings are done in the application model and you don't suffer
+from language switching. 
+
+===== Installation =====
+
+Three elements are required to execute an action on the command line:
+  * a specific entry point
+  * a cmdline controller
+  * a command line configuration file
+
+
+Jelix-scripts have some helper tools to create those.
+
+
+==== Entry point creation ====
+
+
+If your application already exists and don't want to use jelix-scripts, you just
+create @@F@scripts/cmdline.php@@ at your application root folder (you can use
+an other name than cmdline.php). Below, its contents is detailed:
+
+<code php>
+<?php
+require_once ('../application.init.php');
+require_once (JELIX_LIB_CORE_PATH.'jCmdlineCoordinator.class.php');
+require_once (JELIX_LIB_CORE_PATH.'request/jCmdLineRequest.class.php');
+
+$config_file = 'cmdline/config.ini.php';
+
+$jelix = new jCmdlineCoordinator($config_file);
+$jelix->process(new jCmdLineRequest());
+</code>
+
+Comparing a cmdline entry point to a default web entry point, you find:
+
+   * a @@C@jCmdlineCoordinator@@ instead of @@C@jCoordinator@@
+   * a @@C@jCmdLineRequest@@ instead of de @@C@jClassicRequest@@
+   * a specific configuration file @@F@app/system/cmdline/config.ini.php@@
+
+You have also to update the @@F@myapp/project.xml@@ to declare this new entry
+point, by adding a new @@E@<entry>@@ element inside the @@E@<entrypoints>@@
+element:
+
+<code xml>
+    <entrypoints>
+        <entry file="index.php" config="index/config.ini.php" />
+        <entry file="cmdline.php" config="cmdline/config.ini.php" type="cmdline"/>
+    </entrypoints>
+</code>
+
+==== Controller creation ====
+
+You have to create a controller dedicated to command line processing.
+
+=== with jelix-scripts commands ===
+
+such a controller can be created using jelix-scripts :
+
+<code bash>
+# module foo creation, with a cmdline controller inside
+php dev.php module:create --cmdline foo
+</code>
+
+or
+
+<code bash>
+# create bar cmdline controller inside foo module
+php dev.php module:create-ctrl --cmdline foo bar
+</code>
+
+=== Manually ===
+
+To create a cmdline controller manually, it is required to inherit from
+@@C@jControllerCmdline@@ instead of @@C@jController@@. Here is an example for
+the controller @@F@default.cmdline.php@@ :
+
+<code php>
+<?php
+
+class defaultCtrl extends jControllerCmdline {
+
+    function index() {
+        $rep = $this->getResponse(); // cmdline response by default
+        $rep->addContent("Hello, it works !");
+        return $rep;
+    }
+}
+
+</code>
+
+
+==== Configuration file creation ====
+
+If you used @@c@createapp@@ jelix-script with @@--withcmdline@@ option, cmdline
+configuration file has been generated and located here:
+@@F@app/system/cmdline/config.ini.php@@.
+
+Otherwise, you must create one at the same location. Its content shall be
+similar to @@F@app/system/index/config.ini.php@@.
+
+
+===== Command line actions =====
+
+To call your cmdline actions, you'll certainly need to pass parameters and/or options
+
+==== Options ====
+
+=== Declaration ===
+
+If your command accepts options, you should fill the @@P@$allowed_options@@ class member, 
+which is an associative array.
+
+<code php>
+protected $allowed_options = array(
+    'action_name' => array('-option_name' => true/false)
+    );
+</code>
+
+if an option name is set to @@true@@ then the controller action will search a value after it.
+
+=== Parsing ===
+
+In your cmdline controller actions, you'll want to parse options passed. Use
+@@M@option('-option_name')@@ method. 
+
+Example :
+<code php>
+public function myaction_script() {
+    $myoption = $this->option('-nom_option');
+}
+</code>
+
+
+==== Parameters ====
+
+=== Declaration ===
+
+Parameters are declared in a same way as options. Just use @@P@$allowed_parameters@@:
+
+<code php>
+protected $allowed_parameters = array(
+    'action_name' => array('parameter_name' => true/false)
+    );
+</code>
+
+if a parameter name is set to @@true@@, then it is required otherwise not.
+
+=== Parsing ===
+
+In your cmdline controller actions, you'll want to parse parameters. Use
+@@M@param('parameter_name')@@ method. 
+
+Example :
+<code php>
+public function myscript() {
+    $myparam = $this->param('parameter_name');
+}
+</code>
+
+
+
+==== Help message ====
+
+Usually a script can generate instructions or an help message for how to use it.
+@@P@$help@@ controller member is for this purpose:
+
+<code php>
+public $help = array(
+    'action name' => 'help message'
+);
+</code>
+
+Next section will describe how to call a cmdline action and thus how to display this help message.
+
+
+===== Cmdline action use =====
+
+To use your cmdline actions or shall we say scripts, open a console and navigate
+to your application @@F@scripts/@@ directory.
+
+Then execute @@F@cmdline.php@@ followed by an action selector and its relateds options/parameters
+
+Example :
+
+<code bash>
+php cmdline.php module~controller:action -option_name optionval parameter_value
+</code>
+
+To display an help message :
+
+<code bash>
+php cmdline.php help module~controller:action
+</code>
+
+If you want to have a script dedicated to the default module/action defined in the configuration 
+file of the script, you can add a true parameter to @@C@jCmdlineRequest@@ in the entrypoint :
+
+
+<code php>
+<?php
+...
+$jelix->process(new jCmdLineRequest(true, "module", "controller:method"));
+...
+</code>
+
+So you won't have to indicate the action as parameter of the command. Of course,
+in this case you cannot execute any other actions. The previous example become:
+
+<code bash>
+php cmdline.php -option_name optionval parameter_value
+</code>
+
+And to have the help, no need too to indicate the action:
+
+<code bash>
+php cmdline.php help
+</code>
+

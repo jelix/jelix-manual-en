@@ -1,6 +1,6 @@
 ~~LANG:FR@frman:plugins/tpl~~
 
-You can extend tpl plugins functionalities by adding your own to [[en:manual:templates|jTpl engine]].
+You can extend tpl plugins functionalities by adding your own to [[/components/templates|jTpl engine]].
 Just implement them in new template plugins.
 
 There is four types of template plugins:

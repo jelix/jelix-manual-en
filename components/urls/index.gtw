@@ -1,0 +1,112 @@
+~~LANG:FR@frman:composants/urls~~
+
+Jelix has a mechanism allowing to avoid putting url concerning actions directly
+in the templates (or anywhere). For this, simply indicate the module, the
+action, the type of request and some other parameters if you need and jUrl
+handles the generation of the corresponding url. On the other hand, when a
+request occurs, jUrl analyzes the url to then deduce the module, the action, and
+the parameters, and this, whatever the type of request is.
+
+For this task, jUrl is using a URL engine.
+
+===== A recall about urls =====
+
+An url is made of different parts :
+
+<code>
+  http://mysite.com/a/path/entrypoint.php/path/info?param1=value1
+</code>
+
+; @@a/path/entrypoint@@ : corresponds to the path of the entry point, @@/index@@ for example
+; @@.php@@ : the extension of the entry point. It is optional if multiview is activated in apache.
+; @@/path/info@@ : the pathinfo, complementary part to the path, not corresponding to a path on the disk
+; @@?param1=value1@@ : the parameters.
+
+The url engines analyze the pathinfo and the parameters to determine the module/action.
+
+You can have to configure some options in Apache. See
+[[/installation/server-configuration#configuration-for-cools-urls|apache configuration]].
+
+===== Configuration =====
+
+The configuration of jUrl is made in the @@urlengine@@ section of the
+configuration file. Here are its parameters:
+
+; @@multiview@@: Indicates if the multiview is activated or not in apache. Then the
+    url engine does not generate the extension of the entry
+    points (.php) when creating urls. Thus, we have "cleaner" urls.
+; @@basePath@@: Path to the www directory, or more exactly, the common part of the paths 
+    of all the entry points. Thus, if you access @@index.php@@ with the url
+    @@http://localhost/jelix/myapp/www/index.php@@, you specify: 
+
+<code>
+  basePath= /jelix/myapp/www/
+</code>
+
+On the other hand, if you have specified the documentRoot in Apache/Nginx, pointing on
+@@jelix/myapp/www@@, you will then specify @@/@@.
+
+Be careful, the basePath value must always begin with a @@/@@. If you leave
+basePath empty, Jelix will try to guess its value.
+
+; @@notfoundAct@@ : The action to do when a url do not correspond to anything.
+    Indicate it under the form of a selector : @@module~action@@. This action should
+    display an error message, and return a 404 http code.
+
+**Carefull**: for development, activate logging of errors in files, it allows
+you to know if this "404" page is displayed because of an error or not.
+
+===== Configuration of URL engines =====
+
+You should indicate to the URL engine, which URLs correspond to which controller
+and method. In fact, this is a mapping between a pathinfo and a controller.
+
+There is at lease one URL to specify: the homepage url, which is obviously
+@@/@@.
+
+This is done into the file @@F@app/system/urls.xml@@.
+
+See [[/components/urls/mapping|the page about how to setting up the mapping]].
+
+===== Using jUrl =====
+
+Whatever you want to do, you must avoid to put urls in your code, in
+your modules. Otherwise, this would create some dependencies, and the
+portability would be decreased. It is then impossible to use the module for
+several applications at the same time because urls can be different according to
+the configuration of the applications. And if the module is reused anywhere
+else, you would have to modify the templates etc.
+
+So the urls must be built by Jelix. For this, you have two available tools.
+
+==== jUrl::get() ====
+
+The jUrl object has a static method, @@get()@@, which, according to an action and
+other parameters, returns the corresponding url for the current application:
+
+<code php>
+   $string_url = jUrl::get("news~view@classic", array("id_news"=>"54"));
+</code>
+
+The first parameter of the function is an action selector. Here, we ask the url
+corresponding to the view action of the news module, for the classic type of
+request with an id_news parameter. If there is no specific mapping for this action,
+the corresponding url will be @@index.php/news/default/view?id_news=54@@.
+
+==== jUrl template plugin ====
+
+In templates, you can use the @@jurl@@ plugin. The syntax is the same as
+@@jUrl::get()@@. Example:
+
+<code html>
+  <p><a href="{jurl 'news~view@classic', array('id_news'=>'54')}">Details of the news</a></p>
+</code>
+
+The result with the simple url engine will then be:
+
+<code html>
+  <p><a href="index.php/news/default/view?id_news=54">Details of the news</a></p>
+</code>
+
+You can use @@{jfullurl}@@ instead of @@{jurl}@@ to have a url with the
+domain name (useful for example into a template for an email).

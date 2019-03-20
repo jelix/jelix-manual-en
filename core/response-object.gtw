@@ -17,4 +17,4 @@ A jResponse object implements some methods, here are the more useful of them:
 
 This methods are available in all type of response.
 
-To know all specificities of all response, see the [[/views/|chapter about responses]].
+To know all specificities of all response, see the [[/modules/views/|chapter about responses]].

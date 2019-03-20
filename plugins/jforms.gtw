@@ -1,6 +1,6 @@
 ~~LANG:FR@frman:plugins/jforms~~
 
-As noted in [[/jforms/display|display jforms chapter]], you can select which
+As noted in [[/components/jforms/display|display jforms chapter]], you can select which
 plugin will generate forms content (in HTML, javascript and so on..) sent to
 clients. 
 

@@ -1,0 +1,127 @@
+~~LANG:FR@frman:composants/authentification/drivers~~
+
+List of authentication drivers delivered with Jelix
+
+===== Db =====
+
+Db driver authenticates users through database infos. This driver relies on a
+Dao which has to be indicated in the authentication configuration file.
+
+Jelix provides a module, jauthdb, which contains a default dao. If you want to use it, you can install it:
+
+<code bash>
+php dev.php installmodule jauthdb
+
+# or if you want to add a default user "admin" at the same time, (with the password "admin")
+php dev.php installmodule -p defaultuser jauthdb
+</code>
+
+The jauthdb installer will create a jlx_users table into your database. You can
+customize this table, add some fields and then provide an other dao file (see
+below).
+
+In the configuration file of the plugin auth, you'll find something like that: 
+
+<code ini>
+driver= Db
+
+[Db]
+dao = "jauthdb~jelixuser"
+profile=
+</code>
+
+@@dao@@ option value must be a dao selector, and @@profile@@ may content a
+specific profile for the jDb connection.
+
+You can indicate any dao you want. But if you select one of your dao, be aware:
+**it must have at least the same properties and methods defined into the jelixuser dao**.
+
+   * @@P@login@@ and @@P@password@@
+   * @@M@getByLoginPassword (login, password)@@
+   * @@M@getByLogin(login)@@
+   * @@M@updatePassword(login,password)@@
+   * @@M@deleteByLogin(login)@@
+   * @@M@findByLogin(pattern)@@
+
+Mandatory: database table associated with the dao must have "login" field as
+primary key or as a "UNIQUE" key.
+
+You can [[../daos/file#importing-an-other-dao|import the dao]] of jauthdb into your own dao to avoid to rewrite everything.
+You can add any other properties and methods to the dao.
+
+===== Class =====
+
+Class driver is a more universal driver than Db driver. You just have to assign
+a class to it, in which you do... what you want! Except that it has to implement
+[[refclass:jIAuthDriverClass|jIAuthDriverClass interface]]. This
+class is considered as other business classes and therefore should be located in
+@@F@classes/@@ folder of one of your modules.
+
+@@F@auth.plugin.ini.php@@ would declare:
+
+<code ini>
+
+driver= Class
+
+[Class]
+class = "mymodule~myclass"
+</code>
+
+===== ldap =====
+
+This driver authenticates users registered in a directory services using LDAP.
+The configuration for the driver :
+
+<code ini>
+driver= ldap
+
+[ldap]
+; profile in profiles.ini.php containing ldap connection informations
+profile=jauth
+
+; following parameters can be stored in the profile too.
+
+; LDAP search params
+; search base, example for Active Directory: "ou=ADAM users,o=Microsoft,c=US"
+searchBaseDN=
+; search filter, example for Active Directory: "(objectClass=user)"
+searchFilter=
+; attributes to retrieve for the search, example for Active Directory: "cn,distinguishedName,name"
+searchAttributes=
+</code>
+
+In the profiles.ini.php, you should create a section for the profile indicated
+into the @@profile@@ property, in the category @@authldap@@. The profile should
+contain credentials to access to the ldap.
+
+<code ini>
+[authldap:jauth]
+
+; default "localhost"
+hostname=
+; default 389
+port=
+
+; DOMAIN\user or user@DOMAIN to connect with LDAP (user who has at least search right)
+ldapUser=
+; password used to connect with LDAP
+ldapPassword=
+
+; ldap protocol version
+protocolVersion=3
+
+; ldap property containing the user id
+uidProperty = cn
+
+; the objectclass to use for a user
+ldapUserObjectClass= user
+
+</code>
+
+===== Create a driver =====
+
+If you have your own authentication system and you want to integrate it to Jelix, you will have to create your own driver.
+
+[[/plugins/auth|authentication drivers creation page]] will give you an overview.
+
+Once you are done, consider contributing it to Jelix. It will be gladly welcomed :-).

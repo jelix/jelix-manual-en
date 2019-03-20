@@ -1,0 +1,135 @@
+~~LANG:FR@frman:outils-dev/error-manager~~
+
+The classes of the framework can generate errors in two different ways, with:
+
+  * a @@trigger_error@@ (PHP error)
+  * an exception
+
+A PHP error is generated in the case of a technical error due to a programing
+default. It is then the job of the developer to correct the error.
+
+An exception is generated in the case of an error that can occur in an
+unpredictable way during the execution of an action. For example, an error when
+it is impossible to connect to a database or a "functional", "domain" error.
+
+
+===== Error handlers setup =====
+
+Whatever the error comes from, we get it through an error handler (except for
+catched exceptions). There is an error handler for PHP errors and another for
+the exceptions.
+
+Error handlers use @@C@jLog@@ to store the error somewhere. By default, all
+errors (and warnings) are stored into a @@F@var/log/errors.log@@ file.
+
+You can change this behavior. You can also log all notices and other php errors,
+you can send messages to a syslog, etc. See the [[debugging|chapter on jLog]] to
+know how to configure it.
+
+==== The message format ====
+
+The error message stored in files, syslog or mail, contains the error message
+itself, the stack trace and other useful informations. You can configure what
+should be store exactly.
+
+In the section @@[error_handling]@@ of the configuration, you have an option
+@@V@messageLogFormat@@ specifing the format of the message. This format supports
+some special keywords @@L@%date%@@, @@L@%ip%@@, @@L@%typeerror%@@, @@L@%code%@@,
+@@L@%msg%@@, @@L@%url%@@, @@L@%file%@@, @@L@%line%@@, @@L@%params%@@,
+@@L@%http_error%@@, @@L@\t@@ and @@L@\n@@.
+
+@@L@%params%@@ indicates to display all parameters in the HTTP request. However,
+it may causes privacy issues or security issues, because some parameters may
+contains some sensitive informations like password, and so they should not
+be stored into log storages.
+
+To avoid it, you can remove the tag  @@L@%params%@@ from @@V@messageLogFormat@@.
+Or you can give a list of parameters that should not be expose into logs.
+
+You can set this list into the configuration, into the option @@V@@sensitiveParameters@@
+from the @@error_handling@@ section. By default:
+
+<code ini>
+[error_handling]
+sensitiveParameters = "password,passwd,pwd"
+</code>
+
+
+Or you can also set this list into a controller, in its @@P@$sensitiveParameters@@
+property:
+
+<code php>
+class passwordCtrl extends jController {
+
+    public $sensitiveParameters = array('pwd', 'pwd_confirm');
+
+    //...
+}
+</code>
+
+When you are using jForms, all fields that are of type @@<secret>@@, are automatically
+declared as sensitive parameters.
+
+
+==== The error page ====
+
+Details of error messages are never displayed in the browser
+(except in the debug bar if you activate it). When an error occured, Jelix
+displays an error page with the HTTP code 500.
+
+By default, it shows the page stored at @@F@lib/jelix/core/response/error.en_US.php@@.
+You can provide your own page by copying this file into the
+@@F@app/responses/@@ directory. Modify this page to customize it with your own design.
+
+Notice that @@error.en_US.php@@ is a simple php script. You can write any PHP
+instructions. However, don't call any Jelix objects. The occured error may not
+appear in a "safe" context (some object may not be present, configured etc). And
+don't try to display the true error, for security reasons and for better
+usability. In fact, this page should be almost a static page. Just keep existing
+@@echo@@ instructions.
+
+Variables @@V@$HEADTOP@@, @@V@$HEADBOTTOM@@ and @@V@$BODYTOP@@ are not used for
+the moment (it is just to be compatible with static pages returned by
+jResponseBasicHtml). @@V@$BODYBOTTOM@@ contains the error message, without
+details. A variable @@V@$BASEPATH@@ is available, containing the
+base path of the application, for stylesheets etc. However, this variable may be
+empty in some case, depending of the origin of the error (an error appearing
+before or during the load of the configuration).
+
+The error page may not be used in some case:
+
+  * when there are fatal PHP errors
+  * when an error occured during the initialization of the configuration file
+  * when the browser doesn't accept html
+
+In this last case, Jelix returns a simple text content. This text content can be
+configured into the option @@errorMessage@@ inside the @@[error_handling]@@
+section of the configuration.
+
+
+===== Errors code =====
+
+Each error message is localized in the properties files and each error should
+have a number. This number is indicated in the properties files of the localized
+messages, this way:
+
+<code ini>
+ key.string = (error_code)error message
+</code>
+
+In the end, the error message won't be with the error code. And this one will be extracted
+
+Here are the error codes fields
+
+| 0-99 | general errors |
+| 100-199 | core errors |
+| 200-299 | locale errors |
+| 300-399 | templates errors |
+| 400-499 | database errors |
+| 500-599 | dao errors |
+| 600-699 | authentication errors |
+| 700-799 | rights errors |
+| 800-899 | jforms errors |
+| > 5000  | user errors |
+
+If you generate errors for your own use, their code must be greater than 5000.
