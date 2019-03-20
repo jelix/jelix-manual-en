@@ -59,7 +59,7 @@ Or more directly, @@$j_themepath@@ variable gives access to your theme path in a
 
 ===== Selecting a default theme =====
 
-@@theme@@ parameter of [[config#generic-section|configuration]] file fills this functionnality.
+@@theme@@ parameter of [[/configuration/configuration-files#generic-section|configuration]] file fills this functionnality.
 
 <code ini>
 theme = web20

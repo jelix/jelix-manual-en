@@ -180,13 +180,8 @@ Parameters in details :
 
 ==== modules section ====
 
-Contains the list of all used modules, and their access level
-
-   * 0 means the module is not used and must not be installed
-   * 1 means the module is used, but only by other modules (its daos, forms etc),
-     but is not accessible directly from the web (so it has no controllers or
-     existing controllers will never be called)
-   * 2 means the module is installed and usuable normally.
+Contains the list of all enabled modules, parameters for their installers,
+and other informations when needed.
 
 ==== coordplugins section ====
 

@@ -1,5 +1,8 @@
 ~~LANG:FR@frman:cmdline~~
 
+FIXME
+
+
 On the server-side, an application could need to process some jobs silently and
 perhaps repeatedly. This is often done in shell or perl scripts using cron
 utility. As PHP is a scripting language, it is also well suited for those jobs. 
@@ -21,27 +24,6 @@ Jelix-scripts have some helper tools to create those.
 
 ==== Entry point creation ====
 
-=== with jelix-scripts ===
-
-When you create your application, just add @@--withcmdline@@ option:
-
-<code bash>
-php bin/create-jelix-app.php --withcmdline myapp
-</code>
-
-@@--withcmdline@@ option will tell @@c@create-jelix-app@@ to create inside a classic application 
-structure, a @@F@scripts/@@ folder containing a @@F@cmdline.php@@ entry point. 
-
-If you already created the application, you can also use the @@app:createentrypoint@@ command:
-
-<code bash>
-php cmd.php app:createentrypoint --type cmdline myscript
-</code>
-
-It will create a new entrypoint for command line, named @@F@myscript.php@@ in the @@F@scripts/@@ folder.
-
-
-=== Manually ===
 
 If your application already exists and don't want to use jelix-scripts, you just
 create @@F@scripts/cmdline.php@@ at your application root folder (you can use

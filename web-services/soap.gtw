@@ -70,7 +70,7 @@ module. It is provided by Jelix. You should activate it:
   php.exe dev.php module:install jsoap
 </code>
 
-(see the chapter about [[/installing-a-module|installing a module]])
+(see the chapter about [[/configurator-installer/installing-a-module|installing a module]])
 
 This module includes also all what you need to generate WSDL content. (see below)
 

@@ -28,7 +28,7 @@ So he install the sources of a module, and launch the configurator for this modu
 (command  @@module:configure@@).
 
 At the end, some files from the directory @@app/@@, in particulary the configuration
-files into @@app/config@@ will be modified, and probably some new files will
+files into @@app/system@@ will be modified, and probably some new files will
 be created in some directory of the application, like CSS and JS files into www/.
 It happens only if the module provides a specific class for the configurator.
 If this class does not exist, probably you will have to install some files
@@ -48,7 +48,7 @@ production server.
 
 The installation has these process:
 
-1. to install the source code of the application, including files from app/config
+1. to install the source code of the application, including files from app/system
    modified by the first step
 2. to parameter the local configuration of the application, in particulary files
    into var/config, which should be created (they should not be saved into the
