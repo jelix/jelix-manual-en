@@ -9,7 +9,7 @@ author=Laurent|Jouanneau
 author=Dominique|Papin
 author=Afroxav
 author=|All jelix.org wiki contributors||
-copyright_years=2006-2018
+copyright_years=2006-2019
 copyright_holder=Laurent Jouanneau
 copyright_holder=Dominique Papin
 copyright_holder=All jelix.org wiki contributors
@@ -40,12 +40,14 @@ copyright_holder=All jelix.org wiki contributors
    - chapter: [[configurator-installer|Configurator and installer of Jelix]]
      - section: [[configurator-installer/how-it-works|How the installer works]]
      - section: [[configurator-installer/installing-a-module|Installing a module]]
+     - section: [[configurator-installer/installer-configuration|Installer configuration]]
    - chapter: [[modules|Developing a module]]
      - section: [[modules/creating-a-module|Creating a module]]
      - section: [[modules/controllers|Developing a controller]]
      - section: [[modules/controllers/retrieving-http-parameters|Retrieving HTTP parameters]]
      - section: [[modules/controllers/crud|Using the CRUD controller]]
      - section: [[modules/controllers/rest-full|Developing a REST controller]]
+     - section: [[modules/controllers/redirection|Doing a redirection]]
      - section: [[modules/using-classes|Coding and using classes]]
    - chapter: [[modules/views/|Responses: generating content]]
      - section: [[modules/views/view-html|Generating HTML5 content]]
@@ -59,7 +61,6 @@ copyright_holder=All jelix.org wiki contributors
      - section: [[modules/views/view-sitemap|Generating a sitemap]]
      - section: [[modules/views/other-views|Other views]]
      - section: [[modules/views/personnalized-common-response|Define a customized response]]
-   - chapter: [[modules/controllers/redirection|Doing a redirection]]
    - chapter: [[modules/web-services/|Web services]]
      - section: [[modules/web-services/ajax|AJAX]]
      - section: [[modules/web-services/json|JSON]]

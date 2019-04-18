@@ -1,3 +1,5 @@
+~~LANG:FR@frman:astuces~~
+
 ===== Tips for common problems =====
 
 This page gather snippets of code resolving common development problems.
@@ -20,10 +22,12 @@ jApp::coord()->action->toString();
 
 ==== Access user session variables ====
 
-Jelix use PHP sessions by default. If you use jAuth, it stores user dao record (data coming from jelix_user table) in a PHP session variable. Thus, user infos are accessible through @@V@$_SESSION['JELIX_USER']@@ variable :
+Jelix use PHP sessions by default. If you use jAuth, it stores user dao record
+(data coming from jelix_user table) in a PHP session variable. Thus, user infos
+are accessible through @@jAuth::getUserSession()@@:
 
 <code php>
-$_SESSION['JELIX_USER']->login
+jAuth::getUserSession()->login
 </code>
 
 ==== Store current date in database ====

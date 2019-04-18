@@ -1,8 +1,8 @@
-~~LANG:FR@frman:configurateur-installer/principes-fonctionnement~~
+~~LANG:FR@frman:configurateur-installateur/principes-fonctionnement~~
 
 ===== Configurator and installer components =====
 
-The installation system of Jelix allow to distinct two steps when integrating
+The installation system of Jelix allow to distinct three steps when integrating
 a module:
 
 1. The installation of the sources of modules, their main configuration to

@@ -3,16 +3,15 @@
 ===== Improvements provided by the version 1.7 =====
 
 Jelix 1.7 brings many new features. However, [[installation/migrate|migration]]
-is easy, as migration script do many things.
+is easy, as a migration script do many things.
 
-Jelix 1.7 is now compatible only with PHP 5.6 or higher.
+Jelix 1.7 is now compatible only with PHP 5.6 or higher (until PHP 7.3).
 
 ==== Composer integration ====
 
     * [[https://packagist.org/packages/jelix/jelix|Jelix is now installable with Composer]]
     * Some modules and plugins are now in their own repository and available separately
       with Composer.
-    * A new project can be started by using the package [[https://packagist.org/packages/jelix/jelix-skeleton-app|jelix/jelix-skeleton-app]]
     * Configuration parameters @@modulesPath@@ and @@pluginsPath@@ are not supported
       anymore and replaced by a new API to call from @@application.init.php@@:
       @@jApp::declareModulesDir()@@, @@jApp::declarePluginsDir()@@, @@jApp::declareModuleDir()@@.
@@ -35,10 +34,12 @@ This is the case for:
    * @@F@config.ini.php@@ of entry points can be in both @@F@app/system@@ and
      @@F@var/config@@
    * @@F@overloads@@, @@F@themes@@ and @@F@locales@@ directories. They should
-     be in @@F@app/@@. @@F@var/overloads@@,
-     @@F@var/themes@@ and @@F@var/locales@@ can be still used but only
-     for ressources created by the application.
+     be in @@F@app/@@. @@F@var/overloads@@, @@F@var/themes@@ and @@F@var/locales@@
+     can be still used but only for ressources created by the application, or
+     installed by modules added during the life of the application.
    * @@F@responses/@@ has been moved to @@F@app/responses@@.
+   * the list of entry points is not anymore into project.xml, but in a new file
+     @@app/system/framework.ini.php@@ and @@var/config/localframework.ini.php@@
 
 ==== New URL engine ====
 
@@ -55,7 +56,8 @@ configuration. There is not anymore a plugin system for url engines, so
       @@simple_urlengine_https@@, @@simple_urlengine_entrypoints@@,
       @@basic_significant_urlengine_entrypoints@@.
     * An API allows Installer scripts to declare new URL (so it modify
-      the urls.xml file):  @@jInstallerGlobalSetup::getUrlModifier()@@, @@jInstallerGlobalSetup::declareNewEntryPoint()@@
+      the urls.xml file):  @@jInstallerGlobalSetup::getUrlModifier()@@,
+      @@jInstallerGlobalSetup::declareNewEntryPoint()@@
     * In the urls.xml file:
        * it si possible to indicate a pathinfo on @@<url module="..">@@
        * it is required to indicate an action for the url "/". It replace the
@@ -74,8 +76,8 @@ for each entry point. This is not the case anymore. Installation script are call
 only one time.
 
 So modules declarations ( @@[modules]@@ section) is not possible anymore in
-entry point configuration, but only in @@mainconfig.php@@, and a new API for
-installation scripts has been created.
+entry point configuration, but only in @@mainconfig.ini.php@@ or @@localconfig.ini.php@@,
+and a new API for installation scripts has been created.
 
 The new installation system introduces a new step for the installation of a module:
 configuration. A module can provide a class that will modify configuration
@@ -124,22 +126,26 @@ or even modules provided by Jelix. For example, you can indicate other version o
 bundled library, ou you can change CSS and JS depending of the environment
 (demo vs production).
 
+Note that libraries jQuery, jQueryUI and Markitup have been updated to their
+last version (respectively 3.3.1, 1.12.1, 1.1.15). jQueryUI is now provided
+as a unique file containing all components. WymEditor has been replaced by CKEditor5.
+
 ==== Command line script in modules ====
 
 In Jelix 1.6 and lower, it was possible to create command line scripts by
 creating a controller inheriting of @@jControllerCmdLine@@ and an entry point
-using jCmdLineCoordinator etc.. This mecanisme is still usable but is deprecated.
+using jCmdLineCoordinator etc.. This mechanism is still usable but is deprecated.
 
-A new mecanism is available : the module can provide commands implemented with
-the component Symfony Console, and are callable with a new script @@console.php@@
-provided by the application, and which will discover (almost) automatically
-all of these commands.
+A new mechanism is available: the module can provide
+[[/application/cmdline|commands implemented with Symfony Console]], and are
+callable with a new script @@console.php@@ provided by the application, and
+which will discover (almost) automatically all of these commands.
 
 ==== Jelix Scripts ====
 
 Commands that help the developer, are callable with the script cmd.php of the
 application. They have been totally rewritten by using Symfony Console. Names
-and parameters of these commands have been changed. Dans the cmd.php script has
+and parameters of these commands have been changed. The cmd.php script has
 been renamed to dev.php.
 
 Commands about jAcl2 have been migrated into the module jacl2db, and are now
@@ -184,10 +190,12 @@ because of the configuration system.
     CSS url.
   * In Javascript, you can now reload a listbox generated dynamically, by calling
     the new method @@jforms::updateDynamicList()@@.
+  * The datetime picker allows now to select time
+  * new control @@<color>@@ to select a color.
 
 ==== API change in the framework core ====
 
-  * the property @@_lang@@ of @@jResponseHtml@@ does contain now only the lang
+  * The property @@_lang@@ of @@jResponseHtml@@ does contain now only the lang
     code (XX) instead of the full locale (XX_YY). The full locale is now in a
     new property @@_locale@@.
   * jRequest parse now automatically JSON content from the body request. This
@@ -208,7 +216,7 @@ because of the configuration system.
   * In new application created with createapp.php, the temp directory is now in the application
     directory
 
-  * Web assets of modules loaded by the www controler of Jelix are now
+  * Web assets of modules loaded by the www controller of Jelix are now
     put in the cache of the browser.
 
 ==== Other new features ====
@@ -228,11 +236,10 @@ because of the configuration system.
   * jacl2db_admin: Users list can be filtered
 
   * jLocale can now try a locale key in a similar locale of the current one
-  * jLocale has been refactorized with a new class to read properties file
 
   * Organize zones cache into subdirectories
 
-  * jIniFileModifier: no empty line added at the end of the file at each save
+  * @@jIniFileModifier@@: no empty line added at the end of the file at each save
   * @@jFile@@ is based on the Composer package "jelix/file-utilities", which
     have more useful methods.
   * @@jFile::getMimeTypeFromFilename()@@: support of a mime type list defined
