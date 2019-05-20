@@ -10,7 +10,7 @@ Templates for theme must be located in the @@F@app/themes/@@ application folder.
 Each template related to a module must be under a sub-directory named like its
 module.
 
-Say you want to adapt @@F@main.tpl@@ template of //example// module for //web20//
+Say you want to adapt @@F@main.tpl@@ template of "**example**" module for "**web20**"
 theme. You'll stored @@F@main.tpl@@ in @@F@app/themes/web20/example/@@. Note:
 original and theme template have the same name.
 
@@ -40,15 +40,9 @@ In a template, to add a css resource, use:
 {meta_html csstheme 'design.css'}
 </code>
 
-Other template plugins exists, such as IE conditional plugins:
 
-<code html>
-{meta_html cssthemeie 'design.css'} for ie
-{meta_html cssthemeie7 'design.css'} for ie7
-{meta_html cssthemeltie7 'design.css'} for ie < 7
-</code>
-
-Or more directly, @@$j_themepath@@ variable gives access to your theme path in a template :
+Or more directly, @@$j_themepath@@ variable gives access to your theme path in
+a template:
 
 <code html>
   <img src="{$j_themepath}logo.png" alt="logo"/>
@@ -77,4 +71,4 @@ Each time the user will visit the application, it will select his theme like thi
   jApp::config()->theme = $choosenTheme;
 </code>
 
-Off course the best place to do it is in a [[/plugins/coord|coordinator plugin]] that must be coded and plugged.
+Of course the best place to do it is in a [[/plugins/coord|coordinator plugin]] that must be coded and plugged.
