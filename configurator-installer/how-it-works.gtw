@@ -5,29 +5,31 @@
 The installation system of Jelix allow to distinct three steps when integrating
 a module:
 
-1. The installation of the sources of modules, their main configuration to
-   specify their behavior, and the generic configuration of the framework
-   (not tied to the runtime environment)
-2. The installation of the application on a server and its update, meaning
-   the initialization of databases, initialization of some data and other
-   configuration settings related to the runtime environment. And also the migration
-   of all of these data and files.
+# The installation of the sources of modules, their main configuration to
+   specify their behavior, and the generic configuration of the framework.
+   This is a step made by the developer. It is not tied to the runtime environment.
+# The modification of the configuration at the local level, after the application
+  has been copied on the server. During this step, configuration parameters
+  tied to the runtime environment are setting up. It could be database parameters,
+  debug parameters or other services parameters...
+# Finalization of the installation. It means for example the initialization of
+  data in a database (table creation etc), or data migration for an update of the application.
 
-Note: in Jelix 1.6, these two notions were indistinct.
+Note: in Jelix 1.6, these three steps were indistinct.
 
-So for the first step, we have the configurator of Jelix, and for the second one,
-we have the installer of Jelix.
+So for the first and second step, we need to use the configurator of Jelix, and
+for the third one, we have the installer of Jelix.
 
-==== The configuration ====
+==== The framework system configuration ====
 
-The first step is executed by the developer of the application. It is independant
-from the runtime environment. The developer has to integrate and parameter
+The first step is executed by the developer of the application. It is independent
+from the runtime environment. The developer has to integrate and to parameter
 modules and framework in order to have the wanted behavior.
 
-So he install the sources of a module, and launch the configurator for this module
-(command  @@module:configure@@).
+So he installs the sources of a module, and launches the configurator for this module
+(command  @@php dev.php module:configure@@).
 
-At the end, some files from the directory @@app/@@, in particulary the configuration
+At the end, some files from the directory @@app/@@, in particularly the configuration
 files into @@app/system@@ will be modified, and probably some new files will
 be created in some directory of the application, like CSS and JS files into www/.
 It happens only if the module provides a specific class for the configurator.
@@ -40,40 +42,41 @@ file to declare and activate the module.
 All new files and modified files should then be saved into your source code
 repository and should be deployed on servers.
 
-==== The installation ====
+==== The local configuration ====
 
 The second step is executed by the person who install the application on a server.
-He may be the developer on his local machine, or a system administor on some
+
+He may be the developer on his local machine, or a system administrator on some
 production server.
 
-The installation has these process:
+After the installation of the sources of the application, this user should launch
+the script @@install/configurator.php@@ of the application, which launches
+method @@localConfigure()@@ of configurators of all activated modules.
 
-1. to install the source code of the application, including files from app/system
-   modified by the first step
-2. to parameter the local configuration of the application, in particulary files
-   into var/config, which should be created (they should not be saved into the
-   source code repository).
+These methods have to finalize the configuration like asking access parameters
+to the database, or setting other parameters in other configuration files.
 
-Local parameters include:
+Note that the launch of @@install/configurator.php@@ is optional, if all expected
+parameters of files into @@var/config@@ are already setup by an other configuration
+system, like a deployment tool (Puppet, Ansible, Docker...).
 
-1. database access properties or any other credentials to access to some services.
-2. settings which modify some behavior according to the runtime environment
-  (into localconfig.ini.php for instance). On a development server, it could be
-  settings to activate debug feature like the debug bar.
 
-After setting the local configuration, the installer of Jelix should be
-executed. It is the script @@install/installer.php@@, or the command @@app:install@@
-if it is not provided.
+==== The installation ====
+
+This third step is done by the person who install the application on the server
+(the same person at the step two). This step is the launch of the script
+@@install/installer.php@@.
 
 The installer will execute all installation or migration classes provided by
 modules. These classes may create tables in a database, initialize some data etc.
 In fact, they initialize all things that allow the application to be executed
 correctly in the current runtime environment.
 
+
 ===== To know more about the configuration/installation system =====
 
 See the section about [[installing-a-module|the installation of a module]] which
-details commandes and actions to execute in order to configure and install
+details commands and actions to execute in order to configure and install
 a 'vendor' module.
 
 See the chapter about the [[/installation/deployment|deployment of an application]]

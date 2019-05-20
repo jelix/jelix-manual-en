@@ -2,60 +2,176 @@
 
 Jelix provides a configuration and installation system, which allows to execute
 scripts when you integrate a module into your application, or when you install
-your application on a server.
+your application on a server. See [[how-it-works|how it works]] to understand
+next sections.
 
 
-===== How a module is installed =====
+===== All kind of scripts =====
 
+These scripts are in fact some classes, stored into the directory @@F@install/@@
+of the module. Names of classes and files are normalized.
 
-When you install a module with the @@module:install@@ or the @@app:install@@ command:
+You can provide several kind of scripts:
 
-   * Jelix keep a backup of @@F@var/config/installer.ini.php@@
-   * jelix looks at the @@modules@@ section inside the main configuration and
-     retrieve the access value of the module
-   * It will launch the installation of a module if its access value is higher than 0
-   * It then looks at the @@F@var/config/installer.ini.php@@ file: it checks if
-     the module is already installed
-   * If it is already installed, it will execute all scripts of update provided
-     by the module, corresponding to a version between the installed version and
-     the new version of the module, and then the main update script, @@upgrade.php@@
-     if it is provided.
-   * If it is not already installed, it will execute the installation script
-     provided by the module, @@install.php@@
-   * After the installation or the update, Jelix stores the new version number
-     of the module into @@F@installer.ini.php@@.
+  * @@configure.php@@ To set the system configuration and the local configuration of the module
+  * @@install.php@@ to install data of the module at the instance level
+  * @@uninstall.php@@ to uninstall data of the module at the instance level
+  * @@upgrade.php@@ to upgrade data of the module at the instance level
+  * several scripts @@upgrade_xxx.php@@ that are dedicated to a specific version
+    of the module.
 
-Of course, installation scripts or scripts of update are not required.
+The installation can have parameters. @@install.php@@ and upgrade scripts can
+have some parameters that are stored into the configuration. Parameters values
+can be indicated by hand, or asked interactively to the developer by the
+configuration script of the module.
 
-But if you provide them, **it is very important to store into the** @@module.xml@@
-file, **a good version number and the date of the release **!
+Classes of these scripts have access to an API which helps the developer to read
+and write configuration files, do tasks on a database, install some files etc.
+
+However, these APIs are a bit different, depending on the configuration/installation
+step.
+
+So in at the configuration step (configure.php script), it is possible to modify
+configuration files of the application in app/system, but not in installation
+mode (install.php). install.php can only modify local configuration (localconfig.ini.php).
+
+In the installation mode, it is possible to access to the database, but not in
+the configuration mode. Because this is a step done before to install
+the application on a server, so there is no database.
+
+===== Configuration script =====
+
+When you launch the command @@php dev.php module:configure@@, the configurator
+searches the file @@configure.php@@ in the directory @@F@install/@@ of your module.
+
+In this file, it should have a class with the name @@C@<mymodule>ModuleConfigurator@@,
+which should inherits from @@C@\Jelix\Installer\Module\Configurator@@.
+
+After instanciating this class, the Jelix configurator solve dependencies of the
+module, and then configure other modules that the current module needs, if they
+are not configured.
+
+Then it retrieves default parameters of the module installer, by calling the
+method @@getDefaultParameters()@@, that you can redefine to indicate the
+list of parameters and their default values.
+
+The next step is the call of the method @@preConfigure()@@ of configurators
+of module that are needed to configure. It it the opportunity in this method,
+to check things that are important for the module, and to throw an exception
+if requirements does not exist.
+
+When no method @@preConfigure()@@ fail, then all methods @@configure()@@ are
+called, and then all methods @@postConfigure()@@ are called. This last method
+is useful when you want to finish the configuration after the configuration of
+other modules.
+
+An other specific method can be implemented: @@localConfigure()@@. It is called
+when the user configure an instance of the application (local configuration).
+It could ask connection parameters for example.
+
+An object @@PreConfigurationHelpers@@ is given to @@preConfigure()@@, and an
+object @@ConfigurationHelpers@@ is given to @@configure()@@, @@postConfigure()@@
+and @@localConfigure()@@. It brings some methods allowing to do many thing.
+
+The first purpose is to access to configuration files of the application and
+to modify them. @@getConfigIni()@@ returns an object allowing to modify the
+configuration file that is relevant for the current context. You have also
+some methods like @@declareGlobalWebAssets@@, @@getEntryPointsList()@@,
+@@getMainEntryPoint()@@ etc.. See section below that explains all of them.
+
+An other useful method is @@ConfigurationHelpers::cli()@@ that returns an object
+@@InteractiveConfigurator@@, allowing to ask interactively informations to the user
+(except when the option @@--no-interaction@@ has been given on the command line).
+
+These informations may be values for the configuration, but also values for
+parameters of the module installer. They are stored into the property @@parameters@@.
+It contains default values returns by @@getDefaultParameters()@@ merged with
+current values (stored into the @@installparam@@ option for the module in main configuration).
+
+@@InteractiveConfigurator@@ has some methods like @@askConfirmation()@@,
+@@askInformation()@@ etc. In fact it eases the use of object  @@QuestionHelper@@,
+@@Output@@ et @@Input@@ of the Symfony Console component.
+
+An example with the configurator of jAcl2Db:
+
+<code php>
+class jacl2dbModuleConfigurator extends \Jelix\Installer\Module\Configurator {
+
+    // here, default installation parameters
+    public function getDefaultParameters()
+    {
+        return array(
+            // parameter to know if default groups should be created
+            'defaultgroups' => true,
+            // parameter to know if a default user should be created
+            'defaultuser' => true
+        );
+    }
+
+    // called during the framework configuration (system configuration)
+    public function configure(\Jelix\Installer\Module\API\ConfigurationHelpers $helpers) {
+
+        // we ask if default groups "admins" and "users" should be created
+
+        $this->parameters['defaultgroups'] = $helpers->cli()
+            ->askConfirmation('Do you want to setup default "admins" and "users" groups in acl2?',
+                $this->parameters['defaultgroups']);
+
+        // we ask if a default user "admin" should be created
+        $this->parameters['defaultuser'] = $helpers->cli()
+            ->askConfirmation('Do you want to setup default "admin" user in acl2?',
+                $this->parameters['defaultuser']);
+
+        // we modify the configuration of jAcl2 to setup the "db" driver
+        $config = $helpers->getConfigIni();
+        $driver = $config->getValue('driver','acl2');
+        if ($driver != 'db') {
+            $config->setValue('driver','db','acl2');
+        }
+    }
+
+    // called during the local configuration (on an application instance)
+    public function localConfigure(\Jelix\Installer\Module\API\LocalConfigurationHelpers $helpers) {
+        // we can do modification here on the profiles.ini.php, because
+        // localConfigure is called when we install or update an application on a server
+        $helpers->declareDbProfile('jacl2_profile', null, false);
+    }
+}
+</code>
+
+It is possible to "de-configure" a module, in order to delete it. Use the
+command @@php dev.php module:unconfigure@@.
+
+In this case, Jelix will call the method @@unconfigure()@@ of your class,
+in which you can remove modification made in configuration files, remove files
+you installed etc.
 
 ===== An installation script =====
 
 This is a file, @@F@install.php@@, that you store into the @@F@install/@@
 directory of the module.
 
-It should contain a class, inheriting from @@C@jInstallerModule2@@, and named
-@@C@{module}ModuleInstaller@@, where @@{module}@@ should be the name of the
+It should contain a class, inheriting from @@C@\Jelix\Installer\Module\Installer@@, and named
+@@C@<mymodule>ModuleInstaller@@, where @@<mymodule>@@ should be the name of the
 module. Ex: @@C@mainModuleInstaller@@ for the @@main@@ module.
 
-Note: @@C@jInstallerModule2@@ is a new class in Jelix 1.7, and the @@C@jInstallerModule@@ class
-is now deprecated. These two classes have not the same methods. 
+Note: @@C@Jelix\Installer\Module\Installer@@ is a new class in Jelix 1.7, and
+the @@C@jInstallerModule@@ class is now deprecated. These two classes have not
+the same methods.
 
 In your new class, you need to create a method @@M@install()@@ where you'll do all
 things to install the module: database modifications, file copies, configuration
 changes etc..
 
-
 <code php>
 <?php
-class newsModuleInstaller extends jInstallerModule2 {
+class newsModuleInstaller extends \Jelix\Installer\Module\Installer {
 
-    function install() {
-        $db = $this->dbConnection();
-        $db->exec('CREATE TABLE...');
+    function install(\Jelix\Installer\Module\API\InstallHelpers $helpers) {
+         $db = $helpers->database()->dbConnection();
+         $db->exec('CREATE TABLE IF NOT EXISTS foo ...');
     }
-} 
+}
 
 </code>
 
@@ -67,112 +183,40 @@ which will stop the whole installation.
 
 <code php>
 <?php
-class newsModuleInstaller extends jInstallerModule2 {
+class newsModuleInstaller extends \Jelix\Installer\Module\Installer {
 
-    function preInstall() {
+    function preInstall(\Jelix\Installer\Module\API\PreInstallHelpers $helpers) {
     }
 
-    function install() {
+    function install(\Jelix\Installer\Module\API\InstallHelpers $helpers) {
     }
 
-    function postInstall() {
-    }
-} 
-
-</code>
-
-You can also redefines methods that allow to disinstall the module:
-
-<code php>
-<?php
-class newsModuleInstaller extends jInstallerModule2 {
-
-    function preUninstallEntryPoint(jInstallerEntryPoint2 $entryPoint) {
+    function postInstall(\Jelix\Installer\Module\API\InstallHelpers $helpers) {
     }
 
-    function uninstallEntryPoint(jInstallerEntryPoint2 $entryPoint) {
-    }
-
-    function postuninstallEntryPoint(jInstallerEntryPoint2 $entryPoint) {
-    }
 }
+
 </code>
 
-They will be called when the command @@php dev.php module:uninstall <module>@@ is executed.
+@@$helpers@@ parameters have some properties and methods which help you to
+access to the database, the configuration files etc.
 
-@@C@jInstallerModule2@@ contains a number of properties and method which helps
-you to access to the database, to the configuration file etc..
+However they are not identical. For @@install()@@, there is almost same
+methods to access to the configuration (see next section), as for @@preInstall()@@,
+but it have too a method @@database()@@ giving a @@DatabaseHelpers@@ object,
+and some other methods to install some files.
 
-==== modifying configuration files ====
+==== Access to a database ====
 
-A Jelix application [[/configuration/configuration-files|has several ini files]]. You should not modify these
-files yourself, but you should use objects like @@\Jelix\IniFile\IniModifierArray@@
-that the install component gives to you.
+If your installation script interacts with a database (creating a table, modifying records
+in some tables etc), you have to use the object @@DatabaseHelpers@@ given by
+the method @@$helpers->database()@@. It has some methods to execute some requests.
 
-An object @@IniModifierArray@@ contains some objects @@\Jelix\IniFile\IniModifier@@,
-each of them correspond to an ini file. @@IniModifierArray@@ is an aggregator of ini 
-files which allows to see values as Jelix sees them when it merges ini files.
 
-   * @@$this->globalSetup->getConfigIni()@@ aggregate @@defaultconfig.ini.php@@ (provided by jelix)
-     with your @@app/system/mainconfig.ini.php@@.
-   * @@$this->globalSetup->getLocalConfigIni()@@, like @@getConfigIni()@@ with
-     @@var/config/localconfig.ini.php@@
-   * @@$entryPoint->getConfigIni()@@: aggregate @@defaultconfig.ini.php@@, @@mainconfig.ini.php@@
-     and the entrypoint configuration file (like @@app/system/index/config.ini.php@@).
-   * @@$entryPoint->getLocalConfigIni()@@ : like  @@$entryPoint->getConfigIni()@@,
-     with the additionnal @@localconfig.ini.php@@ and the local file of the entry point
-     like @@var/config/index/config.ini.php@@.
-
-With these objects, you can read and modify the files:
-
-<code>
-    $value = $this->globalSetup->getConfigIni()->getValue('disableCache', 'zones');
-
-    $this->globalSetup->getConfigIni()->setValue('disableCache', false, 'zones');
-</code>
-
-When you modify a value, it modify the last file of the aggregator. So for 
-@@$this->globalSetup->getConfigIni()@@, it will be @@mainconfig.ini.php@@;
-For @@$entryPoint->getConfigIni()@@ it will be @@app/system/index/config.ini.php@@ etc..
-
-If you want to read or modify a specific file, you can access from the aggregator by using
-a key, as if the aggregator was an array.
-
-   * @@$this->globalSetup->getConfigIni()['default']@@ for @@lib/jelix/core/defaultconfig.ini.php@@
-   * @@$this->globalSetup->getConfigIni()['main']@@ for @@mainconfig.ini.php@@
-   * @@$this->globalSetup->getLocalConfigIni()['local']@@ for @@var/config/localconfig.ini.php@@
-     (ainsi que @@['default']@@, @@['main']@@)
-   * @@$entryPoint->getConfigIni()['entrypoint']@@ for @@app/system/index/config.ini.php@@
-     (ainsi que @@['default']@@, @@['main']@@)
-   * @@$entryPoint->getLocalConfigIni()['localentrypoint']@@ for @@var/config/index/config.ini.php@@
-     (as well as @@['default']@@, @@['main']@@, @@['entrypoint']@@ and @@['local']@@)
-
-It returns an object @@\Jelix\IniFile\IniModifier@@ that have same methods, @@getValue()@@, @@setValue()@@...
-
-See the documentation of [[https://github.com/jelix/inifile|this library jelix/Inifile]] for
-details.
-
-==== Main properties or methods ====
-
-Here are some of methods or properties you can use on the parameter @@jInstallerEntryPoint2@@:
-
-  * @@$entryPoint->declareWebAssets()@@: declare web assets
-  * @@$entryPoint->execSQLScript()@@: execute an SQL script which is in a module of the entry points
-    (see similar method on @@jInstallerModule2@@).
-  * @@$entryPoint->getUrlMap()@@ to read/modify URL mapping for the entry point.
-  * @@$entryPoint->getType()@@, @@$entryPoint->getScriptName()@@, @@$entryPoint->getFileName()@@ 
-    to know properties of the entry point.
-
-Your install class has these following methods and properties:
-
-  * @@$this->globalSetup@@ is a @@jInstallerGlobalSetup@@ object allowing to access
-    to the global configuration, url configuration and other global data
-    * @@$this->globalSetup->getUrlModifier()@@ is an object @@XmlMapModifier@@ to read/modify url
-    * @@$this->globalSetup->declareNewEntryPoint()@@ to declare a new entry point.
-  * @@$this->dbConnection()@@: it returns a @@C@jDbConnection@@ object. Don't
-    call @@jDb::getConnection()@@, because you don't really know which is the
-    profile used for the module.
-  * @@$this->execSQLScript()@@: it executes a SQL script stored into the
+  * @@$helpers->database()->dbConnection()@@: returns a @@C@jDbConnection@@ object.
+    Don't call @@jDb::getConnection()@@ directly, because you may don't know the
+    default profile.
+  * @@$helpers->database()->execSQLScript()@@: it executes a SQL script stored into the
     @@F@install/@@ directory (or in one of its sub directory). Indicates a
     simple name, and it will load the script @@F@{name}.{dbtype}.sql@@. for
     example, if you call @@$this->execSQLScript('sql/install')@@ and if the
@@ -181,50 +225,16 @@ Your install class has these following methods and properties:
     script, but it should be compatible to all databases supported by your
     application.
   * @@$this->declareDbProfile()@@ to declare a new connection profile
-  * @@$this->getCoordPluginConf()@@ to get the configuration of a plugin for the coordinator
-  * @@$this->declareGlobalWebAssets()@@ to declare web assets
-  * @@$this->copyFile()@@ to copy a file, from the @@install/@@ directory 
-    to an other directory of your project. The first parameter is the path of 
-    the file to copy, relative to the @@install/@@ directory. The second parameter
-    is the target path. The target path can be an absolute path, or a prefixed path.
-    Prefixes can be @@www:@@ indicating the www/ directory, @@appconfig:@@ indicating app/system,
-    or @@config@@ indicating var/config.
-  * @@$this->copyDirectoryContent()@@ to copy content of a directory, from the install
-    directory to another place, typically to the @@F@www/@@ of the application. It works
-    like @@$this->copyFile()@@
 
-Don't hesitate to read the reference API of @@C@jInstallerModule2@@ and
-@@C@jInstallerBase@@, and to look at the installation script of modules provided
-by Jelix. You'll certainly learn many things.
+@@M@dbConnection()@@ and @@M@execSQLScript()@@ are using the same profile "default"
+for the connection. An alternate profile can be indicated at several places
+(listed by priority, the first is the highest priority):
 
+    * call the method @@M@$helpers->database()->useDbProfile()@@, by giving the
+      profile name.
+    * In the property @@P@defaultDbProfile@@ of your install class, you can
+      indicate the default profile to use for the installation of the module
 
-==== To not execute some part of your script ====
-
-You notice that in the example, we call the method @@M@firstDbExec@@. It tells you if this
-is the first time that you want to access to the database, for the current database
-profile (some entry points can share the same database profile). Remember that your
-installation script is called for each entry points (read above).
-
-You have also the method @@M@firstConfExec@@ to know if you did already have some changes
-to the current configuration file (some entry points can share the same configuration
-file, other than @@mainconfig.ini.php@@). If it returns true, you can then access to
-the configuration file, by retrieving the configuration object with @@$entrypoint->getConfigIni()@@.
-
-Then you have the method @@M@firstExec@@. You pass a keyword to this method. And it tells
-you if you already call this method with this keyword (false) or not (true). You call this
-method to determine yourself, in some conditions, if you want to execut several time a
-part of your installation script.
-
-==== Database profile used for the installation ====
-
-If your installation script interacts with a database (creating a table, modifying records
-in some tables etc), you have to use the method @@M@dbConnection()@@ or
-@@M@execSQLScript@@ to exécute queries. By default, it uses the "default" profile. An
-alternate profile can be indicated in several places (listed by priority, the first has
-the higher priority):
-
-    * In your install class, you call @@M@useDbProfile@@, by given the profile you want to use.
-    * In the property @@P@defaultDbProfile@@ of your install class, you can indicate the default profile to use for the installation of the module
 
 ==== Parameters for an installation ====
 
@@ -241,7 +251,7 @@ In this option, you can indicates simple names (it will be some booleans), or
 some names and values.
 
 <code ini>
-news.installparam = "enablecategories,defaultcategory=In the world"
+news.installparam = "enablecategories;defaultcategory=In the world"
 </code>
 
 Here, parameters will be a boolean named "enablecategories", and a parameter
@@ -256,7 +266,7 @@ for a boolean). If the parameter does not exists in the installparam option, it
 returns @@null@. Example:
 
 <code php>
-  function installEntryPoint(jInstallerEntryPoint2 $entryPoint) {
+  function install(\Jelix\Installer\Module\API\InstallHelpers $helpers) {
      if ($this->getParameter('enablecategories')) {
         // here some code to create the categories table for example...
         // ...
@@ -272,6 +282,109 @@ returns @@null@. Example:
 </code>
 
 
+===== Modifying configuration files =====
+
+A Jelix application [[/configuration/configuration-files|has several ini files]].
+You should not modify these files yourself in the installation script, but you
+should use objects like @@\Jelix\IniFile\IniModifierArray@@ that the install component gives to you.
+
+See the documentation of [[https://github.com/jelix/inifile|this library jelix/Inifile]] for
+details.
+
+The main method to use to read or modify the configuration is @@$helpers->getConfigIni()@@.
+You don't need to know if the given object read or modify @@app/system/mainconfig.ini.php@@,
+or @@var/config/localconfig.ini.php@@ or an other file. The installation/configuration
+system gives you the right file corresponding to the context (system configuration,
+local configuration, installation...).
+
+With the given object, you can read or write some values as in this example:
+
+<code>
+    $value = $helpers->getConfigIni()->getValue('disableCache', 'zones');
+
+    $helpers->getConfigIni()->setValue('disableCache', false, 'zones');
+</code>
+
+During pre-configuration or pre-installation, it is not possible to modify
+files, as these steps are only to check things.
+
+You have also methods to access to other configuration files.
+
+In ConfigurationHelpers and PreConfigurationHelpers classes:
+
+  * @@$helpers->getCoordPluginConfig()@@ to retrieve the configuration of a coordinator plugin
+  * @@$helpers->getProfilesIni()@@ to read/modify the profiles.ini.php file
+  * @@$helpers->configFilePath()@@ to know the path of the current configuration
+    directory. Indeed, it may be app/system or var/config, depending on the
+    context: configuration during the development, configuration of the module
+    on an application instance etc..
+
+In ConfigurationHelpers:
+
+  * @@$helpers->declareGlobalWebAssets()@@ to define some WebAssets
+  * @@$helpers->removeGlobalWebAssets()@@ to remove some WebAssets
+  * @@$helpers->declareDbProfile()@@ (only on the local configuration) to add a jDb Profile
+  * @@$helpers->removeDbProfile()@@ (only on the local configuration) to remove a jDb Profile
+
+
+In PreInstallHelpers et InstallHelpers:
+
+  * @@$helpers->getCoordPluginConfig()@@
+  * @@$helpers->getLocalConfigIni()@@
+  * @@$helpers->getProfilesIni()@@
+
+In InstallHelpers:
+
+  * @@$helpers->declareDbProfile()@@
+  * @@$helpers->removeDbProfile()@@
+  * @@$helpers->getLiveConfigIni()@@
+  * @@$helpers->declareGlobalWebAssets()@@
+  * @@$helpers->removeGlobalWebAssets()@@
+
+To acces to the configuration file of an entry point, you should retrieve the
+object representing the entry point, with methods @@$helpers->getMainEntryPoint()@@,
+@@$helpers->getEntryPointsList()@@, @@$helpers->getEntryPointsById()@@ or
+@@$helpers->getEntryPointsByType()@@, and you should use its method @@getConfigIni()@@:
+
+<code>
+    $entryPoint = $helpers->getMainEntryPoint();
+    $entryPointConfig = $entryPoint->getConfigIni();
+    $value = $entryPointConfig->getValue('disableCache', 'zones');
+
+    $entryPointConfig->setValue('disableCache', false, 'zones');
+</code>
+
+Its other methods are:
+
+  * @@$entryPoint->getUrlMap()@@ to read/modify URL mapping for the entry point.
+  * @@$entryPoint->getCoordPluginConfig()@@  to retrieve the configuration of a coordinator plugin
+  * @@$entryPoint->declareWebAssets()@@ to define some WebAssets for the entry point
+  * @@$entryPoint->getType()@@, @@$entryPoint->getScriptName()@@, @@$entryPoint->getFileName()@@
+    to know which is the entry point.
+
+
+===== Installing some files =====
+
+Your script for configuration or installation could copy some files into
+specific directories of the application. It could be a configuration
+file dedicated to the module, or some css/js files to copy into the
+www directory.
+
+ConfigurationHelpers and InstallHelpers provides some methods to do it:
+
+  * @@$helpers->copyFile()@@ to copy a file, from the @@install/@@ directory
+    to an other directory of your project. The first parameter is the path of
+    the file to copy, relative to the @@install/@@ directory. The second parameter
+    is the target path. The target path can be an absolute path, or a prefixed path.
+    Prefixes can be @@www:@@ indicating the www/ directory, @@config:@@ indicating app/system
+    or var/config depending on the context.
+  * @@$helpers->removeFile()@@ allowing to delete a file that you installed with
+    @@copyFile()@@
+  * @@$helpers->copyDirectoryContent()@@ to copy content of a directory, from the install
+    directory to another place, typically to the @@F@www/@@ of the application. It works
+    like @@$helpers->copyFile()@@
+  * @@$helpers->removeDirectoryContent()@@ qui permet de supprimer un répertoire que vous
+    avez installé avec @@copyDirectoryContent()@@
 
 ===== Scripts to update a module =====
 
@@ -296,7 +409,6 @@ module. Imagine that you have these scripts (with deprecated format of names):
     * @@F@upgrade_eee.php@@ (declaring version 1.2)
     * @@F@upgrade_hello.php@@ (declaring version 1.3)
 
-
 If the current version of the module is 1.1 and the new version of the module
 (indicated by the new @@F@module.xml@@ file) is 1.2, then only these scripts
 will be executed, in this order:
@@ -310,13 +422,10 @@ name, and @@{label}@@, the label indicated in the filename of the script.
 
 Because several scripts for update can be executed for the module, then class
 name must be different (else PHP won't like it). This is why we use a label,
-which **should be different for each script of a module**. (Jelix developers
-could use the version number instead of a label, but unfortunately, PHP doesn't
-like characters like "." or "-" in a class name).
+which **should be different for each script of a module**.
 
-The class should inherit from @@M@jInstallerModule2@@, so you have exactely same
-behaviors and methods as in installation script. So you must implements a method
-@@M@installEntryPoint()@@, you can call @@M@firstDbExec@@, @@M@getParameter@@ etc..
+The class should inherit from @@M@\Jelix\Installer\Module\Installer@@, so you have exactly same
+behaviors and methods as in installation script.
 
 As we saw, a class is doing an update for a specific version. You must indicate
 the version number into the property @@P@$targetVersions@@ (which is an array),
@@ -325,22 +434,22 @@ and a date in the property @@P@$date@@ with the format 'yyyy-mm-dd' or
 
 <code php>
 <?php
-class newsModuleUpgrader_fff extends jInstallerModule2 {
+class newsModuleUpgrader_fff extends \Jelix\Installer\Module\Installer {
 
     public $targetVersions = array('1.2');
     public $date = '2001-06-21';
 
-    function installEntryPoint(jInstallerEntryPoint2 $entryPoint)  {
+    function install(\Jelix\Installer\Module\API\InstallHelpers $helpers)  {
        // ....
     }
 
-} 
+}
 </code>
 
 You'll guess that you can indicate several versions in @@P@$targetVersions@@. It
 is useful when you have several branch in a project, and when an update script
 should be executed for several branch. With the date of the release, Jelix can
-determinate if, during an update, it can execute the script or not. 
+determinate if, during an update, it can execute the script or not.
 
 For instance, you have a script for an update for versions 1.24 and 1.35. If the
 user update from the version 1.2.3 or from the version 1.3.4, the script will be
@@ -348,3 +457,47 @@ called. If he update from the version 1.2.5 to the version 1.3.6, the script
 won't be called because the 1.2.6 version contains modifications brought by the
 1.2.5 version.
 
+
+===== Script to uninstall =====
+
+You can provide a uninstall script for your module, in the @@install/uninstall.php@@ file.
+It is executed when the module is disabled or does not exists anymore into the
+application.
+It could remove some file, remove some table or data from the database etc.
+
+Whe you (as developer), you decide to remove a module from the application,
+you should execute the command @@dev.php module:unconfigure@@. This command
+will call the method @@unconfigure.php@@ of the configuration script of the module.
+It will also copy the script @@uninstall.php@@ into a specific directory
+of the application (outside the module). You can then remove the source code
+of the module, and keep @@uninstall.php@@ until all instances of the application
+will be upgraded. The installer of jelix of an instance could call this script.
+
+The uninstall script must contain a class inheriting from
+@@C@\Jelix\Installer\Module\Uninstaller@@, and named @@C@<monmodule>ModuleUninstaller@@,
+where @@<monmodule>@@ is the name of the module. Ex: @@C@mainModuleUninstaller@@
+for the module @@main@@.
+
+This class may contain three methods, @@preUninstall()@@, @@uninstall()@@,
+@@postUninstall()@@, each of them accepting same kind of parameters as install
+classes.
+
+<code php>
+<?php
+class newsModuleUninstaller extends \Jelix\Installer\Module\Uninstaller {
+
+    function preUninstall(\Jelix\Installer\Module\API\PreInstallHelpers $helpers) {
+    }
+
+    function uninstall(\Jelix\Installer\Module\API\InstallHelpers $helpers) {
+    }
+
+    function postUninstall(\Jelix\Installer\Module\API\InstallHelpers $helpers) {
+    }
+
+}
+</code>
+
+You can do same processing as in an install class. However it mustn't rely on
+files of the module, as it may be called when the source code of the module is
+not in the application anymore.

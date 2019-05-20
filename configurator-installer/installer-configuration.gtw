@@ -2,4 +2,38 @@
 
 The installation system has some parameters allowing to modify its behaviors.
 
-TODO
+These parameters may be changed only for some very specific case. It is not
+recommanded to modify them.
+
+
+==== Activate automatically all modules ====
+
+If you want to enable all modules, you can set this option in the global
+section of the configuration: @@enableAllModules=on@@. @@*.enabled@@ values in
+the @@modules@@ section will be ignored.
+
+**Warning**: only do this if you know what you do, you could activate some
+modules you don't know (especially in composer packages). Use it only on specific
+project.
+
+==== Deactivate installation scripts ====
+
+It is possible to deactivate some or all modules installers.
+
+However, it means it is your responsability to do manually all tasks these scripts
+do. Updates will be also more difficult.
+
+If you don't want to execute the installation script of a module, indicate it
+with the @@skipinstaller@@ option and the value @@skip@@. In the section @@modules@@,
+here is an example with a "news" module:
+
+<code>
+news.skipinstaller=skip
+</code>
+
+
+It is possible to deactivate completely the installation system, and then modules
+will be implicitely installed. To deactivate, set this option in the global
+section of the configuration: @@disableInstallers=on@@. Then you don't have to
+execute @@app:install@@. Update the sources of modules, and update all things
+needed by the module, "by hand". That's all (but it is less easy).

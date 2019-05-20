@@ -1,10 +1,10 @@
 ~~LANG:FR@frman:configurateur-installateur/installer-un-module~~
 
-This section is not targeting new modules created with the @@c@module:create@@
+This section is not targeting new modules created with the @@dev.php module:create@@
 command, as this command activate and install the new module.
 
 You should read this section if you want to create manually a module, or to
-install an existing module, provided with Jelix or by an other project.
+install an existing module, provided by Jelix or by an other project.
 
 
 ===== Declaring the directory of a module =====
@@ -54,12 +54,6 @@ Of course, if you have several entry points, the module should be accessible
 only from a one of them. So don't forget to [[/components/urls|configure correctly the url engine]],
 and so Jelix could generate modules URLS correctly with their respective entrypoints.
 
-Note: if you want to enable all modules, you can set this option in the global
-section of the configuration: @@enableAllModules=on@@. @@*.enabled@@ values in
-the @@modules@@ section will be ignored. **Warning**: only do this if you know
-what you do, you could activate some modules you don't know. Use it only on
-specific project.
-
 Note: in Jelix 1.6 and before, the activation was made with the property @@access@@
 instead of @@enabled@@. This property is not used anymore, and the migration
 tools of Jelix may have made the modification.
@@ -71,24 +65,15 @@ need some parameters. These parameters can be indicated into a specific options 
 section "modules": @@themodule.installparam=something@@. Example for a module "news":
 
 <code>
-   news.installparam = "enablecategories,defaultcategory=In the world"
+   news.installparam = "enablecategories;defaultcategory=In the world"
 </code>
 
-Parameters, separated by a coma, can be simple keyword, or some key/value.
+Parameters, separated by a semi-colon, can be simple keyword, or some key/value.
+For values that are list of values, each value is separated by a coma.
 
 In general, the configurator of a module ask you the value of these parameters
 (when you launch @@module:configure@@). And so, the @@installparam@@ property
 will be set automatically.
-
-An other installation parameter: if you don't want to execute the installation
-script of a module, indicate it with the @@skipinstaller@@ option and the
-value @@skip@@.
-
-<code>
-news.skipinstaller=skip
-</code>
-
-Be carefull, by disabling the installer, the module may not work correctly.
 
 ===== Installation of a module =====
 
@@ -100,7 +85,7 @@ So you, as a developer on your test instance, or any owner of production instanc
 should launch the installer at each new version of the application, so new modules
 will be "installed".
 
-You do it with the command @@c@app:install@@ or the script @@install/installer.php@@.
+You do it with the script @@install/installer.php@@.
 It executes the installation script provided within the module, if it exists,
 and then it declares the module into the @@F@var/config/installer.ini.php@@ file.
 
@@ -112,29 +97,16 @@ tables into a database, it may generate some cryptographic keys etc..
 
 <code bash>
 php install/installer.php
-# or
-php dev.php app:install
 </code>
 
-
-Note: It is possible to deactivate completely the installation system, and then modules
-will be implicitely installed, without calling the command @@app:install@@. To
-deactivate, set this option in the global section of the configuration:
-@@disableInstallers=on@@. However, you should configure and install all things needed by
-the module (tables in the database for instance). Updates will be harder too.
-Deactivate it only on some specific project.
 
 ===== Updating a module =====
 
 To update a module, replace current sources of the module by the new sources, then launch
-the command @@c@app:install@@ or the script @@install/installer.php@@.
+the script @@install/installer.php@@.
 
 The installation system of Jelix will execute update scripts of the module if
 they exist, and update the @@F@var/config/installer.ini.php@@ file. Of course,
 it works well only if the version of the module is well indicated into the
 module.xml file of the module.
 
-Note: If you have deactivate the installation system with @@disableInstallers=on@@, you
-don't have to execute @@app:install@@. Update the sources
-of the module, and update all things needed by the module, "by hand".
-That's all (but it is less easy).
