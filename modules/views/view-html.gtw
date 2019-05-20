@@ -335,16 +335,16 @@ mygroup2.js[]= "js/baz.js"
 
 The path you indicate for JS and CSS links, can be:
 
-- 1) an absolute path, starting with @@/@@, or a full URL (starting with @@http://@@ )
-- 2) a path relative to the base path (so it doesn't start with @@/@@)
-- 3) a path starting with @@$theme/@@, where @@$theme@@ will be replaced by a path
-     like @@<basepath>/themes/<current_theme>/@@
-- 4) a path starting with @@$jelix/@@, where @@$jelix@@ will be replaced by the path
-    ot the jelix-www directory.
-- 5) a selector of a module action: @@<module>~<controller>:<method>@@. This
-   action should return a JS or CSS content.
-- 6) a module name, followed by @@:@@ and then by a path. This path should correspond
-   to a file inside the @@www/@@ directory of the indicated module.
+  # an absolute path, starting with @@/@@, or a full URL (starting with @@http://@@ )
+  # a path relative to the base path (so it doesn't start with @@/@@)
+  # a path starting with @@$theme/@@, where @@$theme@@ will be replaced by a path
+    like @@<basepath>/themes/<current_theme>/@@
+  # a path starting with @@$jelix/@@, where @@$jelix@@ will be replaced by the path
+    of the jelix-www directory.
+  # a selector of a module action: @@<module>~<controller>:<method>@@. This
+    action should return a JS or CSS content.
+  # a module name, followed by @@:@@ and then by a path. This path should correspond
+    to a file inside the @@www/@@ directory of the indicated module.
 
 Path like 1) to 4) can contain also some variables, @@$locale@@ or @@$lang@@,
 that will be replaced respectively by the current locale code (xx_YY) and the
@@ -359,6 +359,18 @@ example.js[]= related/to/basepath
 example.js[]= "module:path/to/file.js, module~ctrl:meth"
 example.js[]= "$theme/path/to/file.js, path/$lang/machin.js, /$locale/truc.js"
 </code>
+
+You can also indicate some attributes which will be added to the @@script@@ or
+@@link@@ element, like @@defer@@ or @@media@@ attributes:
+
+<code ini>
+example.js[]= "myscript.js|defer"
+example.js[]= "https://popular.com/script.js.js|defer|integrity=sha384-oqVuAfXRKap7fdgcCY5uykM6+R9GqQ8K|crossorigin=anonymous"
+example.js[]= "mymodule.mjs|type=module"
+example.css[]= "mystyle.css|media=screen and (max-width: 600px)"
+example.css[]= "fancy.css|rel=alternate stylesheet|title=Fancy"
+</code>
+
 
 Sometimes you may need to include a group when using an other group. For example, the assets group
 "jforms_html" needs to include also the group "jquery". You can indicate this dependency into the
