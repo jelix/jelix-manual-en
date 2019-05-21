@@ -1,7 +1,7 @@
 ~~LANG:FR@frman:composants/droits/configuration~~
 
-Before using jAcl2 API and its "db" driver (or "dbcache"), you have to setup a
-database and fill it with elements composing rights.
+Before using jAcl2 API and its "db" driver (or the "dbcache" driver), you have
+to setup a database and fill it with elements composing rights.
 
 ===== Installation =====
 
@@ -39,17 +39,21 @@ force_encoding=true
 
 === jAcl2.db tables  ===
 
-To create and initialise tables needed by the driver, you should install the module **jacl2db**.
+To create and initialise tables needed by the driver, you should install the
+module **jacl2db**.
 
 <code php>
-php dev.php module:install jacl2db
+# launch the configuration
+php dev.php module:configure jacl2db
 </code>
 
 If you want to initialize rights for a first user/group named "admin":
 
 <code php>
-php dev.php module:install -p defaultuser jacl2db
+php dev.php module:configure -p defaultuser jacl2db
 </code>
+
+Then launch @@php install/installer.php@@.
 
 Once created, you can start configuring rights.
 

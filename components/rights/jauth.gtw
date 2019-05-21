@@ -10,9 +10,9 @@ retrieve jAuth current user and then check rights through @@M@jAcl2::check()@@.
 
 ===== jAuth interacts with jAcl2 =====
 
-For example, if you use jCommunity module (a module you'll find on http:://booster.jelix.org)
-and jAcl2, you would want a new member to receive "defaults" rights and when he
-will delete his account, its own rights would also be.
+For example, if you use the jCommunity module and jAcl2, you would want a new
+member to receive "defaults" rights and when he will delete his account, its
+own rights would also be.
 
 Generically, calling @@M@jAuth::saveNewUser()@@, @@M@jAuth::removeUser()@@ and
 so on, should trigger updates to jAcl2 user rights.

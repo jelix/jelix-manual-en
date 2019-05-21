@@ -16,7 +16,8 @@ authentication system.
 First step: you must install the jacl2 module.
 
 <code php>
-php dev.php module:install jacl2
+php dev.php module:configure jacl2
+php install/installer.php
 </code>
 
 You must also indicate the driver to use.
@@ -52,7 +53,8 @@ method to use: @@M@jAcl2::check()@@.
 ==== jAcl2::check ====
 
 
-It will probably be the most used method for checking rights. It returns right or false, of course. Example:
+It will probably be the most used method for checking rights. It returns right
+or false, of course. Example:
 
 <code php>
 if( jAcl2::check("cms.articles.create")){
