@@ -88,6 +88,14 @@ Here is an example of a response from your module:
 foo="mymodule~myFooResponse"
 </code>
 
+Or if the class can be autoloaded by its namespace:
+
+<code ini>
+[responses]
+foo="\My\Foo\Response\Class"
+</code>
+
+
 Then in a controller, you can use @@C@myFooResponse@@:
 
 <code php>

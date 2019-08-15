@@ -1,6 +1,8 @@
 ~~LANG:FR@frman:application/creer-administration~~
 
-The @@app:initadmin@@ command adds an administration web interface to your
+===== The app:init-admin command =====
+
+The @@app:init-admin@@ command adds an administration web interface to your
 application. It enables [[/ref-modules/master_admin|master_admin jelix module]],
 and can automatically configure authentication ([[/components/authentication|jAuth]]) and
 rights accesses ([[/components/rights|jAcl2]]).
@@ -13,7 +15,7 @@ To create this administration interface, first, [[/components/database/configura
 Then you can run in your application:
 
 <code bash>
-   php dev.php app:initadmin index
+   php dev.php app:init-admin index
 </code>
 
 @@index@@ is the name of the entry point (without the extension @@.php@@)
@@ -30,8 +32,10 @@ of the administration.
 
 Note that before running this command, you have to configure the database access
 in @@F@profiles.ini.php@@, because it will create all needed tables for jAuth
-and jAcl2. If you prefer to configure jAuth and/or jAcl2 by yourself, you can
-indicate options to the command, respectively @@--noauthdb@@ and @@--noacl2db@@.
+and jAcl2. If you prefer to configure jAuth and/or jAcl2 by yourself (or to use
+other modules implementing authentication or acl management), you can
+indicate options to the command : @@--no-jauth@@, @@--no-jauthdb@@,
+@@--no-jauthdb-admin@@ and/or @@--no-acl2db@@.
 
 After having created the admin interface (and configuring jAuth and jAcl2
 correctly if you used  @@--noauthdb@@ and/or @@--noacl2db@@), you can run the
@@ -90,7 +94,7 @@ file provided with the jauth module.
  </entrypoint>
 </code>
 
-When you executed @@app:initadmin@@, if you didn't deactivated authentication
+When you executed @@app:init-admin@@, if you didn't deactivated authentication
 with jAuthDb and/or rights management with jAcl2Db, you have then to defines urls for
 the jauthdb_admin module and/or jacl2db_admin. Include their @@F@urls.xml@@
 files:

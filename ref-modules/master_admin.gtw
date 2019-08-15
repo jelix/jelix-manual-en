@@ -185,7 +185,7 @@ The module contains two templates:
 
 You should use this templates in your response object. 
 
-The @@c@initadmin@@ jelix command creates by default two responses object,
+The @@c@init-admin@@ jelix command creates by default two responses object,
 @@C@adminHtmlResponse@@ and @@C@adminLoginHtmlResponse@@ in your
 @@F@responses/@@ directory. This responses use the template of master_admin, and
 you can of course modify this objects to customize them.

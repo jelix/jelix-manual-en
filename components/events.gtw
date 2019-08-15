@@ -101,6 +101,25 @@ First, the @@M@onAuthCanLogin@@ method retrieves an 'user' parameter from the
 event object. Next, it does it's internal processing, and finally, it adds some
 data to the response by calling @@M@$event->Add@@.
 
+For events having a name that cannot be a method name, like name including
+characters like a dot, you can indicate the method to execute into a property
+@@eventMapping@@. Keys are event names, values are method names.
+
+<code php>
+class authListener extends jEventListener {
+
+    protected $eventMapping = array(
+      'foo.bar' => 'execFooBar'
+    );
+
+    function execFooBar ($event) {
+        // here process the event.
+    }
+}
+</code>
+
+
+
 Note: the convention of the name of methods and the calling of methods
 corresponding to events can be changed by redefining the method @@M@performEvent@@
 of your listener.

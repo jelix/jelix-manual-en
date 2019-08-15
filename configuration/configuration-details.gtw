@@ -235,13 +235,17 @@ in [[/components/templates|templates]]), but also jDao, jForms...
 
 <code ini>
 [compilation]
+sourceFileResolutionInCache = off
 checkCacheFiletime  = on
 force  = off
 </code>
 
-  * **checkCacheFiletime ** : if //on// the source file will be compiled if its
+  * @@sourceFileResolutionInCache@@: if @@on@@, it memorize into a cache the
+    target file. It is particulary useful in production, for templates or
+    locales for exemple, for which files can be found in different directories.
+  * @@checkCacheFiletime@@: if @@on@@ the source file will be compiled if its
     file modification date is more recent than its already PHP compiled file.
-  * **force** : if //on//, template is systematically compiled
+  * @@force@@: if @@on@@, target file is systematically compiled
 
 ==== section zone ====
 

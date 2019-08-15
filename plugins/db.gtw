@@ -16,10 +16,6 @@ A jDb driver must implement several classes:
    * a class collecting results, inheriting from @@C@jDbResultSet@@
    * classes inheriting from @@C@jDbSchema@@ and @@C@jDbTable@@, to allow 
      to query and modify the schema of a database
-   * a class inheriting from @@C@jDbTools@@, which list the correspondence
-     between SQL types of the database to the unified type used inside 
-     @@C@jDb@@ and @@C@jDao@@. This class could also implement a method, 
-     @@M@execSQLScript@@ which executes a SQL script.
 
 ==== Namings and Files ====
 
@@ -36,15 +32,12 @@ Filename conventions:
    * @@F@example.dbconnection.php@@ : connection file
    * @@F@example.dbresultset.php@@  : resultset file
    * @@F@example.dbschema.php@@     : schema file
-   * @@F@example.dbtools.php@@      : tool file
-
 
 Each file shall declares and implements its related class:
 
    * @@C@exampleDbConnection@@ : connection class
    * @@C@exampleDbResultSet@@  : resultset class
    * @@C@exampleDbSchema@@ and @@C@exampleDbTable@@     : schema classes
-   * @@C@exampleDbTools@@      : tool class
 
 ==== Connection class ====
 
@@ -100,23 +93,8 @@ Many methods should be redefined. Look at the reference API to know which to
 implements.
 
 
-==== Utility Class ====
-
-It must inherit from @@C@jDbTools@@. This class is used for example by the
-jelix-scripts, to generate daos.
-
-You should redefine this methods and properties:
-
-  * @@M@execSQLScript()@@, if you want to redefine the way how a SQL script 
-    is parsed an executed.
-  * @@P@$typesInfo@@, containing the correspondence between sql types and 
-    unified types.
-
-
-See [[refclass:jDbTools|jDbTools reference]].
-
 ==== Existing drivers  ====
 
 @@F@lib/jelix/plugins/db/@@ contains all jelix standard drivers :
-mysql, postgresql, sqlite3, mssql, sqlsrv, oci.
+mysqli, postgresql, sqlite3, sqlsrv, oci.
 

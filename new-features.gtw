@@ -167,6 +167,7 @@ because of the configuration system.
     classes of jDb plugins are not recognized anymore.
   * jDb schema: all improvements coming from Jelix 1.6.16. Full
     support of SQL schema changes with Mysql, Postgresql Sqlite3, OCI and SQLServer.
+  * Classes of jDbTools have been migrated outside the database plugins.
 
   *  jProfiles:
      * The content of profiles.ini.php is optimized and stored in a cache
@@ -295,6 +296,7 @@ there are available with the Jelix package via Composer dependencies.
     and is replaced by a 'dbtype' attribute
   * jDao: the support of the attribute @@groupby@@ on the element @@method@@ has been removed
   * jDao: the deprecated method @@jDaoConditions::addItemGroup()@@ has been removed
+  * the driver @@mssql@@ for jDb has been deprecated. Use the driver @@sqlsrv@@ instead.
 
   * Simpletests and the junittests module has been removed. If you need them, you can
     still installed separately (with Composer for example).

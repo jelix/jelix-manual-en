@@ -21,6 +21,9 @@ Templates of a theme can also be stored into @@F@var/themes/@@. But it should
 be only templates created by the application itself or an other process,
 during the life of the application.
 
+A module can also provide its templates for some specific themes.
+Templates should then be stored into its directory @@templates/themes/theme_name/@@
+
 ===== Theme and design files =====
 
 Here design files means CSS, graphics, JS files. Those files must be accessible

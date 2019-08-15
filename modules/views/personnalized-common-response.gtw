@@ -183,6 +183,12 @@ you should indicate the module like a selector:
 html="main~myHtmlResponse"
 </code>
 
+Or if the class can be autoloaded by its namespace:
+
+<code ini>
+[responses]
+html="\My\Html\Response\Class"
+</code>
 
 So all actions which will then use the "html" response (by doing this,
 @@$this->getResponse('html')@@), will provide a page with a login form generated
