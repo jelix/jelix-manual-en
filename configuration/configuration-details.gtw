@@ -3,8 +3,7 @@
 
 ===== project.xml =====
 
-The file @@F@project.xml@@ contains some informations on the application. Some
-of these are important because they are used by the installer.
+The file @@F@project.xml@@ contains some informations about the application.
 
 It is an XML file with a @@E@<project>@@ as root element, and which contains 4
 elements:
@@ -14,17 +13,12 @@ elements:
     <info id="testapp@jelix.org" name="testapp" createdate="2017-01-01">
      ...
     </info>
-    <dependencies>
-     ...
-    </dependencies>
-    <entrypoints>
-     ...
-    </entrypoints>
 </project>
 </code>
 
 Note: in Jelix 1.6 and older version, there was a section  @@<directories>@@
-which does not exists anymore.
+and @@<dependencies>@@ which do not exists anymore. There was also a section
+@@<entrypoints>@@ but its content has been migrated to a new file @@app/system/framework.ini.php@@.
 
 ==== info ====
 
@@ -56,37 +50,13 @@ The attribute @@A@name@@ should be a "technical" name (the name of the directory
 of the application or of the module for instance). The @@E@label@@ element can
 contain a displayable name.
 
-==== dependencies ====
-
-The element @@E@<directories>@@ should contain informations about dependencies
-of the application. For the moment, only the jelix version is required.
-
-<code xml>
-<dependencies>
-     <jelix minversion="1.6.0" maxversion="1.6.*" />
-</dependencies>
-</code>
-
-==== entrypoints ====
-
-The @@E@entrypoints@@ element list all entry points of the application (in
-@@F@www/@@ or @@F@scripts/@@), with their configuration file and their type.
-
-<code xml>
-    <entrypoints>
-        <entry file="index.php" config="index/config.ini.php" />
-        <entry file="soap.php" config="soap/config.ini.php" type="soap"/>
-        <entry file="jsonrpc.php" config="jsonrpc/config.ini.php" type="jsonrpc"/>
-        <entry file="cmdline.php" config="cmdline/config.ini.php" type="cmdline"/>
-    </entrypoints>
-</code>
-
-
 ===== module.xml =====
 
 A @@F@module.xml@@ file must be present in each directory of modules. It
-contains a root element @@E@module@@ which should contain a @@E@<info>@@ element
-and @@E@<dependencies>@@ element. See above to know how to write these elements.
+contains a root element @@E@module@@ which should contain a @@E@<info>@@ element,
+and may contain a @@E@<dependencies>@@ element or a @@E@<autoload>@@ element.
+
+Example:
 
 <code xml>
 <module xmlns="http://jelix.org/ns/module/1.0">
@@ -144,6 +114,38 @@ Here, you try to install the module although the supertest is already installed,
 the installation will fail. Or if your module is already installed and you
 try to install supertest, the installation will fail too.
 
+To declare the auto-loading of some classes in a @@<autoload>@@ element,
+see [[/modules/using-classes|the chapter about classes]].
+
+===== The framework.ini.php file =====
+
+This file contains a list of all entry points of the application, with the filename
+of their configuration, and their type.
+
+There is a section for each entry point. The section name starts with @@entrypoint:@@,
+followed by the name of the entry point.
+
+Each section contains a property @@config@@ indicating the filename of the
+configuration, and a property @@type@@ indicating the type of entry point.
+
+Example:
+
+<code ini>
+
+[entrypoint:index.php]
+config="index/config.ini.php"
+type=classic
+
+[entrypoint:soap.php]
+config="soap/config.ini.php"
+type=soap
+
+[entrypoint:jsonrpc.php]
+config="jsonrpc/config.ini.php"
+type=jsonrpc
+
+</code>
+
 ===== configuration ini files=====
 
 They are files @@F@mainconfig.ini.php@@, @@F@<entrypoint>/config.ini.php@@
@@ -168,15 +170,28 @@ charset = "UTF-8"
 timeZone = "US/Pacific"
 
 theme = default
-use_error_handler = on
+
+domainName=
+
+forceHTTPPort=
+forceHTTPSPort=
+
+chmodFile=0664
+chmodDir=0775
 </code>
 
 Parameters in details :
-  * **locale, charset** : default language and encoding of responses
-  * **timeZone** : set the time zone for every date and time functions
-  * **theme** : default selected theme. Read [[/application/themes|theme]] system description.
-  * **use_error_handler** : this option shoud stay //on// for Jelix to return
-    useful and detailed errors or exceptions.
+  * @@locale@@, @@charset@@: default language and encoding of responses
+  * @@timeZone@@: set the time zone for every date and time functions
+  * @@theme@@: default selected theme. Read [[/application/themes|theme]] system description.
+  * @@domainName@@: domain name of the application. Most of time you can leave empty
+    if @@$_SERVER['SERVER_NAME']@@ is correctly set. Else indicate the domain name
+    so Jelix could generate correctly URLs of the application
+  * @@forceHTTPPort@@, @@forceHTTPSPort@@: When the application is behind a
+    reverse proxy, the current port of http or https may not be the same port
+    of the frontend. Set them to @@on@@ or with the right port value when this is the case.
+  * @@chmodFile@@, @@chmodDir@@: chmod values for files created by Jelix
+
 
 ==== modules section ====
 
@@ -187,7 +202,6 @@ and other informations when needed.
 
 List all coordinator plugins Jelix has to activate. They will be loaded from the
 list of path declared with @@jApp::declarePluginsDir()@@ in the file @@F@application.init.php@@.
-
 
 The example below demonstrates the activation of an authentication plugin. Its
 own set of options are defined in @@F@auth.coord.ini.php@@ file. Learn more
@@ -279,9 +293,9 @@ jelixWWWPath = "jelix/"
 Détails des paramètres :
 
   * **multiView**: if the parameter multiview or acceptpathinfo is activated
-    into the Apache configuration, est activé dans
-    Apache, vous ne devez pas indiquez le suffix ".php", alors activez ce
-    paramètre
+    into the Apache configuration or if Nginx is configured in a specific manner,
+    it is possible to have urls without the ".php" suffix. It this is the case,
+    set this parameter to @@on@@ so Jelix will generate urls without @@.php@@.
   * **scriptNameServerVariable**: contain the variable name @@$_SERVER@@ that
     contain the script name. Example: if you call @@http://mysite.com/foo/index.php@@,
     this is the variable which contain @@/foo/index.php@@. This name could be
@@ -299,6 +313,9 @@ Détails des paramètres :
   * **jelixWWWPath** : contains web path to web ressources of Jelix, those which
     are stored into lib/jelix-www/.
 
+There are also other parameters to install the application behind a reverse
+proxy. See the chapter [[/installation/production-server|to configure the app on a production server]].
+
 === notfound ===
 
 You can indicate the action which display a specific page for 404 errors,
@@ -311,31 +328,9 @@ Use the selector syntax, without forgeting to use double quote:
 notfoundAct ="mymodule~main:errornotfound"
 </code>
 
-==== logfiles section ====
+==== logger and fileLogger section ====
 
-This section defines how log calls through [[/dev-tools/debugging|jLog]] api will be output.
-
-Log files are created and stored in @@F@var/log/@@ application folder.
-A per-module log file can be defined by setting a couple @@<module name>=<log filename>@@
-and calling jLog methods with @@<module name>@@ as last argument.
-
-<code ini>
-; default log
-  default = messages.log
-
-; log for "news" module
-  news = news.log
-</code>
-
-Another example shows how you can use firebug extension as a log output
-(useful for quickly debugging). Still you can log to a classic file calling
-jLog methods with //file// as last argument (for dumping huge content for example).
-
-<code ini>
-[logfiles]
-default="!firebug"
-file = "messages.log"
-</code>
+This section defines how log calls will be output.
 
 Learn more about Jelix debugging through [[/dev-tools/debugging|jLog]] documentation.
 
@@ -349,13 +344,9 @@ See the chapter about [[/class-utilities/jmailer|jMailer]].
 ==== acl section ====
 
 Defines options of access control list (ACL) or rights management. See
-[[/components/rights|rights management]]. You can use jAcl ou jAcl2, but not both at the
-same time. Indicate a driver to enable it.
+[[/components/rights|rights management]].
 
 <code ini>
-[acl]
-; example of driver : "db"
-driver =
 
 [acl2]
 ; example of driver : "db"

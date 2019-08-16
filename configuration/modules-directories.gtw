@@ -6,7 +6,7 @@ or repository of modules.
 ===== Declaring a modules group =====
 
 Module groups are declared with @@C@jApp@@ or into the composer.json file if you
-installed Jelix with Composer. (In Jelix 1.6 and lower, it made into the
+installed Jelix with Composer. (In Jelix 1.6 and lower, it was into the
 configuration, in the properties @@V@modulesPath@@).
 
 An example with @@C@jApp@@ in the @@application.init.php@@ file:

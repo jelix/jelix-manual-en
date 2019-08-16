@@ -12,6 +12,7 @@ A Jelix application have several configuration files:
     the live of the application
   * A @@F@profiles.ini.php@@ for connections profiles (database configuration for example).
   * A @@F@urls.xml@@ file that defines the mapping between URLS and controllers.
+  * A @@F@framework.ini.php@@ listing all available entry points.
 
 All are automatically generated when you create an application or a module (except localconfig.ini.php).
 However, you have to modify them to bring additionnal information or to change
@@ -30,8 +31,7 @@ This chapter presents these files. See [[configuration-details|the chapter on co
 
 ===== The project.xml file =====
 
-The file @@F@project.xml@@ contains some informations on the application. Some
-of these are important because they are used by the installer. Here is an
+The file @@F@project.xml@@ contains some informations about the application. Here is an
 example:
 
 <code xml>
@@ -46,13 +46,6 @@ example:
         <creator name="Laurent Jouanneau" email="laurent@jelix.org"/>
         <homepageURL>http://jelix.org</homepageURL>
     </info>
-    <dependencies>
-       <jelix minversion="1.7.0" maxversion="1.7.*" />
-    </dependencies>
-    <entrypoints>
-        <entry file="index.php" config="index/config.ini.php" />
-        <entry file="soap.php" config="soap/config.ini.php" type="soap"/>
-    </entrypoints>
 </project>
 </code>
 
@@ -92,6 +85,11 @@ Note: before Jelix 1.7, this files was optional, because different URLs engine
 were available. Since Jelix 1.7, it is mandatory, and should contain at least
 the mapping for the url @@/@@.
 
+
+===== app/system/framework.ini.php file =====
+
+This file contains the list of entry points. It is mainly used by the installer.
+
 ===== Configuration ini files =====
 
 Jelix framework configuration is stored in an //ini//-like file. It is a file
@@ -110,24 +108,23 @@ As said before, each entry point may have its specific config file. Although in
 practice, many parameters can be shared between them. To prevent wasteful
 repeats defines a common config file : @@F@mainconfig.ini.php@@.
 
-
 A glimpse at @@F@mainconfig.ini.php@@ (abstract):
 
 <code ini>
-locale = "fr_FR"
-charset = "ISO-8859-1"
+locale = "en_US"
+charset = "UTF-8"
 timeZone = "Europe/Paris"
 theme = default
 
 [modules]
-mymodule=2
-jauth=2
+mymodule.enabled = on
+jauth.enabled = on
 
 [coordplugins]
-;nom = nom_fichier_ini
+;...
 
 [responses]
-...
+;...
 
 </code>
 
@@ -173,7 +170,7 @@ not be stored into you source code repository.
 ==== How configuration file are readed ====
 
 You have to know that an other configuration file @@F@defaultconfig.ini.php@@ exists into the
-@@F@lib/jelix/core/@@ directory. It contains all possible parameters and some comments.
+@@F@lib/jelix/core/@@ directory. It contains all possible parameters and some comments explaining their purpose.
 
 So, to known the full configuration, Jelix reads these files in this order and merge them:
 
