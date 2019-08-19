@@ -79,7 +79,8 @@ to access the server with a SSH access.
 
 Then you have to check two things:
 
-   * check the PHP version you have in the command line: @@php --version@@
+   * check the PHP version you have in the command line: @@php --version@@. You
+     may have to setup the right version into the manager provided by your provider.
    * sometimes, some superglobals variables are not set correctly. @@$_SERVER['SCRIPT_NAME']@@
      may be missing. You then have to set some variables from the command line:
      @@export SCRIPT_NAME=dev.php@@.
@@ -168,7 +169,7 @@ the application, and set values in it.
 
 <code ini>
 [myapp]
-incofCopyright=2018 my company
+infoCopyright=2019 my company
 </code>
 
 

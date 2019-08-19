@@ -3,7 +3,7 @@
 The installation system has some parameters allowing to modify its behaviors.
 
 These parameters may be changed only for some very specific case. It is not
-recommanded to modify them.
+recommended to modify them.
 
 
 ==== Activate automatically all modules ====

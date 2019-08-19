@@ -161,7 +161,7 @@ field in your database, than the old hashing system.
 == Migration ===
 
 If you want to upgrade an existing application that is using the old hash system,
-and you would like to use the new hashing system (which is highly recommanded!), you should:
+and you would like to use the new hashing system (which is highly recommended!), you should:
 
    * enlarge the password field (@@password@@) in your database, to 120 characters
    * modify the corresponding DAO (if you don't use jelixuser of jauthdb module),

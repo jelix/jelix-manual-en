@@ -51,7 +51,6 @@ jApp::initPaths(
     __DIR__.'/var/log/',
     __DIR__.'/var/config/'
 );
-jApp::setTempBasePath(realpath(__DIR__.'../temp/').'/');
 </code>
 
 ==== Moving the content of jelix-www/ ====
@@ -71,7 +70,7 @@ have to change the @@V@jelixWWWPath@@ option in the configuration file of the ap
 (@@F@myapp/var/config/localconfig.ini.php@@)
 
 
-**WARNING: it highly recommanded to not store your own scripts/CSS/whatever in
+**WARNING: it highly recommended to not store your own scripts/CSS/whatever in
 this directory or in jelix-www.** Else futur update will be difficult, because
 other colleague will be confused, and may have difficult to know
 what it comes from Jelix, and what it comes from your application. So don't

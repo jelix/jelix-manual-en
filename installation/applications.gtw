@@ -11,7 +11,7 @@ all files. Or you may have to retrieve files from a source code repository
 to the server.
 
 Whatever the solution you are using, you get a directory named 'testapp' for
-example, and you install this directory into the @@/srv/@@ directory of your
+example, and you may want to install this directory into the @@/srv/@@ directory of your
 server. Here the directories you have:
 
 <code>
@@ -28,7 +28,7 @@ server. Here the directories you have:
       www/          root of the site of the application (document root)
 </code>
 
-You may have too a @@F@lib/@@ directory, provided into the source code. If not,
+You may have a @@F@lib/@@ directory too, provided into the source code. If not,
 you may have to run Composer to retrieve Jelix, or download an archive of Jelix.
 
 The tree structure of the sources is by default organized in order to install
@@ -70,19 +70,18 @@ folder), so it is not accessible anymore from the web.
 
 ==== With the application installer ====
 
-If there is a @@F@testapp/install/installer.php@@ script, this is a script to
-execute in a console. Before to launch it, fill all needed parameters in
+Launch the script @@F@testapp/install/configurator.php@@ to configure the
+application. Some modules configurators may change some things into configuration
+files and may ask you some informations.
+
+Perhaps there will be parameters to set by hand. Fill all needed parameters in
 @@F@profiles.ini.php@@ and in @@F@localconfig.ini.php@@ (read the documentation
-of the application to know what exactly you have to change). Then open a console,
-go into the @@F@testapp/install/@@ directory, and then type @@php installer.php@@.
+of the application to know what exactly you have to change).
 
-==== With the jelix installer ====
+Then launch the @@F@testapp/install/installer.php@@ script, it will install
+the application, create tables in the database and so on.
 
-If there isn't wizard or dedicated installation script, you have to configure
-@@F@profiles.ini.php@@ and in @@F@localconfig.ini.php@@, then, with a console,
-go into the @@F@testapp/@@ directory and type @@php.exe dev.php app:install@@.
-Read [[/installation/jelix-scripts|the chapter about jelix commands]] to have more
-informations about this command line.
+After this script, the application should work correctly.
 
 ==== If the installation system is deactivated into the configuration ====
 

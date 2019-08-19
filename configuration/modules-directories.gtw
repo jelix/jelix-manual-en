@@ -20,7 +20,7 @@ Here the directory @@F@modules/@@ is declared as a module repository.
 Modules from this directory could be activated and installed in your application.
 
 If you installed Jelix with Composer, you have an other solution: declare the directories
-into the composer.json file of your application. This solution is highly recommanded also
+into the composer.json file of your application. This solution is highly recommended also
 for Composer packages which provide modules for Jelix. Declare directories and modules
 into the composer.json of the package, and it will be automatically taken account.
 

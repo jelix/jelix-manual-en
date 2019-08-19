@@ -468,7 +468,7 @@ it is the section @@webassets_common@@.
 
 You probably saw above an example about the use of @@M@addJSLink()@@ and
 @@M@addCSSLink()@@. These methods allow you to link some CSS style sheets and
-javascript files to your HTML page. Even if the use of webassets is highly recommanded,
+javascript files to your HTML page. Even if the use of webassets is highly recommended,
 these methods are useful for JS/CSS added in a particular context.
 
 @@M@addJSLink()@@ and @@M@addCSSLink()@@ accept as first argument the URL of a
@@ -487,7 +487,7 @@ If you give an absolute URL, like @@$rep->addCSSLink('/css/styles.css')@@ (see
 the leading slash), the browser will understand
 @@http://exemple.com/css/styles.css@@, whatever the URL of the current page.
 
-So it is recommanded to indicate an absolute URL. However, you should take care about
+So it is recommended to indicate an absolute URL. However, you should take care about
 the base path. It is important if you don't know the production environment, or if you
 create a module that can be used by several applications. You retrieve the base path with
 @@jApp::urlBasePath()@@. So your code should be:

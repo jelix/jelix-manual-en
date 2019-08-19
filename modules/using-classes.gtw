@@ -256,7 +256,7 @@ can use it into a Jelix application.
 ==== with Composer ====
 
 [[https://getcomposer.org|Composer]] is a package manager for PHP. You can install
-easily many vendors libraries. We recommand to use this tool.
+easily many vendors libraries. We recommend to use this tool.
 
 To integrate Composer packages into your Jelix application, it is very simple:
 

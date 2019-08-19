@@ -1,13 +1,19 @@
 ~~LANG:FR@frman:installation/prerequis~~
 
-You must install at least the 5.6 version of PHP, works correctly with PHP 7.0, 7.1 et 7.2.
+You must install at least the 5.6 version of PHP, works correctly with PHP 7.0 and above.
 
-The **dom**, **simplexml**, **pcre**, **session**, **tokenizer** and **spl** extensions are required (they
-are generally turned on in a standard PHP installation). If one of these extension
-was not installed with the PHP package, install the corresponding package.
+The following PHP extensions are required: **fileinfo**, **iconv**, **intl**,
+**json**, **mbstring**, **session**, **tokenizer**, **spl**, **dom**, **xml**,
+**xmlreader**, **xmlwriter**, **simplexml**, **ctype**.
+Most of them are actived by default in some Linux distributions like Debian or
+Ubuntu, but it is not the cas in some others like Alpine. So you may have to
+install corresponding packages.
 
 You can install a database connector too. Jelix deals with mysql 5.5+, postgresql 9.0+,
 sqlite 3, Oracle (oci), SQL server and PDO.
+
+You may need other extensions, depending of components you are using into Jelix:
+**soap**, **gd** (jImageModifier), **xmlrpc**, **ldap**...
 
 Jelix needs the command line version of PHP (CLI, php.exe under windows). So
 you can launch @@F@create-jelix-app@@, and into application you created,

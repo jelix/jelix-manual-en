@@ -23,7 +23,7 @@ Your system administrator may reconfigure the web server to redirect all http
 request to the web page showing the message or to change the document root. Or
 you may configure yourself your hosting to change the document root.
 
-An other solution, is to use a mecanism into Jelix, which allows to close the
+An other solution, is to use a mechanism into Jelix, which allows to close the
 application. It works only if you call @@checkAppOpened()@@ in the entrypoints,
 before the call of @@C@jCoordinator@@. 
 
@@ -41,15 +41,15 @@ site, this is the solution). or, if you have a command line access, you can call
 jelix commands: @@app:open@@ and @@app:close@@.
 
 <code bash>
-$ php dev.php app:close
-$ php dev.php app:open
+$ php console.php app:close
+$ php console.php app:open
 </code>
 
 You can give a message to the @@app:close@@ command. It will replace the
 @@%message%@@ tag into the closed.html file.
 
 <code bash>
-$ php dev.php app:close "Sorry, we are closed for the moment, a new version is coming."
+$ php console.php app:close "Sorry, we are closed for the moment, a new version is coming."
 </code>
 
 ===== Backing up data =====
@@ -71,7 +71,7 @@ the application in the previous state.
 
 The second step is to update files of your application. You could upload files
 into the directory, with FTP, SCP or with other tools like automatic deployment
-tools. You could also launch an update with your prefered source code manager
+tools. You could also launch an update with your preferred source code manager
 (@@svn update@@, @@hg pull -u@@, @@git pull -u@@...).
 
 If you update manually, don't forget to remove deprecated files.
@@ -81,10 +81,15 @@ If you update manually, don't forget to remove deprecated files.
 Now, source files are ok, you have to update the application it self (database,
 configuration...).
 
-The only thing you have to do, is to launch the installer, as you did when you
-installed the application for the first time. The Jelix installer (used by a
-wizard or an installation script of an application), can install **and** update
-modules.
+The first thing to do is to launch the configurator, @@F@testapp/install/configurator.php@@.
+It will probably modify some configuration parameters specific to the server
+context. Some modules may do these modifications, and/or ask you some informations.
+
+Then you launch the installer, as you did when you installed the application for
+the first time.
+
+The Jelix installer (used by a wizard or an installation script of an application),
+can install **and** update modules.
 
 ==== With a wizard ====
 
@@ -97,11 +102,6 @@ file after the update.
 
 If there is a @@F@install/installer.php@@ script, just launch it: open a
 console, go into the @@F@install/@@ directory, and then type @@php installer.php@@.
-
-==== With the jelix installer ====
-
-If there isn't wizard or dedicated installation script, open a console, go into
-the application directory and type @@php.exe dev.php installapp@@.
 
 ==== By hand ====
 
