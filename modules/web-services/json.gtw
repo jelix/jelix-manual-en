@@ -23,15 +23,9 @@ To call the action, in raw javascript :
 
    http.onreadystatechange = function(){
 	    if(http.readyState == 4){
-	    // Get the data from the server's response
+	        // Get the data from the server's response
             var json = http.responseText;
-            var value;
-
-            // ugly way
-            //value = eval('(' + json + ')');
-
-            // good way, in modern browser such Firefox 3.5
-            value = JSON.parse(json);
+            var value = JSON.parse(json);
 
             // do something with your json data
          
@@ -65,6 +59,8 @@ And then the whole client process with jQuery is :
 
 
 === A use case combined with jDao ===
+
+In your controller:
 
 <code php>
 $countryDao = jDao::get('common~country');

@@ -5,7 +5,7 @@ used by search engines like Google.
 
 ===== Download and install =====
 
-Since Jelix 1.7, the class jResponseSitemap and its dependencies are in a separate
+The class jResponseSitemap and its dependencies are in a separate
 module, that you have to download and install. A zip file is available, or you 
 can install it with Composer: 
 [[https://packagist.org/packages/jelix/sitemap-module|package jelix/sitemap-module]].
@@ -23,7 +23,7 @@ php dev.php module:configure jsitemap
 Then launch the installer:
 
 <code bash>
-php yourapp/dev.php install
+php install/installer.php
 </code>
 
 ===== Usage =====
@@ -67,13 +67,17 @@ $resp->addUrl(jUrl::get('module~contact:index'), null, 'weekly', 1);
 
 ===== Automatic generation from the urls.xml file =====
 
-This behavior is only possible if you use the significant url engine.
+This behavior is partially possible, by using urls indicated into the @@app/system/urls.xml@@.
 
 You just have to call one method:
+
 <code php>
 $resp->importFromUrlsXml();
 return $resp;
 </code>
+
+It doesn't import url that have dynamique pathinfo, or those that are common
+for an entire module.
 
 ===== Index generation =====
 
@@ -110,8 +114,7 @@ You can also do it automatically, by giving the URL of the registration process
 of the search engine, to the @@M@ping()@@ method:
 
 <code php>
-$sitemapurl = jUrl::get('mymodule~sitemap:index');
-$url = 'http'. (empty($_SERVER['HTTPS']) ? '' : 's') .'://'. $_SERVER['HTTP_HOST'] . urlencode($sitemapurl);
+$sitemapurl = jUrl::getFull('mymodule~sitemap:index');
 
 // google
 $resp->ping('http://www.google.com/webmasters/tools/ping?sitemap=' . $url);
@@ -119,10 +122,5 @@ $resp->ping('http://www.google.com/webmasters/tools/ping?sitemap=' . $url);
 // yahoo
 $resp->ping('http://search.yahooapis.com/SiteExplorerService/V1/updateNotification?appid=YahooDemo&url=' . $url);
 
-// Live
-$resp->ping('http://webmaster.live.com/ping.aspx?siteMap='.$url);
-
-// Ask
-$resp->ping('http://submissions.ask.com/ping?sitemap=' . $url);
 </code>
 

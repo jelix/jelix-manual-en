@@ -16,7 +16,7 @@ jResponseText has a @@P@content@@ property which should be assigned before outpu
 jResponseText returns "text/plain" Mime-Type by default, and uses jelix configuration
 default charset.
 
-jResponseText derives from @@C@jResponse@@, allowing you to modify HTTP headers such
+jResponseText inherits from @@C@jResponse@@, allowing you to modify HTTP headers such
 as Mime-Type or charset as well.
 
 jResponseText can be used as a base to create other formats with text-data, 

@@ -1,18 +1,138 @@
 ~~LANG:FR@frman:modules/utilisation-classes~~
 
 To respect the MVC pattern, it is recommended to do all business processing and
-services in classes dedicated to it instead of in controllers.
+services in dedicated classes instead of in controllers.
 
 In this kind of classes, you will manipulate, for example, daos, data from daos
 or others, do all the processing other than display. The methods of your
-controllers will thus be lighter and the business processing will be reusable in
+controllers will thus be lighter and business processes will be reusable in
 other actions.
 
-Classes can be instanciated with jClasses (a kind of class loader), or
-instanciated as you do in any PHP script, using the autoloading mecanism of PHP.
+Classes can be instantiated with jClasses (a kind of class loader), or
+instantiated as you do in any PHP script, using the autoloading mecanism of PHP.
 
+
+===== Autoloading =====
+
+It is possible to use an autoload system, based on the autoload
+function of PHP (the class file is loading automatically when the class is
+used). It avoids to use @@C@jClasses@@ (see below). The autoload system of Jelix supports
+the [[https://www.php-fig.org/psr/psr-0/|PSR0 specification]] and the
+[[https://www.php-fig.org/psr/psr-4/|PSR-4 specification]].
+
+If you are using Composer, it is possible to declare namespaces in the
+composer.json file of your application, but modules will be less reusable.
+Except if you develop a module in its own repository, and if it is installable
+with Composer.
+
+An alternative way is to declare classes and namespaces in the @@F@module.xml@@
+file, in a @@E@<autoload>@@ element.
+
+Here is an example:
+
+<code xml>
+<module xmlns="http://jelix.org/ns/module/1.0">
+   <info id="jelix_tests@testapp.jelix.org" name="jelix_tests"> ... </info>
+   <dependencies> ... </dependencies>
+   <autoload>
+        <class name="myautoloadedclass" file="autoloadtest/autoloadtestclass.php" />
+        <classPattern pattern="/^myalclass/" dir="autoloadtest/withpattern/" suffix=".cl.php" />
+        <psr0 name="jelixTests\foo" dir="autoloadtest" />
+        <psr4 name="jelixTests\bar" dir="autoloadtest/barns" suffix=".class.php" />
+        <includePath dir="autoloadtest/incpath" suffix=".php" />
+        <autoloader file="autoloadtest/myautoloader.php" />
+   </autoload>
+</module>
+</code>
+
+As you can see, there are different way to declare a class. Path of file or
+directory indicated in tags should be relative to the module directory.
+
+To load a specific class, just indicate its name and its file:
+
+<code xml>
+   <class name="myautoloadedclass" file="autoloadtest/autoloadtestclass.php" />
+</code>
+
+To declare several classes that have similar name, you can use a regular
+expression and indicate the directory where files are. You can indicate also a
+suffix for the filename:
+
+<code xml>
+   <!-- load automatically classes that have names beginning by myalclasse -->
+  <classPattern pattern="/^myalclass/" dir="autoloadtest/withpattern/" suffix=".cl.php" />
+</code>
+
+To declare a set of classes that have a specific namespace, indicate the
+namespace and a directory in a @@<psr0>@@ element. You can use also the deprecated element
+@@<namespace>@@, they are equivalent.
+
+<code xml>
+  <psr0 name="jelixTests\foo" dir="autoloadtest" />
+  <!-- or -->
+  <namespace name="jelixTests\foo" dir="autoloadtest" />
+</code>
+
+This behavior follows the PSR0 specification. So the namespace should correspond
+to a path in the indicated directory. For example, if Jelix should load the
+class @@C@jelixTests\foo\bar\baz@@, it will load the file
+@@F@autoloadtest/jelixTests/foo/bar/baz.php@@.
+
+Jelix have an other namespace support, which follow PSR-4 specification. You
+should then use the @@<psr4>@@ element, or the deprecated element @@<namespacePathMap>@@.
+
+<code xml>
+   <psr4 name="jelixTests\bar" dir="autoloadtest/barns" suffix=".class.php" />
+   <!-- or -->
+   <namespacePathMap name="jelixTests\bar" dir="autoloadtest/barns" suffix=".class.php" />
+</code>
+
+The class path does not correspond to the name of the namespace. It indicates
+that all classes which have the indicated namespace are directly in the given
+directory. So the class @@C@jelixTests\foo\bar\baz@@ is not in the file
+@@F@autoloadtest/jelixTests/foo/bar/baz.class.php@@ but in
+@@F@autoloadtest/bar/baz.class.php@@.
+
+It is possible to indicate a classical include path (like the includePath of
+PHP): Jelix will search a file which have the same name of the class in this
+directory.
+
+<code xml>
+   <includePath dir="autoloadtest/incpath" suffix=".php" />
+</code>
+
+Last possibility: it is possible to indicate a file that initialize an other
+autoloader. It can be useful when you use a vendor libraries which have its own
+autoloader. This autoloader should use the function
+[[phpapi:spl_autoload_register|spl_autoload_register]] and its parents.
+
+<code xml>
+   <autoloader file="autoloadtest/myautoloader.php" />
+</code>
 
 ===== Using classes with jClasses =====
+
+@@C@jClasses@@ is a component which is responsible to find, load and instancy
+classes provided by your module. It avoids to include and instancy by yourself.
+
+Historically, this component was created into Jelix before namespaces were
+appeared into PHP. As @@C@jClasses@@ needs a selector, you don't have to indicate
+a path to the class. You can then load easily a class from an other module.
+
+However, since the existence of namespaces and of the auto-loading, the use
+of jClasses is less relevant. It is still interesting if you need singleton
+or use a class as a service.
+
+==== Services classes ====
+
+The difference between a service class and the other classes is that a service
+class gives... a service. It doesn't need to be instantiated each time we use it
+because it doesn't have "discriminating" property. Only one instance is enough
+for all the application.
+
+For example, a "factory" type class, which retrieves sets of data, is a service
+class. On the other hand, a class representing a product, which thus has
+identifying fields, is a non service class.
 
 ==== Creating a class for jClasses ====
 
@@ -37,27 +157,14 @@ module, so it can be loaded by @@C@jClasses@@:
 
 This class must be placed in @@F@classes/StockService.class.php@@.
 
-The difference between a service class and the other classes is that a service
-class gives... a service. It doesn't need to be instanciated each time we use it
-because it doesn't have "discriminating" property. Only one instance is enough
-for all the application.
-
-For example, a "factory" type class, which retrieves sets of data, is a service
-class. On the other hand, a class representing a product, which thus has
-identifying fields, is a non service class.
-
-
 ==== Instantiation with jClasses ====
-
-Jelix proposes the @@C@jClasses@@ class, which avoids to do an include and
-instantiate yourself.
 
 @@C@jClasses@@ gives two static methods, to which you give a selector:
 
     * @@M@createInstance($ClassSelector)@@ (or @@M@create($ClassSelector)@@ )
     * @@M@getService($ClassSelector)@@
 
-The first will, for each call, give a new instance. The second will allways give
+The first will, for each call, give a new instance. The second will always give
 the same instance of the class. @@M@getService@@ will thus be used for the
 service classes, and @@M@createInstance@@ for the others.
 
@@ -94,6 +201,8 @@ Example:
 
 You can also use the autoload system of PHP, see below.
 
+Note that this method is deprecated. Prefer to configure the auto-loading.
+
 ==== Including interfaces with jClasses ====
 
 @@C@jClasses@@ provides the static methods @@M@incIFace@@ to include PHP
@@ -120,158 +229,24 @@ class stockUtils implements IStockUtils {
 }
 </code>
 
-
-==== Loading classes before the session_start for jClasses ====
-
-Sometimes, you may want to store some of your business object in sessions. But
-then your classes should be loaded before the @@f@session_start()@@ call, so PHP
-can unserialize this objects.
-
-Before the autoload system (see below) was born into Jelix, Jelix provided a
-way to indicates which classes to load before the @@f@session_start()@@.
-In the configuration, in the @@sessions@@ section, you should indicate the
-selectors of this classes in the @@V@loadClasses@@ options:
-
-<code ini>
-[sessions]
-
-loadClasses = "mymodule~bar,mymodule~subdir/foo, shop~shoesProduct"
-</code>
-
-The module name is required in selectors.
-
-**Note: this @@loadClasses@@ parameter is now deprecated. You must declare**
-**your classes in module.xml files, so they will be auto-loaded.** See below.
-
-
-===== Autoloading =====
-
-It is possible to use an autoload system, based on the autoload
-function of PHP (the class file is loading automatically when the class is
-used). It avoids to use @@C@jClasses@@. The autoload system of Jelix supports
-the [[https://www.php-fig.org/psr/psr-0/|PSR0 specification]] and the
-[[https://www.php-fig.org/psr/psr-4/|PSR-4 specification]].
-
-Simply declares, in the @@F@module.xml@@ file, the classes that will be loaded
-automatically, with specific tags in the @@E@<autoload>@@ element.
-
-Here is an example:
-
-<code xml>
-<module xmlns="http://jelix.org/ns/module/1.0">
-   <info id="jelix_tests@testapp.jelix.org" name="jelix_tests"> ... </info>
-   <dependencies> ... </dependencies>
-   <autoload>
-        <class name="myautoloadedclass" file="autoloadtest/autoloadtestclass.php" />
-        <classPattern pattern="/^myalclass/" dir="autoloadtest/withpattern/" suffix=".cl.php" />
-        <namespace name="jelixTests\foo" dir="autoloadtest" />
-        <namespacePathMap name="jelixTests\bar" dir="autoloadtest/barns" suffix=".class.php" />
-        <includePath dir="autoloadtest/incpath" suffix=".php" />
-        <autoloader file="autoloadtest/myautoloader.php" />
-   </autoload>
-</module>
-</code>
-
-As you can see, there are different way to declare a class. Path of file or
-directory indicated in tags should be relative to the module directory.
-
-To load a specific class, just indicate its name and its file:
-
-<code xml>
-   <class name="myautoloadedclass" file="autoloadtest/autoloadtestclass.php" />
-</code>
-
-To declare several classes that have similar name, you can use a regular
-expression and indicate the directory where files are. You can indicate also a
-suffix for the filename:
-
-<code xml>
-   <!-- load automatically classes that have names beginning by myalclasse -->
-  <classPattern pattern="/^myalclass/" dir="autoloadtest/withpattern/" suffix=".cl.php" />
-</code>
-
-To declare a set of classes that have a specific namespace, indicate the
-namespace and a directory. You can use either @@<namespace>@@ (old name) or @@<psr0>@@,
-they are equal.
-
-<code xml>
-  <namespace name="jelixTests\foo" dir="autoloadtest" />
-  <!-- or -->
-  <psr0 name="jelixTests\foo" dir="autoloadtest" />
-</code>
-
-This behavior follows the PSR0 specification. So the namespace should correspond
-to a path in the indicated directory. For example, if Jelix should load the
-class @@C@jelixTests\foo\bar\baz@@, it will include the file
-@@F@autoloadtest/jelixTests/foo/bar/baz.php@@.
-
-Jelix have an other namespace support, which follow PSR-4 specification
-(implemented before the release of PSR-4, this is why the tag name "namespacePathMap" is not
-really good).  You can use either @@<namespacePathMap>@@ (old name) or @@<psr4>@@,
-they are equal.
-
-<code xml>
-   <namespacePathMap name="jelixTests\bar" dir="autoloadtest/barns" suffix=".class.php" />
-   <!-- or -->
-   <psr4 name="jelixTests\bar" dir="autoloadtest/barns" suffix=".class.php" />
-</code>
-
-The class path does not correspond to the name of the namespace. It indicates
-that all classes which have the indicated namespace are directly in the given
-directory. So the class @@C@jelixTests\foo\bar\baz@@ is not in the file
-@@F@autoloadtest/jelixTests/foo/bar/baz.class.php@@ but in
-@@F@autoloadtest/bar/baz.class.php@@.
-
-It is possible to indicate a classical include path (like the includePath of
-PHP): Jelix will search a file which have the same name of the class in this
-directory.
-
-<code xml>
-   <includePath dir="autoloadtest/incpath" suffix=".php" />
-</code>
-
-Last possibility: it is possible to indicate a file that initialize an other
-autoloader. It can be useful when you use a vendor libraries which have its own
-autoloader. This autoloader should use the function
-[[phpapi:spl_autoload_register|spl_autoload_register]] and its parents.
-
-<code xml>
-   <autoloader file="autoloadtest/myautoloader.php" />
-</code>
-
-==== Note ====
-
-Use the autoload system only for classes that are often used, or that
-share a common namespace. Declaring dozen classes that does not share
-a namespace, does not have sens, and will slow the autoload system of PHP,
-because it should verify then many name and path.
-So prefer to use jClasses, for classes used only by the module or used only few
-times, or create classes which share same root namespace.
+Note that this method is deprecated. Prefer to configure the auto-loading.
 
 ===== Installing and using vendor classes =====
 
 You have often to use some classes provided by other projects. Of course, you
 can use it into a Jelix application.
 
-==== with Composer ====
+==== With Composer ====
 
 [[https://getcomposer.org|Composer]] is a package manager for PHP. You can install
 easily many vendors libraries. We recommend to use this tool.
 
 To integrate Composer packages into your Jelix application, it is very simple:
 
-  * create your composer.json file into your application (see Composer documentation)
-  * install packages indicated into your composer.json: @@php composer.phar install@@.
-    It generates a @@F@vendor/@@ directory into your application
-  * Include the file @@F@vendor/autoload.php@@ into your @@F@application.init.php@@
-
-<code php>
-require (__DIR__.'/vendor/autoload.php');
-require_once (__DIR__.'/../lib/jelix/init.php');
-jApp::initPaths( /* ... */ );
-jApp::setTempBasePath( /* ... */ );
-//...
-</code>
+  * add dependencies into the composer.json file of your application
+  * launch the installation of packages with the command @@composer install@@.
+    As the application.init.php includes the script @@F@vendor/autoload.php@@,
+    all classes of the packages are available into your code.
 
 
 ==== Legacy practice ====
@@ -282,27 +257,9 @@ libraries in your application.
 Although you can store this classes where you want (because the require or
 include statement are not restricted), it's better to store them:
 
-  * into the @@F@lib/@@ directory
-  * or into the @@F@classes/@@ directory of a module
+  * into the @@F@classes/@@ directory of a module
   * or into the @@F@lib/@@ directory of a module
-
-
-=== Global installation ===
-
-It is interesting to store a set of classes into the @@F@lib/@@ directory,
-because it's easier to share this classes between projects, and perhaps it will
-be easier to update them. To include them, you have to use the @@LIB_PATH@@
-constant. For example, if you want to include the @@F@lib/foo/bar.php@@, do this
-into your controller or other files of a module:
-
-<code php>
-   require(LIB_PATH.'foo/bar.php');
-   $myclass = new bar();
-</code>
-
-If the library provides an autoloader, you can use initialize it into your
-@@F@application.init.php@@ file (see the documentation of the library to know
-how to use it). So the @@require@@ will be useless.
+  * or into a @@F@lib/@@ directory of the application
 
 === Installation in a module ===
 
@@ -327,3 +284,22 @@ jelix (a "bar" class into a bar.class.php file), you can use jClasses of course:
    jClasses::inc('bar');
    $myclass = new bar('bla');
 </code>
+
+=== Global installation ===
+
+It is interesting to store a set of classes into a @@F@lib/@@ directory at the application level,
+because it's easier to share this classes between projects, and perhaps it will
+be easier to update them. To include them, you have to use the @@jApp::appPath()@@ method.
+
+For example, if you want to include the @@F@myapp/lib/foo/bar.php@@, do this
+into your controller or other files of a module:
+
+<code php>
+   require(jApp::appPath('lib/foo/bar.php'));
+   $myclass = new bar();
+</code>
+
+If the library provides an autoloader, you can use initialize it into your
+@@F@application.init.php@@ file (see the documentation of the library to know
+how to use it). So the @@require@@ will be useless.
+

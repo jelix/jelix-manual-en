@@ -7,7 +7,8 @@ You have to follow these steps:
     - create a class inheriting from @@C@jResponse@@ (or another existing response), and 
       implementing methods to support your specific format.
     - save this class in a file located under the @@F@app/responses/@@ application folder
-      or also in the folder @@F@responses/@@  of your own module.
+      or also in the folder @@F@responses/@@  of your own module, or in an other
+      directory of your module if the class has a namespace and is auto-loaded.
     - declare the new response type in configuration file and assign its alias.
 
 ===== Create a class =====
@@ -67,6 +68,9 @@ be the class name followed by @@.class.php@@. In the example above, the class
 should live in a @@F@myFooResponse.class.php@@ file under @@F@app/responses/@@ folder of your
 application or in @@F@responses/@@ of a module.
 
+It is also possible to use a class name with a namespace, stored into a file
+with a name allowing to be auto-loaded (by declaring the class name into
+the module.xml or composer.json file), into any directory of a module.
 
 ===== Declare a response =====
 
@@ -114,7 +118,7 @@ response type and customize it. See [[/application/common-processes|common proce
 
 ===== About the use of templates =====
 
-In template, you have to use some plugins like functions. Template plugins are
+In templates, you have to use some plugins like functions. Template plugins are
 related to a specific type of response. So if you create a new response type,
 and if you want to reuse some existing plugins, you have to recreate some
 plugins for this type.

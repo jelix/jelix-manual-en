@@ -75,7 +75,7 @@ properties or overriding some methods.
 
 ==== Setting the jDb profile ====
 
-If a specific profileto access to the database should be used, set the @@$dbProfile@@ value:
+If a specific profile to access to the database should be used, set the @@$dbProfile@@ value:
 
 <code php>
   protected $dbProfile = 'admin';
@@ -180,7 +180,7 @@ Here are the specific variables of list template :
 
 === Adding other variables ===
 
-If you want to transmit some additional variables to a template, you can
+If you want to declare some additional variables to a template, you can
 redefine @@_index@@, @@_view@@, @@_create@@ and @@_editUpdate@@ methods
 (already described above). In these methods use the jTpl API over given $tpl
 object (a jTpl object) to assign new values.
@@ -192,7 +192,7 @@ Each action of the CRUD controller which displays a HTML page, assign their
 specific content to MAIN template variable, like so:
 
 <code php>
-    $rep->body->assign('MAIN', $resultatTemplateAction);
+    $rep->body->assign('MAIN', $resultTemplateAction);
 </code>
 
 If your main template does not have a MAIN template variable, you can pick one

@@ -15,27 +15,14 @@ An XML-RPC request cannot be treated as a classic request, thus you can't use
 entry point in @@www/@@ directory, @@xmlrpc.php@@. This entry point will instantiate
 a jXmlRpcRequest instead of a jClassicRequest.
 
-The new entry point should look like:
+Use the command @@app:create-entrypoint@@, by indicating the type @@xmlrpc@@:
 
-<code php>
-require_once ('../../myapp/application.init.php');
-
-$config_file = 'xmlrpc/config.ini.php';
-
-require_once (JELIX_LIB_CORE_PATH.'request/jXmlRpcRequest.class.php');
-
-$jelix = new jCoordinator($config_file);
-$jelix->process(new jXmlRpcRequest());
-
+<code bash>
+php dev.php app:create-entrypoint --type=xmlrpc xmlrpc.php
 </code>
 
-Don't forget to add this entry point in urls engine configuration file, @@var/config/urls.xml@@.
-Add this xml element:
-
-<code xml>
-  <entrypoint type="xmlrpc" name="xmlrpc" default="true" />
-</code>
-
+It will create the entrypoint @@xmlrpc.php@@ into your @@www/@@ directory,
+and will declare it into the @@urls.xml@@ and @@framework.ini.php@@ files.
 
 You can then retrieve an url for a xmlrpc action like this:
 
@@ -90,7 +77,7 @@ spec]], you have to use a specific XML string:
 The @@<methodName>@@ element indicates which action to execute. In a Jelix
 application, it must be an action selector, here @@myModule:default:index@@.
 
-Note: "~" can not be used as separator between module name and action name. It
+Note: "~" cannot be used as separator between module name and action name. It
 must be replaced by ":" (tilde character is not permitted in XML-RPC method
 name). As a result, it is **mandatory to indicate in the selector: a module, a controller and an action**.
 

@@ -43,7 +43,7 @@ within an AJAX transaction.
 If you want to include a jforms form inside an ajax response, you have to
 remember the following. 
 
-jForms builders try to include additionnal CSS stylesheets and javascript files
+jForms builders try to include additional CSS stylesheets and javascript files
 in the response. Unfortunately, AJAX responses does not support such features. 
 
 You must then include those additional scripts and stylesheets, in the

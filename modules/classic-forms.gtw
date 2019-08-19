@@ -1,8 +1,8 @@
 ~~LANG:FR@frman:modules/formulaires-classique~~
 
-Creating and managing forms manaully (ie without jForms) is not very different
-in Jelix than in a conventional PHP application. But some things (outside
-jForms) can facilitate your work.
+Creating and managing forms manually (i.e. without [[/components/jforms|jForms]])
+is not very different in Jelix than in a conventional PHP application.
+But some things (outside jForms) can facilitate your work.
 
 
 ===== Actions to implement =====
@@ -35,10 +35,8 @@ buttons "refresh" browsers which then execute same processing on forms datas
 You generally use a template in which you put your html tags forms. For example:
 
 <code html>
-  <form action="index.php" method="POST">
+  <form action="index.php/monmodule/default/save" method="POST">
   <fieldset> <legend>Indicate your identity</legend>
-     <input type="hidden" name="module" value="mymodule" />
-     <input type="hidden" name="action" value="default:save" />
      <table>
       <tr>
         <td><label for="name-field">Your name</label></td>
@@ -62,8 +60,8 @@ entirely in the form. This is problematic when you change for example the url
 in the configuration, or when you want to reuse the module in other projects.
 
 It is therefore preferable to use the template plugins @@formurl@@ and
-@@formurlparam@@, to which you specify the selector and parametres of the
-action which will process the form datas after the submition. The first is used
+@@formurlparam@@, to which you specify the selector and parameters of the
+action which will process the form datas after the submission. The first is used
 to generate the url to put into action the attribute, and the other to generate
 hidden fields containing any additional parameters to the action. You should
 always use two sets. The form then becomes:

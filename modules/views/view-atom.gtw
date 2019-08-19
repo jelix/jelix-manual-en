@@ -10,7 +10,8 @@ the [[http://tools.ietf.org/html/rfc4287|Atom 1.0 RFC]].
 
 jResponseAtom10 and jResponseRss20 have a similar signature.
 
-Note: these objects are provided by the jfeeds module, included into Jelix.
+To use this kind of responses, you should install the module jfeeds. See the
+[[view-rss|documentation about RSS views]].
 
 ===== ATOM Feed Informations =====
 
@@ -44,7 +45,7 @@ or "text".
 ===== Items =====
 
 The ATOM channel should be fed with items to publish.
-For example, items can have the description of each new tickets of a blog.
+For example, items can have the description of each new post of a blog.
 
 Each item should be created with a method of @@C@jResponseAtom10@@: @@M@createItem()@@.
 It allows to fetch an object with item's informations.
@@ -96,10 +97,7 @@ For example, with a news DAO:
 
 ===== Other informations =====
 
-It's possible to explicitely specify more informations about the RSS food or about 
+It's possible to explicitly specify more informations about the RSS food or about
 each item.
 
-Check the API documentation about [[refclass:jAtom10Info|jAtom10Info]]
-and [[refclass:jAtom10Item|jAtom10Item]] to go deeper.
-
-
+Check the API documentation  [[https://github.com/jelix/feeds-module|of the module jfeeds]].

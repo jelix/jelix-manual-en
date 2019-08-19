@@ -59,7 +59,6 @@ copyright_holder=All jelix.org wiki contributors
      - section: [[modules/views/view-binary|Sending a binary file]]
      - section: [[modules/views/view-zip|Generating a ZIP file]]
      - section: [[modules/views/view-sitemap|Generating a sitemap]]
-     - section: [[modules/views/other-views|Other views]]
      - section: [[modules/views/personnalized-common-response|Define a customized response]]
    - chapter: [[modules/web-services/|Web services]]
      - section: [[modules/web-services/ajax|AJAX]]

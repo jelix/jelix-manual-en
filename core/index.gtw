@@ -19,7 +19,7 @@ The framework is based on this principle: each url is corresponding to an action
       in the body of the request (POST method for example).
     * In particular @@C@jRequest@@ determines the name of the action to be executed and the name of the concerned module.
   - The action parameter contains the controller name and the method to be executed.
-    This controller is thus instanciated and the method executed. The method
+    This controller is thus instantiated and the method executed. The method
     retrieves request parameters in order to know what to do.
   - the method executes business processes, et retrieves eventually some results
     which will be used for the response

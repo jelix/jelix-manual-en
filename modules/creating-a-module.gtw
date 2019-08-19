@@ -87,7 +87,8 @@ containing specific files:
 ; @@F@daos/@@ : files declaring mapping to a database
 ; @@F@forms/@@ : file declaring forms
 ; @@F@install/@@ : scripts to install or to upgrade the module
-; @@F@scripts/@@ : scripts for the command line
+; @@F@Commands/@@ : commands for console.php
+; @@F@scripts/@@ : scripts for the command line (deprecated)
 ; @@F@plugins/@@ : plugins for various components (jDb, jTpl...)
 ; @@F@www/@@ : CSS, JS, images files. There are accessible from a browser, by calling a specific controller of the "jelix" module
 ; @@F@tests/@@ : files doing unit tests for PHPUnit

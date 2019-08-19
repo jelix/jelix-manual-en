@@ -1,9 +1,9 @@
 ~~LANG:FR@frman:modules/vues/reponse-generale-personnalisee~~
 
 You certainly may have to initialize the same CSS stylesheet, the same zone of
-content, and other same personnalization stuff, on your response object in most
+content, and other same personalization stuff, on your response object in most
 of your controllers. Instead of repeating all this operations, you could create
-a response object which already do all this personnalization.
+a response object which already do all this personalization.
 
 If you want to create reusable modules, creating your own response is a good
 thing since everything which is not specific to a module is done outside the
@@ -208,7 +208,7 @@ Example:
 
    public function __construct() {
         parent::__construct();
-        $theme = jApp::config()->urlengine['basePath'] . 'themes/' . jApp::config()->theme . '/';
+        $theme = jApp::urlBasePath() . 'themes/' . jApp::config()->theme . '/';
         $this->addCSSLink($theme . 'css/screen.css');
    }
 

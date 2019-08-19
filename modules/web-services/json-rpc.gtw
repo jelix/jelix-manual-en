@@ -13,28 +13,16 @@ A JSON-RPC request cannot be treated as a classic request, thus you can't use
 entry point in @@F@www/@@ directory, @@F@jsonrpc.php@@. This entry point should
 instantiate a @@C@jJsonRpcRequest@@ instead of a @@C@jClassicRequest@@.
 
-The new entry point should look like:
+Use the command @@app:create-entrypoint@@, by indicating the type @@jsonrpc@@:
 
-<code php>
-require_once ('../../myapp/application.init.php');
-
-$config_file = 'jsonrpc/config.ini.php';
-
-require_once (JELIX_LIB_CORE_PATH.'request/jJsonRpcRequest.class.php');
-
-$jelix = new jCoordinator($config_file);
-$jelix->process(new jJsonRpcRequest());
-
+<code bash>
+php dev.php app:create-entrypoint --type=jsonrpc jsonrpc.php
 </code>
 
-Don't forget to add this entry point in @@var/config/urls.xml@@.
+It will create the entrypoint @@jsonrpc.php@@ into your @@www/@@ directory,
+and will declare it into the @@urls.xml@@ and @@framework.ini.php@@ files.
 
-<code xml>
-  <entrypoint type="jsonrpc" name="jsonrpc" default="true" />
-</code>
-
-
-then you retrieve an url for a jsonrpc action like this:
+Then you retrieve an url for a jsonrpc action like this:
 
 <code php>
   $url = jUrl::get("module~action@jsonrpc");

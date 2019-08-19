@@ -2,7 +2,7 @@
 
 There are two types of redirection objects available:
   * @@C@jResponseRedirect@@: redirects to an action of the application with optional parameters
-  * @@C@jResponseRedirectUrl@@: redirects to any URL
+  * @@C@jResponseRedirectUrl@@: redirects to any URL, in particularly external url.
 
 
 ===== jResponseRedirect =====

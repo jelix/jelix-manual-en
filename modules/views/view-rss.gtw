@@ -9,7 +9,19 @@ The alias for @@M@getResponse@@ is "rss2.0":
   $resp = $this->getResponse('rss2.0');
 </code>
 
-Note: these objects are provided by the jfeeds module, included into Jelix.
+TO use this kind of response, you should install the jfeeds module. So add in
+your composer.json the dependency @@jelix/feeds-module@@:
+
+<code bash>
+composer require "jelix/feeds-module"
+</code>
+
+Then configure the module and launch the installer:
+
+<code>
+  php dev.php module:configure jfeeds
+  php install/installer.php
+</code>
 
 ===== RSS Feed Informations =====
 
@@ -42,7 +54,7 @@ Property @@P@descriptionType@@ expects any of the following values : "html", "xh
 ===== Items =====
 
 The RSS channel should be fed with items to publish.
-For example, items can have the description of each new tickets of a blog.
+For example, items can have the description of each new post of a blog.
 
 Each item should be created with jResponseRss20's method: @@M@createItem()@@.
 It allows to fetch an object with item's informations.
@@ -101,9 +113,7 @@ For example, with a news DAO:
 
 ===== Other informations =====
 
-It's possible to explicitely specify more informations about the RSS food or about
+It's possible to explicitly specify more informations about the RSS food or about
 each item.
 
-Check the API documentation about [[refclass:jRSS20Info|jRSS20Info]]
-and [[refclass:jRSSItem|jRSSItem]] to go deeper.
-
+Check the API documentation [[https://github.com/jelix/feeds-module|of the module jfeeds]].

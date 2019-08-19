@@ -94,9 +94,9 @@ of the MVC pattern. Jelix supplies several response objects, which allow to
 generate easily some HTML pages, JSON, text, XML, Zip, redirections etc, and you
 can make your own inheriting from @@C@jResponse@@.
 
-Each response type is declared with a keyword. So, to retrieve a specific
+Each response type is declared with an alias. So, to retrieve a specific
 response object, you call the method @@M@getResponse()@@ by indicating the
-keyword corresponding to the response type:
+alias corresponding to the response type:
 
 <code php>
    $resp = $this->getResponse('html');

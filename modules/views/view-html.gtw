@@ -119,7 +119,7 @@ module. So it is easy to give the path of a file stored in a module.
 ===== Generating dynamic contents =====
 
 To return dynamic content, you have to use the class @@C@jResponseHtml@@,
-corresponding to the response type "html". This class implements additionnal
+corresponding to the response type "html". This class implements additional
 methods and properties to manipulate the HTML/XHTML content. So it is more
 flexible for all consumers components (zones, templates, controllers..).
 
@@ -292,7 +292,7 @@ $rep->addContent('<p>content for my body</p>');
 
 You could declare CSS and JS links into your response object, into your controllers
 or into your templates (see below, "adding js and css links"). But you have an other
-solutions: you can declare list of css and JS links into the configuration, into
+solution: you can declare list of css and JS links into the configuration, into
 "groups" of assets, and then you declare into your response object or elsewhere, the
 group of assets to use.
 
