@@ -8,7 +8,7 @@ specific fields etc.
 The @@<factory>@@ section in a jDao file allows you to define some additional
 methods which will execute some SQL queries. The advantage over creating PHP
 methods in a PHP class, is that you don't have worries about SQL injection,
-about creating complex SQL queries: jDao generates SQL queries for you, without
+or about creating complex SQL queries: jDao generates SQL queries for you, without
 security issues.
 
 ===== <method> element =====
@@ -68,7 +68,7 @@ You can add a @@distinct@@ attribute to only retrieve the distinct elements:
 The optional @@<condition>@@ element describes a condition (@@WHERE@@ clause in SQL). See the section later.
 
 You can also add a @@order@@ element so you can specify the order of the
-retrieved records (@@ORDER@@  clause in SQL). So you should addd one or more
+retrieved records (@@ORDER@@  clause in SQL). So you should add one or more
 @@<orderitem>@@ elements, which contain a @@property@@ attribute and a @@way@@
 attribute. @@property@@ indicates the property on which the order will be
 applied, and @@way@@ should contain "asc" or "desc" values, or a name of one of
@@ -118,8 +118,9 @@ Here is an example of the use of the previous @@getFewRecord@@ method.
 $dao = jDao::get('module~list');   // we retrieve the factory
 $records = $dao->getFewRecord(10, 5);  // we call the method with its arguments, as described in our xml dao file
 
-foreach ($records as $record)      // now we can loop over the list of results
+foreach ($records as $record) {      // now we can loop over the list of results
   jLog::log($record->name);        // we access of one of the property of the record
+}
 </code>
 
 So, for each XML methods declared in the dao file, a PHP method is generated and
@@ -160,7 +161,7 @@ Generate a method which execute a DELETE SQL statement.
   </method>
 </code>
 
-This sort of method execute an UPDATE SQL statement. You can add an additionnal
+This sort of method execute an UPDATE SQL statement. You can add an additional
 @@<values>@@ element which should contain one or more @@<value>@@ elements.
 
 <code xml>
@@ -198,7 +199,7 @@ is this element, with its possible child elements:
    </conditions>
 </code>
 
-We can give several <conditions> tags imbricated to make "or"/"and" groups. If
+We can give several nested <conditions> tags to make "or"/"and" groups. If
 the @@logic@@ attribute is not specified, its value is @@AND@@ by default. It
 should contains the "AND" or "OR" value.
 
@@ -219,7 +220,7 @@ Example, with a comparison with the year part of a datetime field:
 The generated SQL will be:
 
 <code sql>
-   WHERE YEAR(la_table.create_date) = 2017
+   WHERE YEAR(the_table.create_date) = 2017
 </code>
 
 

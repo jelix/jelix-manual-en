@@ -73,7 +73,7 @@ the factory.
 
 </code>
 
-If there are some autoincremented fields, the corresponding properties will be
+If there are some auto-incremented fields, the corresponding properties will be
 updated by the @@M@insert@@ methode with the new value.
 
 

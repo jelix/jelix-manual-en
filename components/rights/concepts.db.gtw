@@ -7,7 +7,7 @@ Rights are stored in a database. The driver implements generic concepts of jAcl2
 and add one feature: support of user groups. Then, the basic elements defining a
 right are:
 
-  * a subject 
+  * a role
   * a user group  
   * a resource (optional)
 
@@ -33,10 +33,16 @@ There are three group types :
 Two class utilities come with jAcl2.db to manage groups, users and rights:
 @@C@jAcl2DbManager@@ and @@C@jAcl2DbUserGroup@@.
 
-Their use are similar theorically with jelix-scripts commands (described in
+Their use are similar theoretically with jelix-scripts commands (described in
 [[configuration|Configure jAcl2.db]]), and you can also read the
 [[refapi:|reference documentation]].
 
-===== Schema of relationnal data of jAcl2.db =====
+===== Schema of relational data of jAcl2.db =====
 
 {{jacl2db_mcd.png|}}
+
+You should not that some tables or fields use the word 'subject' in their names.
+This is because, in Jelix 1.6 and older version, roles were named subjects.
+To keep compatibility with previous version, tables and fields were not renamed
+in Jelix 1.7, even if we talk about roles now. Roles and subjects are the same
+notion.

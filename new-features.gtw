@@ -206,6 +206,9 @@ because of the configuration system.
   * jCmdLineRequest: the module and the action name should be given to the
    constructor when the script is dedicated to a specific action.
   * CRUD controller: the records list can be ordered
+  * jAcl2: the notion of 'subject' has been replaced by the notion of 'role',
+    which is more relevant. API having the word 'subject' in their name
+    have been replaced by API using the 'role' name, but they are still available.
 
   * @@jApp@@ :
     * new method @@jApp::urlBasePath()@@ which allow to retrieve the base path,

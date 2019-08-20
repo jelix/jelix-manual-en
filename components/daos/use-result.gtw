@@ -47,7 +47,7 @@ or
   $baz = $myFactory->get(array(3, 4));
 </code>
 
-Careful: the order of the value should be the same as the order of the declaration
+Careful: the order of the values should be the same as the order of the declaration
 of keys in the primarykey attribute. Eg, @@$myFactory->get(4, 3)@@ is different
 from @@$myFactory->get(3, 4)@@.
 
@@ -80,7 +80,7 @@ pointer one step.
 
 <code php>  
     // fetch the records one at the time
-    while ($row = $list->fetch) {
+    while ($row = $list->fetch()) {
         // do something with the record
         echo $row->id;
     }
@@ -224,58 +224,3 @@ Some databases like Postgresql support regular expressions. For postgresql you c
 </code>
 
 Other operator like @@REGEXP@@, @@NOT REGEXP@@ are also supported. Verify first if it is compatible with your database.
-
-==== Adding methods on record objects ====
-
-If you need to add some PHP methods on record objects (to
-calculate values from field values for example), you can
-define a base class for the dao.
-
-You have to use the @@extends@@ attribut on the @@record@@
-element. Its value is the selector of your base class:
-
-
-<code xml>
- <!-- fichier mymodule/daos/mydao.dao.xml -->
- ...
- <record extends="mymodule~myrecord">
-  ...
- </record>
- ...
-</code>
-
-Your base class should be store in a file which have the class name
-and the suffix @@.daorecord.php@@, in the @@daos/@@ directory of your module.
-The class should follow these rules:
-
-   * the class should be abstract
-   * the name of the class should have the suffix @@DaoRecord@@
-     (but this suffix is not indicated in the selector)
-   * the class should inherits from @@C@jDaoRecordBase@@
-
-
-
-<code php>
-// file mymodule/daos/myrecord.daorecord.php
-
-abstract class myrecordDaoRecord extends jDaoRecordBase {
-    function calculateTotal() {
-       return $this->amount + $this->vat;
-       // ...
-    }
-}
-</code>
-
-Then you can call this method on each records:
-
-<code php>
-
-   $maFactory = jDao::get("mymodule~myrecord");
-   $list = $maFactory->findAll();
-
-   foreach ($list as $row) {
-        $total = $row->calculateTotal();
-        //...
-   }
-</code>
-

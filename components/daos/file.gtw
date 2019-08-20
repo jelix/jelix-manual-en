@@ -143,7 +143,7 @@ is a postgresql type. If you use a mysql database, jDao will use @@longblob@@.
 Values of fields will be converted in the corresponding PHP type, most of time,
 in a string.
 
-For autoincremented fields, you can indicate @@serial@@ or @@autoincrement@@ as
+For auto-incremented fields, you can indicate @@serial@@ or @@autoincrement@@ as
 a type. But for some case, it is better to indicate one of integer types, and to
 set a @@A@autoincrement@@ attribute to @@true@@. On some databases, an auto
 incremented field can be associated with a sequence. Then the attribute
@@ -282,7 +282,25 @@ class newsDaoRecord extends jDaoRecordBase {
    function calculateSomething() {
         $this->field1 = $this->field2 * 1.196;
    }
+
+   function calculateTotal() {
+      return $this->amount + $this->vat;
+   }
 }
+</code>
+
+
+Then you can call this method on each records:
+
+<code php>
+
+   $maFactory = jDao::get("mymodule~news");
+   $list = $maFactory->findAll();
+
+   foreach ($list as $row) {
+        $total = $row->calculateTotal();
+        //...
+   }
 </code>
 
 
@@ -297,13 +315,13 @@ an attribute @@A@import@@ on the @@E@dao@@ element.
 
 ==== How it works ====
 
-   * The DAO to import is readed and then your dao is containing all of
+   * The DAO to import is readed first, so your dao will contain all of
      its datasource, properties or methods.
    * Then your dao is readed. All of its datasource, properties or methods
      are added or overwrite existing properties/methods
    * The PHP class is then generated
 
-Note that an import is **not** an inheriting.
+Note that an import is **not** an inheriting as in PHP.
 
 Example:
 

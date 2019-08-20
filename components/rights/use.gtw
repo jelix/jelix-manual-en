@@ -2,9 +2,9 @@
 
 If a module has to implement access control or right management, you have to:
 
-  * determine which subjects you'll use.
-  * optionnaly store them with the driver setup for jAcl2, an LDAP driver or a database driver [[configuration|like jAcl2.db]]
-  * then, use jAcl2 static methods to check if the current user has this or that right on this or that subject.
+  * create some roles you'll use.
+  * optionally store them with the driver setup for jAcl2, an LDAP driver or a database driver [[configuration|like jAcl2.db]]
+  * then, use jAcl2 static methods to check if the current user has this or that right on this or that role.
 
 If your jAcl2 driver supports user groups, you don't have to bother about them,
 your driver will take care of. Of course a jAcl2 driver can use jAuth as
@@ -42,7 +42,7 @@ driver=db
 </code>
 
 Since Jelix 1.6.8, there is also a "dbcache" driver, which is similar to the
-"db" driver (it works with jAcl2.db) but stores also rights result into a cache
+"db" driver (it works with jAcl2.db) but stores also rights results into a cache
 using jCache.
 
 ===== Check a right with jAcl2 =====
@@ -54,7 +54,8 @@ method to use: @@M@jAcl2::check()@@.
 
 
 It will probably be the most used method for checking rights. It returns right
-or false, of course. Example:
+or false, of course. Its parameters are a role name, and optionally a resource
+id. Example:
 
 <code php>
 if( jAcl2::check("cms.articles.create")){
@@ -111,7 +112,7 @@ To check only one right, use @@jacl2.right@@:
 <code php>
 
    public $pluginParams = array(
-        '*' => array( 'jacl2.right'=>'subject', ...)
+        '*' => array( 'jacl2.right'=>'role', ...)
         ...
    );
 </code>
@@ -121,7 +122,7 @@ Or, to check a sequence of rights about the current user, use @@jacl2.rights.and
 <code php>
 
    public $pluginParams = array(
-     '*' => array( 'jacl2.rights.and'=>array('subject1', 'subject2', ..)
+     '*' => array( 'jacl2.rights.and'=>array('role1', 'role2', ..)
             ),
         ...
    );
@@ -132,7 +133,7 @@ Or else, to check if current user has any of a sequence of rights, use @@jacl2.r
 <code php>
 
    public $pluginParams = array(
-     '*' => array( 'jacl2.rights.or'=>array('subject1', 'subject2', ..)
+     '*' => array( 'jacl2.rights.or'=>array('role1', 'role2', ..)
             ),
         ...
    );

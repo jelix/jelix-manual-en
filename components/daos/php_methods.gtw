@@ -21,7 +21,9 @@ It is somewhat simple. You have to declare in your XML factory a method of type 
   </method>
 </code>
 
-XML tags used in classic methods can not be used here (@@conditions@@, @@order@@...) as you have to code directly your SQL query. However, you still have to define a method name and you can use @@parameter@@.
+XML tags used in classic methods can not be used here (@@conditions@@, @@order@@...)
+as you have to code directly your SQL query. However, you still have to define a
+method name and you can use @@parameter@@.
 
 
 
@@ -39,9 +41,12 @@ There are 2 ways to code PHP methods:
    - either hardcoding queries
    - either coding queries by using factory and record informations (table names, field names, field types, and so on)
 
-The first one performs a bit better and is simpler. But the latter is more maintanable as your @@datasources@@ or @@properties@@ are modified. It is up to you to choose which one is your favourite.
+The first one performs a bit better and is simpler. But the latter is more
+maintainable as the generated query parts are updated when @@datasources@@ or
+@@properties@@ are modified. It is up to you to choose which one is your favourite.
 
-Below is a list of properties and methods, you should use for the more maintanable way of coding PHP methods:
+Below is a list of properties and methods, you should use for the more
+maintainable way of coding PHP methods:
 
    * @@$this->_primaryTable@@ : primary table alias,
    * @@$this->_tables@@ : table informations,
