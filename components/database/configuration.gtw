@@ -17,7 +17,7 @@ driver="mysqli"
 database="jelix"
 host= "localhost"
 user= "jelix"
-password= "jelix"
+password= "Sup3Rp@Ssw0rD!"
 persistent= on
 force_encoding=true
 </code>
@@ -84,7 +84,7 @@ Possible parameters:
 For the database file, you can use 3 syntaxes:
 
    * a simple file name (ex: mybase.sqlite). The file will be in the @@F@var/db/sqlite3/@@
-     directory (for sqlite3) or in @@F@var/db/sqlite/@@ (for sqlite 2).
+     directory.
    * a partial path + filename, using a shorcut like "app:", "lib:" or "var:" to indicate
      a path inside the application directory, the lib directory, or the var directory.
      ex: "app:../db/mybase.sqlite".

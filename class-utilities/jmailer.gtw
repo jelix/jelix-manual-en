@@ -103,9 +103,12 @@ Sending a text email.
 
 ===== Sending a mail using a template =====
 
-You can use the powerfull template engine of Jelix to send an email. You have to create a template in your module. In this template, you can use meta values to specify your email parameters.
+You can use the powerful template engine of Jelix to send an email. You have
+to create a template in your module. In this template, you can use meta values
+to specify your email parameters.
 
 Example, in @@modules/mymodule/templates/supermail.tpl@@:
+
 <code html>
     {meta Subject 'Super mail.'}
     {meta Priority 1}
@@ -252,7 +255,7 @@ debugReceivers[] = bob@foo.local
 debugReceivers[] = joe@foo.local
 </code>
 
-You have also additionnals features:
+You have also additional features:
 
 <code ini>
 ; Prefix to add to subject of mails, in debug mode.

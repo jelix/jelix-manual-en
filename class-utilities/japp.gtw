@@ -142,7 +142,9 @@ jApp::declareModule(__DIR__.'/my-module/');
 </code>
 
 Note that if you want to install Jelix and modules via Composer, these methods
-are called automatically with path of modules containing in packages.
+are called automatically with path of modules containing in packages. So in
+the example above, declaring jelix-modules and jelix-admin-modules is useless.
+It is only useful when you install jelix from a zip.
 
 
 In the entry point, you have also to say what is the configuration file

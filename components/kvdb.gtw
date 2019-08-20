@@ -46,7 +46,7 @@ database. Here are some methods you can call:
 
 ===== Other specific operations =====
 
-Some drivers can implement additionnal methods, depending of the capabilites of
+Some drivers can implement additional methods, depending of the capabilities of
 the database. One of this interface is @@I@jIKVttl@@, where values have a
 limited life time.
 
@@ -149,7 +149,7 @@ then remove these prefixes from the list and delete corresponding keys.
 
 You have an example of a such worker in @@F@lib/jelix/core-modules/jelix/controller/redisworker.cmdline.php@@.
 You can launch it with systemd/sysinit/supervisord for example. The command is:
-@@php myapp/scripts/script.php jelix~redisworker:deljkvdb <profile>@@.
+@@php myapp/console.php jkvdb:redis:delete <profile>@@.
 Replace @@<profile>@@ by the profile name of jKvDb. It waits after incoming
 prefixes in the list, and delete corresponding keys. If you launch it by hand on
 the command line, just hit @@<ctrl>+C@@ to stop it.

@@ -15,7 +15,7 @@ supports other kind of storage like files or a SQL database.
 
 ==== Configuration ====
 
-You should declare storages in a @@F@var/config/profiles.ini.php@@ file. See
+You should declare storage in a @@F@var/config/profiles.ini.php@@ file. See
 [[/configuration/configuration-files#the-profiles.ini.php-file|the corresponding chapter]] to know how to
 use this file. It may contain some section, corresponding to a "profile", like
 for jDb or jKVDb.
@@ -122,7 +122,7 @@ then remove these prefixes from the list and delete corresponding keys.
 
 You have an example of a such worker in @@F@lib/jelix/core-modules/jelix/controller/redisworker.cmdline.php@@.
 You can launch it with systemd/sysinit/supervisord for example. The command is:
-@@php myapp/scripts/script.php jelix~redisworker:deljcache <profile>@@.
+@@php myapp/console.php jcache:redis:delete <profile>@@.
 Replace @@<profile>@@ by the profile name of the cache. It waits after incoming
 prefixes in the list, and delete corresponding keys. If you launch it by hand on
 the command line, just hit @@<ctrl>+C@@ to stop it.
@@ -257,8 +257,8 @@ $rep->setLifeTime(600, true);// 10 minutes in shared cache
 
 ==== Cache par validation ====
 
-The cache by validation allows to use a more complex cache politic. The browser
-always ask the page to the server, but the server can decide to return the whole
+The cache by validation allows to use a more complex cache policy. The browser
+always asks the page to the server, but the server can decide to return the whole
 content of the resource, or to say to the browser that it can use its cache
 content.
 

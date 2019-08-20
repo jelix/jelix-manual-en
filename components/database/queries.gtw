@@ -59,10 +59,10 @@ Quick example:
   $conn = jDb::getConnection();
 
   $rs = $conn->query('SELECT name, firstname FROM users');
-  $result='';
-  while($record = $rs->fetch()){
-     $result.='name = '.$record->name.' firstname='.$record->firstname."\n";
-  } 
+  $result = '';
+  while ($record = $rs->fetch()) {
+     $result .= 'name = '.$record->name.' firstname = '.$record->firstname."\n";
+  }
 </code>
 
 
@@ -74,10 +74,10 @@ You can retrieve only some few records, by using the @@limitQuery@@ method:
   $conn = jDb::getConnection();
 
   $rs = $conn->limitQuery('SELECT name, firstname FROM users', 5, 10);
-  $result='';
-  while($record = $rs->fetch()){
-     $result.='name = '.$record->name.' firstname='.$record->firstname."\n";
-  } 
+  $result = '';
+  while ($record = $rs->fetch()) {
+     $result .= 'name = '.$record->name.' firstname = '.$record->firstname."\n";
+  }
 </code>
 
 The first parameter is the query. The second is the number of the first record
@@ -172,9 +172,9 @@ some case, like in a @@foreach@@ statement.
   $conn = jDb::getConnection();
 
   $rs = $conn->query('SELECT name, firstname FROM users');
-  $result='';
-  foreach($rs as $record){
-     $result.='name = '.$record->name.' firstname='.$record->firstname."\n";
+  $result = '';
+  foreach ($rs as $record) {
+     $result .= 'name = '.$record->name.' firstname = '.$record->firstname."\n";
   } 
 </code>
 
@@ -192,9 +192,9 @@ it with the @@setFetchMode()@@:
 
   $rs->setFetchMode(jDbConnection::FETCH_CLASS, 'User');
   
-  $result='';
-  foreach($rs as $record){
-     $result.='name = '.$record->name.' firstname='.$record->firstname."\n";
+  $result = '';
+  foreach ($rs as $record) {
+     $result .= 'name = '.$record->name.' firstname = '.$record->firstname."\n";
   } 
 </code>
 
@@ -222,8 +222,8 @@ And in the template:
     <tr> <th>name</th> <th>firstname</th></tr>
   {foreach $results as $user}
     <tr> 
-       <td>{$user->name|escxml}</td>
-       <td>{$user->firstname|esxml}</td>
+       <td>{$user->name|eschtml}</td>
+       <td>{$user->firstname|eschtml}</td>
     </tr>
   {/foreach}
    </table>
@@ -246,8 +246,6 @@ you execute your queries. Then you can validate the transaction by calling the
    try {
         $conn->exec(...);
         $conn->query(...);
-        $conn->exec(...);
-        $conn->exec(...);
         //....
         $conn->commit();
     }

@@ -2,7 +2,7 @@
 
 Jelix has its own localization/internationalization mechanism. The @@M@setLocale@@
 and @@M@gettext@@ functions from PHP are not used because of too much constraining
-to setup, and their configuration depends on how servers are configured.
+to setup, and their configuration depends too much on how servers are configured.
 
 ===== Principles =====
 
@@ -40,7 +40,7 @@ several parameters to configure the language and charset used in your applicatio
 Property files are files containing translations. They follow strict conventions.
 They are located in the @@F@locales/@@ directory of modules. This directory has a
 specific organization. It has a sub-directories for each language. Example:
-@@F@locales/fr_FR/@@ for France's french, @@F@locales/en_US/@@ for United States'
+@@F@locales/fr_FR/@@ for France's french, @@F@locales/en_US/@@ for United States
 english, and so on. In each language directory there are many property files,
 corresponding to the same language. However you can have different files containing
 same strings, but for different character encoding.
@@ -114,7 +114,7 @@ several lines
 message=this is a regular line
 </code>
 
-However, it doesn't insert a line break in the displayed string. If you want to
+However, it doesn't insert a line break in the displayed string, but it inserts a space. If you want to
 insert a real line break, use \n or \r (\r\n on windows, \n on linux, \r on macs):
 
 <code ini>
@@ -329,7 +329,7 @@ There are situations where it would be better to localize an entire template tha
 to create lots of locale strings. 
 
 To achieve this, just move your template in a sub-folder of its @@F@templates@@
-directory. As for [[locales#property-files|locale files]], there must be one sub-folder
+directory. As for [[/components/locales#property-files|locale files]], there must be one sub-folder
 for each language (Example: @@F@templates/en_US/@@, @@F@templates/fr_FR/@@).
 
 ===== Supporting unknown or non default language code =====

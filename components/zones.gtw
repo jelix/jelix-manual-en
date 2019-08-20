@@ -134,6 +134,7 @@ It is possible pass parameters to a zone. Parameters should be in an associative
 </code>
 
 With the @@M@assignZone@@ method of jTpl:
+
 <code php>
     $rep = $this->getResponse('html');
     $rep->title = 'test page';
@@ -142,7 +143,7 @@ With the @@M@assignZone@@ method of jTpl:
 </code>
 
 
-To retrieve the variable in the zone, we use the @@M@param()@@ method :
+To retrieve the variable in the zone, we use the @@M@param()@@ method:
 
 <code php>
 class testZone extends jZone {
@@ -163,7 +164,7 @@ make it upper case) and we affected 'foo' to the template of the zone.
 
 Don't forget that Jelix affects automatically the variables passed as parameters
 of the zone to the template of the zone if it exists. You then can avoid to
-write :
+write:
 
 <code php>
    protected function _prepareTpl(){
@@ -171,7 +172,7 @@ write :
    }
 </code>
 
-If you use the zone plugin template, you pass the parameters to the zone this way :
+If you use the zone plugin template, you pass the parameters to the zone this way:
 
 <code html>
   <div id="menu"> {zone 'TheModule~test', array('foo'=>'bar')} </div>

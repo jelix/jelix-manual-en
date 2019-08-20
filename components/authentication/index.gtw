@@ -326,16 +326,12 @@ and/or @@enable_after_logout_override@@ (set them to @@L@on@@ or @@L@off@@).
 
 ==== Setup of URLS significants ====
 
-if you use the significant urls engine, you will have to add in the file
-@@F@app/system/urls.xml@@ the line
+jauth module provides some urls mapping, to declare into your
+@@F@app/system/urls.xml@@ file. Add the line:
 
 <code>
 <url pathinfo="/auth"     module="jauth" include="urls.xml"/>
 </code>
-
-to get the urls dedicated to the module.
-
-
 
 ===== Using your own controller =====
 

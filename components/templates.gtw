@@ -13,7 +13,7 @@ Some of @@C@jResponse*@@ objects or @@C@jZone@@ instanciate for you a jTpl
 object. For example the @@P@body@@ property of the @@C@jResponseHtml@@ object is
 a @@C@jTpl@@ object, as for the @@M@_tpl@@ property of @@C@jZone@@.
 
-In other case, you have to instanciate a @@C@jTpl@@:
+In other case, you have to instantiate a @@C@jTpl@@:
 
 <code php>
    $tpl = new jTpl();
@@ -99,7 +99,7 @@ it: @@M@display@@.
   $tpl->display('mymodule~mytemplate');
 </code>
 
-It generates the content and ouput it directly.
+It generates the content and output it directly.
 
 ===== Template files =====
 
@@ -108,8 +108,8 @@ the type of the response. It contains also some instructions to incorporate
 values that you will define, instructions to repeat the generation of parts of
 HTML, etc.
 
-The syntax used in jTpl is in the middle of the one used in smarty and the one
-of PHP. The goal is to have templates readable enough, easy to modify and not
+The syntax used in jTpl is a mix of the one used in smarty and the PHP syntax.
+The goal is to have templates readable enough, easy to modify and not
 forcing a syntax that is too different from PHP. All this proposing features
 that PHP doesn't have and adapted to Jelix.
 
@@ -358,7 +358,7 @@ in a template used by a specific type of response. Some plugins are for HTML
 responses, some other plugins are for text responses.
 
 
-==== Personnalized functions and modifiers ====
+==== Personalized functions and modifiers ====
 
 If you want to have some new jtpl functions or modifiers, you can realized some
 plugins.  [[/plugins/tpl|See the documentation about it]]. This is simple.
@@ -494,10 +494,23 @@ the selector name.
  </div>
 </code>
 
-All template variables declared in the jtpl object will be accessibled into the included template.
+All template variables declared in the jtpl object will be accessible into the included template.
 
-Before using the include tag, first consider using [[/components/zones|zones]], in many
-case, it is better, because its generated content may be stored in a cache.
+If you don't want to share variables into the included template, you should use
+the @@{fetchtpl}@@ tag. It is useful to include a template recursively.
+
+
+<code>
+ <div>
+   ...
+   {fetchtpl 'mymodule~sharedcontent'}
+ </div>
+</code>
+
+
+Before using the @@{include}@@ or @@{fetchtpl}@@ tag, first consider using
+[[/components/zones|zones]]. In many case, it is better, because its generated
+content may be stored in a cache.
 
 
 ===== Redefining a template =====

@@ -14,14 +14,13 @@ So basically we have, on the one hand, the @@C@jEvent@@ class that emits events
 and that gathers and return the responses, and on the other hand, some
 //Listener// classes, located in modules, that respond to events.
 
-===== Emiting an event =====
+===== Emitting an event =====
 
 To emit an event, we use jEvent's static method @@M@notify()@@.
 
 @@M@jEvent::notify@@ accepts two arguments. The first one is the name of the
-event you want to send (alphanumeric characters only), and the second one is an
-array of event parameters. As with most functions accepting parameters, the
-second argument is optional.
+event you want to send (alphanumeric characters only), and the second one (optional)
+is an array of event parameters.
 
 @@M@jEvent::notify@@ returns a @@C@jEvent@@ instance, containing all the related
 responses. Responses are some data returned by the listeners (don't confuse with
@@ -36,7 +35,7 @@ For example:
    $theEvent = jEvent::notify('authCanLogin', $authCLEventParams);
 
    //second way, without parameters
-   $theEvent = jEvent::notify('authLogin');
+   $theEvent = jEvent::notify('authCanLogin2');
 </code>
 
 To get access to the responses returned by the modules, use the
@@ -49,6 +48,17 @@ emission.
 
 The result is an array containing all data returned by listeners.
 
+You have other methods to query data from responses:
+
+   * @@inResponse($responseKey, $value)@@: says if a key with the given value
+     exists in returned data.
+   * @@getResponseByKey($responseKey)@@: return list of data corresponding to
+     the given key
+   * @@allResponsesByKeyAreTrue($responseKey)@@: says if all data of the given
+     key are @@true@@.
+   * @@allResponsesByKeyAreFalse($responseKey)@@: says if all data of the given
+     key are @@false@@.
+
 ===== Responding to an event =====
 
 Since there is no default listener in the modules, each module that wants to
@@ -56,8 +66,8 @@ respond to events need to create a listener and declare it in the
 @@F@events.xml@@ file of the same module. There is no limit in the number of
 listeners.
 
-The creation of the listener is splitten in two parts: the
-creation of the listener and the declaration of the listener.
+The creation of the listener has two steps: the creation of the class and
+the declaration of the listener.
 
 ==== Creating a listener ====
 
@@ -69,7 +79,7 @@ class. Note that the class name is a concatenation of the name and of
 from @@C@jEventListener@@. 
 
 The listener needs to implement one method for each event it is supposed to
-respond to. Those methods should follow this convertion : @@on@@ following by
+respond to. Those methods should follow this convention : @@on@@ following by
 the event name. They need to accept as single argument a @@C@jEvent@@ object.
 
 Example:
@@ -91,7 +101,7 @@ class authListener extends jEventListener {
         $ok = $ok && ($user->password != '');
 
         //the response
-        $event->Add(array('canlogin'=>$ok));
+        $event->add(array('canlogin'=>$ok));
    }
 }
 </code>
@@ -99,7 +109,7 @@ class authListener extends jEventListener {
 This example demonstrates a listener responding to the @@AuthCanLogin@@ event.
 First, the @@M@onAuthCanLogin@@ method retrieves an 'user' parameter from the
 event object. Next, it does it's internal processing, and finally, it adds some
-data to the response by calling @@M@$event->Add@@.
+data to the response by calling @@M@$event->add@@.
 
 For events having a name that cannot be a method name, like name including
 characters like a dot, you can indicate the method to execute into a property
@@ -118,14 +128,12 @@ class authListener extends jEventListener {
 }
 </code>
 
-
-
 Note: the convention of the name of methods and the calling of methods
 corresponding to events can be changed by redefining the method @@M@performEvent@@
 of your listener.
 
 
-==== Declare a listener ====
+==== Declaring a listener ====
 
 The final step to setup a listener is to declare it. This is done through the
 @@F@events.xml@@ file located in your module root folder. For example:

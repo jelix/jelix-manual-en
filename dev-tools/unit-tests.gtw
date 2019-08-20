@@ -1,7 +1,7 @@
 ~~LANG:FR@frman:outils-dev/tests-unitaires~~
 
-See the definition of unit-test on wikipedia: https://en.wikipedia.org/wiki/Unit-testing .
-
+Unit tests should always be used in any project. Jelix allows to integrate
+easily tests in modules.
 
 ===== Creating tests with PHPUnit =====
 
@@ -27,8 +27,3 @@ To do so:
      functional tests etc..
 
 You can use all others options of PHPUnit with runtests.php.
-
-===== Creating tests with Simpletest =====
-
-This possibility has been removed from the source code of Jelix since Jelix 1.7. You can
-install the [[https://packagist.org/packages/jelix/simpletest-module|the simpletest-module package via Composer]].
