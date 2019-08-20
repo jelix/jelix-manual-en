@@ -76,7 +76,6 @@ When you have a ReCaptcha account, Google gives you a site key and a secret.
 
 You need to indicate them into the Jelix configuration:
 
-
 <code ini>
 [recaptcha]
 ; sitekey and secret should be set only into localconfig.ini.php!

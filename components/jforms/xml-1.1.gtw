@@ -123,7 +123,7 @@ pre-defined error messages.
 
 You can redefine those pre-defined messages with an @@E@<alert>@@ tag. This tag 
 must have a @@A@type@@ attribute telling if it is an @@invalid@@ message or a @@required@@
- message. As for helper messages, you can use either a locale or an hard-coded message.
+message. As for helper messages, you can use either a locale or an hard-coded message.
 
 <code xml>
   <input ref="birthdate" type="date">
@@ -245,7 +245,7 @@ To use an HTML editor in your form, you should use the @@E@<htmleditor>@@ elemen
   </htmleditor>
 </code>
 
-The default html builder of jforms uses Wymeditor. You can specify an other html
+The default html builder of jforms uses CKEditor. You can specify an other html
 editor by setting the @@A@engine@@ attribute. You can also indicate a
 configuration file with the @@A@config@@ attribute, and indicates a skin with
 the @@A@skin@@ attribute.
@@ -521,7 +521,7 @@ You can also add a @@A@size@@ attribute. It sets the number of list box items to
 display (hence the list box height). its default value is 4.
 
 Listbox is one-choice only in its default behavior. However you can set
-@@A@multiple="true"@@ attribute to enable muti-items selection (in an HTML form,
+@@A@multiple="true"@@ attribute to enable multi-items selection (in an HTML form,
 user has to hold @@K@Ctrl@@ key and click to select more than one element). In
 that situation, "section" form variable of the example above will be assigned to
 a PHP array of selected values instead of a single one. 
@@ -569,7 +569,7 @@ PHP API change properties of child controls.
 
 
 
-Since Jelix 1.6.2, it is possible to add a checkbox which appears near the label
+It is possible to add a checkbox which appears near the label
 of the fieldset. It allows to the user to enable or disable all controls in the
 group. Use the attribute @@withcheckbox@@.
 
@@ -631,9 +631,10 @@ controls of others items are deactivated.
 
 Each @@E@<item>@@ element should have a @@A@value@@ attribute.
 
-The @@E@<choice>@@ element accept @@E@<help>@@, @@E@<hint>@@, @@E@<alert>@@, as well as @@A@readonly@@, @@A@required@@ and @@A@selectedvalue@@ attributes. This last attribute can contain a value of one of the items. You can also put a @@A@selected="true"@@ attribute on an @@E@<item>@@ element to select it.
-
-
+The @@E@<choice>@@ element accept @@E@<help>@@, @@E@<hint>@@, @@E@<alert>@@,
+as well as @@A@readonly@@, @@A@required@@ and @@A@selectedvalue@@ attributes.
+This last attribute can contain a value of one of the items. You can also put
+a @@A@selected="true"@@ attribute on an @@E@<item>@@ element to select it.
 
 ==== Captcha ====
 
@@ -906,7 +907,7 @@ In a field which have a dynamic datasource, you often may want that the list
 of items depends of the value of an other field. Example: a list of town
 depends of a country selected in an other field.
 
-You should then use the attribuet @@A@criteriafrom@@, which must contain the
+You should then use the attribute @@A@criteriafrom@@, which must contain the
 identifier of the control containing the value that serves as criteria for the
 list of choices.
 
@@ -928,8 +929,7 @@ selected value of the first list.
 In the web page, the content of the menulist is replaced dynamically when
 the user change the value of the control indicated into @@A@criteriafrom@@.
 
-Before Jelix 1.6.6, @@A@criteriafrom@@ was supported only on dao datasources.
-Since Jelix 1.6.6, it can also be used on class datasources.
+@@A@criteriafrom@@ is supported on dao datasources as well as on class datasources.
 
 The class must then implement the  @@C@jIFormsDynamicDatasource@@ interface
 (which inherits from @@C@jIFormsDatasource2@@). It adds two methods,
@@ -949,7 +949,7 @@ You have to set the @@P@datasource@@ property on the field object, with a class.
 
 ==== Grouped data ====
 
-For @@E@<menulist>@@ or @@E@listbox@@, you can group data into "sections". It
+For @@E@<menulist>@@ or @@E@<listbox>@@, you can group data into "sections". It
 will produce @@E@optgroup@@ elements in HTML.
 
 For static datasource, use the @@E@<itemsgroup>@@ element with an attribute

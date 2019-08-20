@@ -31,9 +31,9 @@ You can again use @@M@setData()@@ to overload user inputs or fill some empty con
 
 Once you have a form object filled with submitted data, you should check
 precisely if this is what you expect before going on processing. @@M@check()@@
-method does basic checkings based on what you described in your XML file (if a
+method does basic checks based on what you described in your XML file (if a
 field is required, if field data type is correct, etc...). @@M@check()@@ returns
-true if all checkings pass, false otherwise. 
+true if all checks pass, false otherwise.
 
 If data validation fails, you'll generally display your form again with error
 messages. if you do so, @@M@check()@@ will have automatically displayed error
@@ -112,7 +112,7 @@ This is a 2 step process :
 
 ===== Storing data =====
 
-Once all checkings are ok, you can extract data of your form object through
+Once all checks are ok, you can extract data of your form object through
 calls of @@M@getData()@@ method or simply @@M@getAllData()@@ call which
 retrieves all form data under a PHP array. And then, you could save them to
 database with jDao or jDb, send some parts by mail, and so on.

@@ -261,7 +261,7 @@ versions should automate this.
 
 ==== Adding fields dynamically ====
 
-The deactivation is the prefered method, because it is simplier, and by reading
+The deactivation is the preferred method, because it is simpler, and by reading
 the XML file, you know all used controls.
 
 However, in some case you need to add several controls, for exemple repeated
@@ -319,7 +319,7 @@ before the retrieval of submitted data, so jForms know which data to retrieve.
 You can put the code which add the field, into a private method of your
 controller, so you don't have to duplicate it in each action you use the form.
 
-**Warning** : you musn't use the @@M@fill()@@ method, because this method do a
+**Warning** : you mustn't use the @@M@fill()@@ method, because this method do a
 @@M@get()@@ followed immediately by @@M@initFromRequest()@@, so it doesn't give
 you the opportunity to add your field before the retrieval of data. If you call
 it, your field won't receive corresponding data.

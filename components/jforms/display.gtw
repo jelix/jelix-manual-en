@@ -141,8 +141,9 @@ code below adds a class on 'name' and 'firstname' controls only:
    <fieldset><legend>Your identtity : </legend>
 
       {formcontrols}            
-         <p {ifctrl 'name', 'firstname'}class="help-needed"{/ifctrl}> {ctrl_label} : {ctrl_control} </p>
-         <p {ifctrl 'address'}class="address"{/ifctrl}> {ctrl_label} : {ctrl_control} </p>
+         <p {ifctrl 'nom', 'prenom'}class="help-needed"{/ifctrl}
+            {ifctrl 'adresse'}class="address"{/ifctrl}>
+            {ctrl_label} : {ctrl_control} </p>
       {/formcontrols}
 
    </fieldset>

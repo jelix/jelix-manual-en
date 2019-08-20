@@ -72,9 +72,8 @@ attribute on the element @@E@<date>@@.
 
 ===== Creating a type of datepicker =====
 
-To create a new type of datepicker, you have
-to create a javascript file which contains a function. The goal of this function
-is to initialise the datepicker.
+To create a new type of datepicker, you have to create a javascript file which
+contains a function. The goal of this function is to initialise the datepicker.
 
 Its name should be @@f@jelix_datepicker_<datapicker name>@@ where
 @@<datapicker name>@@ is the datepicker name (used in the webassets group etc). 
