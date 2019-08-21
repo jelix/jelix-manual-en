@@ -1,7 +1,7 @@
 ~~LANG:FR@frman:composants/urls/mapping~~
 
 The configuration principle of this engine is to indicate in a
-@@F@var/config/urls.xml@@ file all the possible url forms in the application,
+@@F@app/system/urls.xml@@ file all the possible url forms in the application,
 and the actions that will be associated to them. Here is an example of file:
 
 <code xml>
@@ -265,8 +265,8 @@ this example:
 Here, we use the same action for two different urls. The processing will be
 partly different according to the @@details@@ parameter. In this case, we would
 display the product of a catalogue, with general characteristics, and in the
-other its general **and** detailed characteristics. This avoids to create to
-different actions for so small difference.
+other its general **and** detailed characteristics. This avoids to create two
+different actions for so small differences.
 
 We can use this mechanism to support language, for instance:
 
@@ -504,7 +504,7 @@ declare those files into the main @@F@urls.xml@@ file. It avoid to have a big ma
 @@F@urls.xml@@ file, and more important, to avoid to declare or rewrite all url
 of a module in this file, when you install a module made by someone.
 
-To do it, you shoud create a file, @@F@urls.xml@@ (or with an other name), in
+To do it, you should create a file, @@F@urls.xml@@ (or with an other name), in
 the directory of the module. This file should have a @@E@suburls@@ element as
 root element, instead of @@E@urls@@, and have all needed @@E@url@@ element to
 declare all urls mapped to each action of the module. You should not use

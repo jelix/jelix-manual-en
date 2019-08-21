@@ -13,7 +13,7 @@ The framework is based on this principle: each url is corresponding to an action
   - The web server receives an HTTP request
     * The entry point is executed by the server when a url indicates it. It's @@F@index.php@@ by default.
     * This script initializes the Jelix environment with @@C@jApp@@.
-    * It then instantiates a @@C@jRequest@@ object and a @@C@jCoordinator@@ coordinator.
+    * It then instantiates a @@C@jRequest@@ object and a @@C@jCoordinator@@ coordinator. See the coordinator as a router.
     * The @@C@jRequest@@ object then analyzes the content of the http request
       to be able to extract data from it. These data can be in the url and/or
       in the body of the request (POST method for example).
