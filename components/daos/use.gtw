@@ -45,6 +45,15 @@ If we have @@F@foo.dao.xml@@ dao file in the //bar// module :
 @@V@$myDao@@ contains a factory of //foo//, and @@V@$myRecord@@ an empty record
 of //foo// type.
 
+You can also call the method @@createRecord()@@ (which does not have parameters),
+available on the factory:
+
+<code php>
+   $myDao = jDao::get("bar~foo");
+   $myRecord = $myDao->createRecord();
+</code>
+
+
 
 ===== Create, modify, delete a record =====
 

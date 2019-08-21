@@ -193,6 +193,8 @@ because of the configuration system.
     the new method @@jforms::updateDynamicList()@@.
   * The datetime picker allows now to select time
   * new control @@<color>@@ to select a color.
+  * new control @@<upload2>@@ enhancing the actual @@<upload>@@ with management
+    of already uploaded files.
 
 ==== API change in the framework core ====
 

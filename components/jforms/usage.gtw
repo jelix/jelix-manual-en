@@ -112,7 +112,8 @@ as the key.
 </code>
 
 Form will be filled with values of the record whose id is @@V@$product_id@@ in
-"shop~products" dao.
+"shop~products" dao. You can also indicate a record object to @@initFromDao()@@
+instead of a selector.
 
 However, note that only controls whose name (or ref) are the same as dao
 properties will be pre-filled. Others will stay untouched.

@@ -203,6 +203,11 @@ second argument:
     $form->saveAllFiles(jApp::wwwPath('images/photos/'));
 </code>
 
+Note that if you are using an @@<upload2>@@ control (or @@jFormsControlUpload2@@),
+if the control was set with filename that was already uploaded, before the
+user upload a new one, the previous file will be deleted. This is not the case
+with @@<upload>@@: you should delete the previous file manually, and so you have to keep
+somewhere a reference of the previous filename before displaying the form.
 
 ===== Destroy a form object =====
 

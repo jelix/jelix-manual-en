@@ -134,7 +134,14 @@ message. As for helper messages, you can use either a locale or an hard-coded me
 </code>
 
 
+==== Control class ====
 
+To each element, there is a corresponding class named @@JformsControl*@@.
+Sometimes the corresponding class, which is responsible to initialize and check data,
+may do something we do not expect.
+
+It is then possible to create a new class, inheriting from @@jFormsControl@@,
+and to indicate its name into an attribute @@A@controlclass@@.
 
 ===== Input fields =====
 
@@ -550,6 +557,16 @@ Upon receiving file, jForms will check its type and its size. You'll see later
 that you can choose where to save it. "photo" form variable will have the
 filename as value.
 
+==== Enhanced File Upload ====
+
+The previous @@<upload>@@ control, lacks of some feature to manage existing
+file previously downloaded, for example when the user edit data already stored
+with the form. You must delete yourself the old file when the user uploads a
+new one, you don't know which is the previous file etc.
+
+A @@<upload2>@@ is available since Jelix 1.7, and allows to support automatically
+existing old files. It has the same attributes and child elements as @@<upload>@@.
+
 ==== Grouping some controls ====
 
 It can be useful to group some control, for presentation reasons or to
@@ -654,6 +671,20 @@ The use of the captcha element is very simple:
 
 To know more on this control and to configure it, see [[xml/captcha|the dedicated section]].
 
+==== Color selector ====
+
+If you want your user to select a color, use the @@E@<color>@@ tag. Set its @@A@ref@@ attribute, and
+optionally @@E@<label>@@, @@E@<hint>@@, @@E@<alert>@@, @@E@<help>@@ tags as well
+as  @@A@readonly@@ and @@A@required@@ attributes.
+
+<code xml>
+  <color ref="background">
+     <label>Background Color</label>
+     <hint>Select the background color of the text</hint>
+  </color>
+</code>
+
+The value is a html RGB code, like @@#F5468D@@.
 
 ==== Submit button ====
 

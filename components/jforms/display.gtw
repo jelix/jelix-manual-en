@@ -208,6 +208,19 @@ Note that @@ctrl_label@@ and @@ctrl_control@@ also function outside of
 Lastname and firstname fields are displayed precisely in a table whereas other
 fields are displayed with @@formcontrols@@.
 
+An other tag @@ifctrlexists@@ allows to check if a control exists. This is useful when some
+controls are deactivated:
+
+<code html>
+<table>
+{ifctrlexists 'lastname'}
+    <tr><td>{ctrl_label 'lastname'}</td><td>{ctrl_control 'lastname'}</td> </tr>
+{/ifctrlexists}
+    <tr><td>{ctrl_label 'firstname'}</td><td>{ctrl_control 'firstname'}</td></tr>
+</table>
+</code>
+
+
 To know more about how to customize the display of controls in HTML, see [[display/html-generator|the dedicated page]].
 
 ==== Customizing display of password controls ====
