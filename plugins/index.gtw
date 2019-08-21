@@ -2,14 +2,14 @@
 
 Different types of plugins exists for Jelix. Each categories modify or add functionality
 to differents parts of Jelix. There are coordinator plugins, jDb drivers, jAuth drivers,
-jTpl plugins and url engines.
+jTpl plugins...
 
 All plugins are located in plugins //repositories//.
 
 
 ===== Adding a plugins repository =====
 
-You can add one or more plugins repositories. It consists of a directory with a strict
+You can add one or more plugins repositories. It is a directory with a strict
 subtree structure.
 
 Each plugins repository must be declared with @@C@jApp@@ or in the composer.json file
@@ -56,7 +56,7 @@ It works also with the composer.json of the application.
 A plugins repository has one sub-directory for each plugin type. And within each
 sub-directory, each plugin has its own folder. 
 
-Below is the list of plugins type and their respective directory:
+Below is the list of some plugins type and their respective directory:
 
     * coordinator plugins: @@F@coord/@@
     * plugins for jLog: @@F@logger/@@

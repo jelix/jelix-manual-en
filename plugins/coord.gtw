@@ -60,8 +60,8 @@ bar = 1
 A plugin may need some configuration parameters
 
 In order to configure a plugin, you might have declared a specific configuration
-file (see above). It is an //ini// file, located in @@F@var/config/@@. Its content
-will be passed as an array parameter to your plugin constructor.
+file (see above). It is an //ini// file, located in @@F@app/system/@@. Its content
+will be passed as an array parameter to your plugin constructor (result of the @@parse_ini_file@@ function).
 
 If this is only a section @@[coordplugin_XXX]@@ as indicated above, its content
 will be passed as an array parameter to your plugin constructor.

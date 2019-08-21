@@ -7,37 +7,8 @@ clients.
 You have two kind of plugins: those that build a whole form, generators, and
 plugins for the 'html' generator, to generate only a control.
 
-==== widget plugin ====
 
-The generator provided by Jelix is a plugin, that is itself extensible and use
-other type of plugins, "formwidget", to generate controls.
-
-A "formwidget" plugin generates the code of a specific control. You can provide
-your own formwidget plugin and use it for a particular control, if you want to
-have a different HTML construction.
-
-A "formwidget" should follow the @@jelix\forms\HtmlWidget\WidgetInterface@@ interface, and so,
-it should provide these methods:
-
-   * @@M@getId()@@: return the id of the HTML element
-   * @@M@getName()@@: return the name of the HTML element
-   * @@M@getValue()@@: return the value of the HTML field
-   * @@M@outputMetaContent($resp)@@: add the CSS and javascript link
-   * @@M@outputHelp()@@: displays the help of the form field
-   * @@M@outputLabel()@@: displays the form field label
-   * @@M@outputControl()@@: displays the form field itself
-   * @@M@setAttributes($attributes)@@: set attributes to add on the HTML element
-
-The plugin could inherits from the @@jelix\forms\HtmlWidget\WidgetBase@@ class so only few
-methods are needed to be implemented.
-
-The plugin should have a name. It should be stored into a file
-@@F@plugins/formwidget/{name}/{name}.formwidget.php@@.
-
-See all existing plugins into @@F@lib/jelix/plugins/formwidget/@@ to know more about how
-it should be implemented.
-
-==== generators plugin ====
+==== Generators plugin ====
 
 To create a such plugin, you should of course pick a name, say "moreforms". Then:
 
@@ -53,9 +24,7 @@ methods display different form parts and don't return any value (they call @@ech
 They are called through jForms template plugins.
 
 After each modification of your generator, **don't forget to clear your temp directory**
-(by using the command @@cleartemp@@ for example).
-
-
+(by using the command @@app:cleartemp@@ for example).
 
 <code php>
 
@@ -93,7 +62,7 @@ After each modification of your generator, **don't forget to clear your temp dir
      * displays the label corresponding of the given control
      * @param jFormsControl $ctrl the control to display
      */
-    abstract public function outputControlLabel($ctrl);
+    abstract public function outputControlLabel($ctrl, $format = '', $editMode = true);
 
     /**
      * displays the value of the control (without the control)
@@ -118,7 +87,7 @@ to be included in the final response. Example:
             return;
         }
         // si les fichiers sont dans le répertoire jelix
-        $www = jApp::config()->urlengine['jelixWWWPath'];
+        $www = jApp::urlJelixWWWPath();
         // ou si les fichiers sont dans un répertoire à vous dans www
         $www = jApp::urlBasePath();
 
@@ -162,6 +131,8 @@ Called by the @@{form}@@ template block for fields labels, it generates labels t
 
 As argument, it receives a @@C@jFormsControl@@ object defining the control associated.
 
+In the HTML generator, it calls the widget plugin corresponding to the control, to display the label.
+
 === outputControl() ===
 
 Called by the @@{form}@@ template block for controls, it generates control elements.
@@ -169,9 +140,123 @@ Called by the @@{form}@@ template block for controls, it generates control eleme
 As argument, it receives a @@C@jFormsControl@@ object defining the control associated,
 and the list of html attributes to add or other informations.
 
+In the HTML generator, it calls the widget plugin corresponding to the control, to display the field.
+
+
 === outputControlValue() ===
 
 Called by the @@{formdata}@@ template block for fields values, it only output the value
 of a control. 
 
 As argument, it receives a @@C@jFormsControl@@ object defining the control associated.
+
+In the HTML generator, it calls the widget plugin corresponding to the control, to display the value.
+
+==== Using a generator ====
+
+If you want to use the same generator in the whole application, you should
+indicate the generator name into this configuration parameter:
+
+<code ini>
+[tplplugins]
+defaultJformsBuilder = myformbuilder
+</code>
+
+If you want to use a generator only on some forms, you can indicate the generator
+in the  @@{form}@@ or @@{formfull}@@ template plugin:
+
+<code html>
+  {formfull $form, 'mymodule~default:save', array(), 'myformbuilder'}
+</code>
+
+==== Widget plugin ====
+
+The generator provided by Jelix is a plugin, that is itself extensible and use
+other type of plugins, "formwidget", to generate controls.
+
+A "formwidget" plugin generates the code of a specific control. You can provide
+your own formwidget plugin and use it for a particular control, if you want to
+have a different HTML construction.
+
+A "formwidget" should follow the @@jelix\forms\HtmlWidget\WidgetInterface@@ interface, and so,
+it should provide these methods:
+
+   * @@M@getId()@@: return the id of the HTML element
+   * @@M@getName()@@: return the name of the HTML element
+   * @@M@getValue()@@: return the value of the HTML field
+   * @@M@outputMetaContent($resp)@@: add the CSS and javascript link
+   * @@M@outputHelp()@@: displays the help of the form field
+   * @@M@outputLabel($format = '', $editMode = true)@@: displays the form field label
+   * @@M@outputControl()@@: displays the form field itself
+   * @@M@setAttributes($attributes)@@: set attributes to add on the HTML element
+
+The plugin could inherits from the @@jelix\forms\HtmlWidget\WidgetBase@@ class so only few
+methods are needed to be implemented.
+
+The plugin should have a name. It should be stored into a file
+@@F@plugins/formwidget/{name}/{name}.formwidget.php@@.
+
+See all existing plugins into @@F@lib/jelix/plugins/formwidget/@@ to know more about how
+it should be implemented.
+
+Note that there is a specific widget, the "root" widget, which can generate
+more HTML, in addition of HTML generated by widgets and the main generator.
+It has the same name of the generator. For example, the root widget of
+the HTML generator, it is the plugin @@plugins/formwidget/html/html.formwidget.php@@.
+
+For you own html generator called for example "myhtml", it will be
+@@plugins/formwidget/monhtml/monhtml.formwidget.php@@.
+
+==== Declaring a widget plugin ====
+
+After creating the widget class, you should declare it so it can be used.
+
+Depending of the context, you would choose one of these solutions.
+
+If you want to use a specific plugin in a specific form, indicate it in the
+options of the generator, in the template :
+
+
+<code>
+ {form $form, 'action', array(), 'html',
+    array('plugins' => array ('birthdaydate' => 'mydateplugin')) }
+    ...
+ {/form}
+
+ {formfull $form, 'action', array(), 'html',
+    array('plugins' => array ('birthdaydate' => 'mydateplugin')) }
+
+</code>
+
+Here you indicate that for the control which has the name 'birthdaydate', the
+widget 'mydateplugin' will be used. So it will be @@F@plugins/formwidget/mydateplugin/mydateplugin.formwidget.php@@.
+
+If you want to use the same plugin for all forms, you should indicate into
+the configuration, the plugin name to use with a specific type of control:
+
+
+<code ini>
+[jforms_builder_html]
+;<control type> = <plugin name>
+date = mydateplugin
+
+</code>
+
+Here, the "mydateplugin" widget will be used for all jforms date control.
+
+If you create your own builder inheriting from the html generator, the generator
+will try automatically to use widgets for which the name will be end with the builder
+name: @@<controle_type>_<builder_type>@@.
+
+So if you create a builder "htmlbootstrap", it will try to use widgets plugins
+having the name ending with "_htmlbootstrap" (@@date_htmlbootstrap@@ for all date
+controls for example).
+
+And if in your generator, there are some plugins having a name which doesn't follow
+the convention, you can indicate it into a property of your generator:
+
+<code>
+protected $pluginsConf = array(
+    'control type' => 'widget name'
+);
+</code>
