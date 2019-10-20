@@ -56,8 +56,8 @@ So to migrate to Jelix 1.7, you have two choices: with Composer, or "by hand".
 Install Composer by [[https://getcomposer.org|reading its instructions]].
 
 In the directory of your project, create a @@composer.json@@ file. It should indicate
-the package @@jelix/jelix@@ as a dependency, in the @@require@@ section. It is 
-recommended to indicate @@^1.7.0@@.
+the package @@jelix/jelix@@ as a dependency, in the @@require@@ section. It is
+recommended to indicate @@^1.7.2@@.
 
 Exemple :
 
@@ -66,7 +66,7 @@ Exemple :
     "name": "mycompany/myapp",
     "type": "application",
     "require": {
-        "jelix/jelix": "^1.7.0"
+        "jelix/jelix": "^1.7.2"
     }
 }
 </code>

@@ -50,10 +50,10 @@ Then extract files from the archive with winzip, unzip, tar or any other tools
 supporting the zip or tar.gz format. Example with tar:
 
 <code bash>
-  tar xvzf jelix-1.7.0.tar.gz
+  tar xvzf jelix-1.7.2.tar.gz
 </code>
 
-A directory @@jelix-1.7.0@@ is then created containing a @@lib/@@ and a @@bin/@@ directory.
+A directory @@jelix-1.7.2@@ is then created containing a @@lib/@@ and a @@bin/@@ directory.
 Move these directories into your project directory.
 
 The command @@create-jelix-app@@ is into @@F@bin/@@.
