@@ -335,15 +335,15 @@ mygroup2.js[]= "js/baz.js"
 
 The path you indicate for JS and CSS links, can be:
 
-  # an absolute path, starting with @@/@@, or a full URL (starting with @@http://@@ )
-  # a path relative to the base path (so it doesn't start with @@/@@)
-  # a path starting with @@$theme/@@, where @@$theme@@ will be replaced by a path
+  * an absolute path, starting with @@/@@, or a full URL (starting with @@http://@@ )
+  * a path relative to the base path (so it doesn't start with @@/@@)
+  * a path starting with @@$theme/@@, where @@$theme@@ will be replaced by a path
     like @@<basepath>/themes/<current_theme>/@@
-  # a path starting with @@$jelix/@@, where @@$jelix@@ will be replaced by the path
+  * a path starting with @@$jelix/@@, where @@$jelix@@ will be replaced by the path
     of the jelix-www directory.
-  # a selector of a module action: @@<module>~<controller>:<method>@@. This
+  * a selector of a module action: @@<module>~<controller>:<method>@@. This
     action should return a JS or CSS content.
-  # a module name, followed by @@:@@ and then by a path. This path should correspond
+  * a module name, followed by @@:@@ and then by a path. This path should correspond
     to a file inside the @@www/@@ directory of the indicated module.
 
 Path like 1) to 4) can contain also some variables, @@$locale@@ or @@$lang@@,

@@ -40,7 +40,7 @@ parameter does not correspond to any record in a table.
 On any response object, you have a @@setHttpStatus()@@ method to set the
 http return code.
 
-===== Generating an http error =====
+===== Generating an http error with the default response for errors =====
 
 Since Jelix 1.7.2, you can return an http error page with a simple exception.
 
@@ -69,8 +69,8 @@ Our previous example becomes:
     }
 </code>
 
-To display the error page and return the http code, the router will use the
+To display the error page and return the http code, the router will instancy the
 response class which is registered for the response type @@htmlerror@@. By
-default this is the class @@jResponseHtmlError@@ which use the template
+default this is the class @@jResponseHtmlError@@ which uses the template
 @@jelix~http_error.html@@. You can [[/modules/creating-response|set an other class]],
 or [[/application/themes|redefine the template in a theme]], to customize the page.
