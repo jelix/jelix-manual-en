@@ -1,4 +1,4 @@
-~~LANG:FR@frman:modules/controleurs/erreur-http~~
+~~LANG:FR@frman:modules/controleurs/erreurs-http~~
 
 When a PHP error or an exception occurs, which isn't catched by your controller,
 the Jelix router (coordinator) generates a page with an HTTP 500 error. See the
