@@ -5,14 +5,14 @@
 The installation system of Jelix allow to distinct three steps when integrating
 a module:
 
-# The installation of the sources of modules, their main configuration to
-   specify their behavior, and the generic configuration of the framework.
-   This is a step made by the developer. It is not tied to the runtime environment.
-# The modification of the configuration at the local level, after the application
+  # The installation of the sources of modules, their main configuration to
+  specify their behavior, and the generic configuration of the framework.
+  This is a step made by the developer. It is not tied to the runtime environment.
+  # The modification of the configuration at the local level, after the application
   has been copied on the server. During this step, configuration parameters
   tied to the runtime environment are setting up. It could be database parameters,
   debug parameters or other services parameters...
-# Finalization of the installation. It means for example the initialization of
+  # Finalization of the installation. It means for example the initialization of
   data in a database (table creation etc), or data migration for an update of the application.
 
 Note: in Jelix 1.6, these three steps were indistinct.

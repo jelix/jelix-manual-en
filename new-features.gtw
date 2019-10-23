@@ -251,6 +251,10 @@ because of the configuration system.
   * @@jFile::getMimeTypeFromFilename()@@: support of a mime type list defined
    into a @@[mimeTypes]@@ section in the configuration
   * fix jDatetime about RCF822 format and timezone
+  * new exceptions for controllers, @@jHttpErrorException@@, @@jHttp404NotFoundException@@,
+   @@jHttp401UnauthorizedException@@ and @@jHttp403ForbiddenException@@ to return
+   easily an HTTP response (Jelix 1.7.2+)
+
 
 ===== Modules and plugins removed =====
 
