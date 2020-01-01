@@ -45,6 +45,7 @@ copyright_holder=All jelix.org wiki contributors
      - section: [[modules/creating-a-module|Creating a module]]
      - section: [[modules/controllers|Developing a controller]]
      - section: [[modules/controllers/retrieving-http-parameters|Retrieving HTTP parameters]]
+     - section: [[modules/controllers/http-errors|Generating HTTP errors]]
      - section: [[modules/controllers/crud|Using the CRUD controller]]
      - section: [[modules/controllers/rest-full|Developing a REST controller]]
      - section: [[modules/controllers/redirection|Doing a redirection]]
