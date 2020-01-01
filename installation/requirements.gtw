@@ -1,6 +1,6 @@
 ~~LANG:FR@frman:installation/prerequis~~
 
-You must install at least the 5.6 version of PHP, works correctly with PHP 7.0 and above.
+You must install at least the 7.2 version of PHP.
 
 The following PHP extensions are required: **fileinfo**, **iconv**, **intl**,
 **json**, **mbstring**, **session**, **tokenizer**, **spl**, **dom**, **xml**,

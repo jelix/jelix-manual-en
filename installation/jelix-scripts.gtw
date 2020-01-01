@@ -14,21 +14,21 @@ line version of PHP (PHP-CLI) should be installed and configured.
 
 ==== On Debian/Ubuntu/other linux distro ====
 
-You should install the @@php5-cli@@ or @@php7.x-cli@@ (where @@x@@ is the minor
+You should install the @@php7.x-cli@@ (where @@x@@ is the minor
 version of PHP) package to be able to execute a PHP script on a command line.
 
 Careful, in most distro, particularly in Debian/Ubuntu, the configuration file
 of PHP, @@F@php.ini@@, is not the same for PHP-FPM or Apache, and for the command line
 version of PHP. So don't forget to configure same important parameters in these
-two php.ini, and to activate same php extensions. For example, in Debian Jessie,
-these two files are @@F@/etc/php5/apache2/php.ini@@ and @@F@/etc/php5/cli/php.ini@@.
-In other distribution, they can be @@F@/etc/php/php7.0/apache2/php.ini@@ and
-@@F@/etc/php/php7.0/cli/php.ini@@.
+two php.ini, and to activate same php extensions. For example, in Debian,
+these two files are @@F@/etc/php/php7.2/fpm/php.ini@@ and @@F@/etc/php/php7.2/cli/php.ini@@.
 
 Note that for Debian and Ubuntu, extensions configurations are shared between
-apache and cli, in a @@F@conf.d@@ directory.
+fpm and cli, in a @@F@conf.d@@ directory.
 
 ==== With MAMP (MacOS X) ====
+
+Warning: Section not updated since a while. Please help us to update it.
 
 The MAMP software provides PHP-Cli. Perhaps there is also an other PHP-CLI
 already installed un MacOS. And then, the problem is that PHP-CLI for MAMP is
@@ -50,6 +50,8 @@ If it was already exist, some other paths were probably defined, keep them. In
 all case, the @@$PATH@@ should be at the end.
 
 ==== Configuration of PHP-Cli under windows ====
+
+Warning: Section not updated since a while. Please help us to update it.
 
 Depending of the package you use (WAMP or others), your php.exe may not found
 its php.ini file. The CLI version of php and the apache version of PHP do not

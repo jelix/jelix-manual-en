@@ -1,11 +1,16 @@
 ~~LANG:FR@frman:nouveautes~~
 
+Not released yet. Still in development.
+
 ===== Improvements provided by the version 1.8 =====
 
 
-Not released yet. Still in development.
+Jelix 1.8 requires PHP 7.2 and above.
 
-No new features yet.
+
+* Unit tests: @@jUnitTestCase@@ and @@jUnitTestCaseDb@@ are deprecated. Use
+  @@\Jelix\UnitTests\UnitTestCase@@ and @@\Jelix\UnitTests\UnitTestCase@@ instead.
+  NOT DOCUMENTED YET.
 
 ===== Contributors to Jelix 1.8 =====
 
