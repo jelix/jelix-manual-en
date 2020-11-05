@@ -10,18 +10,18 @@ A right in jAcl2 is defined with three elements.
 
 You must distinguish between different elements composing a right:
 
-  * a role
+  * a right name
   * a user
   * a resource (optional)
 
 Group one of each elements listed above and you have a right. 
 
-==== Roles ====
+==== Rights ====
 
 It is a label referencing an action that the user can do. As for example,
 @@cms.articles.create@@ could reference the right to create a CMS article.
 
-To prevent conflicts between modules, a role name should start with its module
+To prevent conflicts between modules, a right name should start with its module
 name followed by a controller name and eventually a right label. But it is of
 course not mandatory.
 
@@ -34,7 +34,7 @@ Example:
     cms.articles.delete
 </code>
 
-In Jelix 1.6 and older version, roles were named 'subjects'. This is why you
+In Jelix 1.6 and older version, rights were named 'subjects'. This is why you
 could see some API, database tables or documentation, the use of the term 'subject'.
 
 ==== User ====
@@ -47,12 +47,12 @@ don't bother about that.
 
 ==== Resource ====
 
-In most cases, associating a //role// and a //user// is enough. But a more
+In most cases, associating a //right name// and a //user// is enough. But a more
 fine-grained control is sometimes needed.
 
 As for example, in a CMS, you want to give an author the right to modify its
 articles but not the other ones. In that case, the right must be defined as a
-combination of a role, a user and an article id. See below:
+combination of a right name, a user and an article id. See below:
 
    * "cms.articles.create" for "authors" group
    * "cms.articles.update" on "myarticle" for "Bob" of "authors" group.
@@ -61,7 +61,7 @@ combination of a role, a user and an article id. See below:
 
 In fact, jAcl2 core only contains links or relations between two/three element types. 
 
-Storing this relations between a user, a role and optionally a resource
+Storing this relations between a user, a right name and optionally a resource
 defines a right. Note that the non-existence of such a relation between some
 elements does not mean no rights apply.
 
@@ -73,7 +73,7 @@ Imagine the list of rights below:
 
 Then, //laurent// will have the right to read, create and modify CMS articles
 but NOT the right to delete ("cms.articles.delete") because there is no relation
-of that role with laurent.
+of that right name with laurent.
 
 A CMS admin module would ask jAcl2 about what a user can do. For example, it
 could ask if the currently authenticated user has the right to
