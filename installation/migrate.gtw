@@ -363,6 +363,47 @@ php dev.php module:configure module_name
 
 This command configure and activate the module into the application.
 
+
+==== Changes in your SOAP controllers ====
+
+You must replace code comments "@param" by "@externalparam".
+
+Before:
+
+<code php>
+    /**
+     * Test with a simple parameter
+     * @param string $name
+     * @return string
+     */
+    function hello() {
+        $rep = $this->getResponse('soap');
+        $rep->data = "Hello ".$this->param('name');
+        return $rep;
+    }
+}
+</code>
+
+After:
+
+<code php>
+    /**
+     * Test with a simple parameter
+     * @externalparam string $name
+     * @return string
+     */
+    function hello() {
+        $rep = $this->getResponse('soap');
+        $rep->data = "Hello ".$this->param('name');
+        return $rep;
+    }
+}
+</code>
+
+
+
+
+
 ==== Update of Jelix instances ====
 
 Now that the source code and main configuration of the application have been updated,

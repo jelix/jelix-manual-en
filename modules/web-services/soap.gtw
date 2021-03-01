@@ -63,7 +63,7 @@ class defaultCtrl extends jController {
 
     /** 
      * Test with a simple parameter
-     * @param string $name
+     * @exernalparam string $name
      * @return string
      */
     function hello() {
@@ -82,11 +82,11 @@ A "soap method" have parameters and should receive a value. You should indicate
 their type so Jelix could generate correctly SOAP and WSDL messages.
 
 To do it, just add "doc comments" (like for phpdoc), and indicates the type of
-parameters and of the return value, by using some "@param" tags and a "@return"
+parameters and of the return value, by using some "@exernalparam" tags and a "@return"
 tag. Ex:
 
 <code>
-    @param string $myparameter
+    @exernalparam string $myparameter
 </code>
 
 Here it indicates that the soap parameter "$myparameter" is a string. Other
@@ -94,13 +94,13 @@ possible types are "integer", "int", "boolean", "float".
 
 If you want to indicate an array, add the type name followed by @@[]@@:
 <code>
-    @param string[] $array_of_string
+    @exernalparam string[] $array_of_string
 </code>
 
 If it is an associative array, use @@[=>]@@:
 
 <code>
-    @param string[=>] $array_of_string
+    @exernalparam string[=>] $array_of_string
 </code>
 
 
@@ -143,7 +143,7 @@ parameters or returned values:
 <code php>
     /** 
      * for this method, we receive a MyTestStruct and return a MyTestStruct object
-     * @param MyTestStruct $input
+     * @exernalparam MyTestStruct $input
      * @return MyTestStruct
      */
     function receiveObject() {
