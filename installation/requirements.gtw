@@ -1,6 +1,14 @@
 ~~LANG:FR@frman:installation/prerequis~~
 
-You must install at least the 5.6 version of PHP, works correctly with PHP 7.0 and above.
+It is highly recommended to use PHP 7.3 or higher, as PHP 7.2 and
+lower are not maintained any more by the PHP team, at the time this sentence is
+written. See https://www.php.net/supported-versions.php.
+
+Jelix 1.7 may work with PHP from 5.6 to 7.1. But since Jelix 1.7.7, Jelix cannot
+be tested any more against these old PHP version, as there is no a PHPUnit
+version that is compatible with PHP 5.6 and PHP 8.0 at the same time.
+Bug fixes and minor improvements in Jelix 1.7 do not use specific syntax of
+PHP 7.3+/8.x, so it could not be an issue.
 
 The following PHP extensions are required: **fileinfo**, **iconv**, **intl**,
 **json**, **mbstring**, **session**, **tokenizer**, **spl**, **dom**, **xml**,

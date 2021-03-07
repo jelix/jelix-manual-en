@@ -26,7 +26,7 @@ Here are all steps to follow to migrate your application.
 ==== Requirements ====
 
 Jelix 1.7 needs PHP 5.6 minimum. Verify that you have this version of PHP on your
-server, or an higher one. PHP 7.1 or higher is recommended.
+server, or an higher one. PHP 7.3 or higher is recommended.
 
 ==== Backup ====
 

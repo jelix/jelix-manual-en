@@ -10,7 +10,7 @@ server. See then the [[no-server-configuration|chapter about directory changes]]
 
 ===== About PHP configuration =====
 
-The minimal version of PHP is 5.6. PHP 7 is highly recommended.
+The minimal version of PHP is 5.6. PHP 7 or 8 is highly recommended.
 
 Please refer to the PHP documentation to know how to install it.
 
