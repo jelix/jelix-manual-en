@@ -360,3 +360,19 @@ If it fails, it will try with the locale indicated into @@fallbackLocale@@.
 It it still fails, @@jLocale::get()@@ generates an exception. So you should
 always have all locales at least in one language, and indicate this language
 into @@fallbackLocale@@.
+
+
+===== Installing translations packages =====
+
+Jelix and some modules have been translated into several languages, via the
+web site [[https://www.transifex.com/3liz-1/jelix/|Transifex]]. Some translations
+are not fully complete, and perhaps you won't find translations for your
+prefered language. You are then strongly encouraged to translate on Transifex.
+
+The resulting properties files are available on https://download.jelix.org/jelix/langpacks/.
+
+Download any package, unzip them into the directory @@F@<yourapp>/app/locales/@@
+(probably you need to create it). Empty the temp directory, configure the application
+to support the new language (see above) and you could use Jelix modules with
+these translations.
+
