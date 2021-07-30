@@ -56,6 +56,11 @@ in a new lang directory to translate to a new language.
 There is also the possibility to redefine properties file by copying them into
 the @@F@<yourapp>/var/overloads/@@ directory. See [overloads|the corresponding chapter].
 
+
+Since Jelix 1.6.28, there is also an other possibility to store properties files
+into @@F@<yourapp>/app/locales/@@, in the same way as into @@F@<yourapp>/var/locales/@@.
+This allows to keep the @@var/@@ directory with only "variables" files.
+
 ==== File name ====
 
 The name of the property files has the following structure: @@F@NAME.CHARSET.properties@@.
@@ -349,3 +354,16 @@ en = en_GB
 en = en_EN
 </code>
 
+===== Installing translations packages =====
+
+Jelix and some modules have been translated into several languages, via the
+web site [[https://www.transifex.com/3liz-1/jelix/|Transifex]]. Some translations
+are not fully complete, and perhaps you won't find translations for your
+prefered language. You are then strongly encouraged to translate on Transifex.
+
+The resulting properties files are available on https://download.jelix.org/jelix/langpacks/.
+
+Download any package, unzip them into the directory @@F@<yourapp>/app/locales/@@
+(probably you need to create it). Empty the temp directory, configure the application
+to support the new language (see above) and you could use Jelix modules with
+these translations.
