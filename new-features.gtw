@@ -158,6 +158,78 @@ Improvements provided by 1.6.20:
   * List of jQuery/jQueryUI files is entirely configurable. There is not anymore jquery.js filename or other jQueryUI filenames hardcoded into jforms plugins or other files. Path to these files are now indicated into the configuration, in a new jquery section.
   * Datepicker: add locales for jforms
 
+Improvements provided by 1.6.21:
+
+  * jAuth: new method canChangePassword and new interface jIAuthDriver2 for authentication drivers
+  * jAuthdb_admin: new events to prepare forms before checking: jauthdbAdminBeforeCheckCreateForm and jauthdbAdminBeforeCheckUpdateForm
+  * Installer: support of upgrade_1_6.php for modules supporting both Jelix 1.6 and 1.7
+
+Improvements provided by 1.6.22:
+
+  * Some new jTpl plugins: fetchtpl, tolog, ifctrlexists
+  * jForms: new widget to have a color picker. The use of this widget should be configured manually: @@{form $form, $submitAction, $submitParam, 'html', array('plugins'=>array('couleur'=>'color_html'))}@@
+  * New methods on jEvent to retrieve easily boolean and item responses
+
+Improvements provided by 1.6.23:
+
+  * jForms: new attribute 'controlclass' to indicate the class to use for the control
+  * jForms: new control for uploads with enhanced management of previous file. To use this new control, use the @@<upload>@@ tag with the attribute @@controlclass="jFormsControlUpload2"@@.
+
+Improvements provided by 1.6.24:
+
+  * jResponseBinary: add the possibility to delete the file after sending it
+  * jFormsBase:iniFromDao(): a Dao record can now be given as first parameter
+  * Improve customization of jauthdb_admin, with new events and tpl variables
+
+Improvements provided by 1.6.25:
+
+  * jForms htmleditor: support of a $lang parameter in url from the configuration, to load js files corresponding to the current lang of the user
+  * New stdout and stderr logger: log content can be output to stdout or stderr
+
+Improvements provided by 1.6.26:
+
+  * jMailer: Add smtp debug mode. New configuration property @@debugSmtpLevel@@
+
+Improvements provided by 1.6.27:
+
+  * jforms: new widget imageupload
+  * jforms: new widgets autocomplete and autocompleteajax
+  * jInstaller: support of optional modules in dependencies
 
 
-Main contributors of Jelix 1.6:  Olivier Demah, Philippe Villiers, Eric D., JulienI, Couac, Brice Tence, Khena, René-luc D'hont.
+Improvements provided by 1.6.28:
+
+  * core: add parameters for the session cookie into the configuration (@@cookieSecure@@, @@cookieHttpOnly@@, @@cookieLifetime@@, @@cookieSameSite@@), and is now @@httponly@@ by default.
+  * Core: allow file selectors to have @@-@@ and @@_@@ in the file name
+  * jIniMultiFilesModifier: add @@isSection()@@ method like in jIniFileModifier
+  * installer: new methods @@jInstallerEntryPoint::getSingleMainConfigIni()@@ and @@getSingleLocalConfigIni()@@
+  * jLocale: allow to store locales into @@<app>/app/locales@@, like in Jelix 1.7.
+  * Sitemap: cache feature to store urls temporarly. Configure a "sitemap" cache profile, then call the hasUrlInCache() method in the controller. If it is true, the cache is still valid, and so just return the response object. If the hasUrlInCache() is not called, no cache is managed.
+
+Improvements provided by 1.6.29:
+
+  * new @@jAcl2::checkByUser()@@, to check a right for a non-connected user
+  * Support of database name in Pgsql profile having a service name
+  * new event @@jformsPrepareToFillDynamicList@@ during dynamic fill of datasources. When a control is filled with an ajax request, we should be able to prepare the form, when this one is constructed dynamically.
+
+Improvements provided by 1.6.30:
+
+  * New script to test the mailer configuration : @@php scripts/script.php jelix~mailer:test my.email[at]example.com@@.
+  * New method @@jEvent::getParameters()@@
+  * jforms: support of "time" controls (new class @@jFormsControlTime@@, and support of @@<time>@@ in xml files)
+  * jAcl2 admin: added confirmation to delete a group
+  * jAcl2 admin: added a separator between groups in users list
+  * New method @@jAuth::setUserSession()@@
+  * New methods on jServer: @@getDomainName()@@, @@getServerURI()@@, @@getPort()@@, @@isHttps()@@
+
+Improvements provided by 1.6.31:
+
+  * jauthdb_admin: adding autocomplete to search users
+  * jInstaller, module.xml: allow @@http://@@ as well as @@https://@@ into the namespace value
+
+Improvements provided by 1.6.33:
+
+  * jacl2db_admin: little improvements in the display of list of rights to be more usable
+  * New option @@force_new@@ in profiles for pgsql to force a new connection
+
+Main contributors of Jelix 1.6:  Olivier Demah, Philippe Villiers, Eric D., JulienI, Couac, Brice Tence, Khena, René-luc D'hont, Adrien Lagroy de Croute, Joel Kociolek.
