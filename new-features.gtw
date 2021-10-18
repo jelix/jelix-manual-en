@@ -124,7 +124,6 @@ Improvements provided by 1.6.17:
   * jResponseHtml: new properties for IE mode, viewport and metas
   * jResponseHtml: new method addMeta() and outputMetaTag()
   * jRequest: new method isPostMethod()
-  * jDaoConditions: add support of BETWEEN operator
   * jForms: support of placeholder default value in ctrl_control
   * jForms: possibility to redefine the html of the help on the form builder
   * jForms: possibility to configure a default error decorator for all forms
