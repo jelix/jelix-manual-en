@@ -444,11 +444,21 @@ sessions are also updated.
 Don't use this process to modify the password! Because you don't really know how
 the password is encrypted, or how it is stored. It depends of the jAuth
 configuration and of the driver. So, to change the password, use the method
-@@changePassword()@@:
+@@canChangePassword()@@ and @@changePassword()@@. The first one allow to know
+if the password can be changed. Some authentication protocol, like SAML, oAuth etc,
+may not allow to change the password, as it is not accessible to the application.
 
 <code php>
-   jAuth::changePassword('the_login', 'the_new_password');
+if (jAuth::canChangePassword($login)) {
+   jAuth::changePassword($login, 'the_new_password');
+}
+else {
+    $reasonMessage =  jAuth::getReasonToForbiddenPasswordChange();
+}
 </code>
+
+Calling @@getReasonToForbiddenPasswordChange@@ when @@canChangePassword()@@ fails,
+allows to display the reason to the user (method existing since Jelix 1.7.11).
 
 You can use the method @@M@jAuth::getRandomPassword()@@ to generate a random
 password.
