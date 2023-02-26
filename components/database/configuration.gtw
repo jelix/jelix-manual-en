@@ -69,7 +69,7 @@ Possible parameters:
    * @@timeout@@ : Number of second allowed before a timeout.
    * @@single_transaction@@ : if set to @@on@@, all queries executed in a same page will be sent in a same transaction (between a BEGIN; and a COMMIT;). Default: @@off@@
    * @@search_path@@: the list of schema where table are getting from, if the default schema of the connection doesn't correspond to the schema used by the application
-
+   * @@session_role@@ : define the session role of PostgreSQL
 
 ===== SQLite profile =====
 

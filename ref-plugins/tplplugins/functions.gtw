@@ -190,6 +190,22 @@ Example:
   }
 </code>
 
+You can also use your own CSS class, by indicating them into the properties, like into
+this example:
+
+<code php>
+  $properties = array(
+      'start-class' => 'pagelinks-start',
+      'prev-class' => 'pagelinks-prev',
+      'next-class' => 'pagelinks-next',
+      'end-class' => 'pagelinks-end',
+      'list-class' => 'pagelinks',
+      'current-page-class' => 'pagelinks-current',
+      'page-class' => '',
+      'disabled-class' => 'pagelinks-disabled'
+  );
+</code>
+
 ===== html : urljsstring =====
 
 This plugin allow to generate javascript code that will construct an url to an action,
