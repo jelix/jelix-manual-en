@@ -212,6 +212,7 @@ about [[/components/authentication|authentication]].
 auth = "auth.coord.ini.php"
 </code>
 
+[[/plugins/coord|To know more about configuration of coordinator plugins]].
 
 ==== responses section ====
 

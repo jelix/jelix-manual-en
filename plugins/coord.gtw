@@ -133,3 +133,35 @@ For an //example// plugin:
    * its file will be @@F@plugins/coord/example/example.coord.php@@
    * its class will be @@CexampleCoordPlugin@@ and will implement @@C@jICoordPlugin@@ interface.
 
+===== Replacing a plugin =====
+
+It may be useful for one plugin to impersonate another.
+
+The first way is to indicate the name of the original plugin in a parameter
+whose name ends by @@.name@@. Example:
+
+<code ini>
+[coordplugins]
+cas=cas.coord.ini.php
+cas.name=auth
+</code>
+
+Here, we activate the @@cas@@ plugin, but it will be known under the name @@auth@@.
+
+Of course, the replaced plugin must not be activated.
+
+The second way, that can be used since Jelix 1.7.9, it to indicate an alternate
+class, in a parameter whose name ends by @@.class@@.
+
+<code ini>
+[coordplugins]
+
+auth=auth.coord.ini.php
+auth.class=casCoordPlugin
+
+</code>
+
+Here, the plugin named "auth" use the class of the plugin @@cas@@.
+
+So the class should be the name of an other plugin, or any other class that is
+autoloaded.
