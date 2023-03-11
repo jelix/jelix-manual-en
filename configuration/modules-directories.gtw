@@ -67,3 +67,15 @@ or in a composer.json file:
 }
 </code>
 
+An other possibility is to declare its path into the application configuration. It is done into the @@modules@@
+section, with a parameter @@*.path@@, for example:
+
+<code ini>
+[modules]
+my_module.path = app:vendor/my_vendor_name/my_package/the_module
+</code>
+
+It eases migration from jelix 1.6.x and is useful to declare
+a module with a configuration script, which cannot add a line
+of code into application.init.php without risks.
+
