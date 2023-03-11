@@ -33,6 +33,37 @@ UPDATE %%PREFIX%%product.....;
 INSERT .....;
 </code>
 
+===== Methods for Postgresql =====
+
+The tool class for Postgresql has two methods to manipulate value for field having the array type:
+@@decodeArrayValue()@@ et @@encodeArrayValue()@@. They allow to convert the Postgresql value into a PHP array and vice-versa.
+
+<code>
+    // we expect to have a connection to a Postgresql database here
+    $conn = jDb::getConnection();
+    $pgTools = $conn->tools();
+
+    // example of decoding
+    $record = $conn->query('SELECT myarrayfield FROM mytable')->fetch();
+
+    // if the value of myarrayfield is '{{"meeting", "lunch"}, {"training", "presentation"}}'
+    // phpValue will be 'array(array("meeting", "lunch"), array("training", "presentation"))'
+    $phpValue = $pgTools->decodeArrayValue($record->myarrayfield);
+
+    // example of encoding
+    $phpValue = array("lunch", "presentation");
+    $stmt = $conn->prepare("INSERT INTO mytable (myarrayfield) VALUES(:arr)");
+    $stmt->execute(array( 'arr' => $pgTools->encodeArrayValue($phpValue, jDbPgsqlTools::ARRAY_VALUE_TYPE_TEXT)));
+    // the value into myarrayfield will be '{"lunch","presentation"}'
+</code>
+
+You must give the type of the array values to @@encodeArrayValue@@, with the constants:
+
+- @@jDbPgsqlTools::ARRAY_VALUE_TYPE_TEXT@@ if the array contain strings
+- @@jDbPgsqlTools::ARRAY_VALUE_TYPE_INT@@ if the array contain integers
+- @@jDbPgsqlTools::ARRAY_VALUE_TYPE_FLOAT@@ if the array contain floats
+
+If PHP values have not the indicated type, they will be converted to this type.
 
 ===== jDbWidget =====
 jDbWidget is a class providing useful methods.
