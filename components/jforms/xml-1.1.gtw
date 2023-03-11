@@ -556,8 +556,8 @@ filename as value.
 
 Other supported attributes:
 
-* @@accept@@: value of the HTML attribute @@accept@@ for the element @@input@@.
-* @@capture@@: value of the HTML attribute @@capture@@ for the element @@input@@.
+  * @@accept@@: value of the HTML attribute @@accept@@ for the element @@input@@.
+  * @@capture@@: value of the HTML attribute @@capture@@ for the element @@input@@.
 
 ==== Enhanced File Upload ====
 
@@ -615,11 +615,11 @@ with the "data view" mode. However, in order to display the image, the widget re
 you give to @@{ctrl_control}@@ or into the generator option @@widgetAttributes@@. These attributes help to forge
 the URL of the image:
 
-- From a selector : set parameters @@uriAction@@ and @@uriActionParameters@@. If one action parameter should contain the
-  image filename, set also the parameter @@uriActionFileParameter@@ which indicate the action parameter name that will
-  contain the image filename. If the default value of the parameter contain @@%s@@, only this @@%s@@ will be replaced.
-- From a base URI : a @@baseURI@@ attribute should contain the base URI of the image. The filename of the image will be
-  append to this URI.
+  * From a selector : set parameters @@uriAction@@ and @@uriActionParameters@@. If one action parameter should contain the
+    image filename, set also the parameter @@uriActionFileParameter@@ which indicate the action parameter name that will
+    contain the image filename. If the default value of the parameter contain @@%s@@, only this @@%s@@ will be replaced.
+  * From a base URI : a @@baseURI@@ attribute should contain the base URI of the image. The filename of the image will be
+    append to this URI.
 
 For uploaded images, we can also indicate the widget attributes @@imgMaxHeight@@ and @@imgMaxWidth@@, which will contain
 the size of the displayed image (it does not change the image file).
@@ -669,16 +669,14 @@ and @@A@required@@.
 
 Other attributes are supported:
 
-* @@maxWidth@@ and @@maxHeight@@: maximum size of the uploaded image. If the given have higher size, it will be resized
-in javascript before the upload.
-* @@mimetype@@: mime types of the authorized image format
-* @@maxsize@@: maximum size of the file
-* @@accept@@: value of the HTML attribute @@accept@@ for the element @@input@@.
-* @@capture@@: value of the HTML attribute @@capture@@ for the element @@input@@.
+  * @@maxWidth@@ and @@maxHeight@@: maximum size of the uploaded image. If the given have higher size, it will be resized
+    in javascript before the upload.
+  * @@mimetype@@: mime types of the authorized image format
+  * @@maxsize@@: maximum size of the file
+  * @@accept@@: value of the HTML attribute @@accept@@ for the element @@input@@.
+  * @@capture@@: value of the HTML attribute @@capture@@ for the element @@input@@.
 
-Example:
-
-Exemple :
+Example :
 
 <code xml>
   <image ref="image" mimetype="image/jpg;image/png;" maxWidth="1024" maxHeight="860">
@@ -691,10 +689,10 @@ The associated widget accepts same attributes than the widget of @@upload2@@ : @
 
 It accepts also these additional attributes:
 
-* @@newImgMaxWidth@@ and @@newImgMaxHeight@@ : maximum size of the image. Same feature than @@maxWidth@@ and @@maxHeight@@
-  on @@<image>@@, but use these widget attributes for dynamic values.
-* @@dialogWidth@@ and @@dialogHeight@@: size of the dialog box of the image editor. Values are pixels, or @@"auto"@@,
-  so the size will be calculated based on the window size.
+  * @@newImgMaxWidth@@ and @@newImgMaxHeight@@ : maximum size of the image. Same feature than @@maxWidth@@ and @@maxHeight@@
+    on @@<image>@@, but use these widget attributes for dynamic values.
+  * @@dialogWidth@@ and @@dialogHeight@@: size of the dialog box of the image editor. Values are pixels, or @@"auto"@@,
+    so the size will be calculated based on the window size.
 
 ==== Grouping some controls ====
 

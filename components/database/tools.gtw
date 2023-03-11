@@ -59,9 +59,9 @@ The tool class for Postgresql has two methods to manipulate value for field havi
 
 You must give the type of the array values to @@encodeArrayValue@@, with the constants:
 
-- @@jDbPgsqlTools::ARRAY_VALUE_TYPE_TEXT@@ if the array contain strings
-- @@jDbPgsqlTools::ARRAY_VALUE_TYPE_INT@@ if the array contain integers
-- @@jDbPgsqlTools::ARRAY_VALUE_TYPE_FLOAT@@ if the array contain floats
+  * @@jDbPgsqlTools::ARRAY_VALUE_TYPE_TEXT@@ if the array contain strings
+  * @@jDbPgsqlTools::ARRAY_VALUE_TYPE_INT@@ if the array contain integers
+  * @@jDbPgsqlTools::ARRAY_VALUE_TYPE_FLOAT@@ if the array contain floats
 
 If PHP values have not the indicated type, they will be converted to this type.
 
