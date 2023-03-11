@@ -235,9 +235,11 @@ Some variables are predefined so you have not to assign them:
    * @@V@$j_datenow@@: current date (aaaa-mm-jj)
    * @@V@$j_timenow@@: current hour (hh:mm:ss)
    * @@V@$j_locale@@: current locale code (the value of @@jApp::config()->locale@@)
-   * @@V@$j_lang@@ : current lang code
-   * @@V@$j_country@@ : current country code
-
+   * @@V@$j_lang@@: current lang code
+   * @@V@$j_country@@: current country code
+   * @@V@j_assetsRevision@@: the value of the configuration parameter @@assetsRevision@@
+   * @@V@j_assetsRevisionParameter@@: the value of the configuration parameter @@assetsRevisionParameter@@
+   * @@V@j_assetsRevQueryUrl@@: the part to add to an url for assets revision (concatenation of @@assetsRevisionParameter@@, @@=@@ and @@assetsRevision@@)
 
 ==== Modifiers ====
 
