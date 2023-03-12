@@ -64,7 +64,7 @@ to backup your data. The backup should include:
    - the content of the @@var/@@ directory
    - the source of the application
 
-Probably there are other things to back up. Only you know what to do, or
+Probably there are other things to back up. Only you, know what to do, or
 read the manual of the application.
 
 If something goes wrong during the upgrade, these backups allow you to restore
