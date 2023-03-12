@@ -45,3 +45,65 @@ Otherwise, if your content is generated or comes from your database, use @@P@con
 <code php>
    $resp->content = '...';
 </code>
+
+However, it will take as much memory as the size of the content, so it could be an issue if the content
+is huge. PHP could stop the script if there is not enough memory.
+
+For huge content, it is better to send it directly during the reading of the data source, when Jelix will
+want to send it to the browser.
+
+There are two methods on @@jResponseBinary@@. Use @@setContentCallback()@@ to give a callback function that will
+fetch the content from somewhere and return it to the PHP output. Or use @@setContentGenerator()@@ to give an iterator
+or a generator.
+
+Here is an example, by sending to the browser the response of an HTTP request made with GuzzleHttp:
+
+```php
+
+// we prepare and send the HTTP request to a specific service
+$client = new GuzzleHttp\Client();
+$request = new GuzzleHttp\Psr7\Request('GET', 'https://foo.example/content', $headers);
+$response = $client->send($request, ['stream' => true]);
+
+// we retrieve the http response as a stream, that is not consumed yet.
+$stream = $response->getBody();
+
+$rep = $this->getResponse('binary');
+
+// we give a callback function that read the stream and send it to the PHP output (`php://output`),
+// with copyToStream
+$rep->setContentCallback(function () use ($response) {
+    $output = Psr7\Utils::streamFor(fopen('php://output', 'w+'));
+    Psr7\Utils::copyToStream( $response->getBody(), $output);
+});
+// ..
+return $rep;
+```
+
+An other example with a generator
+
+```php
+
+class Business {
+
+    // this function is a generator, because of the use of yield
+    public function getAllData()
+    {
+        $db = jDb::getConnection();
+        $resultSet = $db->query("SELECT field1, field2, field3 FROM hugeTable")
+        foreach($resultSet as $record) {
+            yield $record->field1.';'.$record->field2.';'.$record->field3."\n";
+        }
+    }
+}
+
+// Into the controller:
+
+$obj = new Business();
+
+$rep = $this->getResponse('binary');
+$rep->setContentGenerator($obj->getAllData());
+// ..
+return $rep;
+```
+
