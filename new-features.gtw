@@ -58,7 +58,7 @@ Warning: documentation is not updated yet about all these changes.
   Composer packages or other deployment system. It also allows you to use
   the PHPunit version you want, or to use other unit tests framework.
 * Two new plugins for jTpl: `{ifacl2and}`, `{ifacl2or}`
-
+* Add Datatable into Jelix assets
 
 ==== Removes ====
 

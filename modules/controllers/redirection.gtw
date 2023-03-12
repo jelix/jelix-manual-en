@@ -33,6 +33,13 @@ And then
 return $resp;
 </code>
 
+There is shortcut method on controllers: `redirect($action, $parameters, $anchor)`.
+
+```php
+
+return $this->redirect("monmodule~moncontroleur:mamethode", array('foo' => 'bar'), 'yo');
+
+```
 
 ===== jResponseRedirectUrl =====
 
@@ -46,9 +53,18 @@ $resp = $this->getResponse('redirectUrl');
 The single property of this response is @@P@url@@, where you indicate the url to redirect.
 
 <code php>
-$resp->url = "http://jelix.org";
+$resp->url = "https://jelix.org";
 return $resp;
 </code>
+
+There is shortcut method on controllers: `redirectUrl($url)`
+
+```php
+
+return $this->redirectUrl("https://jelix.org");
+
+```
+
 
 ===== Temporary or permanent redirection =====
 
@@ -60,3 +76,4 @@ you want to indicate a permanent redirection, you have to set the property
 $resp->temporary = false;
 </code>
 
+Or for methods `redirectUrl()` and `redirect()`, add an extra parameter `false`.
