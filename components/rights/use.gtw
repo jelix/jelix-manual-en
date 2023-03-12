@@ -79,6 +79,18 @@ if( jAcl2::check("cms.articles.update", $article_id)){
 
 If the value of the resource is empty or equal to "-", it means "every resources".
 
+==== jAcl2::checkByUser ====
+
+This method act like `jAcl2::check()`, but for a specific user, not for the current user.
+
+<code php>
+if( jAcl2::checkByUser("john", "cms.articles.create")){
+   // the user "john" has the right to create an article
+}else{
+   // the user "john" has no right to create an article
+}
+</code>
+
 
 ==== Automatic checking ====
 

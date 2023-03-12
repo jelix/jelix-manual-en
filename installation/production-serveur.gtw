@@ -30,11 +30,11 @@ protect your server.
 Here some advices for the configuration of the application, in the
 @@F@var/config/localconfig.ini.php@@ file.
 
-=== section jResponseHtml ===
+=== jResponseHtml section ===
 
 Deactivate the debugbar plugin if it is activated in your main configuration.
 
-=== configuration du logger ===
+=== Logger configuration ===
 
 Unless you want to log all SQL queries and SOAP requests (it may generates huge log files!),
 remove the line @@sql=...@@, @@soap=...@@ and other type of log that you think it isn't

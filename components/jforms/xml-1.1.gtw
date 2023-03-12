@@ -314,6 +314,20 @@ Other example, where we want a date between today and 2 month and one day old.
   </date>
 </code>
 
+==== Time picker ====
+
+To allow to indicate a time, use `<time>`.
+
+```
+<time ref="meetingtime">
+    <label>Meeting Time</label>
+</time>
+```
+
+The attribute @@seconds="true"@@ allows to indicate seconds.
+
+You can set @@mintime@@ and @@maxtime@@ to add constraints on the time.
+
 ==== Password ====
 
 If you want your user to input a password or any values that should be kept

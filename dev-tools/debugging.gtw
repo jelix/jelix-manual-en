@@ -56,6 +56,7 @@ And values are list of loggers (names of corresponding plugins). You can indicat
    * @@mail@@, to send messages in a mail box
    * @@memory@@, to store messages in memory (temporary). It is needed for the 
      debugbar or other components.
+   * @@stdout@@ and @@stderr@@ to send log to the standard output and error output.
    * and any other plugin names you created or installed for jLog.
 
 ==== To not output sensitive data into logs ====

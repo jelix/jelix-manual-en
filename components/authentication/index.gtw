@@ -360,7 +360,7 @@ authentication formats.
 
 ==== Connecting / Disconnecting a user ====
 
-To login/logout a user, you should call the methods @@M@login()@@ et
+To login/logout a user, you should call the methods @@M@login()@@ and
 @@M@logout()@@:
 
 <code php>
@@ -370,6 +370,9 @@ To login/logout a user, you should call the methods @@M@login()@@ et
    // logout
    jAuth::logout();
 </code>
+
+You can also use the @@jAuth::setUserSession($login)@@ method to set the user without
+verifying the password. It is useful to implements  a stateless web API with JWT for example.
 
 After calling @@M@login()@@ and if this is a success, jAuth stores some
 informations about the user in the session. These informations are in an object,
