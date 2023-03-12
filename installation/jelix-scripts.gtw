@@ -21,7 +21,7 @@ Careful, in most distro, particularly in Debian/Ubuntu, the configuration file
 of PHP, @@F@php.ini@@, is not the same for PHP-FPM or Apache, and for the command line
 version of PHP. So don't forget to configure same important parameters in these
 two php.ini, and to activate same php extensions. For example, in Debian,
-these two files are @@F@/etc/php/php7.2/fpm/php.ini@@ and @@F@/etc/php/php7.2/cli/php.ini@@.
+these two files are @@F@/etc/php/php8.2/fpm/php.ini@@ and @@F@/etc/php/php8.2/cli/php.ini@@.
 
 Note that for Debian and Ubuntu, extensions configurations are shared between
 fpm and cli, in a @@F@conf.d@@ directory.

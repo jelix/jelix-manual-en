@@ -4,6 +4,7 @@ Not released yet. Still in development.
 
 ===== Improvements provided by the version 1.8 =====
 
+Warning: documentation is not updated yet about all these changes.
 
 ==== New features ====
 
@@ -23,7 +24,7 @@ Not released yet. Still in development.
   * new method `BuilderBase::outputControlRawValue()`
   * new method `WidgetInterface::outputControlRawValue()`
   * image widget: add possibility to show the temporary new image
-    New option for the image widget: showModeForNewImage.
+    New option for the image widget: `showModeForNewImage`.
     It indicates how the new image can be display.
 * jAcl2Db admin UI:
   * the user interface has been reworked to be more usable
@@ -40,19 +41,18 @@ Not released yet. Still in development.
   * The configurator is now able to declare automatically modules urls, and to remove
     all Urls of a module when it is uninstalled.
   * Module configurators can indicate a list of url to declare into the urls mapping
-  * more methods on XmlMapModifier to remove urls
+  * more methods on `XmlMapModifier` to remove urls
   * new method `findProfile()` on helpers
 * Installer:
-  * The PreInstallHelpers class has now the database API to allows to check the
+  * The `PreInstallHelpers` class has now the database API to allows to check the
     content of the database before allowing the installation
   * new method `findProfile()` on helpers
   * new option to the installer command: `--no-clean-temp`. And the command verifies now that
     all content of the temp directory can be deleted.
-  * Fix the selection of upgraders to execute: in some case, some upgraders may not be executed
-* Unit tests: jUnitTestCase and jUnitTestCaseDb are deprecated. Use
+* Unit tests into modules : `jUnitTestCase` and `jUnitTestCaseDb` are deprecated. Use
   `\Jelix\UnitTests\UnitTestCase` and `\Jelix\UnitTests\UnitTestCase` instead.
   Support of PHPUnit versions older than 6.0 is removed.
-* the script runtests.php and the unit test mechanism for modules
+* the script `runtests.php` and the unit test mechanism for modules
   (tests inside modules) are now deprecated.
   It is better to write tests outside modules, in order to not include them into
   Composer packages or other deployment system. It also allows you to use

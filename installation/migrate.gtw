@@ -24,8 +24,10 @@ Here are all steps to follow to migrate your application.
 
 ==== Requirements ====
 
-Jelix 1.8 needs PHP 7.3 minimum. Verify that you have this version of PHP on your
-server, or an higher one. PHP 7.3 or higher is recommended.
+Jelix 1.8 needs PHP 7.4 minimum. Verify that you have this version of PHP on your
+server, or an higher one. At the time this page was edited, PHP 8.2 or higher is recommended,
+as PHP 7.4 and 8.0 are not maintained anymore (except in Debian 11). Check the good version to use
+on [[https://www.php.net/supported-versions.php]].
 
 ==== Backup ====
 

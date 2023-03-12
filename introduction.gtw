@@ -1,6 +1,6 @@
 ~~LANG:FR@frman:introduction~~
 
-Jelix is a framework for PHP 7, which allows you to develop quickly
+Jelix is a framework for PHP 7 or 8, and it allows you to develop quickly
 huge or tiny web applications. It contains many components, to use the MVC
 pattern, to access to databases through the Jelix ORM, to generate many kind of
 content etc.
