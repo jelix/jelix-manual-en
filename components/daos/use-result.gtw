@@ -194,7 +194,7 @@ Here are the operators supported:
   * IN, NOT IN,
   * IS, IS NOT,
   * IS NULL, IS NOT NULL,
-  * MATCH, REGEXP, NOT REGEXP, RLIKE, SOUNDS LIKE, BETWEEN
+  * MATCH, REGEXP, NOT REGEXP, RLIKE, SOUNDS LIKE
   * @@~@@, @@!~@@, @@~*@@, @@!~*@@  (operators for regular expression for postgresql)
 
 == Special case with NULL ==

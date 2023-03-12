@@ -243,6 +243,17 @@ If it isn't enough, you can redefine the method @@_indexSetConditions()@@, which
 accept a jDaoConditions object. There, you can setup this object to specify your
 criteria or order of choice.
 
+=== Having a form for list filters ===
+
+A class @@jControllerDaoCrudFilter@@ (since Jelix 1.7.9), inheriting from @@jControllerDaoCrud@@,
+allow to display automatically a form before the list. Values of its fields
+are used to filter the content of the list.
+
+To use this feature, your controller should inherit from @@jControllerDaoCrudFilter@@,
+and it should indicate the selector of the form to display, into the @@filterForm@@
+property. Names of the controls should be the same as the name of dao properties
+that should be filtered.
+
 === Advanced configuration of the list ===
 
 @@index@@ method call protected method @@_index@@, which you can redefine to

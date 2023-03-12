@@ -87,8 +87,14 @@ Here are parameters for  @@C@masterAdminMenuItem@@:
    * the label of the link
    * the URL of the link
    * the order in the sub-menu
-   * the id of the sub-menu where to add the item. By default, there are two sub-menus: 'toplinks' and 'system'.
+   * the id of the sub-menu where to add the item.
 
+There are four predefined sub-menus:
+
+   * 'toplinks' : links to display at the top of the menu
+   * 'system' : the menu "System"
+   * 'crud' : the menu "Data management"
+   * 'refdata' : the menu "Reference Data"
 
 If you want any HTML content in the menu item instead of a simple link, here are
 the arguments you should give to  @@C@masterAdminMenuItem@@:

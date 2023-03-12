@@ -544,11 +544,8 @@ This control supports two specific attributes to control file type and size.
 Respectively @@A@mimetype@@ (its value has to be one or more mimetype) and
 @@A@maxsize@@ (size in octets).
 
-Warning : with IE, the mimetype of jpg and jpeg files is image/pjpeg. Be sure to
-set @@mimetype="image/pjpeg"@@ with image/jpeg if you want allow this file format.
-
 <code xml>
-  <upload ref="photo" mimetype="image/jpeg;image/pjpeg;image/png" 
+  <upload ref="photo" mimetype="image/jpeg;image/png" maxsize="20000">
     <label>Your photo</label>
   </upload>
 </code>
@@ -556,6 +553,11 @@ set @@mimetype="image/pjpeg"@@ with image/jpeg if you want allow this file forma
 Upon receiving file, jForms will check its type and its size. You'll see later
 that you can choose where to save it. "photo" form variable will have the
 filename as value.
+
+Other supported attributes:
+
+  * @@accept@@: value of the HTML attribute @@accept@@ for the element @@input@@.
+  * @@capture@@: value of the HTML attribute @@capture@@ for the element @@input@@.
 
 ==== Enhanced File Upload ====
 
@@ -566,6 +568,131 @@ new one, you don't know which is the previous file etc.
 
 A @@<upload2>@@ is available since Jelix 1.7, and allows to support automatically
 existing old files. It has the same attributes and child elements as @@<upload>@@.
+
+But it has a better associated widget, which improve the display of the control.
+It allows to see the name of the current selected file. It allows to replace
+automatically the file, or offer the choice to delete the current file (if the
+control value is not required).
+
+The PHP control class offer a better API to manipulate the files:
+
+<code php>
+
+    /** the filename sets into the form during its initialization */
+    public function getOriginalFile();
+
+    /** The filename of the file uploaded during the form submission */
+    public function getNewFile();
+
+    /** change the name of the new file name. If there is already an uploaded file, it is deleted */
+    public function setNewFile($fileName);
+
+    /**
+     * Return a filename under which the file can be saved without overwriting an existing file.
+     *
+     * The base name of the file is the name of the uploaded file, or the name given into the $alternateName
+     * parameter.
+     * The returning filename can be ended by a number if there is already a file with the original name.  */
+    public function getUniqueFileName($directoryPath, $alternateName = '');
+
+    /**
+     * Save the uploaded file into the given directory, under the original filename, or under the name given
+     * into $alternateName
+     *
+     * If there is already a file with that name, it will be overwritten. If you don't want this behavior, you
+     * can call getUniqueFileName to have a unique name.
+    */
+    public function saveFile($directoryPath, $alternateName = '');
+
+    /** delete the current file indicated into the control */
+    public function deleteFile($directoryPath);
+
+</code>
+
+
+The @@upload2@@ control offers also support on uploaded images: it displays the selected image, which is useful when the form is displayed
+with the "data view" mode. However, in order to display the image, the widget requires some additional attributes
+you give to @@{ctrl_control}@@ or into the generator option @@widgetAttributes@@. These attributes help to forge
+the URL of the image:
+
+  * From a selector : set parameters @@uriAction@@ and @@uriActionParameters@@. If one action parameter should contain the
+    image filename, set also the parameter @@uriActionFileParameter@@ which indicate the action parameter name that will
+    contain the image filename. If the default value of the parameter contain @@%s@@, only this @@%s@@ will be replaced.
+  * From a base URI : a @@baseURI@@ attribute should contain the base URI of the image. The filename of the image will be
+    append to this URI.
+
+For uploaded images, we can also indicate the widget attributes @@imgMaxHeight@@ and @@imgMaxWidth@@, which will contain
+the size of the displayed image (it does not change the image file).
+
+Example:
+
+<code xml>
+  <upload2 ref="photo" mimetype="image/jpeg;image/png" maxsize="20000">
+    <label>Votre photo</label>
+  </upload>
+</code>
+
+<code html>
+{form $form, 'module~action', array(), 'html', array(
+      'widgetsAttributes'=> array(
+          'photo' => array(
+                'uriAction' => 'photomanager~edit:show',
+                'uriActionParameters' => array('filename' => ''),
+                'uriActionFileParameter' => 'filename'
+                'imgMaxWidth' => 100,
+                'imgMaxHeight' => 100
+          ))
+       )}
+
+{form $form, 'module~action', array(), 'html', array(
+      'widgetsAttributes'=> array(
+          'photo' => array(
+                'baseURI' => $j_basepath.'photos/',
+                'imgMaxWidth' => 100,
+                'imgMaxHeight' => 100
+          ))
+       )}
+
+</code>
+
+
+==== Image upload ====
+
+Since Jelix 1.7.11, @@<image>@@ is a control that add more features for images than @@<upload2>@@.
+The associated widget allow to edit the selected image before uploading the image. The Javascript editor
+allow to change the size or to crop the image. It allow also to limit the size of the uploaded image. It
+avoid the upload of big images, which could cause memory issues during image processing in the PHP side.
+
+The element @@<image>@@ accepts the attribute @@A@ref@@, and you can use @@E@<label>@@,
+@@E@<hint>@@, @@E@<alert>@@, @@E@<help>@@ as well as attributes @@A@readonly@@
+and @@A@required@@.
+
+Other attributes are supported:
+
+  * @@maxWidth@@ and @@maxHeight@@: maximum size of the uploaded image. If the given have higher size, it will be resized
+    in javascript before the upload.
+  * @@mimetype@@: mime types of the authorized image format
+  * @@maxsize@@: maximum size of the file
+  * @@accept@@: value of the HTML attribute @@accept@@ for the element @@input@@.
+  * @@capture@@: value of the HTML attribute @@capture@@ for the element @@input@@.
+
+Example :
+
+<code xml>
+  <image ref="image" mimetype="image/jpg;image/png;" maxWidth="1024" maxHeight="860">
+     <label>A photo</label>
+  </image>
+</code>
+
+The associated widget accepts same attributes than the widget of @@upload2@@ : @@uriAction@@, @@uriActionParameters@@,
+@@uriActionFileParameter@@, @@imgMaxHeight@@ and @@imgMaxWidth@@.
+
+It accepts also these additional attributes:
+
+  * @@newImgMaxWidth@@ and @@newImgMaxHeight@@ : maximum size of the image. Same feature than @@maxWidth@@ and @@maxHeight@@
+    on @@<image>@@, but use these widget attributes for dynamic values.
+  * @@dialogWidth@@ and @@dialogHeight@@: size of the dialog box of the image editor. Values are pixels, or @@"auto"@@,
+    so the size will be calculated based on the window size.
 
 ==== Grouping some controls ====
 

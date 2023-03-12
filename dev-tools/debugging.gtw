@@ -168,8 +168,8 @@ defaultPosition = right
 errors_openon=error
 </code>
 
-@@defaultPosition@@ indicate if you want to display the debugbar on the @@left@@
-or on the @@right@@ of the web page. You could also change the position
+@@defaultPosition@@ indicate if you want to display the debugbar on the @@left@@,
+on the @@right@@ or at the center (@@center@@) of the web page. You could also change the position
 dynamically.
 
 @@errors_openon@@ indicates the error level that triggers the opening of the list

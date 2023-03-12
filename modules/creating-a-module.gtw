@@ -32,10 +32,10 @@ application. Perhaps you would like to create it into an other modules group. In
 this case, indicate the path of the repository after the module name. 
 
 This example creates a "supermodule" module into the @@F@shared-modules/@@
-directory which is itself into the @@F@lib@@ directory provided with jelix.
+directory which is itself into the @@F@somewhere@@ directory.
 
 <code bash>
-php dev.php module:create supermodule ../lib/shared-modules/
+php dev.php module:create supermodule ../somewhere/shared-modules/
 </code>
 
 See the online help of the @@c@module:create@@ command to know other options.

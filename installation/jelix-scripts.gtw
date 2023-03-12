@@ -171,7 +171,7 @@ the application, and set values in it.
 
 <code ini>
 [myapp]
-infoCopyright=2019 my company
+infoCopyright=2020 my company
 </code>
 
 

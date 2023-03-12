@@ -235,6 +235,11 @@ Some variables are predefined so you have not to assign them:
    * @@V@$j_datenow@@: current date (aaaa-mm-jj)
    * @@V@$j_timenow@@: current hour (hh:mm:ss)
    * @@V@$j_locale@@: current locale code (the value of @@jApp::config()->locale@@)
+   * @@V@$j_lang@@: current lang code
+   * @@V@$j_country@@: current country code
+   * @@V@j_assetsRevision@@: the value of the configuration parameter @@assetsRevision@@
+   * @@V@j_assetsRevisionParameter@@: the value of the configuration parameter @@assetsRevisionParameter@@
+   * @@V@j_assetsRevQueryUrl@@: the part to add to an url for assets revision (concatenation of @@assetsRevisionParameter@@, @@=@@ and @@assetsRevision@@)
 
 ==== Modifiers ====
 
@@ -279,6 +284,21 @@ Example with the jdatetime modifier:
 <code smarty>
   <p>The date is {$myDate|jdatetime:'db_date','timestamp'}.</p>
 </code>
+
+
+==== Escaping content ====
+
+By default content variables are inserted as is into the generated content. This may be not
+what you want. You would escape some characters, like @@<@@ and @@>@@ in HTML, so the browser
+will not perform these characters as tags.
+
+So you should escape content variable:
+  * by using the @@eschtml@@ or @@escxml@@ modifier: @@{$myvar|eschtml}@@
+  * or by activating the auto-escaping: add a @@{! autoescape !}@@ tag at the beginning of your template. All output
+    of variables (with a tag @@{$..}@@) will be escaped.
+    * If there is already an @@eschtml@@ modifier, it will not add
+      an additionnal escape process.
+    * If you don't want to escape a variable, use the @@raw@@ modifier: @@{$myHTMLcontent|raw}@@
 
 ==== Control statements ====
 
@@ -428,6 +448,110 @@ current html response: it can add a css stylesheet, a javascript link etc.
   {meta_html bodyattr array('onload'=>'alert("charge")')}
 </code>
 
+
+==== Including a template into an other ====
+
+There is some case where you would like shared contents of a template with other
+templates. To do it, you will create a template file, and use the @@{include}@@
+tag inside the template which will include the other template. You should give
+the selector name.
+
+<code>
+ <div>
+   ...
+   {include 'mymodule~sharedcontent'}
+ </div>
+</code>
+
+All template variables declared in the jtpl object will be accessible into the included template.
+
+If you don't want to share variables into the included template, you should use
+the @@{fetchtpl}@@ tag. It is useful to include a template recursively.
+
+
+<code>
+ <div>
+   ...
+   {fetchtpl 'mymodule~sharedcontent'}
+ </div>
+</code>
+
+
+Before using the @@{include}@@ or @@{fetchtpl}@@ tag, first consider using
+[[/components/zones|zones]]. In many case, it is better, because its generated
+content may be stored in a cache.
+
+==== Macros ====
+
+In a template, you may want to repeat a piece of template without using a loop. You could include
+several time an other template, but for little piece of template, this slower than the use
+of a macro.
+
+A macro is a part of a template declared with the @@{macro}@@ tag. A macro have a
+name and it is like a function in PHP.
+
+Example of the declaration:
+
+<code html>
+{macro 'myblock'}
+<p>This is a block, displaying the value of $val: {$val}</p>
+{/macro}
+</code>
+
+The name is set using the syntax of a PHP string. Variables or any other language syntax are not allowed.
+
+Variables used inside the block can be variables declared into the template. The scope is global.
+You can use any template plugin, statements etc.
+
+To call a macro, use @@{usemacro}@@:
+
+<code html>
+This is my piece of html:
+{usemacro 'myblock'}
+
+...
+I can display my piece of html again:
+{usemacro 'myblock'}
+</code>
+
+If @@$val@@ equals @@'hello'@@, the results will be :
+
+<code html>
+This is my piece of html:
+<p>This is a macro, displaying the value of $val: hello</p>
+
+...
+I can display my piece of html again:
+<p>This is a macro, displaying the value of $val: hello</p>
+</code>
+
+You can declare parameters to a macro. Indicate parameters like for a PHP function (i.e. @@$foo@@), and
+use parameters inside the macro like any other variables.
+
+<code html>
+{* declaration of the macro *}
+{macro 'myblock', $name, $result}
+<p>This is a macro with parameters.<p>
+<ul>
+    <li>name= {$name}</li>
+    <li>{if $result == true}this is green{else}this is red{/if}</li>
+</ul>
+<p>You can still see the value of $val: {$val}</p>
+{/macro}
+
+{* usage of the macro *}
+
+{usemacro 'myblock', 'SuperGuppy', true}
+
+</code>
+
+Declared parameters are not usable outside the macro. If there is a template variable with the
+same name, the value of the template variable is replaced by the value of the parameter inside
+the macro, but is restored after the call of the macro.
+
+Macro declared into an included template can be used in the template caller.
+
+
 ===== Virtual Templates =====
 
 You can use templates that are not in files. These are called "virtual
@@ -479,38 +603,6 @@ To create a template for each language, create sub-directories into the template
 directory. Their name should be a language code. Example: @@F@templates/fr_FR@@,
 @@F@templates/en_US@@ etc. And save in each of this sub-directories a copy of
 your translated template.
-
-===== Including a template into an other =====
-
-There is some case where you would like shared contents of a template with other
-templates. To do it, you will create a template file, and use the @@{include}@@
-tag inside the template which will include the other template. You should give
-the selector name.
-
-<code>
- <div>
-   ...
-   {include 'mymodule~sharedcontent'}
- </div>
-</code>
-
-All template variables declared in the jtpl object will be accessible into the included template.
-
-If you don't want to share variables into the included template, you should use
-the @@{fetchtpl}@@ tag. It is useful to include a template recursively.
-
-
-<code>
- <div>
-   ...
-   {fetchtpl 'mymodule~sharedcontent'}
- </div>
-</code>
-
-
-Before using the @@{include}@@ or @@{fetchtpl}@@ tag, first consider using
-[[/components/zones|zones]]. In many case, it is better, because its generated
-content may be stored in a cache.
 
 
 ===== Redefining a template =====

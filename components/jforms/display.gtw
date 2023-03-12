@@ -21,11 +21,13 @@ long and sometimes boring task. They even do a lot more:
 ===== Full automatic form display with formfull =====
 
 For you in a hurry, this template plugin will fully display your form. Its name:
-@@formfull@@. With it, you won't control how each field, labels and submits are
-displayed. Still you can customize display of help and error messages (see
-further).
+@@formfull@@. With it, you won't control how the form is displayed,
+the order of fields, how their labels are displayed. However you can customize
+display of help and error messages, and indicate some options for the widgets.
 
-Here are its arguments, in the order:
+Widgets are the objects that generate the HTML and javascript of each fields.
+
+Here are the arguments of @@formfull@@, in the order:
 
    * your form object
    * a selector specifying the target action
@@ -149,8 +151,15 @@ code below adds a class on 'name' and 'firstname' controls only:
    </fieldset>
 </code>
 
+You have also @@ifctrltype@@ which allow to test the type of the control (which is the name of the xml element).
+It should be used inside a @@formcontrols@@ bloc.
 
-Or indicate a list of control names to @@formcontrols@@ plugin. It will loop
+<code html>
+    {ifctrltype 'upload', 'upload2', 'image'}<p>Please, do not upload no heavy files.</p>{/ifctrltype}
+</code>
+
+
+You can indicate a list of control names to @@formcontrols@@ plugin. It will loop
 only on those controls. 
 
 <code html>
@@ -332,12 +341,11 @@ ou @@{formfull}@@ (as fourth argument) :
 
 Those plugins support a fifth parameter which is an array of options passed to
 the generator. These options depends on the used generator. (//errorDecorator//
-and //method// for 'html'). One of them is "plugins", which allow to indicate
-which plugin to use for some controls.
+and //method// for 'html'). One of them is "plugins" (aka widgets), which allow
+to indicate which plugin to use for some controls.
 
 To know more about the 'html' generator and its options, see the dedicated
 page: [[display/html-generator|"html" generator]].
-
 
 Tip: You can of course create a new generator as inheriting from an existing
 one. That way, you can customize only some of the output or set an option

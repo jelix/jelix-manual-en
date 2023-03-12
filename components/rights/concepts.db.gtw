@@ -7,7 +7,7 @@ Rights are stored in a database. The driver implements generic concepts of jAcl2
 and add one feature: support of user groups. Then, the basic elements defining a
 right are:
 
-  * a role
+  * a right name
   * a user group  
   * a resource (optional)
 
@@ -42,7 +42,7 @@ Their use are similar theoretically with jelix-scripts commands (described in
 {{jacl2db_mcd.png|}}
 
 You should not that some tables or fields use the word 'subject' in their names.
-This is because, in Jelix 1.6 and older version, roles were named subjects.
+This is because, in Jelix 1.6 and older version, rights were named subjects.
 To keep compatibility with previous version, tables and fields were not renamed
-in Jelix 1.7, even if we talk about roles now. Roles and subjects are the same
+in Jelix 1.7, even if we talk about rights. Rights and subjects are the same
 notion.

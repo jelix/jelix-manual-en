@@ -33,6 +33,16 @@ on **binary** column.
 
 Notice that the @@quote()@@ method add quotes at the begin and the end of the given string.
 
+If you need to build your queries by adding table names or field names that need to be enclosed
+between characters specific to the database type, you can use the @@encloseName@@ method:
+
+<code php>
+  $table = 'users';
+  $sql = "INSERT INTO ".$cnx->encloseName($table)." (nom, prenom) VALUES";
+  $sql .=" (". $cnx->quote("de l'ombre") .",".$cnx->quote('robert').")";
+</code>
+
+
 To execute queries, you have two methods: @@exec()@@ and @@query()@@.
 
 
@@ -160,10 +170,11 @@ Note that the oci driver does not support parameters given to @@execute()@@.
 
 @@jDbResultSet@@ is the object you retrieve after a SELECT query (via @@query()@@, @@limitQuery()@@ or @@prepare()@@).
 
-Its @@fetch()@@ method allows to retrieve the records one by one. jDbResultSet
-always returns a record as an object.
-
+Its @@fetch()@@ method allows to retrieve the records one by one.
 Its @@fetchAll()@@ method allows to retrieve all records in a PHP array in one shot.
+
+With these methods, and when using it as an iterator, jDbResultSet returns records as objects. If you prefer to
+have associative arrays, you should use @@fetchAssociative()@@ and @@fetchAllAssociative()@@.
 
 jDbResultSet implements also the @@Iterator@@ interface, so you can use it in
 some case, like in a @@foreach@@ statement.
@@ -197,6 +208,9 @@ it with the @@setFetchMode()@@:
      $result .= 'name = '.$record->name.' firstname = '.$record->firstname."\n";
   } 
 </code>
+
+When an object @@jDbResultSet@@ is destroyed, the associated database resource is deleted automatically.
+But you can delete it explicitly with the method @@free()@@.
 
 For other methods of jDbResultSet, see the [[refclass:jDbResultSet|API reference]].
 

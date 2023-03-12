@@ -66,16 +66,16 @@ In the following examples, with take "myapp" as the name of the application.
 Change it of course by the name of your application.
 
 Note that you have a module, jacl2db_admin, which allow you to do everything
-described below with an interface, except the creation of roles.
+described below with an interface, except the creation of rights.
 
-==== Roles creation ====
+==== Rights creation ====
 
-In jAcl2 rights, you define a role or a possible action on some data.
+In jAcl2 rights, you define a right  or a possible action on some data.
 
 Imagine a CMS where you want to define rights about articles. You could define
-roles for some actions like reading, listing, creating, deleting, updating.
+right names for some actions like reading, listing, creating, deleting, updating.
 
-Concretely, you would define these roles:
+Concretely, you would define these rights:
 
   * "cms.articles.read",
   * "cms.articles.list",
@@ -83,37 +83,37 @@ Concretely, you would define these roles:
   * "cms.articles.delete",
   * "cms.articles.update"
 
-Note that all roles names here begin with a prefix, allowing to identify precisely what
+Note that all right names here begin with a prefix, allowing to identify precisely what
 about it is. Using only "read" is not really explicit and may cause conflicts with
-roles defined for some modules. So in the role name, always add some words
+rights defined for some modules. So in the right name, always add some words
 indicating what it is about precisely. Your code is then more readable.
 
-Let's start by listing already existing roles:
+Let's start by listing already existing rights:
 
 <code bash>
-php console.php acl2:roles-list
+php console.php acl2:rights-list
 </code>
 
 You should have an empty list:
 
 <code>
-+-------------------+-------+--------------------------------------+
-| Role Group        | id    | label key                            |
-+-------------------+-------+--------------------------------------+
++-------------------+----------+--------------------------------------+
+| Rights Group      | Right id | label key                            |
++-------------------+----------+--------------------------------------+
 
 </code>
 
-A role record is a pair of an identifier and a label key. Label keys should
+A right record is a pair of an identifier and a label key. Label keys should
 be existing locale key identifiers.
 
-Let's create our roles:
+Let's create our rights:
 
 <code bash>
-php console.php acl2:role-create "cms.articles.create" "cms~acl2.articles.create"
-php console.php acl2:role-create "cms.articles.update" "cms~acl2.articles.update"
-php console.php acl2:role-create "cms.articles.delete" "cms~acl2.articles.delete"
-php console.php acl2:role-create "cms.articles.list" "cms~acl2.articles.list"
-php console.php acl2:role-create "cms.articles.read" "cms~acl2.articles.read"
+php console.php acl2:right-create "cms.articles.create" "cms~acl2.articles.create"
+php console.php acl2:right-create "cms.articles.update" "cms~acl2.articles.update"
+php console.php acl2:right-create "cms.articles.delete" "cms~acl2.articles.delete"
+php console.php acl2:right-create "cms.articles.list" "cms~acl2.articles.list"
+php console.php acl2:right-create "cms.articles.read" "cms~acl2.articles.read"
 </code>
 
 If you don't use a module allowing to manage rights with jAcl2 (like jacl2db_admin)
@@ -121,12 +121,12 @@ then the locale key selector is not required. Just put any string of yours.
 
 If the command fails, you have an error message, else the output is empty.
 
-Now list again the roles:
+Now list again the rights:
 
 <code bash>
-$ php console.php acl2:roles-list
+$ php console.php acl2:rights-list
 +---------------+---------------------+--------------------------+
-| Role Group    | id                  | label key                |
+| Rights Group  | Right id            | label key                |
 +---------------+---------------------+--------------------------+
 |               | cms.articles.create | cms~acl2.articles.create |
 |               | cms.articles.delete | cms~acl2.articles.delete |
@@ -136,16 +136,16 @@ $ php console.php acl2:roles-list
 +---------------+---------------------+--------------------------+
 </code>
 
-You can delete a role with the following command:
+You can delete a right with the following command:
 
 <code bash>
-$ php console.php acl2:role-delete  <role name>
+$ php console.php acl2:right-delete  <right name>
 </code>
 
 
 ==== User group creation ====
 
-A jAcl2.db right is a combination of a role and a user group. So you have to
+A jAcl2.db right is a combination of a right name and a user group. So you have to
 create user groups. Use the @@acl2group:@@ commmands type.
 
 Let's create a writers group for our users. You should indicate an key and optionally a label.
@@ -229,12 +229,12 @@ To see the list of all users:
 $ php console.php acl2user:list
 </code>
 
-==== Rights creation ====
+==== Rights configuration ====
 
-You have every needed elements to create a right. Let's go and execute some @@acl2:@@ commands.
+You have every needed elements to assign a right. Let's go and execute some @@acl2:@@ commands.
 
 You want to add readers the right to read and list articles. Let's associate
-roles @@cms.articles.list@@ and @@cms.articles.read@@ to the readers group:
+rights @@cms.articles.list@@ and @@cms.articles.read@@ to the readers group:
 
 <code bash>
 $ php console.php acl2:add readers "cms.articles.list"
@@ -246,7 +246,7 @@ Check rights list with @@cl2:list@@ command:
 <code bash>
 $ php console.php acl2:list
 +----------+------------+-------------------+----------+
-| Group id | Group name | Role              | Resource |
+| Group id | Group name | Right              | Resource |
 +----------+------------+-------------------+----------+
 | readers  | Readers    | cms.articles.list | -        |
 | readers  | Readers    | cms.articles.read | -        |
@@ -271,7 +271,7 @@ Again, let's list all rights:
 <code bash>
 $ php console.php acl2:list
 +----------+------------+---------------------+----------+
-| Group id | Group name | Role                | Resource |
+| Group id | Group name | Right               | Resource |
 +----------+------------+---------------------+----------+
 | readers  | Readers    | cms.articles.list   | -        |
 | readers  | Readers    | cms.articles.read   | -        |
@@ -296,7 +296,7 @@ checking of rights list:
 <code bash>
 $ php console.php acl2:list
 +----------+------------+---------------------+----------+
-| Group id | Group name | Role                | Resource |
+| Group id | Group name | Right               | Resource |
 +----------+------------+---------------------+----------+
 | readers  | Readers    | cms.articles.list   | -        |
 | readers  | Readers    | cms.articles.read   | -        |
@@ -309,7 +309,7 @@ $ php console.php acl2:list
 +----------+------------+---------------------+----------+
 </code>
 
-You can also remove a right with @@acl2:remove@@, by passing a user group and a role
+You can also remove a right with @@acl2:remove@@, by passing a user group and a right name
 similarly to @@acl2:add@@ (and optionally a resource if one is involved).
 
 Say you change your mind about the "advices" article, because there is too much crap ;-):

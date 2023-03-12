@@ -16,6 +16,9 @@ If @@example@@ is your driver name: you create a classe @@exempleAuthDriver@@,
 in a file named @@exemple.auth.php@@, and locate it in @@auth/example/@@ 
 directory of a [[/plugins#adding-a-plugins-repository|plugins repository]].
 
+The driver can also implement interfaces [[refclass:jIAuthDriver2|jIAuthDriver2]]
+and [[refclass:jIAuthDriver3|jIAuthDriver3]], to implement methods
+@@canChangePassword()@@ and @@getReasonToForbiddenPasswordChange@@.
 
 ===== Activation =====
 

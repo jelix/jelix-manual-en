@@ -16,8 +16,11 @@ Options you can give in an array as the fifth argument of @@E@{form}@@ and
   * @@L@plugins@@: the list of plugins to use to display some of controls. This is an
     associative array that have controls id as key, and the plugin name as value. Plugins
     are "formwidget" plugins.
-  * @@L@attributes@@: list of html attributes to add on the @@<form>@@ element.
+  * @@L@attributes@@: list of HTML attributes to add on the @@<form>@@ element.
     ex: @@array('attributes'=>array('class'=>'myclass'))@@
+  * @@L@widgetsAttributes@@: list of HTML attributes to add on each widget. keys are controls refs, and values are
+    associative arrays of attribute names with attribute values.
+
 
 
 ===== Personnalizing the display of controls =====
@@ -42,6 +45,18 @@ as first parameter when @@ctrl_control@@ is used inside a @@formcontrols@@ loop.
 
 Note: on other generator than 'html', this array can be an array of other
 type of informations.
+
+You can indicate these attributes into the option  @@widgetsAttributes@@ of the generator. If the control is
+into a @@{formcontrols}@@ loop, it avoids to add some @@{if_ctrl}@@ etc.
+
+
+<code html>
+{form $form, 'module~action', array(), 'html', array(
+      'widgetsAttributes'=> array(
+          'lastname' => array('class'=>'myclass', 'placeholder'=>'your name'}
+       )}
+</code>
+
 
 === Create/using other widget ===
 

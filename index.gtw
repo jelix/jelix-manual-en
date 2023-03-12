@@ -9,7 +9,7 @@ author=Laurent|Jouanneau
 author=Dominique|Papin
 author=Afroxav
 author=|All jelix.org wiki contributors||
-copyright_years=2006-2019
+copyright_years=2006-2023
 copyright_holder=Laurent Jouanneau
 copyright_holder=Dominique Papin
 copyright_holder=All jelix.org wiki contributors
@@ -36,7 +36,7 @@ copyright_holder=All jelix.org wiki contributors
      - section: [[core/call-action|Calling actions]]
    - chapter: [[configuration/|Configuration]]
      - section: [[configuration/configuration-files|Configuration files]]
-     - section: [[configuration/module-directories|Répertoire de modules]]
+     - section: [[configuration/module-directories|Modules directories]]
    - chapter: [[configurator-installer|Configurator and installer of Jelix]]
      - section: [[configurator-installer/how-it-works|How the installer works]]
      - section: [[configurator-installer/installing-a-module|Installing a module]]
