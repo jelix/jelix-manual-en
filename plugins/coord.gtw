@@ -63,14 +63,14 @@ In order to configure a plugin, you might have declared a specific configuration
 file (see above). It is an //ini// file, located in @@F@app/system/@@. Its content
 will be passed as an array parameter to your plugin constructor (result of the @@parse_ini_file@@ function).
 
-If this is only a section @@[coordplugin_XXX]@@ as indicated above, its content
+If this is only a section @@[coordplugin_XXX]@@ or @@[XXX]@@, its content
 will be passed as an array parameter to your plugin constructor.
 
-If there are both a @@[coordplugin_XXX]@@ section and a specific configuration file,
+If there are both a @@[coordplugin_XXX]@@ (or @@[XXX]@@) section and a specific configuration file,
 only the content of the configuration file is used, unless to indicate a parameter
 @@XXX.mergeconfig@@ into the section @@[coordplugins]@@, having  @@1@@ or @@on@@
-as value. In this case the content of @@[coordplugin_XXX]@@ and the content
-of the configuration file are merged.
+as value. In this case the content of @@[coordplugin_XXX]@@ (or @@[XXX]@@) and the content
+of the configuration file are merged (the content of @@[coordplugin_XXX]@@ or @@[XXX]@@ has priority over the configuration file).
 
 ==== Plugin parameters ====
 

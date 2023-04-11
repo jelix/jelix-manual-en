@@ -1,6 +1,9 @@
 ~~LANG:FR@frman:composants/authentification/drivers~~
 
-List of authentication drivers delivered with Jelix.
+There are several authentication drivers bundled into Jelix.
+
+Their configuration are in a section @@[<drivername>]@@ (replace @@<drivername>@@ by the driver name)
+of the @@auth.coord.ini.php@@, or into a section @@auth_<drivername>@@ of the main configuration.
 
 ===== Db =====
 

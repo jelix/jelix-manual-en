@@ -84,6 +84,19 @@ To configure the authentication system, edit the file
 You must assign the @@driver@@ option with a driver name and fill a section
 containing the driver parameters.
 
+<code ini>
+driver=Db
+</code>
+
+It is possible to indicate the driver into the main configuration (@@mainconfig.ini.php@@, @@localconfig.ini.php@@
+or the configuration file of an entry point), into the section @@coordplugin_auth@@.
+
+<code ini>
+[coordplugin_auth]
+driver=Db
+</code>
+
+
 Read the [[drivers|jAuth drivers documentation]] to know which
 driver you can use and how to activate it.
 
