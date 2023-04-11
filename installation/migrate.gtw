@@ -17,14 +17,17 @@ Migrate to Jelix 1.7 first.
 
 Read the upgrade instructions of all previous versions and then follow instructions below.
 
-
 ===== Upgrading from jelix 1.7.x =====
+
+Upgrade to Jelix 1.8, and read the upgrade documentation of Jelix 1.8.
+
+===== Upgrading from jelix 1.8.x =====
 
 Here are all steps to follow to migrate your application.
 
 ==== Requirements ====
 
-Jelix 1.8 needs PHP 7.4 minimum. Verify that you have this version of PHP on your
+Jelix 1.9 needs PHP 7.4 minimum. Verify that you have this version of PHP on your
 server, or an higher one. At the time this page was edited, PHP 8.2 or higher is recommended,
 as PHP 7.4 and 8.0 are not maintained anymore (except in Debian 11). Check the good version to use
 on [[https://www.php.net/supported-versions.php]].
@@ -45,7 +48,7 @@ Install Composer by [[https://getcomposer.org|reading its instructions]].
 
 In the directory of your project, you have a @@composer.json@@ file. It should indicate
 the package @@jelix/jelix@@ or @@jelix/jelix-standard@@ as a dependency, in the
-@@require@@ section. You should set it to @@^1.8.0@@.
+@@require@@ section. You should set it to @@^1.9.0@@.
 
 Example:
 
@@ -54,7 +57,7 @@ Example:
     "name": "mycompany/myapp",
     "type": "application",
     "require": {
-        "jelix/jelix": "^1.8.0"
+        "jelix/jelix": "dev-jelix-1.9.x"
     }
 }
 </code>
@@ -76,13 +79,13 @@ in the previous lib/ that were not provided by Jelix.
 
 ==== Upgrading your modules ====
 
-Update sources of vendor's modules that you have installed, with version compatible with Jelix 1.8.
+Update sources of vendor's modules that you have installed, with version compatible with Jelix 1.9.
 
-For your own modules, in @@F@module.xml@@ files, indicate that the module is compatible with Jelix 1.8
+For your own modules, in @@F@module.xml@@ files, indicate that the module is compatible with Jelix 1.9
 (change the attribute @@A@maxversion@@). Example:
 
 <code xml>
-        <jelix minversion="1.6" maxversion="1.8.*"/>
+        <jelix minversion="1.7" maxversion="1.9.*"/>
 </code>
 
 ==== Updating your code ====
