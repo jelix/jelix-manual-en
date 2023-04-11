@@ -19,6 +19,9 @@ You can provide several kind of scripts:
   * @@upgrade.php@@ to upgrade data of the module at the instance level
   * several scripts @@upgrade_xxx.php@@ that are dedicated to a specific version
     of the module.
+  * @@install_1_6.php@@ and @@upgrade_1_6.php@@ if you want to provide installer/upgrader
+    for application based on Jelix 1.6 and lower. See the Jelix 1.6 documentation to know how to write
+    such installers.
 
 The installation can have parameters. @@install.php@@ and upgrade scripts can
 have some parameters that are stored into the configuration. Parameters values

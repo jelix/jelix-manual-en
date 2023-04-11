@@ -84,6 +84,19 @@ To configure the authentication system, edit the file
 You must assign the @@driver@@ option with a driver name and fill a section
 containing the driver parameters.
 
+<code ini>
+driver=Db
+</code>
+
+It is possible to indicate the driver into the main configuration (@@mainconfig.ini.php@@, @@localconfig.ini.php@@
+or the configuration file of an entry point), into the section @@coordplugin_auth@@.
+
+<code ini>
+[coordplugin_auth]
+driver=Db
+</code>
+
+
 Read the [[drivers|jAuth drivers documentation]] to know which
 driver you can use and how to activate it.
 
@@ -360,7 +373,7 @@ authentication formats.
 
 ==== Connecting / Disconnecting a user ====
 
-To login/logout a user, you should call the methods @@M@login()@@ et
+To login/logout a user, you should call the methods @@M@login()@@ and
 @@M@logout()@@:
 
 <code php>
@@ -370,6 +383,9 @@ To login/logout a user, you should call the methods @@M@login()@@ et
    // logout
    jAuth::logout();
 </code>
+
+You can also use the @@jAuth::setUserSession($login)@@ method to set the user without
+verifying the password. It is useful to implements  a stateless web API with JWT for example.
 
 After calling @@M@login()@@ and if this is a success, jAuth stores some
 informations about the user in the session. These informations are in an object,

@@ -325,3 +325,17 @@ controller, so you don't have to duplicate it in each action you use the form.
 you the opportunity to add your field before the retrieval of data. If you call
 it, your field won't receive corresponding data.
 
+3 - During the dynamic fill of a control
+
+If the form contain a list depending on an other control, a http request is made
+to the jforms controller to fill this list.
+
+During this action, the controller emit an event @@jformsPrepareToFillDynamicList@@
+before to generate the list content and to return it to the browser. This
+event allow to prepare the form object with all expected controls.
+
+The event has these parameters:
+
+  * @@form@@: the form object.
+  * @@controlRef@@: the id of the control containing the list that will be generated.
+
