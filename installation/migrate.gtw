@@ -87,65 +87,9 @@ For your own modules, in @@F@module.xml@@ files, indicate that the module is com
 
 ==== Updating your code ====
 
-See [[/new-features|the detailed changelog]] to know what are the new classes and methods you can use,
-deprecated components, and which API have been removed etc...
+See [[/new-features|the detailed changelog]] to know what are the new classes and methods you can use.
 
-There are also changes in some API, so you have to modify your code if you are using them:
-
-    * TODO Nothing for the moment
-
-Some features, API and modiles have been removed. See the full list in [[/new-features|the detailed changelog]].
-Be sure to modify the code that use them.
-
-==== Launch of the migration script ====
-
-The migration system will do many changes for you:
-
-    * TODO Nothing for the moment
-
-Launch now  @@php dev.php jelix:migrate -v@@.
-
-
-
-==== Changes in your SOAP controllers ====
-
-You must replace code comments "@param" by "@externalparam".
-
-Before:
-
-<code php>
-    /**
-     * Test with a simple parameter
-     * @param string $name
-     * @return string
-     */
-    function hello() {
-        $rep = $this->getResponse('soap');
-        $rep->data = "Hello ".$this->param('name');
-        return $rep;
-    }
-}
-</code>
-
-After:
-
-<code php>
-    /**
-     * Test with a simple parameter
-     * @externalparam string $name
-     * @return string
-     */
-    function hello() {
-        $rep = $this->getResponse('soap');
-        $rep->data = "Hello ".$this->param('name');
-        return $rep;
-    }
-}
-</code>
-
-
-
-
+There is no API removed or changed.
 
 ==== Update of Jelix instances ====
 
@@ -163,9 +107,9 @@ The installer will launch the update of data into the database.
 So, erase any files from your temp directory, then launch:
 
 <code bash>
-php install/configurator.php -v
+php install/configurator.php
 
-php install/installer.php -v
+php install/installer.php
 </code>
 
 
