@@ -45,7 +45,7 @@ Install Composer by [[https://getcomposer.org|reading its instructions]].
 
 In the directory of your project, you have a @@composer.json@@ file. It should indicate
 the package @@jelix/jelix@@ or @@jelix/jelix-standard@@ as a dependency, in the
-@@require@@ section. You should set it to @@^1.8.0@@.
+@@require@@ section. You should set it to @@^1.8.1@@.
 
 Example:
 
@@ -54,7 +54,7 @@ Example:
     "name": "mycompany/myapp",
     "type": "application",
     "require": {
-        "jelix/jelix": "^1.8.0"
+        "jelix/jelix": "^1.8.1"
     }
 }
 </code>
