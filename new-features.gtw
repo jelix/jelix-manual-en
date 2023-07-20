@@ -60,6 +60,7 @@ Warning: documentation is not updated yet about all these changes.
 ==== New features into 1.8.1 ====
 
 * jDao: records can now extend from any classes
+* jEvent: support of autoloadable classes for listeners
 
 ==== deprecated features ====
 

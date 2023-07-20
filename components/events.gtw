@@ -71,23 +71,30 @@ the declaration of the listener.
 
 ==== Creating a listener ====
 
-First, choose a name. We will use 'auth' as an example. Then create a listener
-class. Note that the class name is a concatenation of the name and of
-'Listener', so in our case, 'authListener'. Put that class in a file called
-@@F@{name}.listener.php@@, so @@F@auth.listener.php@@ for us, in the
-@@F@classes@@ folder of your module. Remember, your listener class must inherit
-from @@C@jEventListener@@. 
+A listener is a class stored into the @@F@classes@@ folder with a specific name.
 
-The listener needs to implement one method for each event it is supposed to
-respond to. Those methods should follow this convention : @@on@@ following by
-the event name. They need to accept as single argument a @@C@jEvent@@ object.
+Since Jelix 1.8.1, it could be any classes that is autoloadable, without
+specific name. It is more flexible.
+
+To create a listener stored into the @@F@classes@@ folder, first choose a "logical" name.
+We will use 'auth' as an example. Then create a listener class with the
+name that is a concatenation of the "logical" name with the name 'Listener',
+so in our case, @@authListener@@. Put that class in a file called
+@@F@{logicalname}.listener.php@@, so @@F@auth.listener.php@@ for us, in the
+@@F@classes@@ folder of your module.
+
+
+A listener class must inherit from @@C@jEventListener@@ and it needs to implement
+one method for each event it is supposed to respond to. Those methods should
+follow this convention : @@on@@ following by the event name. They need to
+accept as single argument a @@C@jEvent@@ object.
 
 Example:
 
 <code php>
-//file auth.listener.php
-
 class authListener extends jEventListener {
+// or
+// class \MyModule\Listeners\Auth extends \jEventListener {
 
    function onAuthCanLogin ($event) {
         //retrive user parameter
@@ -140,17 +147,19 @@ The final step to setup a listener is to declare it. This is done through the
 
 <code xml>
 <events xmlns="http://jelix.org/ns/events/1.0">
-   <!-- We have 2 listeners each listening for some events. However, both of them will respond to the AuthCanViewUser event. -->
    <listener name="auth">
        <event name="AuthCanLogin" />
-       <event name="AuthCanViewUser" />
    </listener>
-   <listener name="auth2">
-       <event name="AuthCanLogin2" />
-       <event name="AuthCanViewUser" />
+   <-- or -->
+   <listener name="\MyModule\Listeners\Auth">
+       <event name="AuthCanLogin" />
    </listener>
 </events>
 </code>
+
+The @@name@@ attribute of the @@listener@@ element must indicate the
+"logical" name of the listener, if it is stored into @@classes@@, or the full
+qualified name of the class, if it is an autoloadable class.
 
 A listener can listen to more than one event. Since it would take too much
 resources to load all the listeners one by one and check what events do they
@@ -164,7 +173,8 @@ When we use a vendor module, for any reason, we could want to deactivate
 one of its listener about a specific events.
 
 It is possible by indicating them into the @@[disabledListeners]@@ section in
-the main configuration. Keys are event name, values are selector of listeners.
+the main configuration. Keys are event name, values are selector of listeners
+or the full name of the class if it is autoloadable.
 
 <code ini>
 [disabledListeners]
@@ -180,7 +190,7 @@ indicate an array:
 <code ini>
 [disabledListeners]
 authLogin[]="aModule~theListener"
-authLogin[]="otherModule~otherListener"
+authLogin[]="\MyModule\Listeners\Auth"
 </code>
 
 
