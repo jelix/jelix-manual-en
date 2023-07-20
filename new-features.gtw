@@ -56,6 +56,11 @@ Warning: documentation is not updated yet about all these changes.
 * Two new plugins for jTpl: `{ifacl2and}`, `{ifacl2or}`
 * Add Datatable into Jelix assets
 
+
+==== New features into 1.8.1 ====
+
+* jDao: records can now extend from any classes
+
 ==== deprecated features ====
 
 * Unit tests into modules : `jUnitTestCase` and `jUnitTestCaseDb` are deprecated. Use
@@ -82,6 +87,10 @@ Warning: documentation is not updated yet about all these changes.
   It allows to control the display of the form in a single class
   instead of into several template plugins, and so, to use it into any or
   outside a template system.
+
+
+
+
 
 ===== Contributors to Jelix 1.8 =====
 
