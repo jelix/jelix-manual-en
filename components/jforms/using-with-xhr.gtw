@@ -1,0 +1,285 @@
+~~LANG:FR@frman:composants/jforms/utiliser-avec-xhr~~
+
+
+==== Displaying a form with xhr ====
+
+
+
+It is possible to display a form with @@xmlHttpRequest@@. In Javascript,
+you do a request to an action that will use a response @@htmlfragment@@, which in
+turn will contain the generated HTML code for the form. Like this:
+
+
+<code php>
+class sampleformCtrl extends jController {
+
+    function showajaxform()
+    {
+        // retrieve form data
+        $form = jForms::get('sample');
+        if ($form == null) {
+            $form = jForms::create('sample');
+        }
+
+        // manage the form
+        //$form->...
+
+
+        // return the HTML content of the form into an html fragment
+        $rep = $this->getResponse('htmlfragment');
+        $rep->tpl->assign('form', $form);
+        $rep->tplname = 'sampleajaxform';
+        return $rep;
+    }
+}
+</code>
+
+With this template for example:
+
+<code html>
+{form $form,'sampleform:save'}
+    {formcontrols}
+    <div>{ctrl_label '', '%s: '} {ctrl_control}</div>
+    {/formcontrols}
+<p>{formreset} {formsubmit}</p>
+{/form}
+</code>
+
+To display it, you have to create an other action, which will display the full
+html page, and will embed the javascript code that will do the http request to
+retrieve the html content of the form.
+
+This javascript code, stored into a "sampleajaxform.js" for our example, can
+be like:
+
+<code javascript>
+function loadForm() {
+    // we retireve the url of the action, that is into a data attribute of a element
+    let urlAjaxForm = $('#theform').dataset.urlForm;
+
+    // we do the request with jQuery
+    jQuery.ajax(urlAjaxForm, {
+        complete: function(jqXHR, textStatus) {
+            // we insert the content returned by the htmlfragment response,
+            // into the theform element
+            $("#theform").html(jqXHR.responseText);
+        },
+        // ...
+    });
+}
+</code>
+
+And the action that display the page can be:
+
+<code php>
+class sampleformCtrl extends jController {
+
+    function mainpage()
+    {
+        $rep = $this->getResponse("html");
+        $rep->title = 'show ajax form';
+        $rep->addJSLink(jApp::urlBasePath().'sampleajaxform.js');
+
+        // careful, things are missing here, see below ;-)
+
+        $tpl = new jTpl();
+        $rep->body->assign('MAIN', $tpl->fetch('mypage'));
+        return $rep;
+    }
+
+    function showajaxform()
+    {
+    //...
+    }
+</code>
+
+With its template mypage:
+
+<code html>
+<button onclick="loadForm()">Load the form</button>
+
+<div id="theform" data-url-form="{jurl 'sampleform:showajaxform'}">
+    // will be filled after clicking on the button
+</div>
+</code>
+
+However there is an issue here: the jforms javascript library is not loaded.
+The form builder cannot add into an html header the script and links elements,
+with the htmlfragment response.
+
+So you must include those additional scripts and stylesheets, in the
+response that display the full page (and so that does the http request).
+You can do it by calling the method @@outputMetaContent()@@ of the form builder.
+
+@@$form->getBuilder('html')->outputMetaContent(null);@@
+
+So, our action mainpage becomes:
+
+
+<code php>
+class sampleformCtrl extends jController {
+
+    function mainpage()
+    {
+        $rep = $this->getResponse("html");
+        $rep->title = 'show ajax form';
+        $rep->addJSLink(jApp::urlBasePath().'sampleajaxform.js');
+
+        // we add CSS and JS links for the form into the page,
+        $form = jForms::create('sample');
+        $form->getBuilder('html')->outputMetaContent(null);
+
+        $tpl = new jTpl();
+        $rep->body->assign('MAIN', $tpl->fetch('mypage'));
+        return $rep;
+    }
+
+    function showajaxform()
+    {
+    //...
+    }
+</code>
+
+
+
+===== Submitting the form content with Xhr =====
+
+During the submit of a form, the browser sends itself the content to the
+action of the form, and in returns it has to display a whole page.
+
+However you may not want this behavior, and send yourself the content of the
+form to a web service, an action that will return some json data for example.
+
+To do it, you have to indicate to jforms to send data with xhr (xmlHttpRequest).
+
+In the javascript code loaded by the page, after its loading, you should call
+the method @@submitWithXHR()@@. This method can take some callback function
+as argument but we will see it later.
+
+<code javascript>
+
+// When the form jforms_testapp_sample is loaded...
+jFormsJQ.onFormReady('jforms_testapp_sample',
+    function(form) {
+          // says that we want to submit the form with Xhr
+          form.submitWithXHR();
+    }
+);
+</code>
+
+In the action that will receive the content, you must use the response object @@jResponseFormJQJson@@
+which will send back a json structure for the jforms library.
+
+So this action could look like this:
+
+<code php>
+class sampleformCtrl extends jController {
+
+    function save() {
+
+        // retrieve the object response for jForms
+        $rep = $this->getResponse("formjq");
+
+        // You can then use the jForms API as usual
+        $form = jForms::fill('sample');
+        if ($form->check()) {
+            // the form is ok
+        }
+        else {
+            // the form has errors
+        }
+
+        // attach the form object to the response
+        $rep->setForm($form);
+        // that's all
+        return $rep;
+    }
+}
+</code>
+
+In the response, you can indicate an error, by calling its @@setError()@@ method.
+It takes a message and/or an url to redirect to. Calling this method
+prevents to display possible errors on fields, so you have to manage to display
+errors yourself.
+
+<code php>
+$rep->setError('Sorry, this is an error');
+// or an redirection
+$rep->setError('', jUrl::get('mymodule~other:action'));
+</code>
+
+When the form is valid, you can indicate to display a new page with @@changeLocation()@:
+
+<code php>
+$rep->changeLocation(jUrl::get('mymodule~autre:action'));
+</code>
+
+In any case (valid form or not), you can also attach any data to the response,
+for your own purpose in the javascript side. You should use them by using
+a callback function indicated to @@submitWithXHR()@@.
+
+<code php>
+$rep->setCustomData(['my', 'data']);
+</code>
+
+In the web page, by default, when receiving the response, jForms will change
+the location of the page with the given url (indicated to @@changeLocation()@@ or @@setError()@@),
+or display errors if any, or will do nothing if all is ok.
+
+Obviously, after a submit, you may want to change this behavior, especially in
+the case where the form is valid. So you may want to indicate one or two callback functions
+to @@submitWithXHR()@@. The first one is called when the form is valid, and
+the second one, when it is not valid. Note that indicating a callback function
+prevent the default behavior.
+
+For example, in case of a valid form, you may want to display a message, and
+do something after that.
+
+<code javascript>
+jFormsJQ.onFormReady('jforms_testapp_sample',
+    function(form) {
+          form.submitWithXHR(
+             // callback when the form is valid
+             function(result) {
+                document.getElementById('message').textContent = 'Content has been saved';
+             }
+         );
+    }
+);
+</code>
+
+The callback for a valid form receives an object having these properties:
+
+<code json>
+{
+    "success": true,
+    "customData": null, // or the value given to setCustomData()
+    "locationUrl": "" // or the url given to changeLocation()
+}
+</code>
+
+In cas of errors, if you used @@setError()@@, the object will be:
+
+<code json>
+{
+    "success": false,
+    "customData": null, // or the value given to setCustomData()
+    "locationUrl": "", // or the url given to setError()
+    "errorMessage": "" // or the message given to setError()
+}
+</code>
+
+Else
+
+<code json>
+{
+    "success": false,
+    "customData": null, // or the value given to setCustomData()
+    "errors": {  // errors detected by jForms on each fields
+       "champs1": "error 1",
+       "champs2": "error 2"
+    }
+}
+</code>
+
+It's up to you to do what you want with these data.

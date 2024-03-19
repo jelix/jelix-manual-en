@@ -93,6 +93,7 @@ copyright_holder=All jelix.org wiki contributors
      - section: [[components/jforms/display|Displaying a form in a template]].
           -section: [[components/jforms/display/html-generator|"html" generator]]
      - section: [[components/jforms/after-submit|Using a form after a submit]]
+     - section: [[components/jforms/using-with-xhr|Using a form with Xhr]]
      - section: [[components/jforms/data-display|display only form values]].
      - section: [[components/jforms/security|Security in forms]].
      - section: [[components/jforms/cache|Configuring the jforms cache]]

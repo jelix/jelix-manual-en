@@ -350,7 +350,3 @@ page: [[display/html-generator|"html" generator]].
 Tip: You can of course create a new generator as inheriting from an existing
 one. That way, you can customize only some of the output or set an option
 directly in its constructor. ...
-
-===== Mixing jForms and AJAX response =====
-
-see [[/modules/web-services/ajax|ajax response documentation]].
