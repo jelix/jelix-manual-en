@@ -37,7 +37,8 @@ jMailer options shall be edited in @@F@var/config/localconfig.ini.php@@, in a
     default @@HELO@@ string. If empty, the value returned by @@$_SERVER['SERVER_NAME']@@ is used
     or 'localhost.localdomain'.
   * @@sendmailPath@@: path to sendmail program
-
+  * @@replyTo@@: default value for the header @@Reply-To@@
+  * @@returnPath@@: default value for the header @@Return-Path@@
 
 jMailer uses also general parameters @@locale@@ and @@charset@@ to setup the
 language and charset of emails.
