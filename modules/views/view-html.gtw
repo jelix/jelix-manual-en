@@ -178,6 +178,9 @@ $resp->metaViewport = 'width=device-width, initial-scale=1.0';
 // add a meta element
 $resp->addMeta(array('name'=>'apple-touch-fullscreen', 'content'=>'yes'));
 
+// adds attributes on the <html> element
+$resp->setHtmlAttributes(array('myattr'=>'value'));
+
 </code>
 
 If you want to add custom content in the @@E@<head>@@ element, use

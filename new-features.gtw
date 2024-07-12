@@ -66,6 +66,11 @@ Warning: documentation is not updated yet about all these changes.
 
 * New API to manage entrypoints into installation scripts
 
+==== New features into 1.8.3 ====
+
+* New method @@setHtmlAttributes()@@ on the @@jResponseHtml@@ class
+
+
 ==== deprecated features ====
 
 * Unit tests into modules : `jUnitTestCase` and `jUnitTestCaseDb` are deprecated. Use
