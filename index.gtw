@@ -2,14 +2,14 @@
 
 <bookinfo>
 title = Developer manual
-subtitle= Jelix 1.8.1
+subtitle= Jelix 1.8.2
 title_short= Developer manual
-edition = Jelix 1.8.1
+edition = Jelix 1.8.2
 author=Laurent|Jouanneau
 author=Dominique|Papin
 author=Afroxav
 author=|All jelix.org wiki contributors||
-copyright_years=2006-2023
+copyright_years=2006-2024
 copyright_holder=Laurent Jouanneau
 copyright_holder=Dominique Papin
 copyright_holder=All jelix.org wiki contributors

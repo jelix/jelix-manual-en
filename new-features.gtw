@@ -62,6 +62,10 @@ Warning: documentation is not updated yet about all these changes.
 * jDao: records can now extend from any classes
 * jEvent: support of autoloadable classes for listeners
 
+==== New features into 1.8.2 ====
+
+* New API to manage entrypoints into installation scripts
+
 ==== deprecated features ====
 
 * Unit tests into modules : `jUnitTestCase` and `jUnitTestCaseDb` are deprecated. Use
