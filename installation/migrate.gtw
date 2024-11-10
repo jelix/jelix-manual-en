@@ -57,7 +57,7 @@ Install Composer by [[https://getcomposer.org|reading its instructions]].
 
 In the directory of your project, create a @@composer.json@@ file. It should indicate
 the package @@jelix/jelix@@ as a dependency, in the @@require@@ section. It is
-recommended to indicate @@^1.7.2@@.
+recommended to indicate @@~1.7.18@@.
 
 Exemple :
 
@@ -66,13 +66,22 @@ Exemple :
     "name": "mycompany/myapp",
     "type": "application",
     "require": {
-        "jelix/jelix": "^1.7.2"
+        "jelix/jelix": "~1.7.18"
+    },
+    "extra": {
+        "jelix": {
+             "target-jelix-version": "1.7"
+        }
     }
 }
 </code>
 
 Of course, you should replace here @@"mycompany/myapp"@@ by your own id.
 The file can contain many other data. See the manual of Composer.
+
+The parameter @@target-jelix-version@@ allow the jelix plugin for Composer to generate additional files into
+@@vendor/@@ for Jelix 1.7 or higher.
+
 
 Now delete the @@lib/@@ directory, except librairies stored in it which were not provided
 by Jelix.
