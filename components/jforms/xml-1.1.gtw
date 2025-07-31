@@ -151,7 +151,7 @@ To declare an input field, use @@E@<input>@@ tag. Set its @@A@ref@@ attribute,
 and optionally @@E@<label>@@, @@E@<hint>@@, @@E@<alert>@@, @@E@<help>@@ tags as
 well as  @@A@readonly@@ and @@A@required@@ attributes. It supports also the
 following attributes: @@A@type@@, @@A@defaultvalue@@, @@A@size@@,
-@@A@minlength@@, @@A@maxlength@@ and @@A@pattern@@.
+@@A@minlength@@, @@A@maxlength@@, @@filterhtml@@ and @@A@pattern@@.
 
 @@A@defaultvalue@@ indicates a default value displayed when form is empty. You
 can use @@L@"now"@@ if your input represents a date. Default value will be the
@@ -165,6 +165,8 @@ are only valid with @@A@type="string"@@.
 
 @@A@maxvalue@@ and @@A@minvalue@@ declare a constraint on the input value. Those attributes
 are only valid with @@A@type="integer"@@ and @@A@type="decimal"@@.
+
+@@filterhtml@@ allows to filter the value, by removing any HTML elements.
 
 @@A@pattern@@: It should contain a regular expression, compatible with PHP and
 JS. This attribute is allowed only when @@A@type="string"@@.

@@ -112,7 +112,7 @@ copyright_holder=All jelix.org wiki contributors
       - section: [[components/rights/use|Using jAcl2 in modules]]
       - section: [[components/rights/concepts.db|jAcl2.db concepts]]
       - section: [[components/rights/configuration|Configure jAcl2.db]]
-      - section: [[components/rights/jauth|Use jAcl2 with jAuth]]
+      - section: [[components/rights/jauth|Use jAcl2 with authentication]]
    - chapter: [[components/locales|jLocale: localization]]
    - chapter: [[components/events|jEvents: communication between modules]]
 

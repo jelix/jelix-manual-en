@@ -1,14 +1,30 @@
 ~~LANG:FR@frman:composants/droits/jauth~~
 
-There are high chances that you want to use jAcl2 with jAuth. And you can raises
-questions about their integration. In fact this is dumb simple.
+jAcl2 needs to interact with the authentication system, to know which user is connected.
 
-===== jAcl2 interacts with jAuth =====
+When a user account is created or deleted, rights for this user should
+be created or deleted.
 
-Nothing to do. jAcl2 needs jAuth to work. Just configure jAuth and jAcl2 will
-retrieve jAuth current user and then check rights through @@M@jAcl2::check()@@.
+So there are mecanisms allowing both components, rights and authentication,
+to communicate these informations.
 
-===== jAuth interacts with jAcl2 =====
+===== jAcl2 interaction with authentication =====
+
+jAcl2 needs an object, implementing the interface @@jAcl2AuthAdapterInterface@@,
+These interface declares two methods, @@isUserConnected()@@ and @@getCurrentUserLogin()@@.
+
+The object can also implement the interface  @@jAcl2AuthAdapterInterface2@@
+which adds two other methods, @@getUserProfilUrl($login)@@ and @@getUserAdminProfilUrl($login)@@
+used for the admin UI of rights.
+
+You must indicate the class of this object into the configuration parameter
+@@authAdapterClass@@ in the section @@acl2@@.
+
+For jAuth, a such object exists,  @@jAcl2JAuthAdapter@@, and is activated by
+default. If you are using an other authentication library, you should provide
+an other class, compatible with this authentication.
+
+===== Authentication interaction with jAcl2 =====
 
 For example, if you use the jCommunity module and jAcl2, you would want a new
 member to receive "defaults" rights and when he will delete his account, its
@@ -17,13 +33,14 @@ own rights would also be.
 Generically, calling @@M@jAuth::saveNewUser()@@, @@M@jAuth::removeUser()@@ and
 so on, should trigger updates to jAcl2 user rights.
 
-This is not done automatically as it depends on the jAcl2 driver selected. As of
-now, only jAcl2.db driver exposes an API to do so. 
+And any other authentication system should trigger such updates.
 
-The jacl2db module (in lib/jelix-modules) provides a listener to this event, for
-the db driver of jAcl2. It listen to @@AuthNewUser@@ and @@AuthRemoveUser@@
-events to trigger rights updates. Then, jAcl2 will give default rights to a new
-member and will delete a member rights upon account deletion.
+These triggers could be events, as this is the case with jAuth, which emits
+events like @@AuthNewUser@@ and @@AuthRemoveUser@@.
 
-If you use another driver or create a new one, you will need to listen to those
-same events and act accordingly.
+The jacl2db module provides a listener to these events, for
+the db driver of jAcl2.
+
+For other authentication system, you probably have to develop such listeners
+or other components.
+
