@@ -1,4 +1,4 @@
-~~LANG:FR@frman:modules/vues/vue-binary~~
+~~LANG:FR@frman:modules/vues/vue-fichier-binaire~~
 
 To send binary content to the user (a graphic, a video, some sound, an archive, etc.),
 @@C@jResponseBinary@@ should be used. To use it, indicate @@'binary'@@ as the type of
@@ -32,25 +32,84 @@ of the file, simple set @@P@doDownload@@ to true.
  $resp->doDownload = true;
 </code>
 
-For the content itself, you have to define either @@filename@@ or @@content@@ property. 
+For the content itself, you have to define either the @@filename@@ or the @@content@@ property.
 
-If it is an existing file, just use @@P@filename@@:
+===== Sending a file =====
+
+To send an existing file, just use @@P@filename@@:
      
 <code php>
    $resp->fileName = jApp::varPath('file_to_send.gif');
 </code>
 
-Otherwise, if your content is generated or comes from your database, use @@P@content@@:
+The file content is sent directly to the browser once the controller has finished
+processing.
+
+Rather than instantiating a “binary” response yourself and manipulating its
+properties, you can use the @@getFileResponse()@@ method. This method accepts
+the path of the file to be returned and a boolean indicating whether to enable the
+HTTP cache or not.
+
+In this example, it returns a PDF directly.
+
+<code php>
+class myController extends jController
+{
+
+  public function getInvoice()
+  {
+      $invoiceFile = '/somewhere/invoices/invoice202505.pdf';
+
+      return $this->getFileResponse($invoiceFile);
+  }
+}
+</code>
+
+Please note:
+
+  * The MIME type is automatically declared based on the filename extension
+  * The filename displayed to the user is that of the original file
+  * No forced download (@@doDownload@@ set to @@false@@).
+  * If the file is not found, a 404 error is returned.
+  * If the HTTP cache is enabled, its validity is determined by the file modification date.
+
+If you want to change these conditions, retrieve the object returned by @@getFileResponse@@,
+and manipulate it as indicated above before returning it.
+
+
+<code php>
+class myController extends jController
+{
+
+  public function getInvoice()
+  {
+      $invoiceFile = '/somewhere/invoices/invoice202505.pdf';
+
+      $response = $this->getFileResponse($invoiceFile);
+      $response->doDownload = true;
+      return $response;
+  }
+}
+</code>
+
+===== Sending a lightweight content =====
+
+If your content is generated or comes from your database for example, set it on
+the @@P@content@@ property:
 
 <code php>
    $resp->content = '...';
 </code>
 
-However, it will take as much memory as the size of the content, so it could be an issue if the content
-is huge. PHP could stop the script if there is not enough memory.
+However, it will take as much memory as the size of the content, so it could be
+an issue if the content is huge (higher than 1MB). PHP could stop the script if
+there is not enough memory or if the maximal memory amount configured into PHP
+is reached.
 
-For huge content, it is better to send it directly during the reading of the data source, when Jelix will
-want to send it to the browser.
+===== Sending huge content =====
+
+For huge content, it is better to send it directly during the reading of the
+data source, when Jelix will be able to send it to the browser.
 
 There are two methods on @@jResponseBinary@@. Use @@setContentCallback()@@ to give a callback function that will
 fetch the content from somewhere and return it to the PHP output. Or use @@setContentGenerator()@@ to give an iterator

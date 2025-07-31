@@ -13,7 +13,7 @@ Options you can give in an array as the fifth argument of @@E@{form}@@ and
 
   * @@L@errorDecorator@@: the name of the javascript object which handles error messages
   * @@L@method@@: the HTTP method ('get' or 'post'). By default: 'post'.
-  * @@L@plugins@@: the list of plugins to use to display some of controls. This is an
+  * @@L@plugins@@: the list of plugins (widgets) to use to display some of controls. This is an
     associative array that have controls id as key, and the plugin name as value. Plugins
     are "formwidget" plugins.
   * @@L@attributes@@: list of HTML attributes to add on the @@<form>@@ element.

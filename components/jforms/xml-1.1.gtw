@@ -547,6 +547,15 @@ user has to hold @@K@Ctrl@@ key and click to select more than one element). In
 that situation, "section" form variable of the example above will be assigned to
 a PHP array of selected values instead of a single one. 
 
+
+==== text input with autocompletion ====
+
+
+Theres is no specific XML element for a text input with autocompletion.
+
+See [[xml/autocomplete|the page about field with autocompletion]] to know how
+to setup it.
+
 ==== File Upload ====
 
 If you want user to upload a file to your server, use the tag @@E@<upload>@@

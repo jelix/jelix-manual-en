@@ -104,7 +104,7 @@ driver you can use and how to activate it.
 
 Since Jelix 1.4.1 (and 1.3.4, 1.2.10), there are two hashing system to hash
 your password in the storage. Jelix 1.4.1 and higher provide indeed a more
-secured method, using the new password API of PHP 5.5.
+secured method, using the new password API of PHP.
 
 === Old deprecated hashing system ===
 
@@ -534,3 +534,11 @@ function onAuthCanRemoveUser  ($event)
 </code>
 
 See the chapter about events to know more.
+
+The jauthdb_admin module emits also some events, before and after some forms displaying.
+It allows you to customize forms:
+
+  * @@jauthdbAdminPrepareCreate@@, @@jauthdbAdminEditCreate@@, @@jauthdbAdminBeforeCheckCreateForm@@, @@jauthdbAdminCheckCreateForm@@, @@jauthdbAdminAfterCreate@@
+  * @@jauthdbAdminPrepareUpdate@@, @@jauthdbAdminEditUpdate@@, @@jauthdbAdminBeforeCheckUpdateForm@@, @@jauthdbAdminCheckUpdateForm@@, @@jauthdbAdminAfterUpdate@@
+  * @@jauthdbAdminPasswordForm@@ and @@jauthdbAdminCheckPasswordForm@@ emitted during the password form
+

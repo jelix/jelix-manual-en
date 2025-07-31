@@ -2,14 +2,14 @@
 
 <bookinfo>
 title = Developer manual
-subtitle= Jelix 1.8.2
+subtitle= Jelix 1.8.3
 title_short= Developer manual
-edition = Jelix 1.8.2
+edition = Jelix 1.8.3
 author=Laurent|Jouanneau
 author=Dominique|Papin
 author=Afroxav
 author=|All jelix.org wiki contributors||
-copyright_years=2006-2024
+copyright_years=2006-2025
 copyright_holder=Laurent Jouanneau
 copyright_holder=Dominique Papin
 copyright_holder=All jelix.org wiki contributors
@@ -57,7 +57,7 @@ copyright_holder=All jelix.org wiki contributors
      - section: [[modules/views/view-rss|Generating a RSS feed]]
      - section: [[modules/views/view-atom|Generating an ATOM feed]]
      - section: [[modules/views/view-tcpdf|Generating PDF with TCPDF]]
-     - section: [[modules/views/view-binary|Sending a binary file]]
+     - section: [[modules/views/view-binary-file|Sending a binary file]]
      - section: [[modules/views/view-zip|Generating a ZIP file]]
      - section: [[modules/views/view-sitemap|Generating a sitemap]]
      - section: [[modules/views/personnalized-common-response|Define a customized response]]
@@ -85,6 +85,7 @@ copyright_holder=All jelix.org wiki contributors
    - chapter: [[components/jforms|jForms: automatic forms]]
      - section: [[components/jforms/xml|jForms file format]]
      - section: [[components/jforms/xml-1.1|Creating a jforms file]]
+        -section: [[components/jforms/xml/autocomplete|Field with autocompletion]]
         -section: [[components/jforms/xml/captcha|Captcha]]
         -section: [[components/jforms/xml/htmleditor|HTML editor]]
         -section: [[components/jforms/xml/datepicker|Datepickers]]
