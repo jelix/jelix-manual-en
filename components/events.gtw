@@ -10,13 +10,23 @@ The @@C@jEvent@@ component is follow a broadcast scheme. Some code
 emits a request (an event). Some listeners are awaiting for this event,
 and when it is emitted, they process it, and return something (a response).
 
-So basically we have, on the one hand, the @@C@jEvent@@ class that emits events
-and that gathers and return the responses, and on the other hand, some
-//Listener// classes, located in modules, that respond to events.
+So basically we have:
 
-===== Emitting an event =====
+* an objet "event" which embed the message and some parameters
+* some listeners, that will receive this object
+* a dispatcher, that distributes the event to all listeners waiting after the message
+* the object "emitter", which gives the event to the dispatcher, and receives the responses.
 
-To emit an event, we use jEvent's static method @@M@notify()@@.
+Since Jelix 1.8, there two ways to create an event:
+
+* by indicating simply a name and some parameters if needed
+* by instanciating an objet to give to the dispatcher
+
+===== Emitting an event with its name =====
+
+This is the historic way to emit an event.
+
+You have to use the jEvent's static method @@M@notify()@@.
 
 @@M@jEvent::notify@@ accepts two arguments. The first one is the name of the
 event you want to send (alphanumeric characters only), and the second one (optional)
@@ -59,6 +69,61 @@ You have other methods to query data from responses:
    * @@allResponsesByKeyAreFalse($responseKey)@@: says if all data of the given
      key are @@false@@.
 
+===== Emitting an event with an event object =====
+
+Since Jelix 1.8, it is possible to emit events with an object
+that you instancy yourself.
+
+The advantage is that you can have specifique properties and
+methods on this object, that listeners can call.
+
+The event objet must implement the interface @@Jelix\Event\EventInterface@@
+which provide a method @@getName()@@.  This method should return the
+event name.
+
+The event object can also implements the interface @@Psr\EventDispatcher\StoppableEventInterface@@,
+allowing to a listener to stop the propagation of the event to other
+listeners.
+
+Once the event object is instanciated, you give it to the dispatcher.
+The dispatcher is given by @@Jelix\Core\Services::eventDispatcher()@@.
+It implements the interface @@Psr\EventDispatcher\EventDispatcherInterface@@,
+follwing the PSR-14 specificication.
+
+Example:
+
+<code php>
+
+class \MyProject\MyEvent implements \Jelix\Event\EventInterface {
+    protected $isOk = false;
+
+    public function getName() {
+        return 'thisIsMyEvent';
+    }
+
+    public function itsOk()
+    {
+        $this->isOk = true;
+    }
+
+    public function isItOk()
+    {
+        return $this->isOk;
+    }
+}
+
+// create the event
+$event = new \MyProject\MyEvent();
+
+// send the event to listeners, which can call for example the method @@itsOk()@@ on the event.
+Jelix\Core\Services::eventDispatcher()->dispatch($event);
+
+// then we can check the listeners response
+if ($event->isItOk()) {
+    //...
+}
+</code>
+
 ===== Responding to an event =====
 
 Since there is no default listener in the modules, each module that wants to
@@ -84,8 +149,8 @@ so in our case, @@authListener@@. Put that class in a file called
 @@F@classes@@ folder of your module.
 
 
-A listener class must inherit from @@C@jEventListener@@ and it needs to implement
-one method for each event it is supposed to respond to. Those methods should
+A listener class must inherit from @@C@\Jelix\Event\EventListener@@ (or from the deprecated class @@C@jEventListener@@)
+and it needs to implement one method for each event it is supposed to respond to. Those methods should
 follow this convention : @@on@@ following by the event name. They need to
 accept as single argument a @@C@jEvent@@ object.
 
@@ -129,7 +194,7 @@ class authListener extends jEventListener {
       'foo.bar' => 'execFooBar'
     );
 
-    function execFooBar ($event) {
+    function execFooBar (\jEvent $event) {
         // here process the event.
     }
 }
@@ -153,6 +218,7 @@ The final step to setup a listener is to declare it. This is done through the
    <-- or -->
    <listener name="\MyModule\Listeners\Auth">
        <event name="AuthCanLogin" />
+       <event name="thisIsMyEvent" />
    </listener>
 </events>
 </code>
