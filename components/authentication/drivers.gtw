@@ -120,6 +120,9 @@ hostname=
 ; default 389
 port=
 
+; enable or not ssl
+sslmode=  ; values : "", starttls or ldaps  (ldaps by default if port 636)
+
 ; DOMAIN\user or user@DOMAIN to connect with LDAP (user who has at least search right)
 ldapUser=
 ; password used to connect with LDAP
