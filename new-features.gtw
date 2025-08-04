@@ -111,6 +111,11 @@ triggered and the callbacks declared with `onFormReady` are executed after the f
 objects of jForms. If you want to keep the old behavior, you should indicate
 the option `'deprecatedDeclareFormBeforeControls'=>true` to the form builder.
 
+==== New features into 1.8.10 ====
+
+New template plugin @@ctrl_value_assign@@ for jForms.
+
+
 ==== deprecated features ====
 
 * Unit tests into modules : @@jUnitTestCase@@ and @@jUnitTestCaseDb@@ are deprecated. Use
