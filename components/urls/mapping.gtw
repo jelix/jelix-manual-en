@@ -55,6 +55,15 @@ An @@E@entrypoint@@ tag should also have a @@A@type@@ attribute which indicates
 the type of the entry point : @@classic@@, @@xmlrpc@@, @@soap@@ etc. If this
 attribute is not present, the default value is @@classic@@.
 
+Another attribute that appeared in Jelix 1.8.11: @@alias@@. It indicates an alternative
+name for the entry point, which can be used in the @@getEntryPointsToCreate()@@ method
+of configuration scripts. In fact, since a module can be installed in
+several applications, these applications do not necessarily have the same entry point names,
+and it can be complicated to know which entry point corresponds, for example, to the
+administration interface. If we specify @@admin@@ as the alias, then
+the configurator will know which entry point corresponds to the name “admin”.
+
+
 For compatibility reasons with older version of jelix, you can use other name
 for @@E@entrypoint@@ elements. Their exact name gives the type of request they
 are affected to: 

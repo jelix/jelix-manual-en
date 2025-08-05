@@ -279,9 +279,11 @@ Here is an example to add a confirmation message:
 
 <code javascript>
 jQuery(document).ready(function(){
-    jFormsJQ.getForm("the_id_of_formelement").addSubmitHandler(function(ev){
-         return window.confirm("Do you really want to submit this data?");
-       });
+    jFormsJQ.onFormReady("the_id_of_formelement", function(form) {
+        form.addSubmitHandler(function(ev){
+            return window.confirm("Do you really want to submit this data?");
+        });
+    });
 });
 </code>
 

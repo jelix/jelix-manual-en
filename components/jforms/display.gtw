@@ -162,6 +162,8 @@ It should be used inside a @@formcontrols@@ bloc.
     {ifctrltype 'upload', 'upload2', 'image'}<p>Please, do not upload no heavy files.</p>{/ifctrltype}
 </code>
 
+Another specific @@if@@ statement exists: @@ifctrlactivated@@. You can check if a control is
+activated, and decide what to display in this case.
 
 You can indicate a list of control names to @@formcontrols@@ plugin. It will loop
 only on those controls. 

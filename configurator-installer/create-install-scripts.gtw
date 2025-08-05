@@ -361,11 +361,13 @@ In PreInstallHelpers et InstallHelpers:
   * @@$helpers->getCoordPluginConfig()@@
   * @@$helpers->getLocalConfigIni()@@
   * @@$helpers->getProfilesIni()@@
+  * @@$helpers->declareDbProfile()@@
+  * @@$helpers->removeDbProfile()@@
+  * @@$helpers->findDbProfile()@@
+  * @@$helpers->database()@@ which gives access to @@DatabaseHelpers@@, allowing to query the database.
 
 In InstallHelpers:
 
-  * @@$helpers->declareDbProfile()@@
-  * @@$helpers->removeDbProfile()@@
   * @@$helpers->getLiveConfigIni()@@
   * @@$helpers->declareGlobalWebAssets()@@
   * @@$helpers->removeGlobalWebAssets()@@
@@ -496,7 +498,7 @@ It is executed when the module is disabled or does not exists anymore into the
 application.
 It could remove some file, remove some table or data from the database etc.
 
-Whe you (as developer), you decide to remove a module from the application,
+When you (as developer) decide to remove a module from the application,
 you should execute the command @@dev.php module:unconfigure@@. This command
 will call the method @@unconfigure.php@@ of the configuration script of the module.
 It will also copy the script @@uninstall.php@@ into a specific directory
