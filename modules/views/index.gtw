@@ -1,4 +1,4 @@
-~~LANG:FR@frman:responses~~
+~~LANG:FR@frman:modules/vues/~~
 
 Jelix provides some object to generate http response for each type of view format.
 

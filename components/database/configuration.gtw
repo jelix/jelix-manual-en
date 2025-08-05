@@ -63,6 +63,7 @@ Possible parameters:
    * @@host@@ : the server name. If you give an empty value, the connection will be set over an unix socket.
    * @@port@@ : TCP port to use for the connection. Don't indicate this parameter if you want to use the default port.
    * @@user@@ and @@password@@ : the username and the password to use for the connection. Don't indicate this parameters if you want to use the default user/password indicated in environment variable in the operating system.
+   * @@sslmode@@ : indicate how the SSL/TLS connection is made. Valeurs possibles : `disable`, `allow`, `prefer`, `require`.
    * @@service@@: the name of the postgresql service (so @@database@@, @@host@@, @@port@@, @@user@@ and @@password@@ should not be set).
    * @@persistent@@ : says if the connection should be persistent ("on") or not ("off")
    * @@force_encoding@@ : says if the current character set should be specified during the connection. Try to set it to "on" if you have some encoding issues with your retrieved data.

@@ -178,6 +178,9 @@ $resp->metaViewport = 'width=device-width, initial-scale=1.0';
 // add a meta element
 $resp->addMeta(array('name'=>'apple-touch-fullscreen', 'content'=>'yes'));
 
+// adds attributes on the <html> element
+$resp->setHtmlAttributes(array('myattr'=>'value'));
+
 </code>
 
 If you want to add custom content in the @@E@<head>@@ element, use
@@ -311,7 +314,8 @@ component. There are existing following groups:
   swjs
 
 To declare JS files of a group, you have to use the name of the group, following 
-by @@.js@@. To declare CSS files, use the suffix @@.css@@.
+by @@.js@@. To declare CSS files, use the suffix @@.css@@. To declare icon files,
+use the suffix `.icon`.
 
 For example, to declare CSS and JS links for the group @@jforms_html_light@@:
 
@@ -331,6 +335,8 @@ mygroup1.js= "js/foo.js, js/bar.js"
 
 mygroup2.js[]= "js/bla.js"
 mygroup2.js[]= "js/baz.js"
+
+mygroup.icon= "favicon.png"
 </code>
 
 The path you indicate for JS and CSS links, can be:
@@ -358,6 +364,8 @@ example.js[]= "http://my.site/absolute/path.js"
 example.js[]= related/to/basepath
 example.js[]= "module:path/to/file.js, module~ctrl:meth"
 example.js[]= "$theme/path/to/file.js, path/$lang/machin.js, /$locale/truc.js"
+example.icon[]= "favicon-32x32.png"
+example.icon[]= "favicon-64x64.png"
 </code>
 
 You can also indicate some attributes which will be added to the @@script@@ or
@@ -369,6 +377,8 @@ example.js[]= "https://popular.com/script.js.js|defer|integrity=sha384-oqVuAfXRK
 example.js[]= "mymodule.mjs|type=module"
 example.css[]= "mystyle.css|media=screen and (max-width: 600px)"
 example.css[]= "fancy.css|rel=alternate stylesheet|title=Fancy"
+example.icon[]= "favicon-32x32.png|sizes=32x32"
+example.icon[]= "favicon-64x64.png|sizes=64x64"
 </code>
 
 

@@ -78,6 +78,10 @@ markup controlling the display of your form. Arguments for @@form@@ are :
       * the name of the builder ('html' by default)
       * an array containing options for the builder
 
+Example with the bundled "html" generator, with its options @@attributes@@,
+@@errorDecorator@@ and @@plugins@@. See [[display/html-generator|its manual]]
+to know more about these options.
+
 <code php>
  {form $myform, 'mymodule~default:save',
   array('parameter1' => 'foo', 'parameter2' => 'bar'},
@@ -158,6 +162,8 @@ It should be used inside a @@formcontrols@@ bloc.
     {ifctrltype 'upload', 'upload2', 'image'}<p>Please, do not upload no heavy files.</p>{/ifctrltype}
 </code>
 
+Another specific @@if@@ statement exists: @@ifctrlactivated@@. You can check if a control is
+activated, and decide what to display in this case.
 
 You can indicate a list of control names to @@formcontrols@@ plugin. It will loop
 only on those controls. 
@@ -234,6 +240,8 @@ To know more about how to customize the display of controls in HTML, see [[displ
 
 ==== Customizing display of password controls ====
 
+=== Confirmation field ===
+
 Beware that if a password control defines a confirm field (@@E@<confirm>@@ tag
 in XML) you should control either the display of @@password@@ field **and**
 @@confirm@@ field. The confirm control name is a concatenation of password
@@ -271,6 +279,68 @@ the example above. To do so, just display 'password_confirm' in a row below
 </code>
 
 On the contrary, you should not take care of confirm field in @@formcontrols@@ loop.
+
+=== Having a "view" button on a password field ===
+
+Since Jelix 1.8.3, there is a widget for password field, @@password_html@@, that
+display a password field with a button, allowing the user to display the password.
+So in a login form, he can check if he types the right password.
+
+You can indicate the widget into the plugins option of the form. Example:
+
+<code html>
+  {form $form, 'mymodule~login:form', array(), 'html', array(
+      'plugins' => array('password' => 'password_html')
+    )}
+   <fieldset><legend>Authentication: </legend>
+        <table>
+          <tr><td>{ctrl_label 'login'}</td><td>{ctrl_control 'login'}</td> </tr>
+          <tr><td>{ctrl_label 'password'}</td><td>{ctrl_control 'password'}</td></tr>
+        </table>
+   </fieldset>
+   ...
+  {/form}
+</code>
+
+=== Checking the strength of a password ===
+
+When a user must create a password, it is useful to check that the password
+is strong enough. Since Jelix 1.8.3, a widget  @@passwordeditor_html@@ allows to
+check automatically the strength, in javascript.
+
+Strength is based on entropy calculated according to password length and number
+of special characters. It is also verified that the password is not on a list
+of commonly used passwords.
+
+You can indicate the widget into the plugins option of the form. Example:
+
+<code html>
+  {form $form, 'mymodule~password:form', array(), 'html', array(
+      'plugins' => array(
+        'password' => 'passwordeditor_html'
+       )
+    )}
+   <fieldset><legend>New password: </legend>
+        <table>
+          <tr><td>{ctrl_label 'password'}</td><td>{ctrl_control 'password'}</td></tr>
+        </table>
+   </fieldset>
+   ...
+  {/form}
+</code>
+
+
+A new PHP class @@jAuthPassword@@ is also provided to check the strength in your controller.
+
+<code php>
+
+$password = $form->getData('password');
+if (! jAuthPassword::checkPasswordStrength($password)) {
+    $form->setErrorOn('password', 'The password is not strength enough');
+}
+
+</code>
+
 
 
 ==== Customizing display of submit buttons ====
@@ -350,7 +420,3 @@ page: [[display/html-generator|"html" generator]].
 Tip: You can of course create a new generator as inheriting from an existing
 one. That way, you can customize only some of the output or set an option
 directly in its constructor. ...
-
-===== Mixing jForms and AJAX response =====
-
-see [[/modules/web-services/ajax|ajax response documentation]].

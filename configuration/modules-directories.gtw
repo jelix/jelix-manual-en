@@ -3,6 +3,26 @@
 Modules are grouped in one or several directories called //modules group//,
 or repository of modules.
 
+Jelix must know the path of these directories so it can access to them.
+
+These paths can be declared with an API into  @@application.init.php@@,
+or into the @@composer.json@@ file of package that provide modules.
+
+Warning: the automatic discovery into @@composer.json@@ file can be
+done only if you activated the composer plugin bundled with Jelix,
+into the @@composer.json@@ file **of your project**.
+
+<code json>
+{
+ "config": {
+    "allow-plugins": {
+       "jelix/composer-module-setup": true
+    }
+ }
+}
+</code>
+
+
 ===== Declaring a modules group =====
 
 Module groups are declared with @@C@jApp@@ or into the composer.json file if you

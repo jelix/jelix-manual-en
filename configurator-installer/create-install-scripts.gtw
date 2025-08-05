@@ -142,6 +142,32 @@ class jacl2dbModuleConfigurator extends \Jelix\Installer\Module\Configurator {
 }
 </code>
 
+Other methods you can implement:
+
+ * @@getFilesToCopy()@@: return the files to copy from the module to the web directory for example
+ * @@getEntryPointsToCreate()@@: to create a new entrypoint
+ * @@declareUrls()@@: to declare new urls for the module
+
+You could do all these things into the @@configure()@@ method, but it's better
+to implement these methods, as they called also during the de-installation
+of the module. So you don't have to implement the @@unconfigure@@ method to do
+these tasks.
+
+Main methods that you can call on the `ConfigurationHelpers` parameter:
+
+  * @@cli()@@ to access to a CLI API
+  * @@getConfigIni()@@ to get the main configuration file (which can be
+    @@app/system/mainconfig.ini.php@@ or @@var/config/localconfig.ini.php@@ depending if the module is bundled or installed locally)
+  * @@getCoordPluginConfig()@@ to get the configuration of a plugin
+  * @@getProfilesIni()@@ to read and modify the profiles.ini file
+  * @@configFilePath()@@ to get the path to the configuration directory (which can be
+    @@app/system@@ or @@var/config@@ depending if the module is bundled or installed locally)
+  * @@getMainEntryPoint()@@ to access to main configuration files (see class @@EntryPointConfigurator@@)
+  * @@getEntryPointsList()@@ to get the list of entry points
+  * @@declareGlobalWebAssets()@@ to declare web assets into the mainconfig file.
+  * @@removeGlobalWebAssets()@@ to remove declared web assets
+  * @@createEntryPoint()@@, @@updateOrCreateEntryPointFile()@@ and @@removeEntryPoint()@@ to create or remove an entry point
+
 It is possible to "de-configure" a module, in order to delete it. Use the
 command @@php dev.php module:unconfigure@@.
 
@@ -335,14 +361,18 @@ In PreInstallHelpers et InstallHelpers:
   * @@$helpers->getCoordPluginConfig()@@
   * @@$helpers->getLocalConfigIni()@@
   * @@$helpers->getProfilesIni()@@
+  * @@$helpers->declareDbProfile()@@
+  * @@$helpers->removeDbProfile()@@
+  * @@$helpers->findDbProfile()@@
+  * @@$helpers->database()@@ which gives access to @@DatabaseHelpers@@, allowing to query the database.
 
 In InstallHelpers:
 
-  * @@$helpers->declareDbProfile()@@
-  * @@$helpers->removeDbProfile()@@
   * @@$helpers->getLiveConfigIni()@@
   * @@$helpers->declareGlobalWebAssets()@@
   * @@$helpers->removeGlobalWebAssets()@@
+  * @@$helpers->createEntryPoint()@@, @@$helpers->updateOrCreateEntryPointFile()@@ and @@$helpers->removeEntryPoint()@@
+
 
 To acces to the configuration file of an entry point, you should retrieve the
 object representing the entry point, with methods @@$helpers->getMainEntryPoint()@@,
@@ -468,7 +498,7 @@ It is executed when the module is disabled or does not exists anymore into the
 application.
 It could remove some file, remove some table or data from the database etc.
 
-Whe you (as developer), you decide to remove a module from the application,
+When you (as developer) decide to remove a module from the application,
 you should execute the command @@dev.php module:unconfigure@@. This command
 will call the method @@unconfigure.php@@ of the configuration script of the module.
 It will also copy the script @@uninstall.php@@ into a specific directory

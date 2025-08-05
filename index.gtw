@@ -9,7 +9,7 @@ author=Laurent|Jouanneau
 author=Dominique|Papin
 author=Afroxav
 author=|All jelix.org wiki contributors||
-copyright_years=2006-2023
+copyright_years=2006-2025
 copyright_holder=Laurent Jouanneau
 copyright_holder=Dominique Papin
 copyright_holder=All jelix.org wiki contributors
@@ -57,7 +57,7 @@ copyright_holder=All jelix.org wiki contributors
      - section: [[modules/views/view-rss|Generating a RSS feed]]
      - section: [[modules/views/view-atom|Generating an ATOM feed]]
      - section: [[modules/views/view-tcpdf|Generating PDF with TCPDF]]
-     - section: [[modules/views/view-binary|Sending a binary file]]
+     - section: [[modules/views/view-binary-file|Sending a binary file]]
      - section: [[modules/views/view-zip|Generating a ZIP file]]
      - section: [[modules/views/view-sitemap|Generating a sitemap]]
      - section: [[modules/views/personnalized-common-response|Define a customized response]]
@@ -85,6 +85,7 @@ copyright_holder=All jelix.org wiki contributors
    - chapter: [[components/jforms|jForms: automatic forms]]
      - section: [[components/jforms/xml|jForms file format]]
      - section: [[components/jforms/xml-1.1|Creating a jforms file]]
+        -section: [[components/jforms/xml/autocomplete|Field with autocompletion]]
         -section: [[components/jforms/xml/captcha|Captcha]]
         -section: [[components/jforms/xml/htmleditor|HTML editor]]
         -section: [[components/jforms/xml/datepicker|Datepickers]]
@@ -93,6 +94,7 @@ copyright_holder=All jelix.org wiki contributors
      - section: [[components/jforms/display|Displaying a form in a template]].
           -section: [[components/jforms/display/html-generator|"html" generator]]
      - section: [[components/jforms/after-submit|Using a form after a submit]]
+     - section: [[components/jforms/using-with-xhr|Using a form with Xhr]]
      - section: [[components/jforms/data-display|display only form values]].
      - section: [[components/jforms/security|Security in forms]].
      - section: [[components/jforms/cache|Configuring the jforms cache]]
@@ -110,7 +112,7 @@ copyright_holder=All jelix.org wiki contributors
       - section: [[components/rights/use|Using jAcl2 in modules]]
       - section: [[components/rights/concepts.db|jAcl2.db concepts]]
       - section: [[components/rights/configuration|Configure jAcl2.db]]
-      - section: [[components/rights/jauth|Use jAcl2 with jAuth]]
+      - section: [[components/rights/jauth|Use jAcl2 with authentication]]
    - chapter: [[components/locales|jLocale: localization]]
    - chapter: [[components/events|jEvents: communication between modules]]
 

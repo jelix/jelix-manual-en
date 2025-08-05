@@ -81,6 +81,8 @@ By default, it shows the page stored at @@F@lib/jelix/core/response/error.en_US.
 You can provide your own page by copying this file into the
 @@F@app/responses/@@ directory. Modify this page to customize it with your own design.
 
+You can also have a file for each locales: @@F@app/responses/error.fr_FR.php@@, @@app/responses/error.de_DE.php@@ etc.
+
 Notice that @@error.en_US.php@@ is a simple php script. You can write any PHP
 instructions. However, don't call any Jelix objects. The occured error may not
 appear in a "safe" context (some object may not be present, configured etc). And

@@ -57,6 +57,11 @@ primary key or as a "UNIQUE" key.
 You can [[../daos/file#importing-an-other-dao|import the dao]] of jauthdb into your own dao to avoid to rewrite everything.
 You can add any other properties and methods to the dao.
 
+Other useful configuration parameter: @@authenticateWith=login-email@@. It allows
+to user to authenticate by indicating their login or their email. Otherwise,
+only the login is accepted.
+
+
 ===== Class =====
 
 Class driver is a more universal driver than Db driver. You just have to assign
@@ -75,6 +80,10 @@ driver= Class
 [Class]
 class = "mymodule~myclass"
 </code>
+
+Other useful configuration parameter: @@authenticateWith=login-email@@. It allows
+to user to authenticate by indicating their login or their email. Otherwise,
+only the login is accepted.
 
 ===== ldap =====
 
@@ -110,6 +119,9 @@ contain credentials to access to the ldap.
 hostname=
 ; default 389
 port=
+
+; enable or not ssl
+sslmode=  ; values : "", starttls or ldaps  (ldaps by default if port 636)
 
 ; DOMAIN\user or user@DOMAIN to connect with LDAP (user who has at least search right)
 ldapUser=

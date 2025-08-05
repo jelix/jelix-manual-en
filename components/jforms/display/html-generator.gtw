@@ -13,7 +13,7 @@ Options you can give in an array as the fifth argument of @@E@{form}@@ and
 
   * @@L@errorDecorator@@: the name of the javascript object which handles error messages
   * @@L@method@@: the HTTP method ('get' or 'post'). By default: 'post'.
-  * @@L@plugins@@: the list of plugins to use to display some of controls. This is an
+  * @@L@plugins@@: the list of plugins (widgets) to use to display some of controls. This is an
     associative array that have controls id as key, and the plugin name as value. Plugins
     are "formwidget" plugins.
   * @@L@attributes@@: list of HTML attributes to add on the @@<form>@@ element.
@@ -174,13 +174,13 @@ You can add behaviors to any controls with javascript, with your prefered js
 library (jForms uses jQuery), by including your JS files in the page.
 
 All generated fields have an id. Ids are composed names:
-"jforms_module_formname_controlref". For example, for a control with the ref
-"address", declared in the form "identity" provided the "users" module, the id
-of the generated field is: "jforms_users_identity_address".
+@@"jforms_module_formname_controlref"@@. For example, for a control with the ref
+@@"address"@@, declared in the form @@"identity"@@ provided the @@"users"@@ module, the id
+of the generated field is: @@"jforms_users_identity_address"@@.
 
 The @@<form>@@ element is also generated with an id, composed with the name of the
-module and the name of the jforms form: "jforms_module_formname". In our
-example, the id is "jforms_users_identity".
+module and the name of the jforms form: @@"jforms_module_formname"@@. In our
+example, the id is @@"jforms_users_identity"@@.
 
 Knowing that, you can retrieve all fields and the form element with the
 @@document.getElementById()@@ function.
@@ -193,14 +193,27 @@ The generated Javascript code for the form is mainly based on the
 use of a JS object @@jFormsJQ@@, from which you can access to
 other JS objects corresponding to fields.
 
-The first object you can retrieve, is the object corresponding to
-the form itself. You should then call @@M@jFormsJQ.getForm()@@ with the form id.
+The first method you will probably need to use is @@onFormReady@@.
+It allows you to declare a function that will be called when the form
+is ready and declared in @@jFormsJQ@@. Typically, you will call this
+method when the page loads, and you will be able to access the form objects
+in the specified function.
 
 <code javascript>
-var f = jFormsJQ.getForm("jforms_users_identity");
+
+jQuery(document).ready(function(){
+    jFormsJQ.onFormReady('jforms_utilisateurs_identite', function(/* jFormsJQForm */ form){
+       // do something with the form object of type jFormsJQForm
+    });
+});
+
 </code>
 
-Then you can access to some functions
+In the given function, you receive an object of type @@jFormsJQForm@@, which
+has a number of methods. You can also retrieve this object using the method
+@@M@jFormsJQ.getForm(‘form id’)@@.
+
+Then you can access to some functions:
 
 <code javascript>
   f.setErrorDecorator(new MyErrorDecorator); // see above
@@ -208,6 +221,36 @@ Then you can access to some functions
   f.updateDynamicList("ctrlref"); // to refresh a listbox generated
                                   // dynamically by jforms
   var c = f.getControl("ctrlref"); // retrieve of the js object of a control
+</code>
+
+Another way to be notified when the form is created is to set a listener for
+the @@jformsready@@ event on the HTML @@<form>@@ element of the form.
+In the listener, you need to use @@M@jFormsJQ.getForm(‘form id’)@@ to retrieve
+the @@jFormsJQForm@@ type form object.
+
+Note: prior to Jelix 1.8.7, the function specified in @@jFormsJQ.onFormReady()@@
+was called even though the JS objects corresponding to the controls had not yet
+been defined.
+This is no longer the case since 1.8.7. If you want to keep the old behavior,
+you must specify the @@deprecatedDeclareFormBeforeControls@@ option in the
+form generator:
+
+<code php>
+ {form $formulaire, 'monmodule~default:sauver',
+  array(},
+  'html',
+  array(
+    'deprecatedDeclareFormBeforeControls' => true
+  )}
+</code>
+
+
+==== Accessing to control properties ====
+
+On the form object of type @@jFormsJQForm@@, use the method @@getControl()@@.
+
+<code javascript>
+var c = f.getControl("ref_d_un_control");
 </code>
 
 The js object of a control has some properties:
@@ -236,9 +279,11 @@ Here is an example to add a confirmation message:
 
 <code javascript>
 jQuery(document).ready(function(){
-    jFormsJQ.getForm("the_id_of_formelement").addSubmitHandler(function(ev){
-         return window.confirm("Do you really want to submit this data?");
-       });
+    jFormsJQ.onFormReady("the_id_of_formelement", function(form) {
+        form.addSubmitHandler(function(ev){
+            return window.confirm("Do you really want to submit this data?");
+        });
+    });
 });
 </code>
 
