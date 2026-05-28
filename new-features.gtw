@@ -2,11 +2,9 @@
 
 ===== Improvements provided by the version 1.8 =====
 
-Warning: documentation is not updated yet about all these changes.
-
 ==== New features ====
 
-* Jelix 1.8 is now compatible from PHP 7.4 to PHP 8.4.
+* Jelix 1.8 is compatible from PHP 7.4 to PHP 8.5.
 * Core:
   * new class @@Jelix\Core\Services@@ that will allow to access to some services without using static methods of these service.
     The instance of this object is accessible from @@\jApp::services()@@.
@@ -134,11 +132,18 @@ Support of error page for any locales, into `app/responses/` : `error.fr_FR.php`
 * New datasource class for jForms: @@jFormsDynamicStaticDatasource@@
 * Add `$httpCode` and `$httpMessage` in template for html errors
 
+==== New features into 1.8.24 ====
+
+* Support of `identity` column for Postgresql into jDb and jDao.
+
 ==== deprecated features ====
 
 * Unit tests into modules : @@jUnitTestCase@@ and @@jUnitTestCaseDb@@ are deprecated. Use
   @@\Jelix\UnitTests\UnitTestCase@@ and @@\Jelix\UnitTests\UnitTestCase@@ instead.
   Support of PHPUnit versions older than 6.0 is removed.
+* The method @@jAuth::isPersistant()@@ is deprecated, replaced by @@jAuth::canBePersistent()@@.
+* The `password` parameter on the `AuthChangePassword` event is deprecated
+* The `persistence` parameter on the `AuthLogin` event is deprecated
 
 ==== Removes ====
 
@@ -149,7 +154,7 @@ Support of error page for any locales, into `app/responses/` : `error.fr_FR.php`
 
 * Upgrade Symfony Console to 5.4.14
 * Upgrade PHPUnit to 8.5 for our tests
-* Upgrade PHPMailer to 6.6.*
+* Upgrade PHPMailer to 6.12.*
 * Upgrade Jquery to 3.6.1
 * Upgrade Jquery UI to 1.13.2
 * Upgrade CKEditor to 35.3.0
@@ -172,4 +177,3 @@ Support of error page for any locales, into `app/responses/` : `error.fr_FR.php`
   * René-Luc D'Hont (streams into jResponseBinary, session_role option for pgsql)
   * Raphael Martin (various bug fix)
   * Joel Kociolek (fixed some issues with PHP 8, fix logout with persistant cookie)
-
