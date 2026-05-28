@@ -27,9 +27,9 @@ Here are all steps to follow to migrate your application.
 
 ==== Requirements ====
 
-Jelix 1.9 needs PHP 7.4 minimum. Verify that you have this version of PHP on your
-server, or an higher one. At the time this page was edited, PHP 8.2 or higher is recommended,
-as PHP 7.4 and 8.0 are not maintained anymore (except in Debian 11). Check the good version to use
+Jelix 1.9 needs PHP 8.2 minimum. Verify that you have this version of PHP on your
+server, or an higher one. At the time this page was edited, PHP 8.5 or higher is recommended,
+as PHP 8.1 and lower are not maintained anymore (except in Debian 11). Check the good version to use
 on [[https://www.php.net/supported-versions.php]].
 
 ==== Backup ====
@@ -90,9 +90,7 @@ For your own modules, in @@F@module.xml@@ files, indicate that the module is com
 
 ==== Updating your code ====
 
-See [[/new-features|the detailed changelog]] to know what are the new classes and methods you can use.
-
-There is no API removed or changed.
+There are few API removed or changed. See [[/new-features|the detailed changelog]] to know what to change.
 
 ==== Update of Jelix instances ====
 
